@@ -13,9 +13,11 @@ export default function Search({ placeholder }: { placeholder: string }) {
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { value } = event.target;
       const params = new URLSearchParams(searchParams);
-      params.delete('query');
+      params.set('page', '1');
       if (value) {
         params.set('query', value);
+      } else {
+        params.delete('query');
       }
       replace(`${pathname}?${params.toString()}`);
     },
