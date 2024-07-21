@@ -2,15 +2,15 @@
 
 // @ts-ignore
 import { useActionState } from 'react';
-import { lusitana } from '@/app/ui/fonts';
 import {
   AtSymbolIcon,
   KeyIcon,
   ExclamationCircleIcon,
 } from '@heroicons/react/24/outline';
 import { ArrowRightIcon } from '@heroicons/react/20/solid';
-import { Button } from './button';
-import { authenticate } from '@/app/lib/actions';
+import { lusitana } from '@/app/ui/fonts';
+import { Button } from '@/app/ui/button';
+import { authenticate } from '@/app/lib/actions/user';
 
 export default function LoginForm() {
   const [errorMessage, formAction, isPending] = useActionState(
