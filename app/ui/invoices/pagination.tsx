@@ -2,15 +2,19 @@
 
 import clsx from 'clsx';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { generatePagination } from '@/app/lib/utils';
 
-export default function Pagination({ totalPages }: { totalPages: number }) {
-  // NOTE: comment in this code when you get to this point in the course
+export default function Pagination({
+  currentPage,
+  totalPages,
+}: {
+  currentPage: number;
+  totalPages: number;
+}) {
+  const searchParams = useSearchParams();
   const pathname = usePathname();
-  const searchParams = new URLSearchParams(pathname);
-  const currentPage = Number(searchParams.get('page')) || 1;
 
   const createPageURL = (pageNumber: string | number) => {
     const params = new URLSearchParams(searchParams);
@@ -22,8 +26,6 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
 
   return (
     <>
-      {/* NOTE: comment in this code when you get to this point in the course */}
-
       <div className="inline-flex">
         <PaginationArrow
           direction="left"

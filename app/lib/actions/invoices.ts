@@ -5,7 +5,7 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-export type State = {
+type State = {
   errors?: {
     customerId?: string[];
     amount?: string[];
