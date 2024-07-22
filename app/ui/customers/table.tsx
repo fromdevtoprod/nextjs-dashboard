@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { fetchFilteredCustomers } from '@/app/lib/data/customers';
+import { DeleteCustomer, UpdateCustomer } from '@/app/ui/customers/buttons';
 
 export default async function CustomersTable({ query }: { query: string }) {
   const filteredCustomers = await fetchFilteredCustomers(query);
@@ -44,6 +45,10 @@ export default async function CustomersTable({ query }: { query: string }) {
                   <div className="pt-4 text-sm">
                     <p>{customer.total_invoices} invoices</p>
                   </div>
+                  <div className="flex justify-end gap-2">
+                    <UpdateCustomer id={customer.id} />
+                    <DeleteCustomer id={customer.id} />
+                  </div>
                 </div>
               ))}
             </div>
@@ -64,6 +69,9 @@ export default async function CustomersTable({ query }: { query: string }) {
                   </th>
                   <th scope="col" className="px-4 py-5 font-medium">
                     Total Paid
+                  </th>
+                  <th scope="col" className="relative py-3 pl-6 pr-3">
+                    <span className="sr-only">Edit</span>
                   </th>
                 </tr>
               </thead>
@@ -94,6 +102,12 @@ export default async function CustomersTable({ query }: { query: string }) {
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                       {customer.total_paid}
+                    </td>
+                    <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
+                      <div className="flex justify-end gap-3">
+                        <UpdateCustomer id={customer.id} />
+                        <DeleteCustomer id={customer.id} />
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -25,10 +25,10 @@ const FormSchema = z.object({
   status: z.enum(['pending', 'paid'], {
     invalid_type_error: 'Please select an invoice status',
   }),
-  data: z.string(),
+  date: z.string(),
 });
 
-const CreateInvoice = FormSchema.omit({ id: true, data: true });
+const CreateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function createInvoice(prevState: State, formData: FormData) {
   const validatedFields = CreateInvoice.safeParse({
@@ -63,7 +63,7 @@ export async function createInvoice(prevState: State, formData: FormData) {
   redirect('/dashboard/invoices');
 }
 
-const UpdateInvoice = FormSchema.omit({ id: true, data: true });
+const UpdateInvoice = FormSchema.omit({ id: true, date: true });
 
 export async function updateInvoice(
   id: string,

@@ -1,3 +1,5 @@
+'use client';
+
 // @ts-ignore
 import { useActionState } from 'react';
 import Link from 'next/link';
@@ -6,10 +8,10 @@ import { Button } from '@/app/ui/button';
 import { createCustomer } from '@/app/lib/actions/customers';
 
 export default function Form() {
-  // const initialState = { message: null, error: {} };
-  // const [state, formAction] = useActionState(createCustomer, initialState);
+  const initialState = { message: null, error: {} };
+  const [state, formAction] = useActionState(createCustomer, initialState);
   return (
-    <form action={createCustomer}>
+    <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <div className="mb-4">
           {/* Customer gender */}
@@ -75,14 +77,14 @@ export default function Form() {
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {/* <div id="name-error" aria-live="polite" aria-atomic="true">
+          <div id="name-error" aria-live="polite" aria-atomic="true">
             {state.errors?.name &&
               state.errors.name.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
-          </div> */}
+          </div>
         </div>
 
         {/* Customer email */}
@@ -103,14 +105,14 @@ export default function Form() {
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {/* <div id="email-error" aria-live="polite" aria-atomic="true">
+          <div id="email-error" aria-live="polite" aria-atomic="true">
             {state.errors?.email &&
               state.errors.email.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
-          </div> */}
+          </div>
         </div>
       </div>
 
