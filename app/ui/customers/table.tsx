@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { fetchFilteredCustomers } from '@/app/lib/data/customers';
 import { DeleteCustomer, UpdateCustomer } from '@/app/ui/customers/buttons';
+import { Avatar } from '../avatar';
 
 export default async function CustomersTable({ query }: { query: string }) {
   const filteredCustomers = await fetchFilteredCustomers(query);
@@ -81,13 +82,14 @@ export default async function CustomersTable({ query }: { query: string }) {
                   <tr key={customer.id} className="group">
                     <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                       <div className="flex items-center gap-3">
-                        <Image
+                        <Avatar name={customer.name} />
+                        {/* <Image
                           src={customer.image_url}
                           className="rounded-full"
                           alt={`${customer.name}'s profile picture`}
                           width={28}
                           height={28}
-                        />
+                        /> */}
                         <p>{customer.name}</p>
                       </div>
                     </td>

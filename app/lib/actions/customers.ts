@@ -15,19 +15,9 @@ type State = {
 
 const FormSchema = z.object({
   id: z.string(),
-  name: z
-    .string({
-      invalid_type_error: 'Name must be a string',
-    })
-    .min(1, { message: 'Name is required' }),
-  email: z
-    .string({
-      invalid_type_error: 'Invalid email address',
-    })
-    .min(1, { message: 'Email is required' }),
-  gender: z.enum(['male', 'female'], {
-    invalid_type_error: 'Please select a gender.',
-  }),
+  name: z.string().min(1, { message: 'Name is required' }),
+  email: z.string().min(1, { message: 'Email is required' }),
+  gender: z.enum(['male', 'female']),
 });
 
 const CreateCustomer = FormSchema.omit({ id: true });
