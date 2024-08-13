@@ -1,5 +1,9 @@
 import { sql } from '@vercel/postgres';
-import { CustomerField, CustomersTableType } from '@/app/lib/definitions';
+import {
+  Customer,
+  CustomerField,
+  CustomersTableType,
+} from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 
 export async function fetchCustomers() {
@@ -50,5 +54,23 @@ export async function fetchFilteredCustomers(query: string) {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch customer table.');
+  }
+}
+
+export async function fetchCustomerById(id: string) {
+  try {
+    const data = await sql<Customer>`
+      SELECT
+        id,
+        name,
+        email
+      FROM customers
+      WHERE id = ${id}
+    `;
+    const customer = data.rows[0];
+    return customer;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch customer by ID.');
   }
 }
