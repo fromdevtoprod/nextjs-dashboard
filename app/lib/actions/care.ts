@@ -62,3 +62,18 @@ export async function createCare(prevState: State, formData: FormData) {
   revalidatePath('/dashboard/care');
   redirect('/dashboard/care');
 }
+
+export async function deleteCare(id: string) {
+  try {
+    await sql`
+      DELETE FROM care
+      WHERE id = ${id}
+    `;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to delete care.');
+  }
+
+  revalidatePath('/dashboard/care');
+  redirect('/dashboard/care');
+}

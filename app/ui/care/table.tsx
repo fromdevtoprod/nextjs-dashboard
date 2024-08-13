@@ -1,4 +1,4 @@
-import { DeleteCustomer, UpdateCustomer } from '@/app/ui/customers/buttons';
+import { DeleteCare, UpdateCare } from '@/app/ui/care/buttons';
 import { fetchCare } from '@/app/lib/data/care';
 
 export default async function CareTable() {
@@ -38,8 +38,8 @@ export default async function CareTable() {
                     <p>Status : {care.status}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateCustomer id={care.id} />
-                    <DeleteCustomer id={care.id} />
+                    <UpdateCare id={care.id} />
+                    <DeleteCare id={care.id} />
                   </div>
                 </div>
               ))}
@@ -90,8 +90,8 @@ export default async function CareTable() {
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateCustomer id={care.id} />
-                        <DeleteCustomer id={care.id} />
+                        <UpdateCare id={care.id} />
+                        <DeleteCare id={care.id} />
                       </div>
                     </td>
                   </tr>

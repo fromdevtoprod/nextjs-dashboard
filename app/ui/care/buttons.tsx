@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { deleteCustomer } from '@/app/lib/actions/customers';
+import { deleteCare } from '@/app/lib/actions/care';
 
 export function CreateCare() {
   return (
@@ -25,14 +25,14 @@ export function UpdateCare({ id }: { id: string }) {
   );
 }
 
-// export function DeleteCare({ id }: { id: string }) {
-//   const deleteInvoiceWithId = deleteCustomer.bind(null, id);
-//   return (
-//     <form action={deleteInvoiceWithId}>
-//       <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
-//         <span className="sr-only">Delete</span>
-//         <TrashIcon className="w-5" />
-//       </button>
-//     </form>
-//   );
-// }
+export function DeleteCare({ id }: { id: string }) {
+  const deleteCareWithId = deleteCare.bind(null, id);
+  return (
+    <form action={deleteCareWithId}>
+      <button type="submit" className="rounded-md border p-2 hover:bg-gray-100">
+        <span className="sr-only">Delete</span>
+        <TrashIcon className="w-5" />
+      </button>
+    </form>
+  );
+}
