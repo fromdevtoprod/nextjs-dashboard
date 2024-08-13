@@ -11,7 +11,7 @@ const ITEMS_PER_PAGE = 6;
 export async function fetchLatestInvoices() {
   try {
     const data = await sql<LatestInvoiceRaw>`
-        SELECT invoices.amount, customers.name, customers.email, invoices.id
+        SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
         FROM invoices
         JOIN customers ON invoices.customer_id = customers.id
         ORDER BY invoices.date DESC
@@ -42,7 +42,7 @@ export async function fetchFilteredInvoices(
         invoices.date,
         invoices.status,
         customers.name,
-        customers.email,
+        customers.email
       FROM invoices
       JOIN customers ON invoices.customer_id = customers.id
       WHERE
