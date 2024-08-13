@@ -17,6 +17,7 @@ const FormSchema = z.object({
   id: z.string(),
   name: z.string().min(1, { message: 'Name is required' }),
   email: z.string().min(1, { message: 'Email is required' }),
+  phone: z.string().min(1, { message: 'Phone is required' }),
   gender: z.enum(['male', 'female']),
 });
 
@@ -26,6 +27,7 @@ export async function createCustomer(prevState: State, formData: FormData) {
   const validatedFields = CreateCustomer.safeParse({
     name: formData.get('name'),
     email: formData.get('email'),
+    phone: formData.get('phone'),
     gender: formData.get('gender'),
   });
 
@@ -38,14 +40,10 @@ export async function createCustomer(prevState: State, formData: FormData) {
     };
   }
 
-  const { name, email, gender } = validatedFields.data;
-  const imageUrl =
-    gender === 'female'
-      ? '/customers/delba-de-oliveira.png'
-      : '/customers/lee-robinson.png';
+  const { name, email, phone, gender } = validatedFields.data;
 
   try {
-    await sql`INSERT INTO customers (name, email, image_url) VALUES (${name}, ${email}, ${imageUrl})`;
+    await sql`INSERT INTO customers (name, email, phone, gender) VALUES (${name}, ${email}, ${phone}, ${gender})`;
   } catch (error) {
     console.error(error);
     return {
@@ -69,3 +67,5 @@ export async function deleteCustomer(id: string) {
   revalidatePath('/dashboard/customers');
   redirect('/dashboard/customers');
 }
+
+export async function updateCustomer(prevState: State, formData: FormData) {}
