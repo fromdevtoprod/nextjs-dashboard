@@ -1,9 +1,7 @@
-import Image from 'next/image';
 import { DeleteCustomer, UpdateCustomer } from '@/app/ui/customers/buttons';
 import { fetchCare } from '@/app/lib/data/care';
-import { Avatar } from '../avatar';
 
-export default async function CareTable({ query }: { query: string }) {
+export default async function CareTable() {
   const filteredCare = await fetchCare();
   return (
     <div className="mt-6 flow-root">
@@ -23,9 +21,7 @@ export default async function CareTable({ query }: { query: string }) {
                           <p>{care.name}</p>
                         </div>
                       </div>
-                      <p className="text-sm text-gray-500">
-                        {care.care_category_id}
-                      </p>
+                      <p className="text-sm text-gray-500">{care.category}</p>
                     </div>
                   </div>
                   <div className="flex w-full items-center justify-between border-b py-5">
@@ -81,7 +77,7 @@ export default async function CareTable({ query }: { query: string }) {
                       </div>
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {care.care_category_id}
+                      {care.category}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                       {care.amount}

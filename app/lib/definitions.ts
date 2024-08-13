@@ -41,7 +41,7 @@ export type LatestInvoice = {
 
 export type Care = {
   id: string;
-  care_category_id: string;
+  category: string;
   name: string;
   amount: number;
   duration: number;

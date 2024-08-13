@@ -5,13 +5,14 @@ export async function fetchCare() {
   try {
     const data = await sql<Care>`
       SELECT
-        id,
-        care_category_id,
-        name,
-        amount,
-        duration,
-        status
+        care.id,
+        care_categories.name AS category,
+        care.name,
+        care.amount,
+        care.duration,
+        care.status
       FROM care
+      LEFT JOIN care_categories ON care.care_category_id = care_categories.id
       ORDER BY care_category_id ASC
     `;
 
