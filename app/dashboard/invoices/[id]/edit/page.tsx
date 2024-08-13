@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { fetchInvoiceById } from '@/app/lib/data/invoices';
-import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
+import Breadcrumbs from '@/app/ui/breadcrumbs';
 import Form from '@/app/ui/invoices/edit-form';
 import { fetchCustomers } from '@/app/lib/data/customers';
 

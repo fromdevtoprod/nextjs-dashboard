@@ -1,15 +1,15 @@
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import Form from '@/app/ui/customers/create-form';
+import Form from '@/app/ui/care/create-form';
 
 export default async function Page() {
   return (
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Customers', href: '/dashboard/customers' },
+          { label: 'Care', href: '/dashboard/care' },
           {
-            label: 'Create Customer',
-            href: '/dashboard/customers/create',
+            label: 'Create Care',
+            href: '/dashboard/care/create',
             active: true,
           },
         ]}
