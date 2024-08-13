@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { Metadata } from 'next';
-import Table from '@/app/ui/care/table';
+import Table from '@/app/ui/customers/table';
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
 import { CustomersTableSkeleton } from '@/app/ui/customers/skeletons';
