@@ -77,3 +77,9 @@ export async function deleteCare(id: string) {
   revalidatePath('/dashboard/care');
   redirect('/dashboard/care');
 }
+
+export async function updateCare(
+  id: string,
+  prevState: State,
+  formData: FormData,
+) {}

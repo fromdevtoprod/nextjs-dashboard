@@ -37,3 +37,26 @@ export async function fetchCareCategories() {
     throw new Error('Failed to fetch all care categories.');
   }
 }
+
+export async function fetchCareById(id: string) {
+  try {
+    const data = await sql<Care>`
+      SELECT
+        care.id,
+        care_categories.name AS category,
+        care.name,
+        care.amount,
+        care.duration,
+        care.status
+      FROM care
+      LEFT JOIN care_categories ON care.care_category_id = care_categories.id
+      WHERE care.id = ${id}
+    `;
+
+    const care = data.rows[0];
+    return care;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch care by ID.');
+  }
+}
