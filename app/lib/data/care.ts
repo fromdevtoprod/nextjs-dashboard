@@ -43,7 +43,7 @@ export async function fetchCareById(id: string) {
     const data = await sql<Care>`
       SELECT
         care.id,
-        care_categories.name AS category,
+        care.care_category_id as category,
         care.name,
         care.amount,
         care.duration,

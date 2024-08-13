@@ -38,6 +38,7 @@ export default function Form({
               id="category"
               name="category"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
+              defaultValue={care.category}
             >
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
@@ -146,7 +147,7 @@ export default function Form({
               id="status"
               name="status"
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue="active"
+              defaultValue={care.status}
             >
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
@@ -163,7 +164,7 @@ export default function Form({
         >
           Cancel
         </Link>
-        <Button type="submit">Create Care</Button>
+        <Button type="submit">Update Care</Button>
       </div>
     </form>
   );

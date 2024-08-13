@@ -1,6 +1,10 @@
 import { DeleteCare, UpdateCare } from '@/app/ui/care/buttons';
 import { fetchCare } from '@/app/lib/data/care';
 
+function capitalizeStatus(status: string) {
+  return status.charAt(0).toUpperCase() + status.slice(1);
+}
+
 export default async function CareTable() {
   const filteredCare = await fetchCare();
   return (
@@ -80,13 +84,13 @@ export default async function CareTable() {
                       {care.category}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {care.amount}
+                      {care.amount}€
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {care.duration}
+                      {care.duration}min
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                      {care.status}
+                      {capitalizeStatus(care.status)}
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">

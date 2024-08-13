@@ -82,4 +82,40 @@ export async function updateCare(
   id: string,
   prevState: State,
   formData: FormData,
-) {}
+) {
+  const validatedFields = CreateCare.safeParse({
+    category: formData.get('category'),
+    name: formData.get('name'),
+    amount: formData.get('amount'),
+    duration: formData.get('duration'),
+    status: formData.get('status'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing fields. Failed to Update Care.',
+    };
+  }
+
+  const { category, name, amount, duration, status } = validatedFields.data;
+
+  try {
+    await sql`
+                UPDATE care
+                SET care_category_id = ${category},
+                    name = ${name},
+                    amount = ${amount},
+                    duration = ${duration},
+                    status = ${status}
+                WHERE id = ${id}
+            `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Update Care.',
+    };
+  }
+
+  revalidatePath('/dashboard/care');
+  redirect('/dashboard/care');
+}
