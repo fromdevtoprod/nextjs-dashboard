@@ -8,6 +8,7 @@ import {
   HomeIcon,
   DocumentDuplicateIcon,
   CalendarIcon,
+  HandRaisedIcon,
 } from '@heroicons/react/24/outline';
 
 // Map of links to display in the side navigation.
@@ -24,6 +25,11 @@ const links = [
     name: 'Appointments',
     href: '/dashboard/appointments',
     icon: CalendarIcon,
+  },
+  {
+    name: 'Care',
+    href: '/dashboard/care',
+    icon: HandRaisedIcon,
   },
 ];
 
