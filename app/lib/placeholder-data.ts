@@ -180,4 +180,68 @@ const revenue = [
   { month: 'Dec', revenue: 4800 },
 ];
 
-export { users, customers, invoices, revenue };
+const careCategories = [
+  {
+    id: 'd10ed416-5896-48da-b966-21e8cbef752a',
+    name: 'Renata França',
+    status: 'active',
+  },
+  {
+    id: 'd10ed416-5896-48da-b966-21e8cbef752b',
+    name: 'Médecine Chinoise',
+    status: 'active',
+  },
+];
+
+const careList = [
+  {
+    id: '074e6ec8-cb9a-4d5e-8f52-c116a4c79d3a',
+    care_category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
+    name: 'Drainage Lymphatique',
+    amount: 130,
+    duration: 70,
+    status: 'active',
+  },
+  {
+    id: '074e6ec8-cb9a-4d5e-8f52-c116a4c79d3b',
+    care_category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
+    name: 'Remodelage',
+    amount: 150,
+    duration: 70,
+    status: 'active',
+  },
+  {
+    id: '074e6ec8-cb9a-4d5e-8f52-c116a4c79d3c',
+    care_category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
+    name: 'Miracle Face',
+    amount: 65,
+    duration: 30,
+    status: 'active',
+  },
+  {
+    id: '074e6ec8-cb9a-4d5e-8f52-c116a4c79d3d',
+    care_category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
+    name: 'Combo',
+    amount: 150,
+    duration: 75,
+    status: 'active',
+  },
+  {
+    id: '074e6ec8-cb9a-4d5e-8f52-c116a4c79d3e',
+    care_category_id: 'd10ed416-5896-48da-b966-21e8cbef752b',
+    name: 'Chi Nei Tsang',
+    amount: 110,
+    duration: 90,
+    status: 'active',
+  },
+  {
+    id: '074e6ec8-cb9a-4d5e-8f52-c116a4c79d3f',
+    care_category_id: 'd10ed416-5896-48da-b966-21e8cbef752b',
+    name: 'Tui Na',
+    amount: 110,
+    duration: 90,
+    status: 'active',
+  },
+];
+
+export { users, customers, invoices, revenue, careCategories, careList };

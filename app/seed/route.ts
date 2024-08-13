@@ -1,6 +1,13 @@
 import bcrypt from 'bcrypt';
 import { db } from '@vercel/postgres';
-import { invoices, customers, revenue, users } from '../lib/placeholder-data';
+import {
+  invoices,
+  customers,
+  revenue,
+  users,
+  careCategories,
+  careList,
+} from '../lib/placeholder-data';
 
 const client = await db.connect();
 
@@ -101,6 +108,53 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
+async function seedCareCategories() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS care_categories (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      status VARCHAR(255) NOT NULL
+    );
+  `;
+
+  const insertedCare = await Promise.all(
+    careCategories.map(
+      (careCategory) => client.sql`
+        INSERT INTO care_categories (id, name, status)
+        VALUES (${careCategory.id}, ${careCategory.name}, ${careCategory.status})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedCare;
+}
+
+async function seedCareList() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS care (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      care_category_id UUID NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      amount INT NOT NULL,
+      duration INT NOT NULL,
+      status VARCHAR(255) NOT NULL
+    );
+  `;
+
+  const insertedCare = await Promise.all(
+    careList.map(
+      (care) => client.sql`
+        INSERT INTO care (id, care_category_id, name, amount, duration, status)
+        VALUES (${care.id}, ${care.care_category_id}, ${care.name}, ${care.amount}, ${care.duration}, ${care.status})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedCare;
+}
+
 export async function GET() {
   try {
     await client.sql`BEGIN`;
@@ -108,6 +162,8 @@ export async function GET() {
     await seedCustomers();
     await seedInvoices();
     await seedRevenue();
+    await seedCareCategories();
+    await seedCareList();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });
