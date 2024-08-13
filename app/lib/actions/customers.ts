@@ -68,4 +68,42 @@ export async function deleteCustomer(id: string) {
   redirect('/dashboard/customers');
 }
 
-export async function updateCustomer(prevState: State, formData: FormData) {}
+export async function updateCustomer(
+  id: string,
+  prevState: State,
+  formData: FormData,
+) {
+  const validatedFields = CreateCustomer.safeParse({
+    name: formData.get('name'),
+    email: formData.get('email'),
+    phone: formData.get('phone'),
+    gender: formData.get('gender'),
+  });
+
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+      message: 'Missing fields. Failed to Update Customer.',
+    };
+  }
+
+  const { name, email, phone, gender } = validatedFields.data;
+
+  try {
+    await sql`
+                UPDATE customers
+                SET name = ${name},
+                  email = ${email},
+                  phone = ${phone},
+                  gender = ${gender}
+                WHERE id = ${id}
+            `;
+  } catch (error) {
+    return {
+      message: 'Database Error: Failed to Update Customer.',
+    };
+  }
+
+  revalidatePath('/dashboard/customers');
+  redirect('/dashboard/customers');
+}
