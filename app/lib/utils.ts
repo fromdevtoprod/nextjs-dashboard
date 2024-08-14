@@ -1,5 +1,9 @@
 import { Revenue } from '@/app/lib/definitions';
 
+export function wait(time: number = 2000) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
+
 export const formatCurrency = (amount: number) => {
   return (amount / 100).toLocaleString('en-US', {
     style: 'currency',

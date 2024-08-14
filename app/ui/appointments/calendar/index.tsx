@@ -26,7 +26,7 @@ export default function Calendar({
           <div className="flex items-center justify-between overflow-x-auto pt-12">
             <table className="w-full">
               <TableHead />
-              <TableBody />
+              <TableBody month={month} year={year} />
             </table>
           </div>
         </div>
