@@ -1,4 +1,5 @@
-export default function TableBody() {
+export default async function TableBody() {
+  await new Promise((resolve) => setTimeout(resolve, 5000));
   return (
     <tbody>
       <tr>

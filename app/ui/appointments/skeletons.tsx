@@ -1,94 +1,142 @@
 export function AppointmentsCalendarSkeleton() {
   return (
-    <div className="mt-6 flow-root">
-      <div className="inline-block min-w-full align-middle">
-        <div className="rounded-lg bg-gray-50 p-2 md:pt-0">
-          <div className="md:hidden">
-            <CustomersMobileSkeleton />
-            <CustomersMobileSkeleton />
-            <CustomersMobileSkeleton />
-            <CustomersMobileSkeleton />
-            <CustomersMobileSkeleton />
+    <div className="flex items-center justify-center px-4 py-8">
+      <div className="w-full max-w-sm shadow-lg">
+        <div className="rounded-t bg-white p-5 dark:bg-gray-800 md:p-8">
+          <div className="flex items-center justify-between px-4">
+            <span
+              tabIndex={0}
+              className="text-base  font-bold text-gray-800 focus:outline-none dark:text-gray-100"
+            ></span>
+            <div className="flex items-center">
+              <button
+                aria-label="calendar backward"
+                className="text-gray-800 hover:text-gray-400 focus:text-gray-400 dark:text-gray-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-chevron-left"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <polyline points="15 6 9 12 15 18" />
+                </svg>
+              </button>
+              <button
+                aria-label="calendar forward"
+                className="ml-3 text-gray-800 hover:text-gray-400 focus:text-gray-400 dark:text-gray-100"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler  icon-tabler-chevron-right"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <polyline points="9 6 15 12 9 18" />
+                </svg>
+              </button>
+            </div>
           </div>
-          <table className="hidden min-w-full text-gray-900 md:table">
-            <thead className="rounded-lg text-left text-sm font-normal">
-              <tr>
-                <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                  Name
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Email
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Total Invoices
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Total Pending
-                </th>
-                <th scope="col" className="px-3 py-5 font-medium">
-                  Total Paid
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white">
-              <TableCustomersRowSkeleton />
-              <TableCustomersRowSkeleton />
-              <TableCustomersRowSkeleton />
-              <TableCustomersRowSkeleton />
-              <TableCustomersRowSkeleton />
-            </tbody>
-          </table>
+          <div className="flex items-center justify-between overflow-x-auto pt-12">
+            <table className="w-full">
+              <thead>
+                <tr>
+                  <th>
+                    <div className="flex w-full justify-center">
+                      <p className="text-center text-base font-medium text-gray-800 dark:text-gray-100">
+                        Mo
+                      </p>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="flex w-full justify-center">
+                      <p className="text-center text-base font-medium text-gray-800 dark:text-gray-100">
+                        Tu
+                      </p>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="flex w-full justify-center">
+                      <p className="text-center text-base font-medium text-gray-800 dark:text-gray-100">
+                        We
+                      </p>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="flex w-full justify-center">
+                      <p className="text-center text-base font-medium text-gray-800 dark:text-gray-100">
+                        Th
+                      </p>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="flex w-full justify-center">
+                      <p className="text-center text-base font-medium text-gray-800 dark:text-gray-100">
+                        Fr
+                      </p>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="flex w-full justify-center">
+                      <p className="text-center text-base font-medium text-gray-800 dark:text-gray-100">
+                        Sa
+                      </p>
+                    </div>
+                  </th>
+                  <th>
+                    <div className="flex w-full justify-center">
+                      <p className="text-center text-base font-medium text-gray-800 dark:text-gray-100">
+                        Su
+                      </p>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {new Array(5).fill(0).map((index) => (
+                  <tr key={index}>
+                    <td className="pt-6">
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                    </td>
+                    <td className="pt-6">
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                    </td>
+                    <td className="pt-6">
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                    </td>
+                    <td className="pt-6">
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                    </td>
+                    <td className="pt-6">
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                    </td>
+                    <td className="pt-6">
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                    </td>
+                    <td className="pt-6">
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  );
-}
-
-function CustomersMobileSkeleton() {
-  return (
-    <div className="mb-2 w-full rounded-md bg-white p-4">
-      <div className="flex items-center justify-between border-b border-gray-100 pb-8">
-        <div className="flex items-center">
-          <div className="mr-2 h-8 w-8 rounded-full bg-gray-100"></div>
-          <div className="h-6 w-16 rounded bg-gray-100"></div>
-        </div>
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
-      </div>
-      <div className="flex w-full items-center justify-between pt-4">
-        <div>
-          <div className="h-6 w-16 rounded bg-gray-100"></div>
-          <div className="mt-2 h-6 w-24 rounded bg-gray-100"></div>
-        </div>
-        <div className="flex justify-end gap-2">
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
-          <div className="h-10 w-10 rounded bg-gray-100"></div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function TableCustomersRowSkeleton() {
-  return (
-    <tr className="w-full border-b border-gray-100 last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg">
-      <td className="relative overflow-hidden whitespace-nowrap py-3 pl-6 pr-3">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-gray-100"></div>
-          <div className="h-6 w-24 rounded bg-gray-100"></div>
-        </div>
-      </td>
-      <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-32 rounded bg-gray-100"></div>
-      </td>
-      <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
-      </td>
-      <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
-      </td>
-      <td className="whitespace-nowrap px-3 py-3">
-        <div className="h-6 w-16 rounded bg-gray-100"></div>
-      </td>
-    </tr>
   );
 }
