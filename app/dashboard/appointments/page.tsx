@@ -1,11 +1,15 @@
-import Calendar from '@/app/ui/calendar';
+import Calendar from '@/app/ui/appointments/calendar';
+import { lusitana } from '@/app/ui/fonts';
 
 export default function Page() {
   return (
-    <div className="flex h-screen flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold">Appointments</h1>
-      <p className="text-lg text-gray-500">Coming soon...</p>
-      <Calendar />
+    <div className="w-full">
+      <div className="flex w-full items-center justify-between">
+        <h1 className={`${lusitana.className} text-2xl`}>Appointments</h1>
+      </div>
+      <div className="mt-5 flex w-full justify-center">
+        <Calendar />
+      </div>
     </div>
   );
 }
