@@ -22,6 +22,8 @@ export default function OtherRows({
             rowIndex={rowIndex}
             firstRowDays={firstRowDays}
             daysCount={daysCount}
+            month={month}
+            year={year}
           />
         </tr>
       ))}

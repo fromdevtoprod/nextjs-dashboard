@@ -1,17 +1,22 @@
 export default function DaySlot({
   day,
+  month,
+  year,
   isActive,
 }: {
   day: number;
+
+  month: number;
+  year: number;
   isActive?: boolean;
 }) {
   if (isActive) return <ActiveDaySlot day={day} />;
-  if (isWeekend(day)) return <WeekendSlot day={day} />;
+  if (isWeekend(day, month, year)) return <WeekendSlot day={day} />;
   return <ClassicDaySlot day={day} />;
 }
 
-function isWeekend(day: number): boolean {
-  return [4, 11, 18, 25].includes(day);
+function isWeekend(day: number, month: number, year: number): boolean {
+  return new Date(year, month, day).getDay() === 0;
 }
 
 function ActiveDaySlot({ day }: { day: number }) {

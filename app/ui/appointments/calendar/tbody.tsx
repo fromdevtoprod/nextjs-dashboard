@@ -19,7 +19,7 @@ export default async function TableBody({
   if (firstDay === 1) {
     return (
       <tbody>
-        <FirstRow countEmptySlots={0} />
+        <FirstRow countEmptySlots={0} month={month} year={year} />
         <OtherRows
           countEmptySlots={0}
           daysCount={daysCount}
@@ -33,7 +33,7 @@ export default async function TableBody({
   const countEmptySlots = countEmptySlot(firstDay);
   return (
     <tbody>
-      <FirstRow countEmptySlots={countEmptySlots} />
+      <FirstRow countEmptySlots={countEmptySlots} month={month} year={year} />
       <OtherRows
         countEmptySlots={countEmptySlots}
         daysCount={daysCount}

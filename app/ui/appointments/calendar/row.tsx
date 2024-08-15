@@ -5,10 +5,14 @@ export default function Row({
   rowIndex,
   firstRowDays,
   daysCount,
+  month,
+  year,
 }: {
   rowIndex: number;
   firstRowDays: number;
   daysCount: number;
+  month: number;
+  year: number;
 }) {
   return (
     <>
@@ -23,7 +27,7 @@ export default function Row({
         }
         return (
           <td key={dayIndex}>
-            <DaySlot day={day} />
+            <DaySlot day={day} month={month} year={year} />
           </td>
         );
       })}
