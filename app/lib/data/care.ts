@@ -11,7 +11,7 @@ export async function fetchCare() {
         care.amount,
         care.duration,
         care.status
-      FROM care
+      FROM care_catalog as care
       LEFT JOIN care_categories ON care.care_category_id = care_categories.id
       ORDER BY care_category_id ASC
     `;
@@ -48,7 +48,7 @@ export async function fetchCareById(id: string) {
         care.amount,
         care.duration,
         care.status
-      FROM care
+      FROM care_catalog as care
       LEFT JOIN care_categories ON care.care_category_id = care_categories.id
       WHERE care.id = ${id}
     `;

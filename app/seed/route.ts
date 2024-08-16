@@ -131,9 +131,9 @@ async function seedCareCategories() {
   return insertedCare;
 }
 
-async function seedCareList() {
+async function seedCareCatalog() {
   await client.sql`
-    CREATE TABLE IF NOT EXISTS care (
+    CREATE TABLE IF NOT EXISTS care_catalog (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       care_category_id UUID NOT NULL,
       name VARCHAR(255) NOT NULL,
@@ -146,7 +146,7 @@ async function seedCareList() {
   const insertedCare = await Promise.all(
     careList.map(
       (care) => client.sql`
-        INSERT INTO care (id, care_category_id, name, amount, duration, status)
+        INSERT INTO care_catalog (id, care_category_id, name, amount, duration, status)
         VALUES (${care.id}, ${care.care_category_id}, ${care.name}, ${care.amount}, ${care.duration}, ${care.status})
         ON CONFLICT (id) DO NOTHING;
       `,
@@ -164,7 +164,7 @@ export async function GET() {
     await seedInvoices();
     await seedRevenue();
     await seedCareCategories();
-    await seedCareList();
+    await seedCareCatalog();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });

@@ -50,7 +50,7 @@ export async function createCare(prevState: State, formData: FormData) {
 
   try {
     await sql`
-      INSERT INTO care (name, care_category_id, amount, duration, status)
+      INSERT INTO care_catalog (name, care_category_id, amount, duration, status)
       VALUES (${validatedFields.data.name}, ${validatedFields.data.category}, ${validatedFields.data.amount}, ${validatedFields.data.duration}, ${validatedFields.data.status})
       `;
   } catch (error) {
@@ -66,7 +66,7 @@ export async function createCare(prevState: State, formData: FormData) {
 export async function deleteCare(id: string) {
   try {
     await sql`
-      DELETE FROM care
+      DELETE FROM care_catalog
       WHERE id = ${id}
     `;
   } catch (error) {
@@ -102,7 +102,7 @@ export async function updateCare(
 
   try {
     await sql`
-                UPDATE care
+                UPDATE care_catalog
                 SET care_category_id = ${category},
                     name = ${name},
                     amount = ${amount},
