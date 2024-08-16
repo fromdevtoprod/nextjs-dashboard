@@ -97,8 +97,8 @@ export default function Form() {
             </div>
           </div>
           <div id="session_number-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.sessionNumber &&
-              state.errors.sessionNumber.map((error: string) => (
+            {state.errors?.session_number &&
+              state.errors.session_number.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
