@@ -254,4 +254,50 @@ const careList = [
   },
 ];
 
-export { users, customers, invoices, revenue, careCategories, careList };
+const cureList = [
+  {
+    id: '3aeaf5b3-f263-4618-a413-b6972ad1df77',
+    name: 'Drainage Lymphatique',
+    amount: 550,
+    session_number: 5,
+    status: 'active',
+  },
+  {
+    id: '3aeaf5b3-f263-4618-a413-b6972ad1df78',
+    name: 'Remodelage',
+    amount: 650,
+    session_number: 5,
+    status: 'active',
+  },
+  {
+    id: '3aeaf5b3-f263-4618-a413-b6972ad1df79',
+    name: 'Miracle Face',
+    amount: 275,
+    session_number: 5,
+    status: 'active',
+  },
+  {
+    id: '3aeaf5b3-f263-4618-a413-b6972ad1df80',
+    name: 'Le Combo',
+    amount: 650,
+    session_number: 5,
+    status: 'active',
+  },
+  {
+    id: '3aeaf5b3-f263-4618-a413-b6972ad1df81',
+    name: '2 Drainages & 3 Remodelages',
+    amount: 600,
+    session_number: 5,
+    status: 'active',
+  },
+];
+
+export {
+  users,
+  customers,
+  invoices,
+  revenue,
+  careCategories,
+  careList,
+  cureList,
+};

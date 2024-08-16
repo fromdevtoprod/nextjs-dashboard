@@ -7,6 +7,7 @@ import {
   users,
   careCategories,
   careList,
+  cureList,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -156,6 +157,30 @@ async function seedCareCatalog() {
   return insertedCare;
 }
 
+async function seedCure() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS cure (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      amount INT NOT NULL,
+      session_number INT NOT NULL,
+      status VARCHAR(255) NOT NULL
+    );
+  `;
+
+  const insertedCare = await Promise.all(
+    cureList.map(
+      (cure) => client.sql`
+        INSERT INTO cure (id, name, amount, session_number, status)
+        VALUES (${cure.id}, ${cure.name}, ${cure.amount}, ${cure.session_number}, ${cure.status})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedCare;
+}
+
 export async function GET() {
   try {
     await client.sql`BEGIN`;
@@ -165,6 +190,7 @@ export async function GET() {
     await seedRevenue();
     await seedCareCategories();
     await seedCareCatalog();
+    await seedCure();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });
