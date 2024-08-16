@@ -1,7 +1,11 @@
 import { useState } from 'react';
 
-export default function BirthDateField() {
-  const [birthDate, setBirthDate] = useState('');
+export default function BirthDateField({
+  defaultValue = '',
+}: {
+  defaultValue: string;
+}) {
+  const [birthDate, setBirthDate] = useState(defaultValue);
 
   const updateBirthDate = (e: React.ChangeEvent<HTMLInputElement>) =>
     setBirthDate(formatBirthDate(e.target.value));

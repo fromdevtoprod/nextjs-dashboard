@@ -39,6 +39,7 @@ export default function Form({ customer }: { customer: Customer }) {
                 placeholder="Mr John Doe"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="name-error"
+                defaultValue={customer.name}
               />
               <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -67,6 +68,7 @@ export default function Form({ customer }: { customer: Customer }) {
                 placeholder="email@company.com"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="email-error"
+                defaultValue={customer.email}
               />
               <AtSymbolIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -95,6 +97,7 @@ export default function Form({ customer }: { customer: Customer }) {
                 placeholder="0607080910"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="phone-error"
+                defaultValue={customer.phone}
               />
               <PhoneIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
@@ -119,7 +122,7 @@ export default function Form({ customer }: { customer: Customer }) {
           </label>
           <div className="relative mt-2 rounded-md">
             <div className="relative">
-              <BirthDateField />
+              <BirthDateField defaultValue={customer.birth_date} />
               <CakeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
@@ -145,6 +148,7 @@ export default function Form({ customer }: { customer: Customer }) {
                 name="pathology"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="pathology-error"
+                defaultValue={customer.pathology}
               />
               <InformationCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>

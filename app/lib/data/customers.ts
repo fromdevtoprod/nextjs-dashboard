@@ -64,7 +64,8 @@ export async function fetchCustomerById(id: string) {
         name,
         email,
         phone,
-        gender
+        birth_date,
+        pathology
       FROM customers
       WHERE id = ${id}
     `;
