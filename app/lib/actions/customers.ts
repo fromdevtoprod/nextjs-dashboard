@@ -16,9 +16,10 @@ type State = {
 const FormSchema = z.object({
   id: z.string(),
   name: z.string().min(1, { message: 'Name is required' }),
-  email: z.string().min(1, { message: 'Email is required' }),
-  phone: z.string().min(1, { message: 'Phone is required' }),
-  gender: z.enum(['male', 'female']),
+  email: z.string(),
+  phone: z.string(),
+  birth_date: z.string().min(1, { message: 'Birth date is required' }),
+  pathology: z.string(),
 });
 
 const CreateCustomer = FormSchema.omit({ id: true });
@@ -28,10 +29,9 @@ export async function createCustomer(prevState: State, formData: FormData) {
     name: formData.get('name'),
     email: formData.get('email'),
     phone: formData.get('phone'),
-    gender: formData.get('gender'),
+    birth_date: formData.get('birth_date'),
+    pathology: formData.get('pathology'),
   });
-
-  console.log('validatedFields', validatedFields);
 
   if (!validatedFields.success) {
     return {
@@ -40,10 +40,20 @@ export async function createCustomer(prevState: State, formData: FormData) {
     };
   }
 
-  const { name, email, phone, gender } = validatedFields.data;
+  const { name, email, phone, birth_date, pathology } = validatedFields.data;
+
+  if (phone === '' && email === '') {
+    return {
+      errors: {
+        phone: ['Phone or email is required'],
+        email: ['Email or phone is required'],
+      },
+      message: 'Missing fields. Failed to Create Customer.',
+    };
+  }
 
   try {
-    await sql`INSERT INTO customers (name, email, phone, gender) VALUES (${name}, ${email}, ${phone}, ${gender})`;
+    await sql`INSERT INTO customers (name, email, phone, birth_date, pathology) VALUES (${name}, ${email}, ${phone}, ${birth_date}, ${pathology})`;
   } catch (error) {
     console.error(error);
     return {
@@ -77,7 +87,8 @@ export async function updateCustomer(
     name: formData.get('name'),
     email: formData.get('email'),
     phone: formData.get('phone'),
-    gender: formData.get('gender'),
+    birth_date: formData.get('birth_date'),
+    pathology: formData.get('pathology'),
   });
 
   if (!validatedFields.success) {
@@ -87,7 +98,17 @@ export async function updateCustomer(
     };
   }
 
-  const { name, email, phone, gender } = validatedFields.data;
+  const { name, email, phone, birth_date, pathology } = validatedFields.data;
+
+  if (phone === '' && email === '') {
+    return {
+      errors: {
+        phone: ['Phone or email is required'],
+        email: ['Email or phone is required'],
+      },
+      message: 'Missing fields. Failed to Create Customer.',
+    };
+  }
 
   try {
     await sql`
@@ -95,7 +116,8 @@ export async function updateCustomer(
                 SET name = ${name},
                   email = ${email},
                   phone = ${phone},
-                  gender = ${gender}
+                  birth_date = ${birth_date},
+                  pathology = ${pathology}
                 WHERE id = ${id}
             `;
   } catch (error) {

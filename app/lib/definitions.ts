@@ -14,7 +14,8 @@ export type Customer = {
   name: string;
   email: string;
   phone: string;
-  gender: 'male' | 'female';
+  birth_date: string;
+  pathology: string;
 };
 
 export type Invoice = {
