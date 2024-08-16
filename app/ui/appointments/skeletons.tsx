@@ -107,28 +107,28 @@ export function AppointmentsCalendarSkeleton() {
                 </tr>
               </thead>
               <tbody>
-                {new Array(5).fill(0).map((index) => (
+                {Array.from({ length: 5 }).map((value, index) => (
                   <tr key={index}>
                     <td className="pt-6">
-                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-5 py-5"></div>
                     </td>
                     <td className="pt-6">
-                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-5 py-5"></div>
                     </td>
                     <td className="pt-6">
-                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-5 py-5"></div>
                     </td>
                     <td className="pt-6">
-                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-5 py-5"></div>
                     </td>
                     <td className="pt-6">
-                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-5 py-5"></div>
                     </td>
                     <td className="pt-6">
-                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-5 py-5"></div>
                     </td>
                     <td className="pt-6">
-                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-4 py-4"></div>
+                      <div className="flex w-full cursor-pointer justify-center rounded bg-gray-100 px-5 py-5"></div>
                     </td>
                   </tr>
                 ))}

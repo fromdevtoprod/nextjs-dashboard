@@ -5,14 +5,16 @@ export default function Row({
   rowIndex,
   firstRowDays,
   daysCount,
-  month,
-  year,
+  activeDay,
+  activeMonth,
+  activeYear,
 }: {
   rowIndex: number;
   firstRowDays: number;
   daysCount: number;
-  month: number;
-  year: number;
+  activeDay: number;
+  activeMonth: number;
+  activeYear: number;
 }) {
   return (
     <>
@@ -27,7 +29,12 @@ export default function Row({
         }
         return (
           <td key={dayIndex}>
-            <DaySlot day={day} month={month} year={year} />
+            <DaySlot
+              isActive={activeDay === day}
+              day={day}
+              activeMonth={activeMonth}
+              activeYear={activeYear}
+            />
           </td>
         );
       })}

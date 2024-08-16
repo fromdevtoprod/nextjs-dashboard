@@ -6,27 +6,35 @@ import TableBody from './tbody';
 import TableHead from './thead';
 
 export default function Calendar({
-  month,
-  year,
+  activeDay,
+  activeMonth,
+  activeYear,
 }: {
-  month: number;
-  year: number;
+  activeDay: number;
+  activeMonth: number;
+  activeYear: number;
 }) {
   return (
     <div className="flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-sm shadow-lg">
         <div className="rounded-t bg-white p-5 dark:bg-gray-800 md:p-8">
           <div className="flex items-center justify-between px-4">
-            <ActiveMonth month={month} year={year} />
+            <ActiveMonth month={activeMonth} year={activeYear} />
             <div className="flex items-center">
-              <PreviousMonthArrow month={month} />
-              <NextMonthArrow month={month} />
+              <PreviousMonthArrow month={activeMonth} />
+              <NextMonthArrow month={activeMonth} />
             </div>
           </div>
           <div className="flex items-center justify-between overflow-x-auto pt-12">
             <table className="w-full">
               <TableHead />
-              <TableBody month={month} year={year} />
+              <tbody>
+                <TableBody
+                  activeDay={activeDay}
+                  activeMonth={activeMonth}
+                  activeYear={activeYear}
+                />
+              </tbody>
             </table>
           </div>
         </div>

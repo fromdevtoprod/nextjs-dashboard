@@ -1,14 +1,16 @@
 import DaySlot from './day-slot';
 import EmptySlot from './empty-slot';
 
-export default function FirstRow({
+export default function StartRow({
   countEmptySlots,
-  month,
-  year,
+  activeDay,
+  activeMonth,
+  activeYear,
 }: {
   countEmptySlots: number;
-  month: number;
-  year: number;
+  activeDay: number;
+  activeMonth: number;
+  activeYear: number;
 }) {
   return (
     <tr>
@@ -20,12 +22,14 @@ export default function FirstRow({
             </td>
           );
         }
+        const day = index + 1 - countEmptySlots;
         return (
           <td key={index} className="pt-6">
             <DaySlot
-              day={index + 1 - countEmptySlots}
-              month={month}
-              year={year}
+              isActive={activeDay === day}
+              day={day}
+              activeMonth={activeMonth}
+              activeYear={activeYear}
             />
           </td>
         );

@@ -1,17 +1,19 @@
 import Row from './row';
 
-export default function OtherRows({
+export default function EndRow({
   countEmptySlots,
   daysCount,
-  month,
-  year,
+  activeDay,
+  activeMonth,
+  activeYear,
 }: {
   countEmptySlots: number;
   daysCount: number;
-  month: number;
-  year: number;
+  activeDay: number;
+  activeMonth: number;
+  activeYear: number;
 }) {
-  const totalSlots = getTotalDays(month, year) + countEmptySlots;
+  const totalSlots = getTotalDays(activeMonth, activeYear) + countEmptySlots;
   const totalRows = getTotalRows(totalSlots);
   const firstRowDays = 7 - countEmptySlots;
   return (
@@ -22,8 +24,9 @@ export default function OtherRows({
             rowIndex={rowIndex}
             firstRowDays={firstRowDays}
             daysCount={daysCount}
-            month={month}
-            year={year}
+            activeDay={activeDay}
+            activeMonth={activeMonth}
+            activeYear={activeYear}
           />
         </tr>
       ))}

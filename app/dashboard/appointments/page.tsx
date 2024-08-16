@@ -3,11 +3,16 @@ import Calendar from '@/app/ui/appointments/calendar';
 import { lusitana } from '@/app/ui/fonts';
 import { AppointmentsCalendarSkeleton } from '@/app/ui/appointments/skeletons';
 
-const getMonth = (month: string | undefined) =>
+const getActiveDay = (day: string | undefined) =>
+  !day ? getCurrentDay() : Number(day);
+
+const getActiveMonth = (month: string | undefined) =>
   !month ? getCurrentMonth() : Number(month);
 
-const getYear = (year: string | undefined) =>
+const getActiveYear = (year: string | undefined) =>
   !year ? getCurrentYear() : Number(year);
+
+const getCurrentDay = () => new Date().getDate();
 
 const getCurrentMonth = () => new Date().getMonth();
 
@@ -16,7 +21,7 @@ const getCurrentYear = () => new Date().getFullYear();
 export default function Page({
   searchParams,
 }: {
-  searchParams: { month?: string; year?: string };
+  searchParams: { day?: string; month?: string; year?: string };
 }) {
   return (
     <div className="w-full">
@@ -26,8 +31,9 @@ export default function Page({
       <div className="mt-5 flex w-full justify-center">
         <Suspense fallback={<AppointmentsCalendarSkeleton />}>
           <Calendar
-            month={getMonth(searchParams.month)}
-            year={getYear(searchParams.year)}
+            activeDay={getActiveDay(searchParams.day)}
+            activeMonth={getActiveMonth(searchParams.month)}
+            activeYear={getActiveYear(searchParams.year)}
           />
         </Suspense>
       </div>
