@@ -8,14 +8,16 @@ import {
   ClockIcon,
   EyeIcon,
   UserCircleIcon,
+  HandRaisedIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { updateCure } from '@/app/lib/actions/cure';
-import { Cure } from '@/app/lib/definitions';
+import { Care, Cure } from '@/app/lib/definitions';
+import CureDetails from './cure-details';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({ cure }: { cure: Cure }) {
+export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
   const updateCureWithId = updateCure.bind(null, cure.id);
   const [state, formAction] = useActionState(updateCureWithId, initialState);
   return (
@@ -50,6 +52,15 @@ export default function Form({ cure }: { cure: Cure }) {
           </div>
         </div>
 
+        {cure.content.map((selectedCare, index) => (
+          <CureDetails
+            cares={cares}
+            key={index}
+            position={index + 1}
+            selected={selectedCare}
+          />
+        ))}
+
         {/* Cure amount */}
         <div className="mb-4">
           <label htmlFor="amount" className="mb-2 block text-sm font-medium">
@@ -72,38 +83,6 @@ export default function Form({ cure }: { cure: Cure }) {
           <div id="amount-error" aria-live="polite" aria-atomic="true">
             {state.errors?.amount &&
               state.errors.amount.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
-
-        {/* Cure session number */}
-        <div className="mb-4">
-          <label
-            htmlFor="session_number"
-            className="mb-2 block text-sm font-medium"
-          >
-            Enter a session number
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="session_number"
-                name="session_number"
-                type="number"
-                defaultValue={cure.session_number}
-                placeholder="Enter a duration"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="session_number-error"
-              />
-              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-          <div id="session_number-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.session_number &&
-              state.errors.session_number.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>

@@ -266,41 +266,69 @@ const careList = [
   },
 ];
 
-const cureList = [
+const cureCatalog = [
   {
     id: '3aeaf5b3-f263-4618-a413-b6972ad1df77',
     name: 'Drainage Lymphatique',
     amount: 550,
-    session_number: 5,
     status: 'active',
   },
   {
     id: '3aeaf5b3-f263-4618-a413-b6972ad1df78',
     name: 'Remodelage',
     amount: 650,
-    session_number: 5,
     status: 'active',
   },
   {
     id: '3aeaf5b3-f263-4618-a413-b6972ad1df79',
     name: 'Miracle Face',
     amount: 275,
-    session_number: 5,
     status: 'active',
   },
   {
     id: '3aeaf5b3-f263-4618-a413-b6972ad1df80',
     name: 'Le Combo',
     amount: 650,
-    session_number: 5,
     status: 'active',
   },
   {
     id: '3aeaf5b3-f263-4618-a413-b6972ad1df81',
     name: '2 Drainages & 3 Remodelages',
     amount: 600,
-    session_number: 5,
     status: 'active',
+  },
+];
+
+const cureContent = [
+  {
+    cure_id: cureCatalog[0].id,
+    care_id: careList[0].id,
+    session_number: 5,
+  },
+  {
+    cure_id: cureCatalog[1].id,
+    care_id: careList[1].id,
+    session_number: 5,
+  },
+  {
+    cure_id: cureCatalog[2].id,
+    care_id: careList[2].id,
+    session_number: 5,
+  },
+  {
+    cure_id: cureCatalog[3].id,
+    care_id: careList[3].id,
+    session_number: 5,
+  },
+  {
+    cure_id: cureCatalog[4].id,
+    care_id: careList[0].id,
+    session_number: 2,
+  },
+  {
+    cure_id: cureCatalog[4].id,
+    care_id: careList[1].id,
+    session_number: 3,
   },
 ];
 
@@ -350,21 +378,21 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597139',
     customer_id: customers[6].id,
-    product_id: cureList[0].id,
+    product_id: cureCatalog[0].id,
     product_type: 'cure',
     session_number: 5,
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597140',
     customer_id: customers[7].id,
-    product_id: cureList[1].id,
+    product_id: cureCatalog[1].id,
     product_type: 'cure',
     session_number: 5,
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597141',
     customer_id: customers[8].id,
-    product_id: cureList[2].id,
+    product_id: cureCatalog[2].id,
     product_type: 'cure',
     session_number: 5,
   },
@@ -377,6 +405,7 @@ export {
   revenue,
   careCategories,
   careList,
-  cureList,
+  cureCatalog,
+  cureContent,
   orders,
 };

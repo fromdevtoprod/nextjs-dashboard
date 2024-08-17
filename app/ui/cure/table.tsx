@@ -1,16 +1,16 @@
 import { DeleteCure, UpdateCure } from '@/app/ui/cure/buttons';
-import { fetchCureList } from '@/app/lib/data/cure';
+import { fetchCureCatalog } from '@/app/lib/data/cure';
 import { capitalize } from '@/app/lib/utils';
 
 export default async function CureTable() {
-  const cureList = await fetchCureList();
+  const cureCatalog = await fetchCureCatalog();
   return (
     <div className="mt-6 flow-root">
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full align-middle">
           <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
             <div className="md:hidden">
-              {cureList?.map((cure) => (
+              {cureCatalog?.map((cure) => (
                 <div
                   key={cure.id}
                   className="mb-2 w-full rounded-md bg-white p-4"
@@ -30,8 +30,12 @@ export default async function CureTable() {
                       <p className="font-medium">{cure.amount}</p>
                     </div>
                     <div className="flex w-1/2 flex-col">
-                      <p className="text-xs">Session number</p>
-                      <p className="font-medium">{cure.session_number}</p>
+                      <p className="text-xs">Total cares</p>
+                      <p className="font-medium">{cure.total_cares}</p>
+                    </div>
+                    <div className="flex w-1/2 flex-col">
+                      <p className="text-xs">Total sessions</p>
+                      <p className="font-medium">{cure.total_sessions}</p>
                     </div>
                   </div>
                   <div className="pt-4 text-sm">
@@ -54,7 +58,10 @@ export default async function CureTable() {
                     Amount
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
-                    Session number
+                    Total cares
+                  </th>
+                  <th scope="col" className="px-3 py-5 font-medium">
+                    Total sessions
                   </th>
                   <th scope="col" className="px-4 py-5 font-medium">
                     Status
@@ -66,7 +73,7 @@ export default async function CureTable() {
               </thead>
 
               <tbody className="divide-y divide-gray-200 text-gray-900">
-                {cureList.map((cure) => (
+                {cureCatalog.map((cure) => (
                   <tr key={cure.id} className="group">
                     <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                       <div className="flex items-center gap-3">
@@ -77,7 +84,10 @@ export default async function CureTable() {
                       {cure.amount}€
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {cure.session_number}
+                      {cure.total_cares}
+                    </td>
+                    <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
+                      {cure.total_sessions}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                       {capitalize(cure.status)}

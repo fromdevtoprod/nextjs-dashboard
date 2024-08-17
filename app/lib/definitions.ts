@@ -54,12 +54,22 @@ export type CareCategory = {
   name: string;
 };
 
+export type CureContent = {
+  care_id: string;
+  session_number: number;
+};
+
 export type Cure = {
   id: string;
   name: string;
+  content: CureContent[];
   amount: number;
-  session_number: number;
   status: 'active' | 'inactive';
+};
+
+export type CureWithCareData = Cure & {
+  total_cares: number;
+  total_sessions: number;
 };
 
 export type Order = {

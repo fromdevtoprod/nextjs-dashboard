@@ -17,6 +17,7 @@ type State = {
 const FormSchema = z.object({
   id: z.string(),
   name: z.string().min(1, { message: 'Name is required' }),
+  care: z.string().min(1, { message: 'Care is required' }),
   amount: z.coerce
     .number()
     .gt(0, { message: 'Please enter an amount greater than 0€.' }),
@@ -31,6 +32,7 @@ const CreateCure = FormSchema.omit({ id: true });
 export async function createCure(prevState: State, formData: FormData) {
   const validatedFields = CreateCure.safeParse({
     name: formData.get('name'),
+    care: formData.get('care'),
     amount: formData.get('amount'),
     session_number: formData.get('session_number'),
     status: formData.get('status'),
@@ -46,9 +48,13 @@ export async function createCure(prevState: State, formData: FormData) {
   }
 
   try {
-    await sql`
-      INSERT INTO cure (name, amount, session_number, status)
+    const cure_result = await sql`
+      INSERT INTO cure_catalog (name, amount, status)
       VALUES (${validatedFields.data.name}, ${validatedFields.data.amount}, ${validatedFields.data.session_number}, ${validatedFields.data.status})
+      `;
+    await sql`
+      INSERT INTO cure_content (cure_id, care_id, session_number)
+      VALUES (${cure_result.oid}, ${validatedFields.data.care}, ${validatedFields.data.session_number})
       `;
   } catch (error) {
     return {
@@ -63,7 +69,7 @@ export async function createCure(prevState: State, formData: FormData) {
 export async function deleteCure(id: string) {
   try {
     await sql`
-      DELETE FROM cure
+      DELETE FROM cure_catalog
       WHERE id = ${id}
     `;
   } catch (error) {
@@ -98,7 +104,7 @@ export async function updateCure(
 
   try {
     await sql`
-                UPDATE cure
+                UPDATE cure_catalog
                 SET name = ${name},
                     amount = ${amount},
                     session_number = ${session_number},
