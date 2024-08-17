@@ -62,6 +62,15 @@ export type Cure = {
   status: 'active' | 'inactive';
 };
 
+export type Order = {
+  id: string;
+  customer_id: number;
+  customer_name: string;
+  product_id: number;
+  product_type: 'care' | 'cure';
+  session_number: number;
+};
+
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
 export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
   amount: number;

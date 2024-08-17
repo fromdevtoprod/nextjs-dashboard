@@ -8,6 +8,7 @@ import {
   careCategories,
   careList,
   cureList,
+  orders,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -158,7 +159,7 @@ async function seedCareCatalog() {
   return insertedCare;
 }
 
-async function seedCure() {
+async function seedCureList() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS cure (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
@@ -169,7 +170,7 @@ async function seedCure() {
     );
   `;
 
-  const insertedCare = await Promise.all(
+  const insertedCureList = await Promise.all(
     cureList.map(
       (cure) => client.sql`
         INSERT INTO cure (id, name, amount, session_number, status)
@@ -179,7 +180,31 @@ async function seedCure() {
     ),
   );
 
-  return insertedCare;
+  return insertedCureList;
+}
+
+async function seedOrders() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS orders (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      customer_id UUID NOT NULL,
+      product_id UUID NOT NULL,
+      product_type VARCHAR(255) NOT NULL,
+      session_number INT NOT NULL
+    );
+  `;
+
+  const insertedOrders = await Promise.all(
+    orders.map(
+      (order) => client.sql`
+        INSERT INTO orders (id, customer_id, product_id, product_type, session_number)
+        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.product_type}, ${order.session_number})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedOrders;
 }
 
 export async function GET() {
@@ -191,7 +216,8 @@ export async function GET() {
     await seedRevenue();
     await seedCareCategories();
     await seedCareCatalog();
-    await seedCure();
+    await seedCureList();
+    await seedOrders();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });

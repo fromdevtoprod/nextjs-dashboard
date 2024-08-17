@@ -1,45 +1,46 @@
-import { DeleteCure, UpdateCure } from '@/app/ui/cure/buttons';
-import { fetchCureList } from '@/app/lib/data/cure';
+import { DeleteOrder, UpdateOrder } from '@/app/ui/orders/buttons';
+import { fetchOrders } from '@/app/lib/data/orders';
 import { capitalize } from '@/app/lib/utils';
 
-export default async function CureTable() {
-  const cureList = await fetchCureList();
+export default async function OrdersTable() {
+  const orders = await fetchOrders();
+  console.log('orders', orders);
   return (
     <div className="mt-6 flow-root">
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full align-middle">
           <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
             <div className="md:hidden">
-              {cureList?.map((cure) => (
+              {orders?.map((order) => (
                 <div
-                  key={cure.id}
+                  key={order.id}
                   className="mb-2 w-full rounded-md bg-white p-4"
                 >
                   <div className="flex items-center justify-between border-b pb-4">
                     <div>
                       <div className="mb-2 flex items-center">
                         <div className="flex items-center gap-3">
-                          <p>{cure.name}</p>
+                          <p>{order.customer_id}</p>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="flex w-full items-center justify-between border-b py-5">
                     <div className="flex w-1/2 flex-col">
-                      <p className="text-xs">Amount</p>
-                      <p className="font-medium">{cure.amount}</p>
+                      <p className="text-xs">Product</p>
+                      <p className="font-medium">{order.product_id}</p>
                     </div>
                     <div className="flex w-1/2 flex-col">
-                      <p className="text-xs">Session number</p>
-                      <p className="font-medium">{cure.session_number}</p>
+                      <p className="text-xs">Product type</p>
+                      <p className="font-medium">{order.product_type}</p>
                     </div>
                   </div>
                   <div className="pt-4 text-sm">
-                    <p>Status : {cure.status}</p>
+                    <p>Session number : {order.session_number}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateCure id={cure.id} />
-                    <DeleteCure id={cure.id} />
+                    <UpdateOrder id={order.id} />
+                    <DeleteOrder id={order.id} />
                   </div>
                 </div>
               ))}
@@ -48,16 +49,16 @@ export default async function CureTable() {
               <thead className="rounded-md bg-gray-50 text-left text-sm font-normal">
                 <tr>
                   <th scope="col" className="px-4 py-5 font-medium sm:pl-6">
-                    Name
+                    Customer
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
-                    Amount
+                    Product
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
-                    Session number
+                    Product type
                   </th>
                   <th scope="col" className="px-4 py-5 font-medium">
-                    Status
+                    Session number
                   </th>
                   <th scope="col" className="relative py-3 pl-6 pr-3">
                     <span className="sr-only">Edit</span>
@@ -66,26 +67,26 @@ export default async function CureTable() {
               </thead>
 
               <tbody className="divide-y divide-gray-200 text-gray-900">
-                {cureList.map((cure) => (
-                  <tr key={cure.id} className="group">
+                {orders.map((order) => (
+                  <tr key={order.id} className="group">
                     <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                       <div className="flex items-center gap-3">
-                        <p>{cure.name}</p>
+                        <p>{order.customer_name}</p>
                       </div>
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {cure.amount}€
+                      {order.product_id}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {cure.session_number}
+                      {capitalize(order.product_type)}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                      {capitalize(cure.status)}
+                      {order.session_number}
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateCure id={cure.id} />
-                        <DeleteCure id={cure.id} />
+                        <UpdateOrder id={order.id} />
+                        <DeleteOrder id={order.id} />
                       </div>
                     </td>
                   </tr>

@@ -304,6 +304,72 @@ const cureList = [
   },
 ];
 
+const orders = [
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597133',
+    customer_id: customers[0].id,
+    product_id: careList[0].id,
+    product_type: 'care',
+    session_number: 1,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597134',
+    customer_id: customers[1].id,
+    product_id: careList[1].id,
+    product_type: 'care',
+    session_number: 1,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597135',
+    customer_id: customers[2].id,
+    product_id: careList[2].id,
+    product_type: 'care',
+    session_number: 1,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597136',
+    customer_id: customers[3].id,
+    product_id: careList[3].id,
+    product_type: 'care',
+    session_number: 1,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597137',
+    customer_id: customers[4].id,
+    product_id: careList[4].id,
+    product_type: 'care',
+    session_number: 1,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597138',
+    customer_id: customers[5].id,
+    product_id: careList[5].id,
+    product_type: 'care',
+    session_number: 1,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597139',
+    customer_id: customers[6].id,
+    product_id: cureList[0].id,
+    product_type: 'cure',
+    session_number: 5,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597140',
+    customer_id: customers[7].id,
+    product_id: cureList[1].id,
+    product_type: 'cure',
+    session_number: 5,
+  },
+  {
+    id: '965f7318-4d48-4b81-b6aa-501308597141',
+    customer_id: customers[8].id,
+    product_id: cureList[2].id,
+    product_type: 'cure',
+    session_number: 5,
+  },
+];
+
 export {
   users,
   customers,
@@ -312,4 +378,5 @@ export {
   careCategories,
   careList,
   cureList,
+  orders,
 };

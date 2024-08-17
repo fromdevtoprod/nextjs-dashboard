@@ -10,6 +10,7 @@ import {
   CalendarIcon,
   HandRaisedIcon,
   ListBulletIcon,
+  ShoppingCartIcon,
 } from '@heroicons/react/24/outline';
 
 // Map of links to display in the side navigation.
@@ -36,6 +37,11 @@ const links = [
     name: 'Cure',
     href: '/dashboard/cure',
     icon: ListBulletIcon,
+  },
+  {
+    name: 'Orders',
+    href: '/dashboard/orders',
+    icon: ShoppingCartIcon,
   },
 ];
 
