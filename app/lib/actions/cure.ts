@@ -43,22 +43,25 @@ export async function createCure(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Create Care.',
+      message: 'Missing fields. Failed to Create Cure.',
     };
   }
+
+  const { name, amount, status, care, session_number } = validatedFields.data;
 
   try {
     const cure_result = await sql`
       INSERT INTO cure_catalog (name, amount, status)
-      VALUES (${validatedFields.data.name}, ${validatedFields.data.amount}, ${validatedFields.data.session_number}, ${validatedFields.data.status})
+      VALUES (${name}, ${amount}, ${status})
+      RETURNING *
       `;
     await sql`
       INSERT INTO cure_content (cure_id, care_id, session_number)
-      VALUES (${cure_result.oid}, ${validatedFields.data.care}, ${validatedFields.data.session_number})
+      VALUES (${cure_result.rows[0].id}, ${care}, ${session_number})
       `;
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Create Care.',
+      message: 'Database Error: Failed to Create Cure.',
     };
   }
 
@@ -89,6 +92,7 @@ export async function updateCure(
   const validatedFields = CreateCure.safeParse({
     name: formData.get('name'),
     amount: formData.get('amount'),
+    care: formData.get('care'),
     session_number: formData.get('session_number'),
     status: formData.get('status'),
   });
@@ -96,21 +100,26 @@ export async function updateCure(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Update Care.',
+      message: 'Missing fields. Failed to Update Cure.',
     };
   }
 
-  const { name, amount, session_number, status } = validatedFields.data;
+  const { name, amount, session_number, status, care } = validatedFields.data;
 
   try {
     await sql`
                 UPDATE cure_catalog
                 SET name = ${name},
                     amount = ${amount},
-                    session_number = ${session_number},
                     status = ${status}
                 WHERE id = ${id}
             `;
+    await sql`
+      UPDATE cure_content
+      SET care_id = ${care},
+          session_number = ${session_number}
+      WHERE cure_id = ${id}
+      `;
   } catch (error) {
     return {
       message: 'Database Error: Failed to Update Cure.',

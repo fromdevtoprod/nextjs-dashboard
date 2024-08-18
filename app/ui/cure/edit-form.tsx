@@ -1,23 +1,25 @@
 'use client';
 
 // @ts-ignore
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import Link from 'next/link';
 import {
   CurrencyEuroIcon,
-  ClockIcon,
   EyeIcon,
   UserCircleIcon,
-  HandRaisedIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { updateCure } from '@/app/lib/actions/cure';
 import { Care, Cure } from '@/app/lib/definitions';
 import CureDetails from './cure-details';
+import AddCareButton from './add-care-button';
 
 const initialState = { message: null, error: {} };
 
 export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
+  const [careList, setCareList] = useState([
+    { care_id: '', session_number: 0 },
+  ]);
   const updateCureWithId = updateCure.bind(null, cure.id);
   const [state, formAction] = useActionState(updateCureWithId, initialState);
   return (
@@ -52,14 +54,22 @@ export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
           </div>
         </div>
 
-        {cure.content.map((selectedCare, index) => (
-          <CureDetails
-            cares={cares}
-            key={index}
-            position={index + 1}
-            selected={selectedCare}
+        {/* Cure care */}
+        <div className="mb-4">
+          {cure.content.map((care, index) => (
+            <CureDetails
+              cares={cares}
+              key={index}
+              position={index + 1}
+              selected={care}
+            />
+          ))}
+          <AddCareButton
+            onClick={() =>
+              setCareList([...careList, { care_id: '', session_number: 0 }])
+            }
           />
-        ))}
+        </div>
 
         {/* Cure amount */}
         <div className="mb-4">

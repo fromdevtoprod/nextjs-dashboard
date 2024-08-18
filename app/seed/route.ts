@@ -173,7 +173,7 @@ async function seedCureCatalog() {
   const insertedCureList = await Promise.all(
     cureCatalog.map(
       (cure) => client.sql`
-        INSERT INTO cure_catalog (id, name, amount, session_number, status)
+        INSERT INTO cure_catalog (id, name, amount, status)
         VALUES (${cure.id}, ${cure.name}, ${cure.amount}, ${cure.status})
         ON CONFLICT (id) DO NOTHING;
       `,

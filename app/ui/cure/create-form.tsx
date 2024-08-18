@@ -1,22 +1,25 @@
 'use client';
 
 // @ts-ignore
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import Link from 'next/link';
 import {
   CurrencyEuroIcon,
-  ClockIcon,
   EyeIcon,
   UserCircleIcon,
-  HandRaisedIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createCure } from '@/app/lib/actions/cure';
 import { Care } from '@/app/lib/definitions';
+import CureDetails from './cure-details';
+import AddCareButton from './add-care-button';
 
 const initialState = { message: null, error: {} };
 
 export default function Form({ cares }: { cares: Care[] }) {
+  const [careList, setCareList] = useState([
+    { care_id: '', session_number: 0 },
+  ]);
   const [state, formAction] = useActionState(createCure, initialState);
   return (
     <form action={formAction}>
@@ -51,54 +54,19 @@ export default function Form({ cares }: { cares: Care[] }) {
 
         {/* Cure care */}
         <div className="mb-4">
-          <label htmlFor="care" className="mb-2 block text-sm font-medium">
-            Select a care
-          </label>
-          <div className="relative">
-            <select
-              id="care"
-              name="care"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-            >
-              {cares.map((care) => (
-                <option key={care.id} value={care.id}>
-                  {care.name}
-                </option>
-              ))}
-            </select>
-            <HandRaisedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-        </div>
-
-        {/* Cure session number */}
-        <div className="mb-4">
-          <label
-            htmlFor="session_number"
-            className="mb-2 block text-sm font-medium"
-          >
-            Enter a session number
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="session_number"
-                name="session_number"
-                type="number"
-                placeholder="Enter a session number"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="session_number-error"
-              />
-              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-          <div id="session_number-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.session_number &&
-              state.errors.session_number.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
+          {careList.map((care, index) => (
+            <CureDetails
+              cares={cares}
+              key={index}
+              position={index + 1}
+              selected={care}
+            />
+          ))}
+          <AddCareButton
+            onClick={() =>
+              setCareList([...careList, { care_id: '', session_number: 0 }])
+            }
+          />
         </div>
 
         {/* Cure amount */}
