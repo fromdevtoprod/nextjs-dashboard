@@ -14,7 +14,7 @@ export async function fetchOrders() {
         customers.name as customer_name
       FROM orders
       LEFT JOIN customers ON orders.customer_id = customers.id
-      ORDER BY orders.id DESC
+      ORDER BY orders.id ASC
     `;
 
     const orders = data.rows;

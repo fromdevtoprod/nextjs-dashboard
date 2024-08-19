@@ -44,7 +44,7 @@ export async function createCare(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Create Care.',
+      message: 'Missing fields. Failed to create this care.',
     };
   }
 
@@ -54,8 +54,9 @@ export async function createCare(prevState: State, formData: FormData) {
       VALUES (${validatedFields.data.name}, ${validatedFields.data.category}, ${validatedFields.data.amount}, ${validatedFields.data.duration}, ${validatedFields.data.status})
       `;
   } catch (error) {
+    console.error('Database Error:', error);
     return {
-      message: 'Database Error: Failed to Create Care.',
+      message: 'Database Error: Failed to create this care.',
     };
   }
 
@@ -71,7 +72,7 @@ export async function deleteCare(id: string) {
     `;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to delete care.');
+    throw new Error('Failed to delete this care.');
   }
 
   revalidatePath('/dashboard/care');
@@ -94,7 +95,7 @@ export async function updateCare(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Update Care.',
+      message: 'Missing fields. Failed to update this care.',
     };
   }
 
@@ -111,8 +112,9 @@ export async function updateCare(
                 WHERE id = ${id}
             `;
   } catch (error) {
+    console.error('Database Error:', error);
     return {
-      message: 'Database Error: Failed to Update Care.',
+      message: 'Database Error: Failed to update this care.',
     };
   }
 

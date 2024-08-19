@@ -47,7 +47,7 @@ export async function createCure(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Create Cure.',
+      message: 'Missing fields. Failed to create this cure.',
     };
   }
 
@@ -67,8 +67,9 @@ export async function createCure(prevState: State, formData: FormData) {
       VALUES (${name}, ${amount}, ${status}, ${care_1}, ${session_number_1}, ${care_2}, ${session_number_2})
       `;
   } catch (error) {
+    console.error('Database Error:', error);
     return {
-      message: 'Database Error: Failed to Create Cure.',
+      message: 'Database Error: Failed to create this cure.',
     };
   }
 
@@ -84,7 +85,7 @@ export async function deleteCure(id: string) {
     `;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to delete cure.');
+    throw new Error('Failed to delete this cure.');
   }
 
   revalidatePath('/dashboard/cure');
@@ -109,7 +110,7 @@ export async function updateCure(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Update Cure.',
+      message: 'Missing fields. Failed to update this cure.',
     };
   }
 
@@ -136,8 +137,9 @@ export async function updateCure(
                 WHERE id = ${id}
             `;
   } catch (error) {
+    console.error('Database Error:', error);
     return {
-      message: 'Database Error: Failed to Update Cure.',
+      message: 'Database Error: Failed to update this cure.',
     };
   }
 

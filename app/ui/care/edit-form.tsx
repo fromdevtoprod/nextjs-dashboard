@@ -11,6 +11,7 @@ import AmountInput from '../amount-input';
 import NameInput from '../name-input';
 import DurationInput from '../duration-input';
 import SelectCategory from '../select-category';
+import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
@@ -34,6 +35,7 @@ export default function Form({
           value={care.duration}
         />
         <SelectStatus value={care.status} />
+        <FormErrorMessage message={state.message} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">

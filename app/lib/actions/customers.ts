@@ -36,7 +36,7 @@ export async function createCustomer(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Create Customer.',
+      message: 'Missing fields. Failed to create this customer.',
     };
   }
 
@@ -49,7 +49,7 @@ export async function createCustomer(prevState: State, formData: FormData) {
         phone: ['Phone or email is required'],
         email: ['Email or phone is required'],
       },
-      message: 'Missing fields. Failed to Create Customer.',
+      message: 'Missing fields. Failed to create this customer.',
     };
   }
 
@@ -61,7 +61,7 @@ export async function createCustomer(prevState: State, formData: FormData) {
   } catch (error) {
     console.error(error);
     return {
-      message: 'Database Error: Failed to Create Customer.',
+      message: 'Database Error: Failed to create this customer.',
     };
   }
 
@@ -74,7 +74,7 @@ export async function deleteCustomer(id: string) {
     sql`DELETE FROM customers WHERE id = ${id}`;
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Delete Customer.',
+      message: 'Database Error: Failed to delete this customer.',
     };
   }
 
@@ -98,7 +98,7 @@ export async function updateCustomer(
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Update Customer.',
+      message: 'Missing fields. Failed to update this customer.',
     };
   }
 
@@ -111,7 +111,7 @@ export async function updateCustomer(
         phone: ['Phone or email is required'],
         email: ['Email or phone is required'],
       },
-      message: 'Missing fields. Failed to Create Customer.',
+      message: 'Missing fields. Failed to update this customer.',
     };
   }
 
@@ -127,7 +127,7 @@ export async function updateCustomer(
             `;
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Update Customer.',
+      message: 'Database Error: Failed to update this customer.',
     };
   }
 

@@ -11,6 +11,7 @@ import EmailInput from '../email-input';
 import PhoneInput from '../phone-input';
 import BirthDateInput from '../birthdate-input';
 import PathologyTextarea from '../pathology-textarea';
+import FormErrorMessage from '../form-error-message';
 
 export default function Form({ customer }: { customer: Customer }) {
   const initialState = { message: null, error: {} };
@@ -33,6 +34,7 @@ export default function Form({ customer }: { customer: Customer }) {
           errors={state.errors?.pathology || []}
           value={customer.pathology}
         />
+        <FormErrorMessage message={state.message} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">

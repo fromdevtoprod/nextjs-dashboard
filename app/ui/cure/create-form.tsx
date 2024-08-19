@@ -12,6 +12,7 @@ import SelectStatus from '../select-status';
 import AmountInput from '../amount-input';
 import { Button } from '../button';
 import NameInput from '../name-input';
+import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
@@ -52,8 +53,8 @@ export default function Form({ cares }: { cares: Care[] }) {
         </div>
 
         <AmountInput errors={state.errors?.amount || []} />
-
         <SelectStatus />
+        <FormErrorMessage message={state.message} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
