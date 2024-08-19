@@ -5,7 +5,6 @@ import { useActionState } from 'react';
 import {
   CurrencyEuroIcon,
   ClockIcon,
-  EyeIcon,
   TagIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
@@ -13,6 +12,7 @@ import { Button } from '@/app/ui/button';
 import { updateCare } from '@/app/lib/actions/care';
 import { Care, CareCategory } from '@/app/lib/definitions';
 import CancelButton from '../cancel-button';
+import SelectStatus from '../select-status';
 
 const initialState = { message: null, error: {} };
 
@@ -137,24 +137,7 @@ export default function Form({
           </div>
         </div>
 
-        {/* Care status */}
-        <div className="mb-4">
-          <label htmlFor="status" className="mb-2 block text-sm font-medium">
-            Select a status
-          </label>
-          <div className="relative">
-            <select
-              id="status"
-              name="status"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={care.status}
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <EyeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-        </div>
+        <SelectStatus value={care.status} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">

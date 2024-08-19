@@ -1,6 +1,6 @@
 import { EyeIcon } from '@heroicons/react/24/outline';
 
-export default function SelectStatus() {
+export default function SelectStatus({ value = 'active' }: { value?: string }) {
   return (
     <div className="mb-4">
       <label htmlFor="status" className="mb-2 block text-sm font-medium">
@@ -11,7 +11,7 @@ export default function SelectStatus() {
           id="status"
           name="status"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          defaultValue="active"
+          defaultValue={value}
         >
           <option value="active">Active</option>
           <option value="inactive">Inactive</option>
