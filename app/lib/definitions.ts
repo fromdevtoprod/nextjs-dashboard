@@ -82,7 +82,9 @@ export type Order = {
   customer_name: string;
   product_id: number;
   product_type: 'care' | 'cure';
-  session_number: number;
+  status: 'pending' | 'paid';
+  date: string;
+  product_name: string;
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function

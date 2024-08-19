@@ -4,7 +4,6 @@ import { capitalize } from '@/app/lib/utils';
 
 export default async function OrdersTable() {
   const orders = await fetchOrders();
-  console.log('orders', orders);
   return (
     <div className="mt-6 flow-root">
       <div className="overflow-x-auto">
@@ -27,8 +26,8 @@ export default async function OrdersTable() {
                   </div>
                   <div className="flex w-full items-center justify-between border-b py-5">
                     <div className="flex w-1/2 flex-col">
-                      <p className="text-xs">Product</p>
-                      <p className="font-medium">{order.product_id}</p>
+                      <p className="text-xs">Product name</p>
+                      <p className="font-medium">{order.product_name}</p>
                     </div>
                     <div className="flex w-1/2 flex-col">
                       <p className="text-xs">Product type</p>
@@ -36,7 +35,7 @@ export default async function OrdersTable() {
                     </div>
                   </div>
                   <div className="pt-4 text-sm">
-                    <p>Session number : {order.session_number}</p>
+                    <p>Status : {order.status}</p>
                   </div>
                   <div className="flex justify-end gap-2">
                     <UpdateOrder id={order.id} />
@@ -52,13 +51,13 @@ export default async function OrdersTable() {
                     Customer
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
-                    Product
+                    Product name
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
                     Product type
                   </th>
                   <th scope="col" className="px-4 py-5 font-medium">
-                    Session number
+                    Status
                   </th>
                   <th scope="col" className="relative py-3 pl-6 pr-3">
                     <span className="sr-only">Edit</span>
@@ -75,13 +74,13 @@ export default async function OrdersTable() {
                       </div>
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {order.product_id}
+                      {order.product_name}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                       {capitalize(order.product_type)}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                      {order.session_number}
+                      {capitalize(order.status)}
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">

@@ -28,7 +28,7 @@ const FormSchema = z.object({
 
 const CreateCure = FormSchema.omit({ id: true });
 
-export async function createCure(prevState: State, formData: FormData) {
+export async function createOrder(prevState: State, formData: FormData) {
   const validatedFields = CreateCure.safeParse({
     name: formData.get('name'),
     amount: formData.get('amount'),
@@ -75,7 +75,7 @@ export async function deleteOrder(id: string) {
   redirect('/dashboard/cure');
 }
 
-export async function updateCure(
+export async function updateOrder(
   id: string,
   prevState: State,
   formData: FormData,
