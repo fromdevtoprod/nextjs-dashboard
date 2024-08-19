@@ -2,8 +2,7 @@
 
 // @ts-ignore
 import { useActionState, useState } from 'react';
-import { CurrencyEuroIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-import { Button } from '@/app/ui/button';
+import { Button } from '../button';
 import { updateCure } from '@/app/lib/actions/cure';
 import { Care, Cure } from '@/app/lib/definitions';
 import CureDetails from './cure-details';
@@ -11,6 +10,8 @@ import AddCareButton from './add-care-button';
 import RemoveCareButton from './remove-care-button';
 import CancelButton from '../cancel-button';
 import SelectStatus from '../select-status';
+import AmountInput from '../amount-input';
+import NameInput from '../name-input';
 
 const initialState = { message: null, error: {} };
 
@@ -23,34 +24,7 @@ export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        {/* Cure name */}
-        <div className="mb-4">
-          <label htmlFor="name" className="mb-2 block text-sm font-medium">
-            Enter a name
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="name"
-                name="name"
-                type="text"
-                defaultValue={cure.name}
-                placeholder="Enter a name"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="name-error"
-              />
-              <UserCircleIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-          <div id="name-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.name &&
-              state.errors.name.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
+        <NameInput errors={state.errors?.name || []} value={cure.name} />
 
         {/* Cure care */}
         <div className="mb-4">
@@ -84,34 +58,7 @@ export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
           )}
         </div>
 
-        {/* Cure amount */}
-        <div className="mb-4">
-          <label htmlFor="amount" className="mb-2 block text-sm font-medium">
-            Enter an amount
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="amount"
-                name="amount"
-                type="number"
-                defaultValue={cure.amount}
-                placeholder="Enter an amount"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="amount-error"
-              />
-              <CurrencyEuroIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-          <div id="amount-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.amount &&
-              state.errors.amount.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
+        <AmountInput errors={state.errors?.amount || []} value={cure.amount} />
 
         <SelectStatus value={cure.status} />
       </div>
