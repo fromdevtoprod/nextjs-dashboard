@@ -2,17 +2,17 @@
 
 // @ts-ignore
 import { useActionState } from 'react';
-import Link from 'next/link';
 import {
   CurrencyEuroIcon,
   ClockIcon,
-  EyeIcon,
   TagIcon,
   UserCircleIcon,
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { createCare } from '@/app/lib/actions/care';
 import { CareCategory } from '@/app/lib/definitions';
+import CancelButton from '../cancel-button';
+import SelectStatus from '../select-status';
 
 const initialState = { message: null, error: {} };
 
@@ -126,33 +126,11 @@ export default function Form({ categories }: { categories: CareCategory[] }) {
           </div>
         </div>
 
-        {/* Care status */}
-        <div className="mb-4">
-          <label htmlFor="status" className="mb-2 block text-sm font-medium">
-            Select a status
-          </label>
-          <div className="relative">
-            <select
-              id="status"
-              name="status"
-              className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue="active"
-            >
-              <option value="active">Active</option>
-              <option value="inactive">Inactive</option>
-            </select>
-            <EyeIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
-          </div>
-        </div>
+        <SelectStatus />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/dashboard/care"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </Link>
+        <CancelButton url="/dashboard/care" />
         <Button type="submit">Create Care</Button>
       </div>
     </form>

@@ -2,13 +2,13 @@
 
 // @ts-ignore
 import { useActionState } from 'react';
-import Link from 'next/link';
 import { Button } from '@/app/ui/button';
 import { createOrder } from '@/app/lib/actions/orders';
 import { Care, CureWithCareData, CustomerField } from '@/app/lib/definitions';
 import SelectCustomer from './select-customer';
 import SelectProduct from './select-product';
 import SelectPaymentStatus from './select-payment-status';
+import CancelButton from '../cancel-button';
 
 const initialState = { message: null, error: {} };
 
@@ -31,12 +31,7 @@ export default function Form({
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/dashboard/orders"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </Link>
+        <CancelButton url="/dashboard/orders" />
         <Button type="submit">Create Cure</Button>
       </div>
     </form>

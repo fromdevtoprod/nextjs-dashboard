@@ -2,7 +2,6 @@
 
 // @ts-ignore
 import { useActionState } from 'react';
-import Link from 'next/link';
 import {
   CurrencyEuroIcon,
   ClockIcon,
@@ -12,6 +11,7 @@ import {
 import { Button } from '@/app/ui/button';
 import { updateCure } from '@/app/lib/actions/cure';
 import { Cure } from '@/app/lib/definitions';
+import CancelButton from '../cancel-button';
 
 const initialState = { message: null, error: {} };
 
@@ -93,7 +93,7 @@ export default function Form({ cure }: { cure: Cure }) {
                 id="session_number"
                 name="session_number"
                 type="number"
-                defaultValue={cure.session_number}
+                defaultValue={0}
                 placeholder="Enter a duration"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="session_number-error"
@@ -132,12 +132,7 @@ export default function Form({ cure }: { cure: Cure }) {
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <Link
-          href="/dashboard/cure"
-          className="flex h-10 items-center rounded-lg bg-gray-100 px-4 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-200"
-        >
-          Cancel
-        </Link>
+        <CancelButton url="/dashboard/orders" />
         <Button type="submit">Update Cure</Button>
       </div>
     </form>
