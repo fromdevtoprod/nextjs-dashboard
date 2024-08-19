@@ -70,9 +70,14 @@ export async function fetchCustomerById(id: string) {
       WHERE id = ${id}
     `;
     const customer = data.rows[0];
-    return customer;
+    return { ...customer, birth_date: formatBirthDate(customer.birth_date) };
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch customer by ID.');
   }
+}
+
+// This function will format US date to french format date (DD/MM/YYYY)
+function formatBirthDate(birthDate: string) {
+  return birthDate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1');
 }

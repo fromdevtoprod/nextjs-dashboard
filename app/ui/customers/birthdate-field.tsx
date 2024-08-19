@@ -3,14 +3,14 @@ import { useState } from 'react';
 export default function BirthDateField({
   defaultValue = '',
 }: {
-  defaultValue: string;
+  defaultValue?: string;
 }) {
   const [birthDate, setBirthDate] = useState(defaultValue);
 
   const updateBirthDate = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setBirthDate(formatBirthDate(e.target.value));
+    setBirthDate(format(e.target.value));
 
-  const formatBirthDate = (date: string) =>
+  const format = (date: string) =>
     date.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3');
 
   return (

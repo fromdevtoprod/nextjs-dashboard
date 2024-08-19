@@ -18,7 +18,7 @@ const customers = [
     name: 'Delba de Oliveira',
     email: 'delba@oliveira.com',
     phone: '0607080910',
-    birth_date: '06/12/1980',
+    birth_date: '1980-06-12',
     pathology:
       'Pathology is the study of disease. ... They use their expertise to support every aspect of healthcare, from guiding doctors on the right way to treat common ...',
   },
@@ -27,7 +27,7 @@ const customers = [
     name: 'Lee Robinson',
     email: 'lee@robinson.com',
     phone: '0607080910',
-    birth_date: '24/06/1990',
+    birth_date: '1990-06-24',
     pathology: '',
   },
   {
@@ -35,7 +35,7 @@ const customers = [
     name: 'Hector Simpson',
     email: 'hector@simpson.com',
     phone: '0607080910',
-    birth_date: '02/08/1955',
+    birth_date: '1955-08-02',
     pathology: '',
   },
   {
@@ -43,7 +43,7 @@ const customers = [
     name: 'Steven Tey',
     email: 'steven@tey.com',
     phone: '0607080910',
-    birth_date: '01/01/2000',
+    birth_date: '2000-01-01',
     pathology: '',
   },
   {
@@ -51,7 +51,7 @@ const customers = [
     name: 'Steph Dietz',
     email: 'steph@dietz.com',
     phone: '0607080910',
-    birth_date: '15/03/1995',
+    birth_date: '1995-03-15',
     pathology: '',
   },
   {
@@ -59,7 +59,7 @@ const customers = [
     name: 'Michael Novotny',
     email: 'michael@novotny.com',
     phone: '0607080910',
-    birth_date: '30/07/1985',
+    birth_date: '1985-07-30',
     pathology: '',
   },
   {
@@ -67,7 +67,7 @@ const customers = [
     name: 'Evil Rabbit',
     email: 'evil@rabbit.com',
     phone: '0607080910',
-    birth_date: '10/10/2010',
+    birth_date: '2010-10-10',
     pathology: '',
   },
   {
@@ -76,7 +76,7 @@ const customers = [
     email: 'emil@kowalski.com',
     phone: '0607080910',
     gender: 'female',
-    birth_date: '24/06/1990',
+    birth_date: '1990-06-24',
     pathology: '',
   },
   {
@@ -84,7 +84,7 @@ const customers = [
     name: 'Amy Burns',
     email: 'amy@burns.com',
     phone: '0607080910',
-    birth_date: '17/01/1992',
+    birth_date: '1992-01-17',
     pathology: '',
   },
   {
@@ -92,7 +92,7 @@ const customers = [
     name: 'Balazs Orban',
     email: 'balazs@orban.com',
     phone: '0607080910',
-    birth_date: '20/05/1988',
+    birth_date: '1988-05-20',
     pathology: '',
   },
 ];

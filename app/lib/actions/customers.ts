@@ -41,6 +41,7 @@ export async function createCustomer(prevState: State, formData: FormData) {
   }
 
   const { name, email, phone, birth_date, pathology } = validatedFields.data;
+  const formattedBirthDate = formatBirthDate(birth_date);
 
   if (phone === '' && email === '') {
     return {
@@ -53,7 +54,10 @@ export async function createCustomer(prevState: State, formData: FormData) {
   }
 
   try {
-    await sql`INSERT INTO customers (name, email, phone, birth_date, pathology) VALUES (${name}, ${email}, ${phone}, ${birth_date}, ${pathology})`;
+    await sql`
+              INSERT INTO customers (name, email, phone, birth_date, pathology) 
+              VALUES (${name}, ${email}, ${phone}, ${formattedBirthDate}, ${pathology})
+            `;
   } catch (error) {
     console.error(error);
     return {
@@ -99,6 +103,7 @@ export async function updateCustomer(
   }
 
   const { name, email, phone, birth_date, pathology } = validatedFields.data;
+  const formattedBirthDate = formatBirthDate(birth_date);
 
   if (phone === '' && email === '') {
     return {
@@ -116,7 +121,7 @@ export async function updateCustomer(
                 SET name = ${name},
                   email = ${email},
                   phone = ${phone},
-                  birth_date = ${birth_date},
+                  birth_date = ${formattedBirthDate},
                   pathology = ${pathology}
                 WHERE id = ${id}
             `;
@@ -128,4 +133,9 @@ export async function updateCustomer(
 
   revalidatePath('/dashboard/customers');
   redirect('/dashboard/customers');
+}
+
+function formatBirthDate(birthDate: string) {
+  const [day, month, year] = birthDate.split('/');
+  return `${year}-${month}-${day}`;
 }
