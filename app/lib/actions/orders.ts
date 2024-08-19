@@ -16,24 +16,21 @@ type State = {
 
 const FormSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, { message: 'Name is required' }),
-  amount: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter an amount greater than 0€.' }),
-  session_number: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter a session number greater than 0.' }),
-  status: z.enum(['active', 'inactive']),
+  customer_id: z.string().min(1, { message: 'A customer is required' }),
+  product_id: z.string().min(1, { message: 'A product is required' }),
+  product_type: z.string().min(1, { message: 'A product type is required' }),
+  payment_status: z.enum(['pending', 'paid']),
+  date: z.string(),
 });
 
-const CreateCure = FormSchema.omit({ id: true });
+const CreateOrder = FormSchema.omit({ id: true, date: true });
 
 export async function createOrder(prevState: State, formData: FormData) {
-  const validatedFields = CreateCure.safeParse({
-    name: formData.get('name'),
-    amount: formData.get('amount'),
-    session_number: formData.get('session_number'),
-    status: formData.get('status'),
+  const validatedFields = CreateOrder.safeParse({
+    customer_id: formData.get('customer'),
+    product_id: formData.get('product-id'),
+    product_type: formData.get('product-type'),
+    payment_status: formData.get('payment-status'),
   });
 
   console.log('validatedFields', validatedFields);
@@ -41,23 +38,28 @@ export async function createOrder(prevState: State, formData: FormData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Create Care.',
+      message: 'Missing fields. Failed to add an order.',
     };
   }
+
+  const { customer_id, product_id, product_type, payment_status } =
+    validatedFields.data;
+  const date = new Date().toISOString().split('T')[0];
 
   try {
     await sql`
-      INSERT INTO cure (name, amount, session_number, status)
-      VALUES (${validatedFields.data.name}, ${validatedFields.data.amount}, ${validatedFields.data.session_number}, ${validatedFields.data.status})
+      INSERT INTO orders (customer_id, product_id, product_type, status, date)
+      VALUES (${customer_id}, ${product_id}, ${product_type}, ${payment_status}, ${date})
       `;
   } catch (error) {
+    console.error('Database Error:', error);
     return {
-      message: 'Database Error: Failed to Create Care.',
+      message: 'Database Error: Failed to add an order.',
     };
   }
 
-  revalidatePath('/dashboard/cure');
-  redirect('/dashboard/cure');
+  revalidatePath('/dashboard/orders');
+  redirect('/dashboard/orders');
 }
 
 export async function deleteOrder(id: string) {
@@ -68,11 +70,11 @@ export async function deleteOrder(id: string) {
     `;
   } catch (error) {
     console.error('Database Error:', error);
-    throw new Error('Failed to delete order.');
+    throw new Error('Failed to delete this order.');
   }
 
-  revalidatePath('/dashboard/cure');
-  redirect('/dashboard/cure');
+  revalidatePath('/dashboard/orders');
+  redirect('/dashboard/orders');
 }
 
 export async function updateOrder(
@@ -80,37 +82,38 @@ export async function updateOrder(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = CreateCure.safeParse({
-    name: formData.get('name'),
-    amount: formData.get('amount'),
-    session_number: formData.get('session_number'),
-    status: formData.get('status'),
+  const validatedFields = CreateOrder.safeParse({
+    customer_id: formData.get('customer'),
+    product_id: formData.get('product-id'),
+    product_type: formData.get('product-type'),
+    payment_status: formData.get('payment-status'),
   });
 
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to Update Care.',
+      message: 'Missing fields. Failed to update this order.',
     };
   }
 
-  const { name, amount, session_number, status } = validatedFields.data;
+  const { customer_id, product_id, product_type, payment_status } =
+    validatedFields.data;
 
   try {
     await sql`
-                UPDATE cure
-                SET name = ${name},
-                    amount = ${amount},
-                    session_number = ${session_number},
-                    status = ${status}
+                UPDATE orders
+                SET customer = ${customer_id},
+                    product = ${product_id},
+                    product_type = ${product_type},
+                    status = ${payment_status}
                 WHERE id = ${id}
             `;
   } catch (error) {
     return {
-      message: 'Database Error: Failed to Update Cure.',
+      message: 'Database Error: Failed to update this order.',
     };
   }
 
-  revalidatePath('/dashboard/cure');
-  redirect('/dashboard/cure');
+  revalidatePath('/dashboard/orders');
+  redirect('/dashboard/orders');
 }
