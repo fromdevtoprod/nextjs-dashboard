@@ -186,27 +186,6 @@ async function seedCureCatalog() {
   return insertedCureList;
 }
 
-// async function seedCureContent() {
-//   await client.sql`
-//     CREATE TABLE IF NOT EXISTS cure_content (
-//       cure_id UUID NOT NULL,
-//       care_id UUID NOT NULL,
-//       session_number INT NOT NULL
-//     );
-//   `;
-
-//   const insertedCureList = await Promise.all(
-//     cureContent.map(
-//       (content) => client.sql`
-//         INSERT INTO cure_content (cure_id, care_id, session_number)
-//         VALUES (${content.cure_id}, ${content.care_id}, ${content.session_number});
-//       `,
-//     ),
-//   );
-
-//   return insertedCureList;
-// }
-
 async function seedOrders() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS orders (
@@ -214,15 +193,16 @@ async function seedOrders() {
       customer_id UUID NOT NULL,
       product_id UUID NOT NULL,
       product_type VARCHAR(255) NOT NULL,
-      session_number INT NOT NULL
+      status VARCHAR(255) NOT NULL,
+      date DATE NOT NULL
     );
   `;
 
   const insertedOrders = await Promise.all(
     orders.map(
       (order) => client.sql`
-        INSERT INTO orders (id, customer_id, product_id, product_type, session_number)
-        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.product_type}, ${order.session_number})
+        INSERT INTO orders (id, customer_id, product_id, product_type, status, date)
+        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.product_type}, ${order.status}, ${order.date})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),

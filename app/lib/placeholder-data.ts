@@ -1,4 +1,7 @@
 // This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
+
+import { date } from 'zod';
+
 // https://nextjs.org/learn/dashboard-app/fetching-data
 const users = [
   {
@@ -313,102 +316,78 @@ const cureCatalog = [
   },
 ];
 
-const cureContent = [
-  {
-    cure_id: cureCatalog[0].id,
-    care_id: careList[0].id,
-    session_number: 5,
-  },
-  {
-    cure_id: cureCatalog[1].id,
-    care_id: careList[1].id,
-    session_number: 5,
-  },
-  {
-    cure_id: cureCatalog[2].id,
-    care_id: careList[2].id,
-    session_number: 5,
-  },
-  {
-    cure_id: cureCatalog[3].id,
-    care_id: careList[3].id,
-    session_number: 5,
-  },
-  {
-    cure_id: cureCatalog[4].id,
-    care_id: careList[0].id,
-    session_number: 2,
-  },
-  {
-    cure_id: cureCatalog[4].id,
-    care_id: careList[1].id,
-    session_number: 3,
-  },
-];
-
 const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597133',
     customer_id: customers[0].id,
     product_id: careList[0].id,
     product_type: 'care',
-    session_number: 1,
+    date: '2024-06-09',
+    status: 'pending',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597134',
     customer_id: customers[1].id,
     product_id: careList[1].id,
     product_type: 'care',
-    session_number: 1,
+    date: '2023-03-01',
+    status: 'paid',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597135',
     customer_id: customers[2].id,
     product_id: careList[2].id,
     product_type: 'care',
-    session_number: 1,
+    date: '2023-06-18',
+    status: 'pending',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597136',
     customer_id: customers[3].id,
     product_id: careList[3].id,
     product_type: 'care',
-    session_number: 1,
+    date: '2023-06-17',
+    status: 'paid',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597137',
     customer_id: customers[4].id,
     product_id: careList[4].id,
     product_type: 'care',
-    session_number: 1,
+    date: '2023-06-07',
+    status: 'pending',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597138',
     customer_id: customers[5].id,
     product_id: careList[5].id,
     product_type: 'care',
-    session_number: 1,
+    date: '2023-06-03',
+    status: 'paid',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597139',
     customer_id: customers[6].id,
     product_id: cureCatalog[0].id,
     product_type: 'cure',
-    session_number: 5,
+    date: '2023-06-27',
+    status: 'paid',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597140',
     customer_id: customers[7].id,
     product_id: cureCatalog[1].id,
     product_type: 'cure',
-    session_number: 5,
+    date: '2023-06-27',
+    status: 'paid',
   },
   {
     id: '965f7318-4d48-4b81-b6aa-501308597141',
     customer_id: customers[8].id,
     product_id: cureCatalog[2].id,
     product_type: 'cure',
-    session_number: 5,
+    date: '2023-06-27',
+    status: 'paid',
   },
 ];
 
@@ -420,6 +399,5 @@ export {
   careCategories,
   careList,
   cureCatalog,
-  cureContent,
   orders,
 };
