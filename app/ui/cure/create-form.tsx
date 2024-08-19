@@ -13,13 +13,12 @@ import { createCure } from '@/app/lib/actions/cure';
 import { Care } from '@/app/lib/definitions';
 import CureDetails from './cure-details';
 import AddCareButton from './add-care-button';
+import RemoveCareButton from './remove-care-button';
 
 const initialState = { message: null, error: {} };
 
 export default function Form({ cares }: { cares: Care[] }) {
-  const [careList, setCareList] = useState([
-    { care_id: '', session_number: 0 },
-  ]);
+  const [isSecondCareDisplayed, setIsSecondCareDisplayed] = useState(false);
   const [state, formAction] = useActionState(createCure, initialState);
   return (
     <form action={formAction}>
@@ -54,19 +53,30 @@ export default function Form({ cares }: { cares: Care[] }) {
 
         {/* Cure care */}
         <div className="mb-4">
-          {careList.map((care, index) => (
+          <CureDetails
+            cares={cares}
+            position={1}
+            errors={{
+              care: state.errors?.care_1 || [],
+              session_number: state.errors?.session_number_1 || [],
+            }}
+          />
+          {isSecondCareDisplayed && (
             <CureDetails
               cares={cares}
-              key={index}
-              position={index + 1}
-              selected={care}
+              position={2}
+              errors={{
+                care: state.errors?.care_2 || [],
+                session_number: state.errors?.session_number_2 || [],
+              }}
             />
-          ))}
-          <AddCareButton
-            onClick={() =>
-              setCareList([...careList, { care_id: '', session_number: 0 }])
-            }
-          />
+          )}
+          {!isSecondCareDisplayed && (
+            <AddCareButton onClick={() => setIsSecondCareDisplayed(true)} />
+          )}
+          {isSecondCareDisplayed && (
+            <RemoveCareButton onClick={() => setIsSecondCareDisplayed(false)} />
+          )}
         </div>
 
         {/* Cure amount */}

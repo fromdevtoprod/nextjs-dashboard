@@ -4,11 +4,15 @@ import { Care, CureContent } from '@/app/lib/definitions';
 export default function CureDetails({
   cares,
   position,
-  selected,
+  selectedCare = '',
+  sessionNumber = 0,
+  errors,
 }: {
   cares: Care[];
   position: number;
-  selected: CureContent;
+  selectedCare?: string;
+  sessionNumber?: number;
+  errors: { care: any; session_number: any };
 }) {
   return (
     <>
@@ -17,15 +21,18 @@ export default function CureDetails({
           Care n°{position}
         </h3>
         <div className="mb-4">
-          <label htmlFor="care" className="mb-2 block text-sm font-medium">
+          <label
+            htmlFor={`care_${position}`}
+            className="mb-2 block text-sm font-medium"
+          >
             Select a care
           </label>
           <div className="relative">
             <select
-              id="care"
-              name="care"
+              id={`care_${position}`}
+              name={`care_${position}`}
               className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-              defaultValue={selected.care_id}
+              defaultValue={selectedCare}
             >
               {cares.map((care) => (
                 <option key={care.id} value={care.id}>
@@ -35,11 +42,19 @@ export default function CureDetails({
             </select>
             <HandRaisedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
           </div>
+          <div id="care-error" aria-live="polite" aria-atomic="true">
+            {errors &&
+              errors.care.map((error: string) => (
+                <p className="mt-2 text-sm text-red-500" key={error}>
+                  {error}
+                </p>
+              ))}
+          </div>
         </div>
 
         <div className="mb-4">
           <label
-            htmlFor="session_number"
+            htmlFor={`session_number_${position}`}
             className="mb-2 block text-sm font-medium"
           >
             Enter a session number
@@ -47,10 +62,10 @@ export default function CureDetails({
           <div className="relative mt-2 rounded-md">
             <div className="relative">
               <input
-                id="session_number"
-                name="session_number"
+                id={`session_number_${position}`}
+                name={`session_number_${position}`}
                 type="number"
-                defaultValue={selected.session_number}
+                defaultValue={sessionNumber}
                 placeholder="Enter a session number"
                 className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
                 aria-describedby="session_number-error"
@@ -58,18 +73,14 @@ export default function CureDetails({
               <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
             </div>
           </div>
-          {/* <div
-            id="session_number-error"
-            aria-live="polite"
-            aria-atomic="true"
-          >
-            {state.errors?.session_number &&
-              state.errors.session_number.map((error: string) => (
+          <div id="session_number-error" aria-live="polite" aria-atomic="true">
+            {errors &&
+              errors.session_number.map((error: string) => (
                 <p className="mt-2 text-sm text-red-500" key={error}>
                   {error}
                 </p>
               ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </>

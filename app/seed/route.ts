@@ -9,7 +9,6 @@ import {
   careList,
   cureCatalog,
   orders,
-  cureContent,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -166,15 +165,19 @@ async function seedCureCatalog() {
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       amount INT NOT NULL,
-      status VARCHAR(255) NOT NULL
+      status VARCHAR(255) NOT NULL,
+      care_id_1 UUID NOT NULL,
+      session_number_1 INT NOT NULL,
+      care_id_2 UUID,
+      session_number_2 INT
     );
   `;
 
   const insertedCureList = await Promise.all(
     cureCatalog.map(
       (cure) => client.sql`
-        INSERT INTO cure_catalog (id, name, amount, status)
-        VALUES (${cure.id}, ${cure.name}, ${cure.amount}, ${cure.status})
+        INSERT INTO cure_catalog (id, name, amount, status, care_id_1, session_number_1, care_id_2, session_number_2)
+        VALUES (${cure.id}, ${cure.name}, ${cure.amount}, ${cure.status}, ${cure.care_id_1}, ${cure.session_number_1}, ${cure.care_id_2}, ${cure.session_number_2})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
@@ -183,26 +186,26 @@ async function seedCureCatalog() {
   return insertedCureList;
 }
 
-async function seedCureContent() {
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS cure_content (
-      cure_id UUID NOT NULL,
-      care_id UUID NOT NULL,
-      session_number INT NOT NULL
-    );
-  `;
+// async function seedCureContent() {
+//   await client.sql`
+//     CREATE TABLE IF NOT EXISTS cure_content (
+//       cure_id UUID NOT NULL,
+//       care_id UUID NOT NULL,
+//       session_number INT NOT NULL
+//     );
+//   `;
 
-  const insertedCureList = await Promise.all(
-    cureContent.map(
-      (content) => client.sql`
-        INSERT INTO cure_content (cure_id, care_id, session_number)
-        VALUES (${content.cure_id}, ${content.care_id}, ${content.session_number});
-      `,
-    ),
-  );
+//   const insertedCureList = await Promise.all(
+//     cureContent.map(
+//       (content) => client.sql`
+//         INSERT INTO cure_content (cure_id, care_id, session_number)
+//         VALUES (${content.cure_id}, ${content.care_id}, ${content.session_number});
+//       `,
+//     ),
+//   );
 
-  return insertedCureList;
-}
+//   return insertedCureList;
+// }
 
 async function seedOrders() {
   await client.sql`
@@ -238,7 +241,7 @@ export async function GET() {
     await seedCareCategories();
     await seedCareCatalog();
     await seedCureCatalog();
-    await seedCureContent();
+    // await seedCureContent();
     await seedOrders();
     await client.sql`COMMIT`;
 

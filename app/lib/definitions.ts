@@ -65,6 +65,10 @@ export type Cure = {
   content: CureContent[];
   amount: number;
   status: 'active' | 'inactive';
+  care_id_1: string;
+  session_number_1: number;
+  care_id_2: string;
+  session_number_2: number;
 };
 
 export type CureWithCareData = Cure & {

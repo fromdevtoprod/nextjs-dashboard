@@ -17,13 +17,15 @@ type State = {
 const FormSchema = z.object({
   id: z.string(),
   name: z.string().min(1, { message: 'Name is required' }),
-  care: z.string().min(1, { message: 'Care is required' }),
+  care_1: z.string().min(1, { message: 'One minimal care is required' }),
+  session_number_1: z.coerce
+    .number()
+    .gt(0, { message: 'Please enter a session number greater than 0.' }),
+  care_2: z.string().nullable(),
+  session_number_2: z.coerce.number(),
   amount: z.coerce
     .number()
     .gt(0, { message: 'Please enter an amount greater than 0€.' }),
-  session_number: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter a session number greater than 0.' }),
   status: z.enum(['active', 'inactive']),
 });
 
@@ -32,9 +34,11 @@ const CreateCure = FormSchema.omit({ id: true });
 export async function createCure(prevState: State, formData: FormData) {
   const validatedFields = CreateCure.safeParse({
     name: formData.get('name'),
-    care: formData.get('care'),
+    care_1: formData.get('care_1'),
+    session_number_1: formData.get('session_number_1'),
+    care_2: formData.get('care_2'),
+    session_number_2: formData.get('session_number_2'),
     amount: formData.get('amount'),
-    session_number: formData.get('session_number'),
     status: formData.get('status'),
   });
 
@@ -47,17 +51,20 @@ export async function createCure(prevState: State, formData: FormData) {
     };
   }
 
-  const { name, amount, status, care, session_number } = validatedFields.data;
+  const {
+    name,
+    amount,
+    status,
+    care_1,
+    session_number_1,
+    care_2,
+    session_number_2,
+  } = validatedFields.data;
 
   try {
-    const cure_result = await sql`
-      INSERT INTO cure_catalog (name, amount, status)
-      VALUES (${name}, ${amount}, ${status})
-      RETURNING *
-      `;
     await sql`
-      INSERT INTO cure_content (cure_id, care_id, session_number)
-      VALUES (${cure_result.rows[0].id}, ${care}, ${session_number})
+      INSERT INTO cure_catalog (name, amount, status, care_id_1, session_number_1, care_id_2, session_number_2)
+      VALUES (${name}, ${amount}, ${status}, ${care_1}, ${session_number_1}, ${care_2}, ${session_number_2})
       `;
   } catch (error) {
     return {
@@ -91,9 +98,11 @@ export async function updateCure(
 ) {
   const validatedFields = CreateCure.safeParse({
     name: formData.get('name'),
+    care_1: formData.get('care_1'),
+    session_number_1: formData.get('session_number_1'),
+    care_2: formData.get('care_2'),
+    session_number_2: formData.get('session_number_2'),
     amount: formData.get('amount'),
-    care: formData.get('care'),
-    session_number: formData.get('session_number'),
     status: formData.get('status'),
   });
 
@@ -104,22 +113,28 @@ export async function updateCure(
     };
   }
 
-  const { name, amount, session_number, status, care } = validatedFields.data;
+  const {
+    name,
+    amount,
+    status,
+    care_1,
+    session_number_1,
+    care_2,
+    session_number_2,
+  } = validatedFields.data;
 
   try {
     await sql`
                 UPDATE cure_catalog
                 SET name = ${name},
                     amount = ${amount},
-                    status = ${status}
+                    status = ${status},
+                    care_id_1 = ${care_1},
+                    session_number_1 = ${session_number_1},
+                    care_id_2 = ${care_2},
+                    session_number_2 = ${session_number_2}
                 WHERE id = ${id}
             `;
-    await sql`
-      UPDATE cure_content
-      SET care_id = ${care},
-          session_number = ${session_number}
-      WHERE cure_id = ${id}
-      `;
   } catch (error) {
     return {
       message: 'Database Error: Failed to Update Cure.',

@@ -1,9 +1,12 @@
 import { DeleteCure, UpdateCure } from '@/app/ui/cure/buttons';
 import { fetchCureCatalog } from '@/app/lib/data/cure';
 import { capitalize } from '@/app/lib/utils';
+import { CureWithCareData } from '@/app/lib/definitions';
 
 export default async function CureTable() {
-  const cureCatalog = await fetchCureCatalog();
+  const cureCatalog = calculateTotalSessions(
+    calculateTotalCares(await fetchCureCatalog()),
+  );
   return (
     <div className="mt-6 flow-root">
       <div className="overflow-x-auto">
@@ -107,4 +110,25 @@ export default async function CureTable() {
       </div>
     </div>
   );
+}
+
+function calculateTotalCares(careCatalog: CureWithCareData[]) {
+  return careCatalog.map((cure) => {
+    if (cure.care_id_2) {
+      return { ...cure, total_cares: 2 };
+    }
+    return { ...cure, total_cares: 1 };
+  });
+}
+
+function calculateTotalSessions(careCatalog: CureWithCareData[]) {
+  return careCatalog.map((cure) => {
+    if (cure.care_id_2) {
+      return {
+        ...cure,
+        total_sessions: cure.session_number_2 + cure.session_number_1,
+      };
+    }
+    return { ...cure, total_sessions: cure.session_number_1 };
+  });
 }

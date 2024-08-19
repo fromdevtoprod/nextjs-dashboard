@@ -13,13 +13,14 @@ import { updateCure } from '@/app/lib/actions/cure';
 import { Care, Cure } from '@/app/lib/definitions';
 import CureDetails from './cure-details';
 import AddCareButton from './add-care-button';
+import RemoveCareButton from './remove-care-button';
 
 const initialState = { message: null, error: {} };
 
 export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
-  const [careList, setCareList] = useState([
-    { care_id: '', session_number: 0 },
-  ]);
+  const [isSecondCareDisplayed, setIsSecondCareDisplayed] = useState(
+    !!cure.care_id_2,
+  );
   const updateCureWithId = updateCure.bind(null, cure.id);
   const [state, formAction] = useActionState(updateCureWithId, initialState);
   return (
@@ -56,19 +57,34 @@ export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
 
         {/* Cure care */}
         <div className="mb-4">
-          {cure.content.map((care, index) => (
+          <CureDetails
+            cares={cares}
+            position={1}
+            selectedCare={cure.care_id_1}
+            sessionNumber={cure.session_number_1}
+            errors={{
+              care: state.errors?.care_1 || [],
+              session_number: state.errors?.session_number_1 || [],
+            }}
+          />
+          {isSecondCareDisplayed && (
             <CureDetails
               cares={cares}
-              key={index}
-              position={index + 1}
-              selected={care}
+              position={2}
+              selectedCare={cure.care_id_2}
+              sessionNumber={cure.session_number_2}
+              errors={{
+                care: state.errors?.care_2 || [],
+                session_number: state.errors?.session_number_2 || [],
+              }}
             />
-          ))}
-          <AddCareButton
-            onClick={() =>
-              setCareList([...careList, { care_id: '', session_number: 0 }])
-            }
-          />
+          )}
+          {!isSecondCareDisplayed && (
+            <AddCareButton onClick={() => setIsSecondCareDisplayed(true)} />
+          )}
+          {isSecondCareDisplayed && (
+            <RemoveCareButton onClick={() => setIsSecondCareDisplayed(false)} />
+          )}
         </div>
 
         {/* Cure amount */}
