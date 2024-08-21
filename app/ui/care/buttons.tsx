@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { deleteCare } from '@/app/lib/actions/care';
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 export function CreateCare() {
   return (
@@ -22,20 +21,5 @@ export function UpdateCare({ id }: { id: string }) {
     >
       <PencilIcon className="w-5 text-white" />
     </Link>
-  );
-}
-
-export function DeleteCare({ id }: { id: string }) {
-  const deleteCareWithId = deleteCare.bind(null, id);
-  return (
-    <form action={deleteCareWithId}>
-      <button
-        type="submit"
-        className="rounded-md border-0 bg-red-500 p-2 hover:bg-red-100"
-      >
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5 text-white" />
-      </button>
-    </form>
   );
 }

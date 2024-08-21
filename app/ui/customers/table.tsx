@@ -1,6 +1,7 @@
 import { fetchFilteredCustomers } from '@/app/lib/data/customers';
-import { DeleteCustomer, UpdateCustomer } from '@/app/ui/customers/buttons';
-import { Avatar } from '@/app/ui/avatar';
+import DeleteCustomerButton from './delete-button';
+import { Avatar } from '../avatar';
+import { UpdateCustomer } from './buttons';
 
 export default async function CustomersTable({ query }: { query: string }) {
   const filteredCustomers = await fetchFilteredCustomers(query);
@@ -41,7 +42,7 @@ export default async function CustomersTable({ query }: { query: string }) {
                   </div>
                   <div className="flex justify-end gap-2">
                     <UpdateCustomer id={customer.id} />
-                    <DeleteCustomer id={customer.id} />
+                    <DeleteCustomerButton id={customer.id} />
                   </div>
                 </div>
               ))}
@@ -94,7 +95,7 @@ export default async function CustomersTable({ query }: { query: string }) {
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
                         <UpdateCustomer id={customer.id} />
-                        <DeleteCustomer id={customer.id} />
+                        <DeleteCustomerButton id={customer.id} />
                       </div>
                     </td>
                   </tr>

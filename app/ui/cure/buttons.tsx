@@ -1,6 +1,7 @@
+'use client';
+
 import Link from 'next/link';
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { deleteCure } from '@/app/lib/actions/cure';
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 export function CreateCure() {
   return (
@@ -22,20 +23,5 @@ export function UpdateCure({ id }: { id: string }) {
     >
       <PencilIcon className="w-5 text-white" />
     </Link>
-  );
-}
-
-export function DeleteCure({ id }: { id: string }) {
-  const deleteCureWithId = deleteCure.bind(null, id);
-  return (
-    <form action={deleteCureWithId}>
-      <button
-        type="submit"
-        className="rounded-md border-0 bg-red-500 p-2 hover:bg-red-100"
-      >
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5 text-white" />
-      </button>
-    </form>
   );
 }

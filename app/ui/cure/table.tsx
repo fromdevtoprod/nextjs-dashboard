@@ -1,7 +1,8 @@
-import { DeleteCure, UpdateCure } from '@/app/ui/cure/buttons';
 import { fetchCureCatalog } from '@/app/lib/data/cure';
 import { capitalize } from '@/app/lib/utils';
 import { CureWithCareData } from '@/app/lib/definitions';
+import DeleteCureButton from './delete-button';
+import { UpdateCure } from './buttons';
 
 export default async function CureTable() {
   const cureCatalog = calculateTotalSessions(
@@ -46,7 +47,7 @@ export default async function CureTable() {
                   </div>
                   <div className="flex justify-end gap-2">
                     <UpdateCure id={cure.id} />
-                    <DeleteCure id={cure.id} />
+                    <DeleteCureButton id={cure.id} />
                   </div>
                 </div>
               ))}
@@ -98,7 +99,7 @@ export default async function CureTable() {
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
                         <UpdateCure id={cure.id} />
-                        <DeleteCure id={cure.id} />
+                        <DeleteCureButton id={cure.id} />
                       </div>
                     </td>
                   </tr>

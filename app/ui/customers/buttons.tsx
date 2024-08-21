@@ -1,6 +1,5 @@
 import Link from 'next/link';
-import { PencilIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline';
-import { deleteCustomer } from '@/app/lib/actions/customers';
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 export function CreateCustomer() {
   return (
@@ -22,20 +21,5 @@ export function UpdateCustomer({ id }: { id: string }) {
     >
       <PencilIcon className="w-5 text-white" />
     </Link>
-  );
-}
-
-export function DeleteCustomer({ id }: { id: string }) {
-  const deleteInvoiceWithId = deleteCustomer.bind(null, id);
-  return (
-    <form action={deleteInvoiceWithId}>
-      <button
-        type="submit"
-        className="rounded-md border-0 bg-red-500 p-2 hover:bg-red-100"
-      >
-        <span className="sr-only">Delete</span>
-        <TrashIcon className="w-5 text-white" />
-      </button>
-    </form>
   );
 }

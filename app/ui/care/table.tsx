@@ -1,5 +1,6 @@
-import { DeleteCare, UpdateCare } from '@/app/ui/care/buttons';
 import { fetchCare } from '@/app/lib/data/care';
+import DeleteCareButton from './delete-button';
+import { UpdateCare } from './buttons';
 
 function capitalizeStatus(status: string) {
   return status.charAt(0).toUpperCase() + status.slice(1);
@@ -43,7 +44,7 @@ export default async function CareTable() {
                   </div>
                   <div className="flex justify-end gap-2">
                     <UpdateCare id={care.id} />
-                    <DeleteCare id={care.id} />
+                    <DeleteCareButton id={care.id} />
                   </div>
                 </div>
               ))}
@@ -95,7 +96,7 @@ export default async function CareTable() {
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
                         <UpdateCare id={care.id} />
-                        <DeleteCare id={care.id} />
+                        <DeleteCareButton id={care.id} />
                       </div>
                     </td>
                   </tr>
