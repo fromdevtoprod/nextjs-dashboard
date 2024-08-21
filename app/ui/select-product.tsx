@@ -15,15 +15,25 @@ export default function SelectProduct({
   defaultProductType?: 'care' | 'cure';
   value?: string;
 }) {
+  const [productName, setProductName] = useState<string>('');
   const [productType, setProductType] = useState<string>(defaultProductType);
+
   const onProductChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const product_id = e.target.value;
     if (isCareId(product_id)) {
+      setProductName(findCareName(product_id));
       return setProductType('care');
     }
+    setProductName(findCureName(product_id));
     setProductType('cure');
   };
+
   const isCareId = (id: string) => cares.some((care) => care.id === id);
+  const findCareName = (id: string) =>
+    cares.find((care) => care.id === id)?.name || '';
+  const findCureName = (id: string) =>
+    cures.find((cure) => cure.id === id)?.name || '';
+
   return (
     <div className="mb-4">
       <label htmlFor="product-id" className="mb-2 block text-sm font-medium">
@@ -54,6 +64,7 @@ export default function SelectProduct({
       </div>
 
       <input type="hidden" name="product-type" value={productType} />
+      <input type="hidden" name="product-name" value={productName} />
 
       <div id="product-error" aria-live="polite" aria-atomic="true">
         {errors &&

@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Care, Cure, Order } from '@/app/lib/definitions';
+import { Order } from '@/app/lib/definitions';
 
 export async function fetchOrders() {
   try {
@@ -8,29 +8,16 @@ export async function fetchOrders() {
         orders.id,
         orders.customer_id,
         orders.product_id,
+        orders.product_name,
         orders.product_type,
         orders.status,
         orders.date,
         customers.name as customer_name
       FROM orders
       LEFT JOIN customers ON orders.customer_id = customers.id
-      ORDER BY orders.id ASC
+      ORDER BY orders.date DESC
     `;
-
     const orders = data.rows;
-
-    for (const order of orders) {
-      let result;
-      if (order.product_type === 'cure') {
-        result =
-          await sql<Cure>`SELECT name FROM cure_catalog WHERE id = ${order.product_id}`;
-      } else {
-        result =
-          await sql<Care>`SELECT name FROM care_catalog WHERE id = ${order.product_id}`;
-      }
-      order.product_name = result.rows[0].name;
-    }
-
     return orders;
   } catch (err) {
     console.error('Database Error:', err);
@@ -66,6 +53,7 @@ export async function fetchOrdersByCustomer(customerId: string) {
         orders.id,
         orders.customer_id,
         orders.product_id,
+        orders.product_name,
         orders.product_type,
         orders.status,
         orders.date
@@ -73,21 +61,7 @@ export async function fetchOrdersByCustomer(customerId: string) {
       WHERE orders.customer_id = ${customerId}
       ORDER BY orders.id ASC
     `;
-
     const orders = data.rows;
-
-    for (const order of orders) {
-      let result;
-      if (order.product_type === 'cure') {
-        result =
-          await sql<Cure>`SELECT name FROM cure_catalog WHERE id = ${order.product_id}`;
-      } else {
-        result =
-          await sql<Care>`SELECT name FROM care_catalog WHERE id = ${order.product_id}`;
-      }
-      order.product_name = result.rows[0].name;
-    }
-
     return orders;
   } catch (err) {
     console.error('Database Error:', err);

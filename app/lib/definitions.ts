@@ -82,9 +82,9 @@ export type Order = {
   customer_name: string;
   product_id: number;
   product_type: 'care' | 'cure';
+  product_name: string;
   status: 'pending' | 'paid';
   date: string;
-  product_name: string;
 };
 
 export type Appointment = {

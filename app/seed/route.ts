@@ -193,6 +193,7 @@ async function seedOrders() {
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       customer_id UUID NOT NULL,
       product_id UUID NOT NULL,
+      product_name VARCHAR(255) NOT NULL,
       product_type VARCHAR(255) NOT NULL,
       status VARCHAR(255) NOT NULL,
       date DATE NOT NULL
@@ -202,8 +203,8 @@ async function seedOrders() {
   const insertedOrders = await Promise.all(
     orders.map(
       (order) => client.sql`
-        INSERT INTO orders (id, customer_id, product_id, product_type, status, date)
-        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.product_type}, ${order.status}, ${order.date})
+        INSERT INTO orders (id, customer_id, product_id, product_name, product_type, status, date)
+        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.product_name}, ${order.product_type}, ${order.status}, ${order.date})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),

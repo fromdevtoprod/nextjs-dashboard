@@ -13,16 +13,24 @@ import SelectOrder, { OrderOption } from '../select-order';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({ customers }: { customers: CustomerField[] }) {
+export default function Form({
+  customers,
+  date,
+}: {
+  customers: CustomerField[];
+  date: string;
+}) {
   const [state, formAction] = useActionState(createAppointment, initialState);
   const [orders, setOrders] = useState<OrderOption[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState<string>('');
   const [selectedOrder, setSelectedOrder] = useState<string>('');
 
   useEffect(() => {
-    fetch('/api/orders?customer_id=' + selectedCustomer)
-      .then((res) => res.json() as Promise<OrderOption[]>)
-      .then(setOrders);
+    if (selectedCustomer) {
+      fetch(`/api/orders?customer_id=${selectedCustomer}`)
+        .then((res) => res.json() as Promise<OrderOption[]>)
+        .then(setOrders);
+    }
   }, [selectedCustomer]);
 
   return (
@@ -44,6 +52,8 @@ export default function Form({ customers }: { customers: CustomerField[] }) {
         )}
         {selectedOrder && <TimeInput errors={state.errors?.time || []} />}
         <FormErrorMessage message={state.message} />
+
+        <input type="hidden" name="date" value={date} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">

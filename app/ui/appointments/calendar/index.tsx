@@ -48,9 +48,19 @@ export default async function Calendar({
         </div>
 
         <ActiveDayAppointments appointments={appointments}>
-          <BookAppointmentButton />
+          <BookAppointmentButton
+            date={formatBookDate(activeDay, activeMonth, activeYear)}
+          />
         </ActiveDayAppointments>
       </div>
     </div>
   );
+}
+
+function formatBookDate(
+  activeDay: number,
+  activeMonth: number,
+  activeYear: number,
+) {
+  return `${activeYear}-${activeMonth}-${activeDay}`;
 }
