@@ -9,6 +9,7 @@ import {
   careList,
   cureCatalog,
   orders,
+  appointments,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -211,6 +212,31 @@ async function seedOrders() {
   return insertedOrders;
 }
 
+async function seedAppointments() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS appointments (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      order_id UUID NOT NULL,
+      product_name VARCHAR(255) NOT NULL,
+      customer_name VARCHAR(255) NOT NULL,
+      status VARCHAR(255) NOT NULL,
+      date TIMESTAMP NOT NULL
+    );
+  `;
+
+  const insertedAppointments = await Promise.all(
+    appointments.map(
+      (appointment) => client.sql`
+        INSERT INTO appointments (id, order_id, product_name, customer_name, status, date)
+        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.product_name}, ${appointment.customer_name}, ${appointment.status}, ${appointment.date})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedAppointments;
+}
+
 export async function GET() {
   try {
     await client.sql`BEGIN`;
@@ -221,8 +247,8 @@ export async function GET() {
     await seedCareCategories();
     await seedCareCatalog();
     await seedCureCatalog();
-    // await seedCureContent();
     await seedOrders();
+    await seedAppointments();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });

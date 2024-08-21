@@ -1,11 +1,12 @@
 import ActiveMonth from './active-month';
 import PreviousMonthArrow from './previous-month';
-import Preview from './preview';
 import NextMonthArrow from './next-month';
 import TableBody from './tbody';
 import TableHead from './thead';
+import { fetchAppointments } from '@/app/lib/data/appointments';
+import ActiveDayAppointments from './active-day-appointments';
 
-export default function Calendar({
+export default async function Calendar({
   activeDay,
   activeMonth,
   activeYear,
@@ -14,6 +15,12 @@ export default function Calendar({
   activeMonth: number;
   activeYear: number;
 }) {
+  const appointments = await fetchAppointments(
+    activeDay,
+    activeMonth,
+    activeYear,
+  );
+  console.log('appointments', appointments);
   return (
     <div className="flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-sm shadow-lg">
@@ -39,21 +46,7 @@ export default function Calendar({
           </div>
         </div>
 
-        <div className="rounded-b bg-gray-50 px-5 py-5 dark:bg-gray-700 md:px-16 md:py-8">
-          <div className="px-4">
-            <Preview
-              hour="9:15"
-              title="Drainage Lymphatique"
-              description="Irène Grosjean"
-              isFirst={true}
-            />
-            <Preview
-              hour="14:30"
-              title="Tui Na"
-              description="Marina Gratecos"
-            />
-          </div>
-        </div>
+        <ActiveDayAppointments appointments={appointments} />
       </div>
     </div>
   );

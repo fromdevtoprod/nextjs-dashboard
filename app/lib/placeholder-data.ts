@@ -391,6 +391,49 @@ const orders = [
   },
 ];
 
+const appointments = [
+  {
+    id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5ad',
+    order_id: orders[0].id,
+    product_name: careList[0].name,
+    customer_name: customers[0].name,
+    status: 'pending',
+    date: '2024-08-21 09:00:00',
+  },
+  {
+    id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5ae',
+    order_id: orders[1].id,
+    product_name: careList[1].name,
+    customer_name: customers[1].name,
+    status: 'pending',
+    date: '2024-08-21 10:30:00',
+  },
+  {
+    id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5af',
+    order_id: orders[2].id,
+    product_name: careList[2].name,
+    customer_name: customers[2].name,
+    status: 'pending',
+    date: '2024-08-21 12:00:00',
+  },
+  {
+    id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b0',
+    order_id: orders[3].id,
+    product_name: careList[3].name,
+    customer_name: customers[3].name,
+    status: 'pending',
+    date: '2024-08-21 14:00:00',
+  },
+  {
+    id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b1',
+    order_id: orders[4].id,
+    product_name: careList[4].name,
+    customer_name: customers[4].name,
+    status: 'pending',
+    date: '2024-08-21 16:15:00',
+  },
+];
+
 export {
   users,
   customers,
@@ -400,4 +443,5 @@ export {
   careList,
   cureCatalog,
   orders,
+  appointments,
 };

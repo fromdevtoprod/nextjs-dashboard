@@ -87,6 +87,16 @@ export type Order = {
   product_name: string;
 };
 
+export type Appointment = {
+  id: string;
+  product_id: string;
+  product_name: string;
+  customer_name: string;
+  status: 'pending' | 'done';
+  date: string;
+  customer_id: string;
+};
+
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
 export type LatestInvoiceRaw = Omit<LatestInvoice, 'amount'> & {
   amount: number;

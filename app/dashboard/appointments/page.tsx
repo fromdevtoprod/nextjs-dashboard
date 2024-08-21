@@ -14,7 +14,7 @@ const getActiveYear = (year: string | undefined) =>
 
 const getCurrentDay = () => new Date().getDate();
 
-const getCurrentMonth = () => new Date().getMonth();
+const getCurrentMonth = () => new Date().getMonth() + 1;
 
 const getCurrentYear = () => new Date().getFullYear();
 
