@@ -1,15 +1,17 @@
 import clsx from 'clsx';
 
 export default function Preview({
-  hour,
-  product,
   customer,
+  endedTime,
+  hour,
   isFirst = false,
+  product_name,
 }: {
-  hour: string;
-  product: string;
   customer: string;
+  endedTime: string;
+  hour: string;
   isFirst?: boolean;
+  product_name: string;
 }) {
   return (
     <div
@@ -18,13 +20,13 @@ export default function Preview({
       })}
     >
       <p className="text-xs font-light leading-3 text-gray-500 dark:text-gray-300">
-        {hour}
+        From {hour} to {endedTime}
       </p>
       <a
         tabIndex={0}
         className="mt-2 text-lg font-medium leading-5 text-gray-800 focus:outline-none dark:text-gray-100"
       >
-        {product}
+        {product_name}
       </a>
       <p className="pt-2 text-sm leading-4 text-gray-600 dark:text-gray-300">
         {customer}

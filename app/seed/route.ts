@@ -220,15 +220,16 @@ async function seedAppointments() {
       product_name VARCHAR(255) NOT NULL,
       customer_name VARCHAR(255) NOT NULL,
       status VARCHAR(255) NOT NULL,
-      date TIMESTAMP NOT NULL
+      date TIMESTAMP NOT NULL,
+      ended_time TIMESTAMP NOT NULL
     );
   `;
 
   const insertedAppointments = await Promise.all(
     appointments.map(
       (appointment) => client.sql`
-        INSERT INTO appointments (id, order_id, product_name, customer_name, status, date)
-        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.product_name}, ${appointment.customer_name}, ${appointment.status}, ${appointment.date})
+        INSERT INTO appointments (id, order_id, product_name, customer_name, status, date, ended_time)
+        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.product_name}, ${appointment.customer_name}, ${appointment.status}, ${appointment.date}, ${appointment.ended_time})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),

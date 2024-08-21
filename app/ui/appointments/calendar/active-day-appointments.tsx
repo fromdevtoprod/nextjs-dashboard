@@ -15,7 +15,8 @@ export default function ActiveDayAppointments({
           <Preview
             key={index}
             hour={getHour(appointment.date)}
-            product={appointment.product_name}
+            product_name={appointment.product_name}
+            endedTime={getHour(appointment.ended_time)}
             customer={appointment.customer_name}
             isFirst={index === 0}
           />

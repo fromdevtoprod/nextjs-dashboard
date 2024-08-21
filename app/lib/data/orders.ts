@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Cure, Order } from '@/app/lib/definitions';
+import { Care, Cure, Order } from '@/app/lib/definitions';
 
 export async function fetchOrders() {
   try {
@@ -26,7 +26,7 @@ export async function fetchOrders() {
           await sql<Cure>`SELECT name FROM cure_catalog WHERE id = ${order.product_id}`;
       } else {
         result =
-          await sql<Cure>`SELECT name FROM care_catalog WHERE id = ${order.product_id}`;
+          await sql<Care>`SELECT name FROM care_catalog WHERE id = ${order.product_id}`;
       }
       order.product_name = result.rows[0].name;
     }
@@ -56,5 +56,41 @@ export async function fetchOrderById(id: string) {
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch order.');
+  }
+}
+
+export async function fetchOrdersByCustomer(customerId: string) {
+  try {
+    const data = await sql<Order>`
+      SELECT
+        orders.id,
+        orders.customer_id,
+        orders.product_id,
+        orders.product_type,
+        orders.status,
+        orders.date
+      FROM orders
+      WHERE orders.customer_id = ${customerId}
+      ORDER BY orders.id ASC
+    `;
+
+    const orders = data.rows;
+
+    for (const order of orders) {
+      let result;
+      if (order.product_type === 'cure') {
+        result =
+          await sql<Cure>`SELECT name FROM cure_catalog WHERE id = ${order.product_id}`;
+      } else {
+        result =
+          await sql<Care>`SELECT name FROM care_catalog WHERE id = ${order.product_id}`;
+      }
+      order.product_name = result.rows[0].name;
+    }
+
+    return orders;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch orders for this customer.');
   }
 }

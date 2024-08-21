@@ -399,6 +399,7 @@ const appointments = [
     customer_name: customers[0].name,
     status: 'pending',
     date: '2024-08-21 09:00:00',
+    ended_time: '2024-08-21 10:10:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5ae',
@@ -407,6 +408,7 @@ const appointments = [
     customer_name: customers[1].name,
     status: 'pending',
     date: '2024-08-21 10:30:00',
+    ended_time: '2024-08-21 11:40:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5af',
@@ -414,7 +416,8 @@ const appointments = [
     product_name: careList[2].name,
     customer_name: customers[2].name,
     status: 'pending',
-    date: '2024-08-21 14:00:00',
+    date: '2024-08-21 12:00:00',
+    ended_time: '2024-08-21 12:30:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b0',
@@ -422,7 +425,8 @@ const appointments = [
     product_name: careList[3].name,
     customer_name: customers[3].name,
     status: 'pending',
-    date: '2024-08-21 14:45:00',
+    date: '2024-08-21 14:00:00',
+    ended_time: '2024-08-21 15:15:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b1',
@@ -430,7 +434,8 @@ const appointments = [
     product_name: careList[4].name,
     customer_name: customers[4].name,
     status: 'pending',
-    date: '2024-08-21 17:15:00',
+    date: '2024-08-21 16:15:00',
+    ended_time: '2024-08-21 17:45:00',
   },
 ];
 

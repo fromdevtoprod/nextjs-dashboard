@@ -4,11 +4,13 @@ import { CustomerField } from '@/app/lib/definitions';
 export default function SelectCustomer({
   customers,
   errors,
-  value,
+  selectedCustomer,
+  onCustomerSelect,
 }: {
   customers: CustomerField[];
   errors: string[];
-  value?: string;
+  selectedCustomer: string;
+  onCustomerSelect: (customer: string) => void;
 }) {
   return (
     <div className="mb-4">
@@ -20,8 +22,12 @@ export default function SelectCustomer({
           id="customer"
           name="customer"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          defaultValue={value}
+          defaultValue={selectedCustomer}
+          onChange={(e) => onCustomerSelect(e.target.value)}
         >
+          <option value="" disabled>
+            Select a customer
+          </option>
           {customers.map((customer) => (
             <option key={customer.id} value={customer.id}>
               {customer.name}

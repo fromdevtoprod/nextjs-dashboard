@@ -78,7 +78,7 @@ export type CureWithCareData = Cure & {
 
 export type Order = {
   id: string;
-  customer_id: number;
+  customer_id: string;
   customer_name: string;
   product_id: number;
   product_type: 'care' | 'cure';
@@ -91,9 +91,11 @@ export type Appointment = {
   id: string;
   product_id: string;
   product_name: string;
+  product_type: string;
   customer_name: string;
   status: 'pending' | 'done';
   date: string;
+  ended_time: string;
   customer_id: string;
 };
 

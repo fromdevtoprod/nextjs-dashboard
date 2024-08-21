@@ -1,5 +1,5 @@
 import { sql } from '@vercel/postgres';
-import { Appointment } from '@/app/lib/definitions';
+import { Appointment, Care, Cure } from '@/app/lib/definitions';
 
 export async function fetchAppointments(
   day: number,
@@ -15,6 +15,7 @@ export async function fetchAppointments(
         appointments.customer_name,
         appointments.status,
         appointments.date,
+        appointments.ended_time,
         orders.customer_id
       FROM appointments
       LEFT JOIN orders ON orders.id = appointments.order_id

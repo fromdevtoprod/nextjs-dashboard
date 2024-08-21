@@ -1,7 +1,7 @@
 'use client';
 
 // @ts-ignore
-import { useActionState } from 'react';
+import { useActionState, useState } from 'react';
 import { createOrder } from '@/app/lib/actions/orders';
 import { Care, CureWithCareData, CustomerField } from '@/app/lib/definitions';
 import { Button } from '../button';
@@ -23,12 +23,15 @@ export default function Form({
   customers: CustomerField[];
 }) {
   const [state, formAction] = useActionState(createOrder, initialState);
+  const [selectedCustomer, setSelectedCustomer] = useState<string>('');
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <SelectCustomer
           customers={customers}
           errors={state.errors?.customer || []}
+          selectedCustomer={selectedCustomer}
+          onCustomerSelect={(newCustomer) => setSelectedCustomer(newCustomer)}
         />
         <SelectProduct
           cares={cares}
