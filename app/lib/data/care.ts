@@ -38,26 +38,27 @@ export async function fetchCareCategories() {
   }
 }
 
-export async function fetchCareById(id: string) {
+export async function fetchCareById(productId: string) {
   try {
     const data = await sql<Care>`
       SELECT
-        care.id,
-        care.care_category_id as category,
-        care.name,
-        care.amount,
-        care.duration,
-        care.status
-      FROM care_catalog as care
-      LEFT JOIN care_categories ON care.care_category_id = care_categories.id
-      WHERE care.id = ${id}
+        care_catalog.product_id,
+        care_catalog.category_id,
+        care_catalog.duration,
+        care_categories.name as category_name,
+        products.name as product_name,
+        products.amount as product_amount
+      FROM care_catalog
+      LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
+      LEFT JOIN products ON care_catalog.product_id = products.id
+      WHERE care_catalog.product_id = ${productId}
     `;
 
     const care = data.rows[0];
     return care;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch care by ID.');
+    throw new Error('Failed to fetch this care.');
   }
 }
 

@@ -17,26 +17,24 @@ type State = {
 
 const FormSchema = z.object({
   id: z.string(),
-  name: z.string().min(1, { message: 'Name is required' }),
-  category: z.string().min(1, { message: 'Category is required' }),
-  amount: z.coerce
-    .number()
-    .gt(0, { message: 'Please enter an amount greater than 0€.' }),
+  category_id: z.string().min(1, { message: 'Category is required' }),
   duration: z.coerce
     .number()
     .gt(0, { message: 'Please enter a duration greater than 0.' }),
-  status: z.enum(['active', 'inactive']),
+  product_amount: z.coerce
+    .number()
+    .gt(0, { message: 'Please enter an amount greater than 0€.' }),
+  product_name: z.string().min(1, { message: 'Name is required' }),
 });
 
 const CreateCare = FormSchema.omit({ id: true });
 
 export async function createCare(prevState: State, formData: FormData) {
   const validatedFields = CreateCare.safeParse({
-    name: formData.get('name'),
-    category: formData.get('category'),
-    amount: formData.get('amount'),
+    category_id: formData.get('category'),
     duration: formData.get('duration'),
-    status: formData.get('status'),
+    product_amount: formData.get('amount'),
+    product_name: formData.get('name'),
   });
 
   console.log('validatedFields', validatedFields);
@@ -49,9 +47,14 @@ export async function createCare(prevState: State, formData: FormData) {
   }
 
   try {
+    const product = await sql`
+      INSERT INTO products (name, type, amount)
+      VALUES (${validatedFields.data.product_name}, 'care', ${validatedFields.data.product_amount})
+      RETURNING *
+    `;
     await sql`
-      INSERT INTO care_catalog (name, care_category_id, amount, duration, status)
-      VALUES (${validatedFields.data.name}, ${validatedFields.data.category}, ${validatedFields.data.amount}, ${validatedFields.data.duration}, ${validatedFields.data.status})
+      INSERT INTO care_catalog (product_id, category_id, duration)
+      VALUES (${product.rows[0].id}, ${validatedFields.data.category_id}, ${validatedFields.data.duration})
       `;
   } catch (error) {
     console.error('Database Error:', error);
@@ -85,11 +88,10 @@ export async function updateCare(
   formData: FormData,
 ) {
   const validatedFields = CreateCare.safeParse({
-    category: formData.get('category'),
-    name: formData.get('name'),
-    amount: formData.get('amount'),
+    category_id: formData.get('category'),
     duration: formData.get('duration'),
-    status: formData.get('status'),
+    product_name: formData.get('name'),
+    product_amount: formData.get('amount'),
   });
 
   if (!validatedFields.success) {
@@ -99,18 +101,20 @@ export async function updateCare(
     };
   }
 
-  const { category, name, amount, duration, status } = validatedFields.data;
+  const { category_id, product_name, product_amount, duration } =
+    validatedFields.data;
 
   try {
     await sql`
-                UPDATE care_catalog
-                SET care_category_id = ${category},
-                    name = ${name},
-                    amount = ${amount},
-                    duration = ${duration},
-                    status = ${status}
-                WHERE id = ${id}
-            `;
+      UPDATE products
+      SET name = ${product_name}, amount = ${product_amount}
+      WHERE id = ${id}
+    `;
+    await sql`
+      UPDATE care_catalog
+      SET category_id = ${category_id}, duration = ${duration}
+      WHERE product_id = ${id}
+    `;
   } catch (error) {
     console.error('Database Error:', error);
     return {

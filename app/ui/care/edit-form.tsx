@@ -22,19 +22,24 @@ export default function Form({
   care: Care;
   categories: CareCategory[];
 }) {
-  const updateCareWithId = updateCare.bind(null, care.id);
+  const updateCareWithId = updateCare.bind(null, care.product_id);
   const [state, formAction] = useActionState(updateCareWithId, initialState);
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        <SelectCategory categories={categories} value={care.category} />
-        <NameInput errors={state.errors?.name || []} value={care.name} />
-        <AmountInput errors={state.errors?.amount || []} value={care.amount} />
+        <SelectCategory categories={categories} value={care.category_id} />
+        <NameInput
+          errors={state.errors?.name || []}
+          value={care.product_name}
+        />
+        <AmountInput
+          errors={state.errors?.amount || []}
+          value={care.product_amount}
+        />
         <DurationInput
           errors={state.errors?.duration || []}
           value={care.duration}
         />
-        <SelectStatus value={care.status} />
         <FormErrorMessage message={state.message} />
       </div>
 

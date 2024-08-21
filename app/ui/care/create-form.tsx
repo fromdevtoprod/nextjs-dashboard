@@ -6,7 +6,6 @@ import { createCare } from '@/app/lib/actions/care';
 import { CareCategory } from '@/app/lib/definitions';
 import { Button } from '../button';
 import CancelButton from '../cancel-button';
-import SelectStatus from '../select-status';
 import AmountInput from '../amount-input';
 import NameInput from '../name-input';
 import DurationInput from '../duration-input';
@@ -24,7 +23,6 @@ export default function Form({ categories }: { categories: CareCategory[] }) {
         <NameInput errors={state.errors?.name || []} />
         <AmountInput errors={state.errors?.amount || []} />
         <DurationInput errors={state.errors?.duration || []} />
-        <SelectStatus />
         <FormErrorMessage message={state.message} />
       </div>
 
