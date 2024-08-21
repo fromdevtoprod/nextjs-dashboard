@@ -41,12 +41,11 @@ export type LatestInvoice = {
 };
 
 export type Care = {
-  id: string;
-  category: string;
-  name: string;
-  amount: number;
+  category_name: string;
   duration: number;
-  status: 'active' | 'inactive';
+  product_id: string;
+  product_name: string;
+  product_amount: number;
 };
 
 export type CareCategory = {

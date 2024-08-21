@@ -1,26 +1,26 @@
 import { sql } from '@vercel/postgres';
 import { Care, CareCategory } from '@/app/lib/definitions';
 
-export async function fetchCare() {
+export async function fetchCareList() {
   try {
     const data = await sql<Care>`
       SELECT
-        care.id,
-        care_categories.name AS category,
-        care.name,
-        care.amount,
-        care.duration,
-        care.status
-      FROM care_catalog as care
-      LEFT JOIN care_categories ON care.care_category_id = care_categories.id
-      ORDER BY care_category_id ASC
+        care_catalog.product_id,
+        care_catalog.category_id,
+        care_catalog.duration,
+        care_categories.name as category_name,
+        products.name as product_name,
+        products.amount as product_amount
+      FROM care_catalog
+      LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
+      LEFT JOIN products ON care_catalog.product_id = products.id;
     `;
 
-    const customers = data.rows;
-    return customers;
+    const careList = data.rows;
+    return careList;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch all customers.');
+    throw new Error('Failed to fetch the care list.');
   }
 }
 

@@ -6,10 +6,12 @@ import {
   revenue,
   users,
   careCategories,
-  careList,
+  careCatalog,
   cureCatalog,
   orders,
   appointments,
+  products,
+  cureContent,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -117,74 +119,106 @@ async function seedCareCategories() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS care_categories (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      status VARCHAR(255) NOT NULL
+      name VARCHAR(255) NOT NULL
     );
   `;
 
-  const insertedCare = await Promise.all(
+  const insertedCareCategories = await Promise.all(
     careCategories.map(
       (careCategory) => client.sql`
-        INSERT INTO care_categories (id, name, status)
-        VALUES (${careCategory.id}, ${careCategory.name}, ${careCategory.status})
+        INSERT INTO care_categories (id, name)
+        VALUES (${careCategory.id}, ${careCategory.name})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
   );
 
-  return insertedCare;
+  return insertedCareCategories;
 }
 
 async function seedCareCatalog() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS care_catalog (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      care_category_id UUID NOT NULL,
-      name VARCHAR(255) NOT NULL,
-      amount INT NOT NULL,
-      duration INT NOT NULL,
-      status VARCHAR(255) NOT NULL
+      product_id UUID NOT NULL,
+      category_id UUID NOT NULL,
+      duration INT NOT NULL
     );
   `;
 
-  const insertedCare = await Promise.all(
-    careList.map(
+  const insertedCareCatalog = await Promise.all(
+    careCatalog.map(
       (care) => client.sql`
-        INSERT INTO care_catalog (id, care_category_id, name, amount, duration, status)
-        VALUES (${care.id}, ${care.care_category_id}, ${care.name}, ${care.amount}, ${care.duration}, ${care.status})
-        ON CONFLICT (id) DO NOTHING;
+        INSERT INTO care_catalog (product_id, category_id, duration)
+        VALUES (${care.product_id}, ${care.category_id}, ${care.duration});
       `,
     ),
   );
 
-  return insertedCare;
+  return insertedCareCatalog;
 }
 
 async function seedCureCatalog() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS cure_catalog (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      amount INT NOT NULL,
-      status VARCHAR(255) NOT NULL,
-      care_id_1 UUID NOT NULL,
-      session_number_1 INT NOT NULL,
-      care_id_2 UUID,
-      session_number_2 INT
+      product_id UUID NOT NULL,
+      amount INT NOT NULL
     );
   `;
 
-  const insertedCureList = await Promise.all(
+  const insertedCureCatalog = await Promise.all(
     cureCatalog.map(
       (cure) => client.sql`
-        INSERT INTO cure_catalog (id, name, amount, status, care_id_1, session_number_1, care_id_2, session_number_2)
-        VALUES (${cure.id}, ${cure.name}, ${cure.amount}, ${cure.status}, ${cure.care_id_1}, ${cure.session_number_1}, ${cure.care_id_2}, ${cure.session_number_2})
+        INSERT INTO cure_catalog (product_id, amount)
+        VALUES (${cure.product_id}, ${cure.amount});
+      `,
+    ),
+  );
+
+  return insertedCureCatalog;
+}
+
+async function seedCureContent() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS cure_content (
+      product_id UUID NOT NULL,
+      care_id UUID NOT NULL,
+      session_number INT NOT NULL
+    );
+  `;
+
+  const insertedCureContent = await Promise.all(
+    cureContent.map(
+      (content) => client.sql`
+        INSERT INTO cure_content (product_id, care_id, session_number)
+        VALUES (${content.product_id}, ${content.care_id}, ${content.session_number});
+      `,
+    ),
+  );
+
+  return insertedCureContent;
+}
+
+async function seedProducts() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS products (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      type VARCHAR(255) NOT NULL,
+      amount INT NOT NULL
+    );
+  `;
+
+  const insertedProducts = await Promise.all(
+    products.map(
+      (product) => client.sql`
+        INSERT INTO products (id, name, type, amount)
+        VALUES (${product.id}, ${product.name}, ${product.type}, ${product.amount})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
   );
 
-  return insertedCureList;
+  return insertedProducts;
 }
 
 async function seedOrders() {
@@ -193,18 +227,16 @@ async function seedOrders() {
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       customer_id UUID NOT NULL,
       product_id UUID NOT NULL,
-      product_name VARCHAR(255) NOT NULL,
-      product_type VARCHAR(255) NOT NULL,
-      status VARCHAR(255) NOT NULL,
-      date DATE NOT NULL
+      date DATE NOT NULL,
+      status VARCHAR(255) NOT NULL
     );
   `;
 
   const insertedOrders = await Promise.all(
     orders.map(
       (order) => client.sql`
-        INSERT INTO orders (id, customer_id, product_id, product_name, product_type, status, date)
-        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.product_name}, ${order.product_type}, ${order.status}, ${order.date})
+        INSERT INTO orders (id, customer_id, product_id, date, status)
+        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.date}, ${order.status})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
@@ -218,9 +250,6 @@ async function seedAppointments() {
     CREATE TABLE IF NOT EXISTS appointments (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       order_id UUID NOT NULL,
-      product_name VARCHAR(255) NOT NULL,
-      customer_name VARCHAR(255) NOT NULL,
-      status VARCHAR(255) NOT NULL,
       date TIMESTAMP NOT NULL,
       ended_time TIMESTAMP NOT NULL
     );
@@ -229,8 +258,8 @@ async function seedAppointments() {
   const insertedAppointments = await Promise.all(
     appointments.map(
       (appointment) => client.sql`
-        INSERT INTO appointments (id, order_id, product_name, customer_name, status, date, ended_time)
-        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.product_name}, ${appointment.customer_name}, ${appointment.status}, ${appointment.date}, ${appointment.ended_time})
+        INSERT INTO appointments (id, order_id, date, ended_time)
+        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.date}, ${appointment.ended_time})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
@@ -249,6 +278,8 @@ export async function GET() {
     await seedCareCategories();
     await seedCareCatalog();
     await seedCureCatalog();
+    await seedCureContent();
+    await seedProducts();
     await seedOrders();
     await seedAppointments();
     await client.sql`COMMIT`;
