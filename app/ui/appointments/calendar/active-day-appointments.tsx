@@ -1,11 +1,13 @@
 import { Appointment } from '@/app/lib/definitions';
 import Preview from './preview';
+import { PropsWithChildren } from 'react';
 
 export default function ActiveDayAppointments({
   appointments,
-}: {
+  children,
+}: PropsWithChildren<{
   appointments: Appointment[];
-}) {
+}>) {
   return (
     <div className="rounded-b bg-gray-50 px-5 py-5 dark:bg-gray-700 md:px-16 md:py-8">
       <div className="px-4">
@@ -19,6 +21,7 @@ export default function ActiveDayAppointments({
           />
         ))}
       </div>
+      <div className="mt-4">{children}</div>
     </div>
   );
 }

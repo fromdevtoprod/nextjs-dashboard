@@ -1,10 +1,11 @@
+import { fetchAppointments } from '@/app/lib/data/appointments';
 import ActiveMonth from './active-month';
 import PreviousMonthArrow from './previous-month';
 import NextMonthArrow from './next-month';
 import TableBody from './tbody';
 import TableHead from './thead';
-import { fetchAppointments } from '@/app/lib/data/appointments';
 import ActiveDayAppointments from './active-day-appointments';
+import { BookAppointmentButton } from '../buttons';
 
 export default async function Calendar({
   activeDay,
@@ -46,7 +47,9 @@ export default async function Calendar({
           </div>
         </div>
 
-        <ActiveDayAppointments appointments={appointments} />
+        <ActiveDayAppointments appointments={appointments}>
+          <BookAppointmentButton />
+        </ActiveDayAppointments>
       </div>
     </div>
   );

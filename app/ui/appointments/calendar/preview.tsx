@@ -26,7 +26,7 @@ export default function Preview({
       >
         {product}
       </a>
-      <p className="pt-2 text-sm leading-4 leading-none text-gray-600 dark:text-gray-300">
+      <p className="pt-2 text-sm leading-4 text-gray-600 dark:text-gray-300">
         {customer}
       </p>
     </div>

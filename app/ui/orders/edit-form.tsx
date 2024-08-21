@@ -11,8 +11,8 @@ import {
   Order,
 } from '@/app/lib/definitions';
 import CancelButton from '../cancel-button';
-import SelectCustomer from './select-customer';
-import SelectProduct from './select-product';
+import SelectCustomer from '../select-customer';
+import SelectProduct from '../select-product';
 import SelectPaymentStatus from './select-payment-status';
 import FormErrorMessage from '../form-error-message';
 

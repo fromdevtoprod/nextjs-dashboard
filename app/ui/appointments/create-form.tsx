@@ -7,9 +7,9 @@ import { Care, CureWithCareData, CustomerField } from '@/app/lib/definitions';
 import { Button } from '../button';
 import SelectCustomer from '../select-customer';
 import SelectProduct from '../select-product';
-import SelectPaymentStatus from './select-payment-status';
 import CancelButton from '../cancel-button';
 import FormErrorMessage from '../form-error-message';
+import TimeInput from '../time-input';
 
 const initialState = { message: null, error: {} };
 
@@ -35,13 +35,13 @@ export default function Form({
           cures={cures}
           errors={state.errors?.product || []}
         />
-        <SelectPaymentStatus errors={state.errors?.status || []} />
+        <TimeInput errors={state.errors?.time || []} />
         <FormErrorMessage message={state.message} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <CancelButton url="/dashboard/orders" />
-        <Button type="submit">Add Order</Button>
+        <CancelButton url="/dashboard/appointments" />
+        <Button type="submit">Book Appointment</Button>
       </div>
     </form>
   );
