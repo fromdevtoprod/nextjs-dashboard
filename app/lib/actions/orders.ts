@@ -101,14 +101,15 @@ export async function updateOrder(
 
   try {
     await sql`
-                UPDATE orders
-                SET customer = ${customer_id},
-                    product = ${product_id},
-                    product_type = ${product_type},
-                    status = ${payment_status}
-                WHERE id = ${id}
-            `;
+      UPDATE orders
+      SET customer_id = ${customer_id},
+          product_id = ${product_id},
+          product_type = ${product_type},
+          status = ${payment_status}
+      WHERE id = ${id}
+    `;
   } catch (error) {
+    console.error('Database Error:', error);
     return {
       message: 'Database Error: Failed to update this order.',
     };

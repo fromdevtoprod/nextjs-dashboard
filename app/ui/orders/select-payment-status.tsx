@@ -1,6 +1,12 @@
 import { CurrencyEuroIcon } from '@heroicons/react/24/outline';
 
-export default function SelectPaymentStatus({ errors }: { errors: string[] }) {
+export default function SelectPaymentStatus({
+  errors,
+  value = 'pending',
+}: {
+  errors: string[];
+  value?: string;
+}) {
   return (
     <div className="mb-4">
       <label
@@ -14,7 +20,7 @@ export default function SelectPaymentStatus({ errors }: { errors: string[] }) {
           id="payment-status"
           name="payment-status"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          defaultValue="pending"
+          defaultValue={value}
         >
           <option value="pending">Pending</option>
           <option value="paid">Paid</option>

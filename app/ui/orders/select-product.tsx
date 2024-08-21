@@ -6,12 +6,16 @@ export default function SelectProduct({
   cares,
   cures,
   errors,
+  defaultProductType = 'care',
+  value,
 }: {
   cares: Care[];
   cures: Cure[];
   errors: string[];
+  defaultProductType?: 'care' | 'cure';
+  value?: string;
 }) {
-  const [productType, setProductType] = useState<string>('');
+  const [productType, setProductType] = useState<string>(defaultProductType);
   const onProductChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const product_id = e.target.value;
     if (isCareId(product_id)) {
@@ -31,6 +35,7 @@ export default function SelectProduct({
           name="product-id"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           onChange={onProductChange}
+          defaultValue={value}
         >
           <option disabled={true}>-- Cares --</option>
           {cares.map((care) => (

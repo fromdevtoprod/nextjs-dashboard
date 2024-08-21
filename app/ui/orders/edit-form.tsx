@@ -2,64 +2,60 @@
 
 // @ts-ignore
 import { useActionState } from 'react';
-import { ClockIcon } from '@heroicons/react/24/outline';
 import { Button } from '../button';
-import { updateCure } from '@/app/lib/actions/cure';
-import { Cure } from '@/app/lib/definitions';
+import { updateOrder } from '@/app/lib/actions/orders';
+import {
+  Care,
+  CureWithCareData,
+  CustomerField,
+  Order,
+} from '@/app/lib/definitions';
 import CancelButton from '../cancel-button';
-import SelectStatus from '../select-status';
-import AmountInput from '../amount-input';
-import NameInput from '../name-input';
+import SelectCustomer from './select-customer';
+import SelectProduct from './select-product';
+import SelectPaymentStatus from './select-payment-status';
+import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({ cure }: { cure: Cure }) {
-  const updateCureWithId = updateCure.bind(null, cure.id);
-  const [state, formAction] = useActionState(updateCureWithId, initialState);
+export default function Form({
+  cares,
+  cures,
+  customers,
+  order,
+}: {
+  cares: Care[];
+  cures: CureWithCareData[];
+  customers: CustomerField[];
+  order: Order;
+}) {
+  const updateOrderWithId = updateOrder.bind(null, order.id);
+  const [state, formAction] = useActionState(updateOrderWithId, initialState);
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        <NameInput errors={state.errors?.name || []} value={cure.name} />
-        <AmountInput errors={state.errors?.amount || []} value={cure.amount} />
-
-        {/* Cure session number */}
-        <div className="mb-4">
-          <label
-            htmlFor="session_number"
-            className="mb-2 block text-sm font-medium"
-          >
-            Enter a session number
-          </label>
-          <div className="relative mt-2 rounded-md">
-            <div className="relative">
-              <input
-                id="session_number"
-                name="session_number"
-                type="number"
-                defaultValue={0}
-                placeholder="Enter a session number"
-                className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-                aria-describedby="session_number-error"
-              />
-              <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
-            </div>
-          </div>
-          <div id="session_number-error" aria-live="polite" aria-atomic="true">
-            {state.errors?.session_number &&
-              state.errors.session_number.map((error: string) => (
-                <p className="mt-2 text-sm text-red-500" key={error}>
-                  {error}
-                </p>
-              ))}
-          </div>
-        </div>
-
-        <SelectStatus value={cure.status} />
+        <SelectCustomer
+          customers={customers}
+          errors={state.errors?.customer || []}
+          value={`${order.customer_id}`}
+        />
+        <SelectProduct
+          cares={cares}
+          cures={cures}
+          errors={state.errors?.product || []}
+          value={`${order.product_id}`}
+          defaultProductType={order.product_type}
+        />
+        <SelectPaymentStatus
+          errors={state.errors?.status || []}
+          value={order.status}
+        />
+        <FormErrorMessage message={state.message} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
         <CancelButton url="/dashboard/orders" />
-        <Button type="submit">Update Cure</Button>
+        <Button type="submit">Update Order</Button>
       </div>
     </form>
   );

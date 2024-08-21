@@ -38,4 +38,23 @@ export async function fetchOrders() {
   }
 }
 
-export async function fetchOrderById(id: string) {}
+export async function fetchOrderById(id: string) {
+  try {
+    const data = await sql<Order>`
+      SELECT
+        orders.id,
+        orders.customer_id,
+        orders.product_id,
+        orders.product_type,
+        orders.status
+      FROM orders
+      WHERE orders.id = ${id}
+    `;
+
+    const order = data.rows[0];
+    return order;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch order.');
+  }
+}
