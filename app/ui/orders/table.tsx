@@ -1,5 +1,5 @@
 import { fetchOrders } from '@/app/lib/data/orders';
-import { capitalize } from '@/app/lib/utils';
+import { capitalize, formatDateToLocal } from '@/app/lib/utils';
 import { UpdateOrder } from './buttons';
 import DeleteOrderButton from './delete-button';
 
@@ -57,6 +57,9 @@ export default async function OrdersTable() {
                   <th scope="col" className="px-3 py-5 font-medium">
                     Product type
                   </th>
+                  <th scope="col" className="px-3 py-5 font-medium">
+                    Date
+                  </th>
                   <th scope="col" className="px-4 py-5 font-medium">
                     Status
                   </th>
@@ -79,6 +82,9 @@ export default async function OrdersTable() {
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                       {capitalize(order.product_type)}
+                    </td>
+                    <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                      {formatDateToLocal(order.date, 'fr-FR')}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                       {capitalize(order.status)}
