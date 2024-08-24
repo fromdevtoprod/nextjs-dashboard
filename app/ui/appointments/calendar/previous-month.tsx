@@ -9,7 +9,7 @@ export default function PreviousMonth({ month }: { month: number }) {
   const { replace } = useRouter();
 
   const goToPreviousMonth = () => {
-    const params = new URLSearchParams(searchParams);
+    const params = new URLSearchParams(searchParams || {});
     params.set('month', `${month - 1}`);
     replace(`${pathname}?${params.toString()}`);
   };
