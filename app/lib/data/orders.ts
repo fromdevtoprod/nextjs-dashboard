@@ -8,13 +8,14 @@ export async function fetchOrders() {
         orders.id,
         orders.customer_id,
         orders.product_id,
-        orders.product_name,
-        orders.product_type,
-        orders.status,
         orders.date,
-        customers.name as customer_name
+        orders.status,
+        customers.name as customer_name,
+        products.name as product_name,
+        products.type as product_type
       FROM orders
       LEFT JOIN customers ON orders.customer_id = customers.id
+      LEFT JOIN products ON orders.product_id = products.id
       ORDER BY orders.date DESC
     `;
     const orders = data.rows;
@@ -32,9 +33,10 @@ export async function fetchOrderById(id: string) {
         orders.id,
         orders.customer_id,
         orders.product_id,
-        orders.product_type,
         orders.status
       FROM orders
+      LEFT JOIN customers ON orders.customer_id = customers.id
+      LEFT JOIN products ON orders.product_id = products.id
       WHERE orders.id = ${id}
     `;
 

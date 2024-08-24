@@ -5,7 +5,7 @@ export async function fetchCureCatalog() {
   try {
     const data = await sql<Cure>`
       SELECT
-        products.id as product_id,
+        DISTINCT products.id AS product_id,
         products.name AS product_name,
         products.amount AS product_amount,
         cure_content.care_1_session_number,

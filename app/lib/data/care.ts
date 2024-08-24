@@ -70,13 +70,13 @@ export async function fetchCareFromRenataCategory() {
 async function fetchCareByCategoryName(name: string) {
   try {
     const data = await sql<Care>`
-      SELECT products.id AS product_id,
+      SELECT
+        DISTINCT products.id AS product_id,
         products.name AS product_name
       FROM care_catalog
       LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
       LEFT JOIN products on care_catalog.product_id = products.id
-      WHERE care_categories.name = ${name}
-      GROUP BY products.id;
+      WHERE care_categories.name = ${name};
     `;
     const careCategories = data.rows;
     return careCategories;

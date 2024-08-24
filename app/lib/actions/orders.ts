@@ -18,8 +18,6 @@ const FormSchema = z.object({
   id: z.string(),
   customer_id: z.string().min(1, { message: 'The customer is required' }),
   product_id: z.string().min(1, { message: 'The product is required' }),
-  product_name: z.string().min(1, { message: 'The product name is required' }),
-  product_type: z.string().min(1, { message: 'The product type is required' }),
   payment_status: z.enum(['pending', 'paid']),
   date: z.string(),
 });
@@ -30,8 +28,6 @@ export async function createOrder(prevState: State, formData: FormData) {
   const validatedFields = CreateOrder.safeParse({
     customer_id: formData.get('customer'),
     product_id: formData.get('product-id'),
-    product_name: formData.get('product-name'),
-    product_type: formData.get('product-type'),
     payment_status: formData.get('payment-status'),
   });
 
@@ -44,19 +40,13 @@ export async function createOrder(prevState: State, formData: FormData) {
     };
   }
 
-  const {
-    customer_id,
-    product_id,
-    product_name,
-    product_type,
-    payment_status,
-  } = validatedFields.data;
+  const { customer_id, product_id, payment_status } = validatedFields.data;
   const date = new Date().toISOString().split('T')[0];
 
   try {
     await sql`
-      INSERT INTO orders (customer_id, product_id, product_name, product_type, status, date)
-      VALUES (${customer_id}, ${product_id}, ${product_name}, ${product_type}, ${payment_status}, ${date})
+      INSERT INTO orders (customer_id, product_id, date, status)
+      VALUES (${customer_id}, ${product_id}, ${date}, ${payment_status})
       `;
   } catch (error) {
     console.error('Database Error:', error);
@@ -72,8 +62,7 @@ export async function createOrder(prevState: State, formData: FormData) {
 export async function deleteOrder(id: string) {
   try {
     await sql`
-      DELETE FROM orders
-      WHERE id = ${id}
+      DELETE FROM orders WHERE id = ${id}
     `;
   } catch (error) {
     console.error('Database Error:', error);
@@ -92,10 +81,11 @@ export async function updateOrder(
   const validatedFields = CreateOrder.safeParse({
     customer_id: formData.get('customer'),
     product_id: formData.get('product-id'),
-    product_name: formData.get('product-name'),
-    product_type: formData.get('product-type'),
     payment_status: formData.get('payment-status'),
   });
+
+  console.log('validatedFields', validatedFields);
+  console.log('id', id);
 
   if (!validatedFields.success) {
     return {
@@ -104,22 +94,15 @@ export async function updateOrder(
     };
   }
 
-  const {
-    customer_id,
-    product_id,
-    product_name,
-    product_type,
-    payment_status,
-  } = validatedFields.data;
+  const { customer_id, product_id, payment_status } = validatedFields.data;
 
   try {
     await sql`
       UPDATE orders
-      SET customer_id = ${customer_id},
-          product_id = ${product_id},
-          product_name = ${product_name},
-          product_type = ${product_type},
-          status = ${payment_status}
+      SET
+        customer_id = ${customer_id},
+        product_id = ${product_id},
+        status = ${payment_status}
       WHERE id = ${id}
     `;
   } catch (error) {

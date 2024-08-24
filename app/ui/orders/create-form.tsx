@@ -3,7 +3,7 @@
 // @ts-ignore
 import { useActionState, useState } from 'react';
 import { createOrder } from '@/app/lib/actions/orders';
-import { Care, CureWithCareData, CustomerField } from '@/app/lib/definitions';
+import { Care, Cure, CustomerField } from '@/app/lib/definitions';
 import { Button } from '../button';
 import SelectCustomer from '../select-customer';
 import SelectProduct from '../select-product';
@@ -19,7 +19,7 @@ export default function Form({
   customers,
 }: {
   cares: Care[];
-  cures: CureWithCareData[];
+  cures: Cure[];
   customers: CustomerField[];
 }) {
   const [state, formAction] = useActionState(createOrder, initialState);

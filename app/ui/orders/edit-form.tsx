@@ -4,12 +4,7 @@
 import { useActionState, useState } from 'react';
 import { Button } from '../button';
 import { updateOrder } from '@/app/lib/actions/orders';
-import {
-  Care,
-  CureWithCareData,
-  CustomerField,
-  Order,
-} from '@/app/lib/definitions';
+import { Care, Cure, CustomerField, Order } from '@/app/lib/definitions';
 import CancelButton from '../cancel-button';
 import SelectCustomer from '../select-customer';
 import SelectProduct from '../select-product';
@@ -25,7 +20,7 @@ export default function Form({
   order,
 }: {
   cares: Care[];
-  cures: CureWithCareData[];
+  cures: Cure[];
   customers: CustomerField[];
   order: Order;
 }) {
@@ -48,7 +43,6 @@ export default function Form({
           cures={cures}
           errors={state.errors?.product || []}
           value={`${order.product_id}`}
-          defaultProductType={order.product_type}
         />
         <SelectPaymentStatus
           errors={state.errors?.status || []}

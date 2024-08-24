@@ -1,39 +1,17 @@
 import { HandRaisedIcon } from '@heroicons/react/24/outline';
 import { Care, Cure } from '@/app/lib/definitions';
-import { useState } from 'react';
 
 export default function SelectProduct({
   cares,
   cures,
   errors,
-  defaultProductType = 'care',
   value,
 }: {
   cares: Care[];
   cures: Cure[];
   errors: string[];
-  defaultProductType?: 'care' | 'cure';
   value?: string;
 }) {
-  const [productName, setProductName] = useState<string>('');
-  const [productType, setProductType] = useState<string>(defaultProductType);
-
-  const onProductChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const product_id = e.target.value;
-    if (isCareId(product_id)) {
-      setProductName(findCareName(product_id));
-      return setProductType('care');
-    }
-    setProductName(findCureName(product_id));
-    setProductType('cure');
-  };
-
-  const isCareId = (id: string) => cares.some((care) => care.id === id);
-  const findCareName = (id: string) =>
-    cares.find((care) => care.id === id)?.name || '';
-  const findCureName = (id: string) =>
-    cures.find((cure) => cure.id === id)?.name || '';
-
   return (
     <div className="mb-4">
       <label htmlFor="product-id" className="mb-2 block text-sm font-medium">
@@ -44,27 +22,23 @@ export default function SelectProduct({
           id="product-id"
           name="product-id"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          onChange={onProductChange}
           defaultValue={value}
         >
           <option disabled={true}>-- Cares --</option>
           {cares.map((care) => (
-            <option key={care.id} value={care.id}>
-              {care.name}
+            <option key={care.product_id} value={care.product_id}>
+              {care.product_name}
             </option>
           ))}
           <option disabled={true}>-- Cures --</option>
           {cures.map((cure) => (
-            <option key={cure.id} value={cure.id}>
-              {cure.name}
+            <option key={cure.product_id} value={cure.product_id}>
+              {cure.product_name}
             </option>
           ))}
         </select>
         <HandRaisedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
       </div>
-
-      <input type="hidden" name="product-type" value={productType} />
-      <input type="hidden" name="product-name" value={productName} />
 
       <div id="product-error" aria-live="polite" aria-atomic="true">
         {errors &&
