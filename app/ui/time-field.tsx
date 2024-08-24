@@ -1,15 +1,4 @@
-import { useState } from 'react';
-
-export default function TimeField({
-  defaultValue = '',
-}: {
-  defaultValue?: string;
-}) {
-  const [time, setTime] = useState(defaultValue);
-
-  const updateTime = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setTime(e.target.value);
-
+export function TimeField({ onChange }: { onChange: (time: string) => void }) {
   return (
     <input
       id="time"
@@ -17,8 +6,7 @@ export default function TimeField({
       type="time"
       className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
       aria-describedby="time-error"
-      value={time}
-      onChange={updateTime}
+      onChange={(e) => onChange(e.target.value)}
     />
   );
 }

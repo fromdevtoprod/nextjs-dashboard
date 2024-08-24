@@ -11,6 +11,8 @@ export default async function Page({
 }) {
   const customer = await fetchCustomerById(searchParams.customerId);
   const cares = await fetchCareFromRenataCategory();
+  // It should be replaced by a function that fetches all available cures for this customer
+  // If the customer has already one cure in progress, it should be the only one returned by this function
   const cures = await fetchCureCatalog();
   return (
     <main>
