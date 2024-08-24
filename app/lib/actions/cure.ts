@@ -15,34 +15,30 @@ type State = {
 };
 
 const FormSchema = z.object({
-  id: z.string(),
-  name: z.string().min(1, { message: 'Name is required' }),
-  care_1: z.string().min(1, { message: 'One minimal care is required' }),
-  session_number_1: z.coerce
+  product_id: z.string(),
+  product_name: z.string().min(1, { message: 'Name is required' }),
+  care_1_id: z.string().min(1, { message: 'One minimal care is required' }),
+  care_1_session_number: z.coerce
     .number()
     .gt(0, { message: 'Please enter a session number greater than 0.' }),
-  care_2: z.string().nullable(),
-  session_number_2: z.coerce.number(),
-  amount: z.coerce
+  care_2_id: z.string().nullable(),
+  care_2_session_number: z.coerce.number(),
+  product_amount: z.coerce
     .number()
-    .gt(0, { message: 'Please enter an amount greater than 0€.' }),
-  status: z.enum(['active', 'inactive']),
+    .gt(0, { message: 'Please enter an amount greater than 0.' }),
 });
 
-const CreateCure = FormSchema.omit({ id: true });
+const CreateCure = FormSchema.omit({ product_id: true });
 
 export async function createCure(prevState: State, formData: FormData) {
   const validatedFields = CreateCure.safeParse({
-    name: formData.get('name'),
-    care_1: formData.get('care_1'),
-    session_number_1: formData.get('session_number_1'),
-    care_2: formData.get('care_2'),
-    session_number_2: formData.get('session_number_2'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
+    product_name: formData.get('name'),
+    care_1_id: formData.get('care_1'),
+    care_1_session_number: formData.get('session_number_1'),
+    care_2_id: formData.get('care_2'),
+    care_2_session_number: formData.get('session_number_2'),
+    product_amount: formData.get('amount'),
   });
-
-  console.log('validatedFields', validatedFields);
 
   if (!validatedFields.success) {
     return {
@@ -52,19 +48,24 @@ export async function createCure(prevState: State, formData: FormData) {
   }
 
   const {
-    name,
-    amount,
-    status,
-    care_1,
-    session_number_1,
-    care_2,
-    session_number_2,
+    product_name,
+    product_amount,
+    care_1_id,
+    care_1_session_number,
+    care_2_id,
+    care_2_session_number,
   } = validatedFields.data;
 
   try {
+    const product = await sql`
+      INSERT INTO products (name, type, amount)
+      VALUES (${product_name}, 'cure', ${product_amount})
+      RETURNING *
+    `;
+
     await sql`
-      INSERT INTO cure_catalog (name, amount, status, care_id_1, session_number_1, care_id_2, session_number_2)
-      VALUES (${name}, ${amount}, ${status}, ${care_1}, ${session_number_1}, ${care_2}, ${session_number_2})
+      INSERT INTO cure_content (product_id, care_1_id, care_1_session_number, care_2_id, care_2_session_number)
+      VALUES (${product.rows[0].id}, ${care_1_id}, ${care_1_session_number}, ${care_2_id}, ${care_2_session_number})
       `;
   } catch (error) {
     console.error('Database Error:', error);
@@ -79,10 +80,8 @@ export async function createCure(prevState: State, formData: FormData) {
 
 export async function deleteCure(id: string) {
   try {
-    await sql`
-      DELETE FROM cure_catalog
-      WHERE id = ${id}
-    `;
+    await sql`DELETE FROM products WHERE id = ${id};`;
+    await sql`DELETE FROM cure_content WHERE product_id = ${id};`;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to delete this cure.');
@@ -98,51 +97,54 @@ export async function updateCure(
   formData: FormData,
 ) {
   const validatedFields = CreateCure.safeParse({
-    name: formData.get('name'),
-    care_1: formData.get('care_1'),
-    session_number_1: formData.get('session_number_1'),
-    care_2: formData.get('care_2'),
-    session_number_2: formData.get('session_number_2'),
-    amount: formData.get('amount'),
-    status: formData.get('status'),
+    product_name: formData.get('name'),
+    care_1_id: formData.get('care_1'),
+    care_1_session_number: formData.get('session_number_1'),
+    care_2_id: formData.get('care_2'),
+    care_2_session_number: formData.get('session_number_2'),
+    product_amount: formData.get('amount'),
   });
-
+  console.log(
+    'validatedFields.error?.flatten().fieldErrors',
+    validatedFields.error?.flatten().fieldErrors,
+  );
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing fields. Failed to update this cure.',
     };
   }
-
   const {
-    name,
-    amount,
-    status,
-    care_1,
-    session_number_1,
-    care_2,
-    session_number_2,
+    product_name,
+    product_amount,
+    care_1_id,
+    care_1_session_number,
+    care_2_id,
+    care_2_session_number,
   } = validatedFields.data;
-
   try {
     await sql`
-                UPDATE cure_catalog
-                SET name = ${name},
-                    amount = ${amount},
-                    status = ${status},
-                    care_id_1 = ${care_1},
-                    session_number_1 = ${session_number_1},
-                    care_id_2 = ${care_2},
-                    session_number_2 = ${session_number_2}
-                WHERE id = ${id}
-            `;
+      UPDATE products
+      SET
+        name = ${product_name},
+        amount = ${product_amount}
+      WHERE id = ${id}
+    `;
+    await sql`
+      UPDATE cure_content
+      SET
+        care_1_id = ${care_1_id},
+        care_1_session_number = ${care_1_session_number},
+        care_2_id = ${care_2_id},
+        care_2_session_number = ${care_2_session_number}
+      WHERE product_id = ${id}
+    `;
   } catch (error) {
     console.error('Database Error:', error);
     return {
       message: 'Database Error: Failed to update this cure.',
     };
   }
-
   revalidatePath('/dashboard/cure');
   redirect('/dashboard/cure');
 }

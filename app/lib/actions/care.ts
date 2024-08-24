@@ -37,8 +37,6 @@ export async function createCare(prevState: State, formData: FormData) {
     product_name: formData.get('name'),
   });
 
-  console.log('validatedFields', validatedFields);
-
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
@@ -46,15 +44,18 @@ export async function createCare(prevState: State, formData: FormData) {
     };
   }
 
+  const { category_id, product_name, product_amount, duration } =
+    validatedFields.data;
+
   try {
     const product = await sql`
       INSERT INTO products (name, type, amount)
-      VALUES (${validatedFields.data.product_name}, 'care', ${validatedFields.data.product_amount})
+      VALUES (${product_name}, 'care', ${product_amount})
       RETURNING *
     `;
     await sql`
       INSERT INTO care_catalog (product_id, category_id, duration)
-      VALUES (${product.rows[0].id}, ${validatedFields.data.category_id}, ${validatedFields.data.duration})
+      VALUES (${product.rows[0].id}, ${category_id}, ${duration})
       `;
   } catch (error) {
     console.error('Database Error:', error);

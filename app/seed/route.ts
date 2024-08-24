@@ -7,7 +7,6 @@ import {
   users,
   careCategories,
   careCatalog,
-  cureCatalog,
   orders,
   appointments,
   products,
@@ -157,40 +156,22 @@ async function seedCareCatalog() {
   return insertedCareCatalog;
 }
 
-async function seedCureCatalog() {
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS cure_catalog (
-      product_id UUID NOT NULL,
-      amount INT NOT NULL
-    );
-  `;
-
-  const insertedCureCatalog = await Promise.all(
-    cureCatalog.map(
-      (cure) => client.sql`
-        INSERT INTO cure_catalog (product_id, amount)
-        VALUES (${cure.product_id}, ${cure.amount});
-      `,
-    ),
-  );
-
-  return insertedCureCatalog;
-}
-
 async function seedCureContent() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS cure_content (
       product_id UUID NOT NULL,
-      care_id UUID NOT NULL,
-      session_number INT NOT NULL
+      care_1_id UUID NOT NULL,
+      care_1_session_number INT NOT NULL,
+      care_2_id UUID NULL,
+      care_2_session_number INT NULL
     );
   `;
 
   const insertedCureContent = await Promise.all(
     cureContent.map(
       (content) => client.sql`
-        INSERT INTO cure_content (product_id, care_id, session_number)
-        VALUES (${content.product_id}, ${content.care_id}, ${content.session_number});
+        INSERT INTO cure_content (product_id, care_1_id, care_1_session_number, care_2_id, care_2_session_number)
+        VALUES (${content.product_id}, ${content.care_1_id}, ${content.care_1_session_number}, ${content.care_2_id}, ${content.care_2_session_number});
       `,
     ),
   );
@@ -277,7 +258,6 @@ export async function GET() {
     await seedRevenue();
     await seedCareCategories();
     await seedCareCatalog();
-    await seedCureCatalog();
     await seedCureContent();
     await seedProducts();
     await seedOrders();

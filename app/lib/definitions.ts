@@ -60,20 +60,13 @@ export type CureContent = {
 };
 
 export type Cure = {
-  id: string;
-  name: string;
-  content: CureContent[];
-  amount: number;
-  status: 'active' | 'inactive';
-  care_id_1: string;
-  session_number_1: number;
-  care_id_2: string;
-  session_number_2: number;
-};
-
-export type CureWithCareData = Cure & {
-  total_cares: number;
-  total_sessions: number;
+  product_id: string;
+  product_name: string;
+  product_amount: number;
+  care_1_id: string;
+  care_1_session_number: number;
+  care_2_id: string;
+  care_2_session_number: number;
 };
 
 export type Order = {

@@ -1,5 +1,5 @@
 import { ClockIcon, HandRaisedIcon } from '@heroicons/react/24/outline';
-import { Care, CureContent } from '@/app/lib/definitions';
+import { Care } from '@/app/lib/definitions';
 
 export default function CureDetails({
   cares,
@@ -35,8 +35,8 @@ export default function CureDetails({
               defaultValue={selectedCare}
             >
               {cares.map((care) => (
-                <option key={care.id} value={care.id}>
-                  {care.name}
+                <option key={care.product_id} value={care.product_id}>
+                  {care.product_name}
                 </option>
               ))}
             </select>

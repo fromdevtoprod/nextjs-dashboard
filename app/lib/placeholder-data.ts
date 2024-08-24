@@ -251,59 +251,41 @@ const careCatalog = [
   },
 ];
 
-const cureCatalog = [
-  {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df77',
-    amount: 550,
-  },
-  {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df78',
-    amount: 650,
-  },
-  {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df79',
-    amount: 275,
-  },
-  {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df80',
-    amount: 650,
-  },
-  {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df81',
-    amount: 600,
-  },
-];
-
 const cureContent = [
   {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df77',
-    care_id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
-    session_number: 5,
+    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd90',
+    care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
+    care_1_session_number: 5,
+    care_2_id: null,
+    care_2_session_number: null,
   },
   {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df78',
-    care_id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
-    session_number: 5,
+    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd91',
+    care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
+    care_1_session_number: 5,
+    care_2_id: null,
+    care_2_session_number: null,
   },
   {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df79',
-    care_id: 'cb58f01f-2260-4db2-b068-1451286bdd86',
-    session_number: 5,
+    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd92',
+    care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd86',
+    care_1_session_number: 5,
+    care_2_id: null,
+    care_2_session_number: null,
   },
   {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df80',
-    care_id: 'cb58f01f-2260-4db2-b068-1451286bdd87',
-    session_number: 5,
+    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd93',
+    care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd87',
+    care_1_session_number: 5,
+    care_2_id: null,
+    care_2_session_number: null,
   },
   {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df81',
-    care_id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
-    session_number: 2,
-  },
-  {
-    product_id: '3aeaf5b3-f263-4618-a413-b6972ad1df81',
-    care_id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
-    session_number: 3,
+    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd94',
+    care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
+    care_1_session_number: 2,
+    care_2_id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
+    care_2_session_number: 3,
   },
 ];
 
@@ -331,18 +313,6 @@ const products = [
     name: 'Combo',
     type: 'care',
     amount: 150,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd88',
-    name: 'Chi Nei Tsang',
-    type: 'cure',
-    amount: 110,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd89',
-    name: 'Tui Na',
-    type: 'cure',
-    amount: 110,
   },
   {
     id: 'cb58f01f-2260-4db2-b068-1451286bdd90',
@@ -482,7 +452,6 @@ export {
   revenue,
   careCategories,
   careCatalog,
-  cureCatalog,
   cureContent,
   products,
   orders,

@@ -8,9 +8,9 @@ export async function fetchCareList() {
         care_catalog.product_id,
         care_catalog.category_id,
         care_catalog.duration,
-        care_categories.name as category_name,
-        products.name as product_name,
-        products.amount as product_amount
+        care_categories.name AS category_name,
+        products.name AS product_name,
+        products.amount AS product_amount
       FROM care_catalog
       LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
       LEFT JOIN products ON care_catalog.product_id = products.id;
@@ -45,9 +45,9 @@ export async function fetchCareById(productId: string) {
         care_catalog.product_id,
         care_catalog.category_id,
         care_catalog.duration,
-        care_categories.name as category_name,
-        products.name as product_name,
-        products.amount as product_amount
+        care_categories.name AS category_name,
+        products.name AS product_name,
+        products.amount AS product_amount
       FROM care_catalog
       LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
       LEFT JOIN products ON care_catalog.product_id = products.id
@@ -70,13 +70,16 @@ export async function fetchCareFromRenataCategory() {
 async function fetchCareByCategoryName(name: string) {
   try {
     const data = await sql<Care>`
-      SELECT cares.id, cares.name
-        FROM care_catalog as cares
-        LEFT JOIN care_categories ON cares.care_category_id = care_categories.id
-        WHERE care_categories.name = ${name}
+      SELECT products.id AS product_id,
+        products.name AS product_name
+      FROM care_catalog
+      LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
+      LEFT JOIN products on care_catalog.product_id = products.id
+      WHERE care_categories.name = ${name}
+      GROUP BY products.id;
     `;
-    const categories = data.rows;
-    return categories;
+    const careCategories = data.rows;
+    return careCategories;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all cares for this category.');

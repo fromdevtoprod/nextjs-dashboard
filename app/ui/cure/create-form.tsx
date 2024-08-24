@@ -8,7 +8,6 @@ import CureDetails from './cure-details';
 import AddCareButton from './add-care-button';
 import RemoveCareButton from './remove-care-button';
 import CancelButton from '../cancel-button';
-import SelectStatus from '../select-status';
 import AmountInput from '../amount-input';
 import { Button } from '../button';
 import NameInput from '../name-input';
@@ -53,7 +52,6 @@ export default function Form({ cares }: { cares: Care[] }) {
         </div>
 
         <AmountInput errors={state.errors?.amount || []} />
-        <SelectStatus />
         <FormErrorMessage message={state.message} />
       </div>
 
