@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import Calendar from '@/app/ui/appointments/calendar';
 import { lusitana } from '@/app/ui/fonts';
 import { AppointmentsCalendarSkeleton } from '@/app/ui/appointments/skeletons';
+import { fetchCustomers } from '@/app/lib/data/customers';
 
 const getActiveDay = (day: string | undefined) =>
   !day ? getCurrentDay() : Number(day);
@@ -18,11 +19,12 @@ const getCurrentMonth = () => new Date().getMonth();
 
 const getCurrentYear = () => new Date().getFullYear();
 
-export default function Page({
+export default async function Page({
   searchParams,
 }: {
   searchParams: { day?: string; month?: string; year?: string };
 }) {
+  const customers = await fetchCustomers();
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
@@ -34,6 +36,7 @@ export default function Page({
             activeDay={getActiveDay(searchParams.day)}
             activeMonth={getActiveMonth(searchParams.month)}
             activeYear={getActiveYear(searchParams.year)}
+            customers={customers}
           />
         </Suspense>
       </div>

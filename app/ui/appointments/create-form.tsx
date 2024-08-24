@@ -3,86 +3,91 @@
 // @ts-ignore
 import { useActionState, useEffect, useState } from 'react';
 import { createAppointment } from '@/app/lib/actions/appointments';
-import { Care, CustomerField } from '@/app/lib/definitions';
+import { Care, Cure, CustomerField } from '@/app/lib/definitions';
 import { Button } from '../button';
-import SelectCustomer from '../select-customer';
 import CancelButton from '../cancel-button';
 import FormErrorMessage from '../form-error-message';
 import TimeInput from '../time-input';
-import SelectOrder, { OrderOption } from '../select-order';
-import SelectCare from '../select-care';
+import SelectProductType from '../select-product-type';
+import SelectProduct from '../select-product';
 
 const initialState = { message: null, error: {} };
 
 export default function Form({
-  customers,
+  cares,
+  cures,
+  customer,
   date,
 }: {
-  customers: CustomerField[];
+  cares: Care[];
+  cures: Cure[];
+  customer: CustomerField;
   date: string;
 }) {
   const [state, formAction] = useActionState(createAppointment, initialState);
-  const [orders, setOrders] = useState<OrderOption[]>([]);
-  const [cares, setCares] = useState<Care[]>([]);
-  const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
-  const [selectedOrderId, setSelectedOrderId] = useState<string>('');
   const [selectedProductId, setSelectedProductId] = useState<string>('');
+  const [selectedProductType, setSelectedProductType] = useState<
+    'care' | 'cure'
+  >();
+  const [caresFromCure, setCaresFromCure] = useState([]);
+  const [careId, setCareId] = useState('');
 
   useEffect(() => {
-    if (selectedCustomerId) {
-      fetch(`/api/orders?customer_id=${selectedCustomerId}`)
-        .then((res) => res.json() as Promise<OrderOption[]>)
-        .then(setOrders);
+    if (selectedProductId && selectedProductType === 'cure') {
+      fetch(`/api/cares?product_id=${selectedProductId}&product_type=cure`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setCaresFromCure(data);
+          if (data.length === 1) {
+            return setCareId(data[0].product_id);
+          }
+          setCareId('');
+        });
     }
-  }, [selectedCustomerId]);
-
-  useEffect(() => {
-    if (selectedOrderId) {
-      const order = orders.find((order) => order.id === selectedOrderId);
-      if (!order?.product_id || !order.product_type)
-        throw new Error('Product ID not found');
-      fetch(
-        `/api/cares?product_id=${order.product_id}&product_type=${order.product_type}`,
-      )
-        .then((res) => res.json() as Promise<Care[]>)
-        .then(setCares);
+    if (selectedProductId && selectedProductType === 'care') {
+      setCareId(selectedProductId);
     }
-  }, [selectedOrderId]);
+  }, [selectedProductId]);
 
-  console.log('selectedProductId', selectedProductId);
-  console.log('cares', cares);
+  const careDuration =
+    (careId && cares.find((care) => care.product_id === careId)?.duration) || 0;
+
+  console.log('careDuration', careDuration);
 
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
-        <SelectCustomer
-          customers={customers}
-          errors={state.errors?.customer || []}
-          selectedCustomerId={selectedCustomerId}
-          onCustomerSelect={setSelectedCustomerId}
+        <div className="mb-5 text-sm text-gray-500">
+          Customer id : {customer.id} & name : {customer.name}
+        </div>
+        <SelectProductType
+          errors={state.errors?.product_type || []}
+          onProductTypeSelect={(productType: 'care' | 'cure') => {
+            setCareId('');
+            setSelectedProductType(productType);
+          }}
         />
-        {selectedCustomerId && orders.length > 0 && (
-          <SelectOrder
-            orders={orders}
+        {selectedProductType && (
+          <SelectProduct
+            productType={selectedProductType}
+            products={selectedProductType === 'care' ? cares : cures}
             errors={state.errors?.product || []}
-            selectedOrderId={selectedOrderId}
-            onOrderSelect={setSelectedOrderId}
+            onProductSelect={setSelectedProductId}
           />
         )}
-        {selectedOrderId && cares.length > 0 && (
-          <SelectCare
-            cares={cares}
-            errors={state.errors?.care || []}
-            onCareSelect={setSelectedProductId}
+        {caresFromCure.length > 1 && (
+          <SelectProduct
+            productType="care"
+            products={caresFromCure}
+            errors={state.errors?.product || []}
+            onProductSelect={setCareId}
           />
         )}
-        {selectedProductId && (
+        {careId && (
           <TimeInput
             errors={state.errors?.time || []}
-            careDuration={
-              cares.find((care) => care.product_id === selectedProductId)
-                ?.duration || 0
-            }
+            careDuration={careDuration}
           />
         )}
         <FormErrorMessage message={state.message} />

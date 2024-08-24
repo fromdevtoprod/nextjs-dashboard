@@ -33,7 +33,8 @@ export async function fetchOrderById(id: string) {
         orders.id,
         orders.customer_id,
         orders.product_id,
-        orders.status
+        orders.status,
+        products.type AS product_type
       FROM orders
       LEFT JOIN customers ON orders.customer_id = customers.id
       LEFT JOIN products ON orders.product_id = products.id

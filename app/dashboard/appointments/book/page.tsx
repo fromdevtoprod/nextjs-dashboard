@@ -1,13 +1,17 @@
-import { fetchCustomers } from '@/app/lib/data/customers';
+import { fetchCustomerById } from '@/app/lib/data/customers';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import Form from '@/app/ui/appointments/create-form';
+import { fetchCareFromRenataCategory } from '@/app/lib/data/care';
+import { fetchCureCatalog } from '@/app/lib/data/cure';
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { date?: string };
+  searchParams: { date?: string; customerId: string };
 }) {
-  const customers = await fetchCustomers();
+  const customer = await fetchCustomerById(searchParams.customerId);
+  const cares = await fetchCareFromRenataCategory();
+  const cures = await fetchCureCatalog();
   return (
     <main>
       <Breadcrumbs
@@ -21,7 +25,9 @@ export default async function Page({
         ]}
       />
       <Form
-        customers={customers}
+        cares={cares}
+        cures={cures}
+        customer={customer}
         date={searchParams.date || getCurrentDate()}
       />
     </main>

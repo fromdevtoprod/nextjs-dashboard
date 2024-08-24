@@ -2,6 +2,7 @@
 
 // @ts-ignore
 import { useActionState, useState } from 'react';
+import { HandRaisedIcon, ListBulletIcon } from '@heroicons/react/24/outline';
 import { createOrder } from '@/app/lib/actions/orders';
 import { Care, Cure, CustomerField } from '@/app/lib/definitions';
 import { Button } from '../button';
@@ -10,6 +11,7 @@ import SelectProduct from '../select-product';
 import SelectPaymentStatus from './select-payment-status';
 import CancelButton from '../cancel-button';
 import FormErrorMessage from '../form-error-message';
+import SelectProductType from '../select-product-type';
 
 const initialState = { message: null, error: {} };
 
@@ -24,6 +26,9 @@ export default function Form({
 }) {
   const [state, formAction] = useActionState(createOrder, initialState);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
+  const [selectedProductType, setSelectedProductType] = useState<
+    'care' | 'cure'
+  >();
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -33,11 +38,19 @@ export default function Form({
           selectedCustomerId={selectedCustomerId}
           onCustomerSelect={setSelectedCustomerId}
         />
-        <SelectProduct
-          cares={cares}
-          cures={cures}
-          errors={state.errors?.product || []}
-        />
+        {selectedCustomerId && (
+          <SelectProductType
+            errors={state.errors?.product_type || []}
+            onProductTypeSelect={setSelectedProductType}
+          />
+        )}
+        {selectedProductType && (
+          <SelectProduct
+            productType={selectedProductType}
+            products={selectedProductType === 'care' ? cares : cures}
+            errors={state.errors?.product || []}
+          />
+        )}
         <SelectPaymentStatus errors={state.errors?.status || []} />
         <FormErrorMessage message={state.message} />
       </div>

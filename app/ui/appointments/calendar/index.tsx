@@ -5,16 +5,19 @@ import NextMonthArrow from './next-month';
 import TableBody from './tbody';
 import TableHead from './thead';
 import ActiveDayAppointments from './active-day-appointments';
-import { BookAppointmentButton } from '../buttons';
+import { BookAppointmentButton } from '../book-appointment-button';
+import { CustomerField } from '@/app/lib/definitions';
 
 export default async function Calendar({
   activeDay,
   activeMonth,
   activeYear,
+  customers,
 }: {
   activeDay: number;
   activeMonth: number;
   activeYear: number;
+  customers: CustomerField[];
 }) {
   const appointments = await fetchAppointments(
     activeDay,
@@ -49,6 +52,7 @@ export default async function Calendar({
 
         <ActiveDayAppointments appointments={appointments}>
           <BookAppointmentButton
+            customers={customers}
             date={formatBookDate(activeDay, activeMonth, activeYear)}
           />
         </ActiveDayAppointments>

@@ -72,7 +72,8 @@ async function fetchCareByCategoryName(name: string) {
     const data = await sql<Care>`
       SELECT
         DISTINCT products.id AS product_id,
-        products.name AS product_name
+        products.name AS product_name,
+        care_catalog.duration
       FROM care_catalog
       LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
       LEFT JOIN products on care_catalog.product_id = products.id
@@ -111,20 +112,27 @@ export async function fetchCareByProduct({
         FROM cure_content
         WHERE cure_content.product_id = ${productId}
       `;
-    const care1 = await fetchCareById(careIds.rows[0].care_1_id);
-    const care2 = await fetchCareById(careIds.rows[0].care_2_id);
-    return [
+    const { care_1_id, care_2_id } = careIds.rows[0];
+    const care1 = await fetchCareById(care_1_id);
+    let care2;
+    if (care_2_id) {
+      care2 = await fetchCareById(careIds.rows[0].care_2_id);
+    }
+    const cares = [
       {
         product_id: care1.product_id,
         product_name: care1.product_name,
         duration: care1.duration,
       },
-      {
+    ];
+    if (care2) {
+      cares.push({
         product_id: care2.product_id,
         product_name: care2.product_name,
         duration: care2.duration,
-      },
-    ];
+      });
+    }
+    return cares;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch care by product id.');
