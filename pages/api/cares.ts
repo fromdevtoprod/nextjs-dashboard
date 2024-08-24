@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { fetchOrdersByCustomer } from '@/app/lib/data/orders';
 import { Order } from '@/app/lib/definitions';
+import { fetchCareByProduct } from '@/app/lib/data/care';
 
 type ResponseData = {
   message: string;
@@ -10,16 +10,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>,
 ) {
-  if (req.method === 'GET' && req.query.customer_id) {
+  if (req.method === 'GET' && req.query.product_id && req.query.product_type) {
     try {
-      const orders = await fetchOrdersByCustomer(
-        req.query.customer_id as string,
-      );
-      const options = orders.map((order) => ({
-        id: order.id,
-        description: formatOrderDescription(order),
-        product_id: order.product_id,
-        product_type: order.product_type,
+      const productId = req.query.product_id as string;
+      const productType = req.query.product_type as string;
+      const cares = await fetchCareByProduct({ productId, productType });
+      const options = cares.map((care) => ({
+        product_id: care.product_id,
+        product_name: care.product_name,
+        duration: care.duration,
       }));
       // @ts-ignore
       return res.status(200).json(options);

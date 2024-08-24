@@ -26,7 +26,7 @@ export default function Form({
 }) {
   const updateOrderWithId = updateOrder.bind(null, order.id);
   const [state, formAction] = useActionState(updateOrderWithId, initialState);
-  const [selectedCustomer, setSelectedCustomer] = useState<string>(
+  const [selectedCustomerId, setSelectedCustomerId] = useState<string>(
     order.customer_id,
   );
   return (
@@ -35,8 +35,8 @@ export default function Form({
         <SelectCustomer
           customers={customers}
           errors={state.errors?.customer || []}
-          selectedCustomer={selectedCustomer}
-          onCustomerSelect={(newCustomer) => setSelectedCustomer(newCustomer)}
+          selectedCustomerId={selectedCustomerId}
+          onCustomerSelect={setSelectedCustomerId}
         />
         <SelectProduct
           cares={cares}

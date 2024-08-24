@@ -73,11 +73,12 @@ export type Order = {
   id: string;
   customer_id: string;
   customer_name: string;
-  product_id: number;
+  product_id: string;
   product_type: 'care' | 'cure';
   product_name: string;
   status: 'pending' | 'paid';
   date: string;
+  care_duration?: number;
 };
 
 export type Appointment = {

@@ -7,12 +7,12 @@ export type OrderOption = Order & { description: string };
 export default function SelectOrder({
   orders,
   errors,
-  selectedOrder,
+  selectedOrderId,
   onOrderSelect,
 }: {
   orders: OrderOption[];
   errors: string[];
-  selectedOrder: string;
+  selectedOrderId: string;
   onOrderSelect: (orderId: string) => void;
 }) {
   const [productName, setProductName] = useState<string>('');
@@ -35,7 +35,7 @@ export default function SelectOrder({
           name="order-id"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           onChange={handleOrderSelect}
-          defaultValue={selectedOrder}
+          defaultValue={selectedOrderId}
         >
           <option value="" disabled>
             Select an order

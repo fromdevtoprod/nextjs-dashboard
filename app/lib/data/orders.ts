@@ -55,13 +55,14 @@ export async function fetchOrdersByCustomer(customerId: string) {
         orders.id,
         orders.customer_id,
         orders.product_id,
-        orders.product_name,
-        orders.product_type,
         orders.status,
-        orders.date
+        orders.date,
+        products.name AS product_name,
+        products.type AS product_type
       FROM orders
+      LEFT JOIN products ON orders.product_id = products.id
       WHERE orders.customer_id = ${customerId}
-      ORDER BY orders.id ASC
+      ORDER BY orders.id DESC
     `;
     const orders = data.rows;
     return orders;

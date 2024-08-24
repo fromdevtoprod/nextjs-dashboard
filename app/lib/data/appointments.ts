@@ -11,14 +11,15 @@ export async function fetchAppointments(
       SELECT
         appointments.id,
         appointments.order_id,
-        appointments.product_name,
-        appointments.customer_name,
-        appointments.status,
         appointments.date,
         appointments.ended_time,
-        orders.customer_id
+        orders.customer_id,
+        products.name AS product_name,
+        customers.name AS customer_name
       FROM appointments
       LEFT JOIN orders ON orders.id = appointments.order_id
+      LEFT JOIN products ON products.id = orders.product_id
+      LEFT JOIN customers ON customers.id = orders.customer_id
       WHERE EXTRACT(DAY FROM appointments.date) = ${day}
       AND EXTRACT(MONTH FROM appointments.date) = ${month}
       AND EXTRACT(YEAR FROM appointments.date) = ${year}

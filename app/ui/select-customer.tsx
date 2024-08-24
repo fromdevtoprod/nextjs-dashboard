@@ -5,12 +5,12 @@ import { CustomerField } from '@/app/lib/definitions';
 export default function SelectCustomer({
   customers,
   errors,
-  selectedCustomer,
+  selectedCustomerId,
   onCustomerSelect,
 }: {
   customers: CustomerField[];
   errors: string[];
-  selectedCustomer: string;
+  selectedCustomerId: string;
   onCustomerSelect: (customer: string) => void;
 }) {
   const [customerName, setCustomerName] = useState<string>('');
@@ -32,7 +32,7 @@ export default function SelectCustomer({
           id="customer"
           name="customer"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          defaultValue={selectedCustomer}
+          defaultValue={selectedCustomerId}
           onChange={handleCustomerSelect}
         >
           <option value="" disabled>
