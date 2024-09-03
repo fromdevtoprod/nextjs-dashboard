@@ -45,8 +45,8 @@ export async function createOrder(prevState: State, formData: FormData) {
 
   try {
     await sql`
-      INSERT INTO orders (customer_id, product_id, date, status)
-      VALUES (${customer_id}, ${product_id}, ${date}, ${payment_status})
+      INSERT INTO orders (customer_id, product_id, date, payment_status, order_status)
+      VALUES (${customer_id}, ${product_id}, ${date}, ${payment_status}, 'pending')
       `;
   } catch (error) {
     console.error('Database Error:', error);
@@ -102,7 +102,7 @@ export async function updateOrder(
       SET
         customer_id = ${customer_id},
         product_id = ${product_id},
-        status = ${payment_status}
+        payment_status = ${payment_status}
       WHERE id = ${id}
     `;
   } catch (error) {

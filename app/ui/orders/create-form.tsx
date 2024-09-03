@@ -2,7 +2,6 @@
 
 // @ts-ignore
 import { useActionState, useState } from 'react';
-import { HandRaisedIcon, ListBulletIcon } from '@heroicons/react/24/outline';
 import { createOrder } from '@/app/lib/actions/orders';
 import { Care, Cure, CustomerField } from '@/app/lib/definitions';
 import { Button } from '../button';

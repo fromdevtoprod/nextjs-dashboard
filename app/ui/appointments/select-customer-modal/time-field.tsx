@@ -1,9 +1,7 @@
 export function TimeField({
-  isDisabled = false,
   value,
   onChange,
 }: {
-  isDisabled?: boolean;
   value?: string;
   onChange?: (time: string) => void;
 }) {
@@ -16,7 +14,6 @@ export function TimeField({
       aria-describedby="time-error"
       onChange={(e) => onChange && onChange(e.target.value)}
       value={value}
-      disabled={isDisabled}
     />
   );
 }

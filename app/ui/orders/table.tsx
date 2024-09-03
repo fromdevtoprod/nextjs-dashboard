@@ -36,7 +36,10 @@ export default async function OrdersTable() {
                     </div>
                   </div>
                   <div className="pt-4 text-sm">
-                    <p>Status : {order.status}</p>
+                    <p>Payment status : {order.payment_status}</p>
+                  </div>
+                  <div className="pt-4 text-sm">
+                    <p>Order status : {order.order_status}</p>
                   </div>
                   <div className="flex justify-end gap-2">
                     <UpdateOrder id={order.id} />
@@ -61,7 +64,10 @@ export default async function OrdersTable() {
                     Date
                   </th>
                   <th scope="col" className="px-4 py-5 font-medium">
-                    Status
+                    Payment status
+                  </th>
+                  <th scope="col" className="px-4 py-5 font-medium">
+                    Order status
                   </th>
                   <th scope="col" className="relative py-3 pl-6 pr-3">
                     <span className="sr-only">Edit</span>
@@ -87,7 +93,10 @@ export default async function OrdersTable() {
                       {formatDateToLocal(order.date, 'fr-FR')}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                      {capitalize(order.status)}
+                      {capitalize(order.payment_status)}
+                    </td>
+                    <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                      {capitalize(order.order_status)}
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">

@@ -17,17 +17,19 @@ export default function SelectProduct({
   return (
     <div className="mb-4">
       <label htmlFor="product-id" className="mb-2 block text-sm font-medium">
-        Select a product
+        Select a {productType}
       </label>
       <div className="relative">
         <select
           id="product-id"
           name="product-id"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          defaultValue={value}
+          defaultValue={value || ''}
           onChange={(e) => onProductSelect && onProductSelect(e.target.value)}
         >
-          <option value="">Select a product</option>
+          <option value="" disabled>
+            Select a product
+          </option>
           {products.map((product) => (
             <option key={product.product_id} value={product.product_id}>
               {product.product_name}

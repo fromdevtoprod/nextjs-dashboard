@@ -3,11 +3,17 @@ import { ClockIcon } from '@heroicons/react/24/outline';
 import { TimeField } from './time-field';
 
 export default function TimeInput({
-  careDuration,
+  careDuration = 0,
   errors,
+  isDisabled = false,
+  label = 'Enter a time',
+  value,
 }: {
-  careDuration: number;
+  careDuration?: number;
   errors: string[];
+  isDisabled?: boolean;
+  label?: string;
+  value?: string;
 }) {
   const [time, setTime] = useState('00:00');
   let endTime = '';
@@ -19,11 +25,11 @@ export default function TimeInput({
   return (
     <div className="mb-4">
       <label htmlFor="time" className="mb-2 block text-sm font-medium">
-        Enter a time
+        {label}
       </label>
       <div className="relative mt-2 rounded-md">
         <div className="relative">
-          <TimeField onChange={setTime} />
+          <TimeField isDisabled={isDisabled} onChange={setTime} value={value} />
           <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
         </div>
       </div>

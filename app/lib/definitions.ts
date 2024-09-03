@@ -76,7 +76,8 @@ export type Order = {
   product_id: string;
   product_type: 'care' | 'cure';
   product_name: string;
-  status: 'pending' | 'paid';
+  payment_status: 'pending' | 'paid';
+  order_status: 'pending' | 'done';
   date: string;
   care_duration?: number;
 };

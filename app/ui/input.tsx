@@ -2,6 +2,7 @@ export default function Input({
   errors,
   icon,
   id,
+  isDisabled = false,
   label = 'Enter a name',
   placeholder,
   type = 'text',
@@ -10,6 +11,7 @@ export default function Input({
   errors: string[];
   icon?: any;
   id: string;
+  isDisabled?: boolean;
   label: string;
   placeholder?: string;
   type?: 'text' | 'email';
@@ -30,6 +32,7 @@ export default function Input({
             className="peer block w-full rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
             aria-describedby={`${id}-error`}
             defaultValue={value}
+            disabled={isDisabled}
           />
           {icon}
         </div>

@@ -55,7 +55,7 @@ export default function Form({
         />
         <SelectPaymentStatus
           errors={state.errors?.status || []}
-          value={order.status}
+          value={order.payment_status}
         />
         <FormErrorMessage message={state.message} />
       </div>

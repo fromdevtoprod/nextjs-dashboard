@@ -13,7 +13,7 @@ export default function SelectPaymentStatus({
         htmlFor="payment-status"
         className="mb-2 block text-sm font-medium"
       >
-        Select a status
+        Select a payment status
       </label>
       <div className="relative">
         <select

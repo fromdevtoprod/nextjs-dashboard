@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PlusIcon } from '@heroicons/react/24/outline';
 import { CustomerField } from '@/app/lib/definitions';
@@ -13,20 +12,15 @@ export function BookAppointmentButton({
   customers: CustomerField[];
   date: string;
 }) {
-  const router = useRouter();
   const [isModalDisplayed, setIsModalDisplayed] = useState(false);
-  const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
   return (
     <form>
       {isModalDisplayed && (
         <SelectCustomerModal
           customers={customers}
-          onCustomerSelect={setSelectedCustomerId}
+          date={date}
           onAction={() => {
             setIsModalDisplayed(false);
-            router.push(
-              `/dashboard/appointments/book?customerId=${selectedCustomerId}&date=${date}`,
-            );
           }}
           onCancel={() => setIsModalDisplayed(false)}
         />

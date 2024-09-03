@@ -1,38 +1,64 @@
 import { fetchCustomerById } from '@/app/lib/data/customers';
-import Breadcrumbs from '@/app/ui/breadcrumbs';
-import Form from '@/app/ui/appointments/create-form';
-import { fetchCareFromRenataCategory } from '@/app/lib/data/care';
-import { fetchCureCatalog } from '@/app/lib/data/cure';
+import { SelectCareForm } from '@/app/ui/appointments/select-care-form';
+import {
+  fetchCareByProduct,
+  fetchCareFromRenataCategory,
+} from '@/app/lib/data/care';
+import { fetchPendingCureByCustomer } from '@/app/lib/data/cure';
+import { Care } from '@/app/lib/definitions';
+import { Container } from './container';
 
 export default async function Page({
   searchParams,
 }: {
-  searchParams: { date?: string; customerId: string };
+  searchParams: {
+    date?: string;
+    customerId: string;
+    productType: 'care' | 'cure';
+    time: string;
+  };
 }) {
   const customer = await fetchCustomerById(searchParams.customerId);
-  const cares = await fetchCareFromRenataCategory();
-  // It should be replaced by a function that fetches all available cures for this customer
-  // If the customer has already one cure in progress, it should be the only one returned by this function
-  const cures = await fetchCureCatalog();
+  if (searchParams.productType === 'care') {
+    const cares = await fetchCareFromRenataCategory();
+    return (
+      <Container>
+        <SelectCareForm
+          cares={cares}
+          customer={customer}
+          date={searchParams.date || getCurrentDate()}
+          time={searchParams.time}
+        />
+      </Container>
+    );
+  }
+
+  const pendingCure = await fetchPendingCureByCustomer(searchParams.customerId);
+  console.log('pendingCure', pendingCure);
+  if (pendingCure.length > 1) {
+    throw new Error('Customer has more than one pending cure.');
+  }
+
+  // We'll deal with this case later
+  // Right now, we'll just throw an error
+  // Because the customer needs to order a cure first
+  if (pendingCure.length === 0) {
+    throw new Error('Customer has no pending cure.');
+  }
+
+  const cares = (await fetchCareByProduct({
+    productId: pendingCure[0].product_id,
+    productType: 'cure',
+  })) as Care[];
   return (
-    <main>
-      <Breadcrumbs
-        breadcrumbs={[
-          { label: 'Appointments', href: '/dashboard/appointments' },
-          {
-            label: 'Book Appointment',
-            href: '/dashboard/appointments/book',
-            active: true,
-          },
-        ]}
-      />
-      <Form
+    <Container>
+      <SelectCareForm
         cares={cares}
-        cures={cures}
         customer={customer}
         date={searchParams.date || getCurrentDate()}
+        time={searchParams.time}
       />
-    </main>
+    </Container>
   );
 }
 /**

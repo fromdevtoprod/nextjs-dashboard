@@ -24,7 +24,10 @@ export default async function Calendar({
     activeMonth,
     activeYear,
   );
-  console.log('appointments', appointments);
+  console.log(
+    `appointments for ${activeYear}-${activeMonth}-${activeDay}`,
+    appointments,
+  );
   return (
     <div className="flex items-center justify-center px-4 py-8">
       <div className="w-full max-w-sm shadow-lg">

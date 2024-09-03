@@ -9,7 +9,8 @@ export async function fetchOrders() {
         orders.customer_id,
         orders.product_id,
         orders.date,
-        orders.status,
+        orders.payment_status,
+        orders.order_status,
         customers.name as customer_name,
         products.name as product_name,
         products.type as product_type
@@ -33,7 +34,8 @@ export async function fetchOrderById(id: string) {
         orders.id,
         orders.customer_id,
         orders.product_id,
-        orders.status,
+        orders.payment_status,
+        orders.order_status,
         products.type AS product_type
       FROM orders
       LEFT JOIN customers ON orders.customer_id = customers.id
@@ -56,7 +58,7 @@ export async function fetchOrdersByCustomer(customerId: string) {
         orders.id,
         orders.customer_id,
         orders.product_id,
-        orders.status,
+        orders.payment_status,
         orders.date,
         products.name AS product_name,
         products.type AS product_type

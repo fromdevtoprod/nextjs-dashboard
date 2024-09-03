@@ -209,15 +209,16 @@ async function seedOrders() {
       customer_id UUID NOT NULL,
       product_id UUID NOT NULL,
       date DATE NOT NULL,
-      status VARCHAR(255) NOT NULL
+      payment_status VARCHAR(255) NOT NULL,
+      order_status VARCHAR(255) NOT NULL
     );
   `;
 
   const insertedOrders = await Promise.all(
     orders.map(
       (order) => client.sql`
-        INSERT INTO orders (id, customer_id, product_id, date, status)
-        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.date}, ${order.status})
+        INSERT INTO orders (id, customer_id, product_id, date, payment_status, order_status)
+        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.date}, ${order.payment_status}, ${order.order_status})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
