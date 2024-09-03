@@ -70,10 +70,8 @@ export async function createCare(prevState: State, formData: FormData) {
 
 export async function deleteCare(id: string) {
   try {
-    await sql`
-      DELETE FROM care_catalog
-      WHERE id = ${id}
-    `;
+    await sql`DELETE FROM products WHERE id=${id}`;
+    await sql`DELETE FROM care_catalog WHERE product_id=${id}`;
   } catch (error) {
     console.error('Database Error:', error);
     throw new Error('Failed to delete this care.');

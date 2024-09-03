@@ -5,15 +5,16 @@ export async function fetchCareList() {
   try {
     const data = await sql<Care>`
       SELECT
-        care_catalog.product_id,
+        DISTINCT care_catalog.product_id,
         care_catalog.category_id,
         care_catalog.duration,
         care_categories.name AS category_name,
         products.name AS product_name,
         products.amount AS product_amount
-      FROM care_catalog
+      FROM products
+      LEFT JOIN care_catalog ON products.id = care_catalog.product_id
       LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
-      LEFT JOIN products ON care_catalog.product_id = products.id;
+      WHERE products.type = 'care';
     `;
 
     const careList = data.rows;
