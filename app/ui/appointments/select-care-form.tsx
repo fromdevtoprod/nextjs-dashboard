@@ -19,22 +19,26 @@ export function SelectCareForm({
   cares,
   customer,
   date,
+  orderId,
   time,
 }: {
   cares: Care[];
   customer: CustomerField;
   date: string;
+  orderId: string;
   time: string;
 }) {
   const [state, formAction] = useActionState(createAppointment, initialState);
   const [careId, setCareId] = useState('');
 
-  let endTime = '';
+  let endTime = '',
+    endDate = '';
 
   if (careId) {
     const care = cares.find((care) => care.product_id === careId);
     if (care) {
       endTime = calculateEndTime(time, care.duration);
+      endDate = formatEndDate(date, endTime);
     }
   }
 
@@ -48,7 +52,7 @@ export function SelectCareForm({
           value={customer.name}
         />
         <Input
-          errors={state.errors?.phone || []}
+          errors={state.errors?.date || []}
           icon={
             <CalendarIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
           }
@@ -74,7 +78,9 @@ export function SelectCareForm({
         </div>
         <FormErrorMessage message={state.message} />
 
-        <input type="hidden" name="date" value={date} />
+        <input type="hidden" name="end-date" readOnly value={endDate} />
+        <input type="hidden" name="order-id" readOnly value={orderId} />
+        <input type="hidden" name="date" readOnly value={date} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
@@ -83,6 +89,17 @@ export function SelectCareForm({
       </div>
     </form>
   );
+}
+
+// This function should format the end date of the appointment based on the
+// selected care and the start date of the appointment. The duration of the care
+// should be added to the start date to get the end date. The start date is
+// passed as a string in the format "YYYY-MM-DD" and the duration of the care is
+// stored in the care object as an integer. The end date should be returned with
+// this format YYYY-MM-DD HH:MM:SS
+function formatEndDate(startDate: string, endTime: string) {
+  const [year, month, day] = startDate.split('-').map(Number);
+  return `${year}-${month}-${day} ${endTime}:00`;
 }
 
 // This function should calculate the end time of the appointment based on the

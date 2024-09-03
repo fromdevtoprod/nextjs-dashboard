@@ -90,7 +90,7 @@ export type Appointment = {
   customer_name: string;
   status: 'pending' | 'done';
   date: string;
-  ended_time: string;
+  end_date: string;
   customer_id: string;
 };
 

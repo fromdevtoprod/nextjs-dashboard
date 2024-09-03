@@ -233,15 +233,15 @@ async function seedAppointments() {
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       order_id UUID NOT NULL,
       date TIMESTAMP NOT NULL,
-      ended_time TIMESTAMP NOT NULL
+      end_date TIMESTAMP NOT NULL
     );
   `;
 
   const insertedAppointments = await Promise.all(
     appointments.map(
       (appointment) => client.sql`
-        INSERT INTO appointments (id, order_id, date, ended_time)
-        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.date}, ${appointment.ended_time})
+        INSERT INTO appointments (id, order_id, date, end_date)
+        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.date}, ${appointment.end_date})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),

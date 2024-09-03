@@ -426,31 +426,31 @@ const appointments = [
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5ad',
     order_id: orders[0].id,
     date: '2024-09-03 09:00:00',
-    ended_time: '2024-09-03 10:10:00',
+    end_date: '2024-09-03 10:10:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5ae',
     order_id: orders[1].id,
     date: '2024-09-03 10:30:00',
-    ended_time: '2024-09-03 11:40:00',
+    end_date: '2024-09-03 11:40:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5af',
     order_id: orders[2].id,
     date: '2024-09-03 12:00:00',
-    ended_time: '2024-09-03 12:30:00',
+    end_date: '2024-09-03 12:30:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b0',
     order_id: orders[3].id,
     date: '2024-09-03 14:00:00',
-    ended_time: '2024-09-03 15:15:00',
+    end_date: '2024-09-03 15:15:00',
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b1',
     order_id: orders[4].id,
     date: '2024-09-03 16:15:00',
-    ended_time: '2024-09-03 17:45:00',
+    end_date: '2024-09-03 17:45:00',
   },
 ];
 

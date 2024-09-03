@@ -20,17 +20,20 @@ export default async function Page({
 }) {
   const customer = await fetchCustomerById(searchParams.customerId);
   if (searchParams.productType === 'care') {
-    const cares = await fetchCareFromRenataCategory();
-    return (
-      <Container>
-        <SelectCareForm
-          cares={cares}
-          customer={customer}
-          date={searchParams.date || getCurrentDate()}
-          time={searchParams.time}
-        />
-      </Container>
-    );
+    // const cares = await fetchCareFromRenataCategory();
+    // return (
+    //   <Container>
+    //     <SelectCareForm
+    //       cares={cares}
+    //       customer={customer}
+    //       date={searchParams.date || getCurrentDate()}
+    //       time={searchParams.time}
+    //     />
+    //   </Container>
+    // );
+
+    // Implement a specific form for the care product type not in a cure
+    throw new Error('TODO.');
   }
 
   const pendingCure = await fetchPendingCureByCustomer(searchParams.customerId);
@@ -56,6 +59,7 @@ export default async function Page({
         cares={cares}
         customer={customer}
         date={searchParams.date || getCurrentDate()}
+        orderId={pendingCure[0].product_id}
         time={searchParams.time}
       />
     </Container>

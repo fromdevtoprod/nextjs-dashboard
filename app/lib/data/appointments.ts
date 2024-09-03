@@ -12,7 +12,7 @@ export async function fetchAppointments(
         appointments.id,
         appointments.order_id,
         appointments.date,
-        appointments.ended_time,
+        appointments.end_date,
         orders.customer_id,
         products.name AS product_name,
         customers.name AS customer_name

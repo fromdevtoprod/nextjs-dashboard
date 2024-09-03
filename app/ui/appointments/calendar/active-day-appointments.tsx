@@ -16,7 +16,7 @@ export default function ActiveDayAppointments({
             key={index}
             hour={getHour(appointment.date)}
             product_name={appointment.product_name}
-            endedTime={getHour(appointment.ended_time)}
+            endedTime={getHour(appointment.end_date)}
             customer={appointment.customer_name}
             isFirst={index === 0}
           />

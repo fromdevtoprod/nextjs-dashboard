@@ -16,14 +16,9 @@ type State = {
 
 const FormSchema = z.object({
   id: z.string(),
-  order_id: z.string().min(1, { message: 'An order is required' }),
-  product_name: z.string().min(1, { message: 'The product name is required' }),
-  customer_name: z
-    .string()
-    .min(1, { message: 'The customer name is required' }),
-  status: z.enum(['pending', 'done']),
-  date: z.string(),
-  ended_time: z.string(),
+  order_id: z.string().min(1, { message: 'Order required' }),
+  date: z.string().min(1, { message: 'Date required' }),
+  end_date: z.string().min(1, { message: 'End date required' }),
 });
 
 const CreateOrder = FormSchema.omit({ id: true });
@@ -31,11 +26,8 @@ const CreateOrder = FormSchema.omit({ id: true });
 export async function createAppointment(prevState: State, formData: FormData) {
   const validatedFields = CreateOrder.safeParse({
     order_id: formData.get('order-id'),
-    product_name: formData.get('product-name'),
-    customer_name: formData.get('customer-name'),
-    status: formData.get('status') || 'pending',
     date: formData.get('date'),
-    ended_time: formData.get('ended-time'),
+    end_date: formData.get('end-date'),
   });
 
   console.log('validatedFields', validatedFields);
@@ -51,13 +43,12 @@ export async function createAppointment(prevState: State, formData: FormData) {
     };
   }
 
-  const { order_id, product_name, customer_name, status, date, ended_time } =
-    validatedFields.data;
+  const { order_id, date, end_date } = validatedFields.data;
 
   try {
     await sql`
-      INSERT INTO appointments (order_id, product_name, customer_name, status, date, ended_time)
-      VALUES (${order_id}, ${product_name}, ${customer_name}, ${status}, ${date}, ${ended_time})
+      INSERT INTO appointments (order_id, date, end_date)
+      VALUES (${order_id}, ${date}, ${end_date})
       `;
   } catch (error) {
     console.error('Database Error:', error);
