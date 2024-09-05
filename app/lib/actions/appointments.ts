@@ -32,13 +32,7 @@ export async function createAppointment(prevState: State, formData: FormData) {
     time: formData.get('time'),
   });
 
-  console.log('validatedFields', validatedFields);
-
   if (!validatedFields.success) {
-    console.log(
-      'validatedFields.error.flatten()',
-      validatedFields.error.flatten(),
-    );
     return {
       errors: validatedFields.error.flatten().fieldErrors,
       message: 'Missing fields. Failed to add this appointment.',
@@ -50,6 +44,7 @@ export async function createAppointment(prevState: State, formData: FormData) {
 
   try {
     await sql`INSERT INTO appointments (order_id, date, end_date) VALUES (${order_id}, ${completeDateWithTime}, ${end_date})`;
+    // TODO: change appointment status if all appointments are completed
   } catch (error) {
     console.error('Database Error:', error);
     return {

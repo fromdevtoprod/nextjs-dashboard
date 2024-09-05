@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
 
 export function CreateCure() {
   return (
@@ -11,17 +11,6 @@ export function CreateCure() {
     >
       <span className="hidden md:block">Create Cure</span>{' '}
       <PlusIcon className="h-5 md:ml-4" />
-    </Link>
-  );
-}
-
-export function UpdateCure({ id }: { id: string }) {
-  return (
-    <Link
-      href={`/dashboard/cure/${id}/edit`}
-      className="rounded-md border-0 bg-blue-400 p-2 hover:bg-blue-200"
-    >
-      <PencilIcon className="w-5 text-white" />
     </Link>
   );
 }

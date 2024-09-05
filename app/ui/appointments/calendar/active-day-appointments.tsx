@@ -9,7 +9,7 @@ export function ActiveDayAppointments({
   appointments: Appointment[];
 }>) {
   return (
-    <div className="rounded-b bg-gray-50 px-5 py-5 dark:bg-gray-700 md:px-16 md:py-8">
+    <div className="rounded-b bg-gray-50 px-5 py-5 dark:bg-gray-700">
       <div className="px-4">
         {appointments.map((appointment, index) => (
           <Preview

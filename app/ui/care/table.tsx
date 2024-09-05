@@ -1,6 +1,6 @@
 import { fetchCareList } from '@/app/lib/data/care';
 import DeleteCareButton from './delete-button';
-import { UpdateCare } from './buttons';
+import { EditButton } from '../buttons/edit-button';
 
 export default async function CareTable() {
   const filteredCare = await fetchCareList();
@@ -38,7 +38,9 @@ export default async function CareTable() {
                     </div>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateCare id={care.product_id} />
+                    <EditButton
+                      href={`/dashboard/care/${care.product_id}/edit`}
+                    />
                     <DeleteCareButton id={care.product_id} />
                   </div>
                 </div>
@@ -84,7 +86,9 @@ export default async function CareTable() {
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateCare id={care.product_id} />
+                        <EditButton
+                          href={`/dashboard/care/${care.product_id}/edit`}
+                        />
                         <DeleteCareButton id={care.product_id} />
                       </div>
                     </td>

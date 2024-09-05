@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from '@heroicons/react/24/outline';
 
 export function CreateCare() {
   return (
@@ -9,17 +9,6 @@ export function CreateCare() {
     >
       <span className="hidden md:block">Create Care</span>{' '}
       <PlusIcon className="h-5 md:ml-4" />
-    </Link>
-  );
-}
-
-export function UpdateCare({ id }: { id: string }) {
-  return (
-    <Link
-      href={`/dashboard/care/${id}/edit`}
-      className="rounded-md border-0 bg-blue-400 p-2 hover:bg-blue-200"
-    >
-      <PencilIcon className="w-5 text-white" />
     </Link>
   );
 }

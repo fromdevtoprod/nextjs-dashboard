@@ -14,7 +14,7 @@ export function BookAppointmentButton({
 }) {
   const [isModalDisplayed, setIsModalDisplayed] = useState(false);
   return (
-    <form>
+    <form className="mt-6 flex justify-center">
       {isModalDisplayed && (
         <SelectCustomerModal
           customers={customers}

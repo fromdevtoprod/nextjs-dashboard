@@ -1,7 +1,7 @@
 import { fetchOrders } from '@/app/lib/data/orders';
 import { capitalize, formatDateToLocal } from '@/app/lib/utils';
-import { UpdateOrder } from './buttons';
 import DeleteOrderButton from './delete-button';
+import { EditButton } from '../buttons/edit-button';
 
 export default async function OrdersTable() {
   const orders = await fetchOrders();
@@ -42,7 +42,7 @@ export default async function OrdersTable() {
                     <p>Order status : {order.order_status}</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateOrder id={order.id} />
+                    <EditButton href={`/dashboard/orders/${order.id}/edit`} />
                     <DeleteOrderButton id={order.id} />
                   </div>
                 </div>
@@ -100,7 +100,9 @@ export default async function OrdersTable() {
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateOrder id={order.id} />
+                        <EditButton
+                          href={`/dashboard/orders/${order.id}/edit`}
+                        />
                         <DeleteOrderButton id={order.id} />
                       </div>
                     </td>

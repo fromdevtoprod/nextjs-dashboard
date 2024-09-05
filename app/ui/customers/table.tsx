@@ -1,7 +1,7 @@
 import { fetchFilteredCustomers } from '@/app/lib/data/customers';
 import DeleteCustomerButton from './delete-button';
 import { Avatar } from '../avatar';
-import { UpdateCustomer } from './buttons';
+import { EditButton } from '../buttons/edit-button';
 
 export default async function CustomersTable({ query }: { query: string }) {
   const filteredCustomers = await fetchFilteredCustomers(query);
@@ -41,7 +41,9 @@ export default async function CustomersTable({ query }: { query: string }) {
                     <p>{customer.total_invoices} invoices</p>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateCustomer id={customer.id} />
+                    <EditButton
+                      href={`/dashboard/customers/${customer.id}/edit`}
+                    />
                     <DeleteCustomerButton id={customer.id} />
                   </div>
                 </div>
@@ -94,7 +96,9 @@ export default async function CustomersTable({ query }: { query: string }) {
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateCustomer id={customer.id} />
+                        <EditButton
+                          href={`/dashboard/customers/${customer.id}/edit`}
+                        />
                         <DeleteCustomerButton id={customer.id} />
                       </div>
                     </td>

@@ -1,6 +1,6 @@
 import { fetchCureCatalog } from '@/app/lib/data/cure';
 import DeleteCureButton from './delete-button';
-import { UpdateCure } from './buttons';
+import { EditButton } from '../buttons/edit-button';
 
 export default async function CureTable() {
   const cureCatalog = await fetchCureCatalog();
@@ -31,7 +31,9 @@ export default async function CureTable() {
                     </div>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <UpdateCure id={cure.product_id} />
+                    <EditButton
+                      href={`/dashboard/cure/${cure.product_id}/edit`}
+                    />
                     <DeleteCureButton id={cure.product_id} />
                   </div>
                 </div>
@@ -71,7 +73,9 @@ export default async function CureTable() {
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <UpdateCure id={cure.product_id} />
+                        <EditButton
+                          href={`/dashboard/cure/${cure.product_id}/edit`}
+                        />
                         <DeleteCureButton id={cure.product_id} />
                       </div>
                     </td>
