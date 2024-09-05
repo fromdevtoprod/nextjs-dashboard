@@ -21,7 +21,7 @@ export async function fetchAppointments(
       LEFT JOIN products ON products.id = orders.product_id
       LEFT JOIN customers ON customers.id = orders.customer_id
       WHERE EXTRACT(DAY FROM appointments.date) = ${convertToTwoDigit(day)}
-      AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(convertJavascriptMonthToMonthNumber(month))}
+      AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(month)}
       AND EXTRACT(YEAR FROM appointments.date) = ${year}
     `;
     const appointments = data.rows;
@@ -34,8 +34,4 @@ export async function fetchAppointments(
 
 function convertToTwoDigit(number: number) {
   return number < 10 ? `0${number}` : number;
-}
-
-function convertJavascriptMonthToMonthNumber(month: number) {
-  return month + 1;
 }

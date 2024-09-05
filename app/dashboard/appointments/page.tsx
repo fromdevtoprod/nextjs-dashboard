@@ -4,21 +4,6 @@ import { lusitana } from '@/app/ui/fonts';
 import { AppointmentsCalendarSkeleton } from '@/app/ui/appointments/skeletons';
 import { fetchCustomers } from '@/app/lib/data/customers';
 
-const getActiveDay = (day: string | undefined) =>
-  !day ? getCurrentDay() : Number(day);
-
-const getActiveMonth = (month: string | undefined) =>
-  !month ? getCurrentMonth() : Number(month);
-
-const getActiveYear = (year: string | undefined) =>
-  !year ? getCurrentYear() : Number(year);
-
-const getCurrentDay = () => new Date().getDate();
-
-const getCurrentMonth = () => new Date().getMonth();
-
-const getCurrentYear = () => new Date().getFullYear();
-
 export default async function Page({
   searchParams,
 }: {
@@ -43,3 +28,18 @@ export default async function Page({
     </div>
   );
 }
+
+const getActiveDay = (day: string | undefined) =>
+  !day ? getCurrentDay() : Number(day);
+
+const getActiveMonth = (month: string | undefined) =>
+  !month ? getCurrentMonth() : Number(month);
+
+const getActiveYear = (year: string | undefined) =>
+  !year ? getCurrentYear() : Number(year);
+
+const getCurrentDay = () => new Date().getDate();
+
+const getCurrentMonth = () => new Date().getMonth() + 1;
+
+const getCurrentYear = () => new Date().getFullYear();
