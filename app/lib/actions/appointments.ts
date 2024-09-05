@@ -19,6 +19,7 @@ const FormSchema = z.object({
   order_id: z.string().min(1, { message: 'Order required' }),
   date: z.string().min(1, { message: 'Date required' }),
   end_date: z.string().min(1, { message: 'End date required' }),
+  time: z.string().min(1, { message: 'Time required' }),
 });
 
 const CreateOrder = FormSchema.omit({ id: true });
@@ -28,6 +29,7 @@ export async function createAppointment(prevState: State, formData: FormData) {
     order_id: formData.get('order-id'),
     date: formData.get('date'),
     end_date: formData.get('end-date'),
+    time: formData.get('time'),
   });
 
   console.log('validatedFields', validatedFields);
@@ -43,13 +45,11 @@ export async function createAppointment(prevState: State, formData: FormData) {
     };
   }
 
-  const { order_id, date, end_date } = validatedFields.data;
+  const { order_id, date, end_date, time } = validatedFields.data;
+  const completeDateWithTime = `${date} ${time}`;
 
   try {
-    await sql`
-      INSERT INTO appointments (order_id, date, end_date)
-      VALUES (${order_id}, ${date}, ${end_date})
-      `;
+    await sql`INSERT INTO appointments (order_id, date, end_date) VALUES (${order_id}, ${completeDateWithTime}, ${end_date})`;
   } catch (error) {
     console.error('Database Error:', error);
     return {

@@ -10,7 +10,7 @@ import CancelButton from '../cancel-button';
 import FormErrorMessage from '../form-error-message';
 import SelectProduct from '../select-product';
 import NameInput from '../name-input';
-import TimeInput from '../time-input';
+import { TimeInput } from '../time-input';
 import Input from '../input';
 
 const initialState = { message: null, error: {} };
@@ -61,12 +61,7 @@ export function SelectCareForm({
           label=""
           value={date}
         />
-        <TimeInput
-          errors={state.errors?.time || []}
-          isDisabled={true}
-          label=""
-          value={time}
-        />
+        <TimeInput errors={state.errors?.time || []} value={time} />
         <SelectProduct
           productType="care"
           products={cares}

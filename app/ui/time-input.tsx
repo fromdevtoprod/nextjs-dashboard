@@ -1,41 +1,20 @@
-import { useState } from 'react';
 import { TimeField } from './time-field';
 import { MyClockIcon } from './icons/clock';
 
-export default function TimeInput({
-  careDuration = 0,
+export function TimeInput({
   errors,
-  isDisabled = false,
-  label = 'Enter a time',
   value,
 }: {
-  careDuration?: number;
   errors: string[];
-  isDisabled?: boolean;
-  label?: string;
   value?: string;
 }) {
-  const [time, setTime] = useState('00:00');
-  let endTime = '';
-
-  if (time !== '00:00' && isTimeWellFormatted(time) && careDuration > 0) {
-    endTime = calculateEndTime(time, careDuration);
-  }
-
   return (
     <div className="mb-4">
-      <label htmlFor="time" className="mb-2 block text-sm font-medium">
-        {label}
-      </label>
       <div className="relative mt-2 rounded-md">
         <div className="relative">
-          <TimeField isDisabled={isDisabled} onChange={setTime} value={value} />
+          <TimeField value={value} />
           <MyClockIcon additionalClassName="absolute left-3 top-1/2 -translate-y-1/2" />
         </div>
-      </div>
-
-      <div className="mt-2 text-sm text-gray-500">
-        {endTime && `Estimated end: ${endTime} minutes`}
       </div>
 
       <div id="time-error" aria-live="polite" aria-atomic="true">
@@ -48,16 +27,4 @@ export default function TimeInput({
       </div>
     </div>
   );
-}
-
-function calculateEndTime(startTime: string, duration: number) {
-  const [hours, minutes] = startTime.split(':').map(Number);
-  const start = new Date();
-  start.setHours(hours, minutes, 0, 0);
-  const end = new Date(start.getTime() + duration * 60000);
-  return end.toTimeString().split(' ')[0];
-}
-
-function isTimeWellFormatted(time: string) {
-  return /^[0-9]{2}:[0-9]{2}$/.test(time);
 }
