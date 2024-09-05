@@ -51,26 +51,18 @@ export async function fetchOrderById(id: string) {
   }
 }
 
-export async function fetchOrdersByCustomer(customerId: string) {
+export async function fetchPendingOrdersByCustomer(customerId: string) {
   try {
     const data = await sql<Order>`
-      SELECT
-        orders.id,
-        orders.customer_id,
-        orders.product_id,
-        orders.payment_status,
-        orders.date,
-        products.name AS product_name,
-        products.type AS product_type
+      SELECT orders.id, orders.product_id
       FROM orders
-      LEFT JOIN products ON orders.product_id = products.id
-      WHERE orders.customer_id = ${customerId}
-      ORDER BY orders.id DESC
+      WHERE orders.customer_id=${customerId}
+      AND orders.order_status='pending'
     `;
-    const orders = data.rows;
-    return orders;
+    const cureCatalog = data.rows;
+    return cureCatalog;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch orders for this customer.');
+    throw new Error('Failed to fetch pending orders for this customer.');
   }
 }

@@ -1,12 +1,9 @@
 import { fetchCustomerById } from '@/app/lib/data/customers';
 import { SelectCareForm } from '@/app/ui/appointments/select-care-form';
-import {
-  fetchCareByProduct,
-  fetchCareFromRenataCategory,
-} from '@/app/lib/data/care';
-import { fetchPendingCureByCustomer } from '@/app/lib/data/cure';
-import { Care } from '@/app/lib/definitions';
+import { fetchPendingOrdersByCustomer } from '@/app/lib/data/orders';
 import { Container } from './container';
+import { fetchCureById } from '@/app/lib/data/cure';
+import { fetchCareById } from '@/app/lib/data/care';
 
 export default async function Page({
   searchParams,
@@ -36,30 +33,33 @@ export default async function Page({
     throw new Error('TODO.');
   }
 
-  const pendingCure = await fetchPendingCureByCustomer(searchParams.customerId);
-  console.log('pendingCure', pendingCure);
-  if (pendingCure.length > 1) {
-    throw new Error('Customer has more than one pending cure.');
+  const pendingOrder = await fetchPendingOrdersByCustomer(
+    searchParams.customerId,
+  );
+  console.log('pendingOrder', pendingOrder);
+  if (pendingOrder.length > 1) {
+    throw new Error('Customer has more than one pending order.');
   }
 
   // We'll deal with this case later
   // Right now, we'll just throw an error
   // Because the customer needs to order a cure first
-  if (pendingCure.length === 0) {
-    throw new Error('Customer has no pending cure.');
+  if (pendingOrder.length === 0) {
+    throw new Error('Customer has no pending order.');
   }
 
-  const cares = (await fetchCareByProduct({
-    productId: pendingCure[0].product_id,
-    productType: 'cure',
-  })) as Care[];
+  const cure = await fetchCureById(pendingOrder[0].product_id);
+  const cares = await Promise.all([
+    fetchCareById(cure.care_1_id),
+    fetchCareById(cure.care_2_id),
+  ]);
   return (
     <Container>
       <SelectCareForm
         cares={cares}
         customer={customer}
         date={searchParams.date || getCurrentDate()}
-        orderId={pendingCure[0].product_id}
+        orderId={pendingOrder[0].id}
         time={searchParams.time}
       />
     </Container>

@@ -12,7 +12,7 @@ export function DeleteAppointmentButton({ id }: { id: string }) {
     <form>
       {isModalDisplayed && (
         <DeleteConfirmationModal
-          item="care"
+          item="appointment"
           onConfirmation={() => deleteAppointmentWithId()}
           onCancel={() => setIsModalDisplayed(false)}
         />
