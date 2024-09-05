@@ -1,9 +1,8 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
-import { z } from 'zod';
+import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
+import { validatedCustomerFields } from './schemas';
 
 type State = {
   errors?: {
@@ -13,73 +12,35 @@ type State = {
   message?: string | null;
 };
 
-const FormSchema = z.object({
-  id: z.string(),
-  name: z.string().min(1, { message: 'Name is required' }),
-  email: z.string(),
-  phone: z.string(),
-  birth_date: z.string().min(1, { message: 'Birth date is required' }),
-  pathology: z.string(),
-});
-
-const CreateCustomer = FormSchema.omit({ id: true });
-
 export async function createCustomer(prevState: State, formData: FormData) {
-  const validatedFields = CreateCustomer.safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    phone: formData.get('phone'),
-    birth_date: formData.get('birth_date'),
-    pathology: formData.get('pathology'),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to create this customer.',
-    };
-  }
+  const validatedFields = validatedCustomerFields(formData);
+  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
 
   const { name, email, phone, birth_date, pathology } = validatedFields.data;
   const formattedBirthDate = formatBirthDate(birth_date);
 
-  if (phone === '' && email === '') {
-    return {
-      errors: {
-        phone: ['Phone or email is required'],
-        email: ['Email or phone is required'],
-      },
-      message: 'Missing fields. Failed to create this customer.',
-    };
-  }
+  if (!hasEmailOrPhone(phone, email)) return getEmailOrPhoneError();
 
   try {
     await sql`
-              INSERT INTO customers (name, email, phone, birth_date, pathology) 
-              VALUES (${name}, ${email}, ${phone}, ${formattedBirthDate}, ${pathology})
-            `;
+      INSERT INTO customers (name, email, phone, birth_date, pathology) 
+      VALUES (${name}, ${email}, ${phone}, ${formattedBirthDate}, ${pathology})
+    `;
   } catch (error) {
-    console.error(error);
-    return {
-      message: 'Database Error: Failed to create this customer.',
-    };
+    return getDatabaseError({ error, item: 'customer', operation: 'insert' });
   }
 
-  revalidatePath('/dashboard/customers');
-  redirect('/dashboard/customers');
+  validateAndRedirect('customers');
 }
 
 export async function deleteCustomer(id: string) {
   try {
     sql`DELETE FROM customers WHERE id = ${id}`;
   } catch (error) {
-    return {
-      message: 'Database Error: Failed to delete this customer.',
-    };
+    return getDatabaseError({ error, item: 'customer', operation: 'delete' });
   }
 
-  revalidatePath('/dashboard/customers');
-  redirect('/dashboard/customers');
+  validateAndRedirect('customers');
 }
 
 export async function updateCustomer(
@@ -87,52 +48,44 @@ export async function updateCustomer(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = CreateCustomer.safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    phone: formData.get('phone'),
-    birth_date: formData.get('birth_date'),
-    pathology: formData.get('pathology'),
-  });
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to update this customer.',
-    };
-  }
+  const validatedFields = validatedCustomerFields(formData);
+  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
 
   const { name, email, phone, birth_date, pathology } = validatedFields.data;
-  const formattedBirthDate = formatBirthDate(birth_date);
 
-  if (phone === '' && email === '') {
-    return {
-      errors: {
-        phone: ['Phone or email is required'],
-        email: ['Email or phone is required'],
-      },
-      message: 'Missing fields. Failed to update this customer.',
-    };
-  }
+  if (!hasEmailOrPhone(phone, email)) return getEmailOrPhoneError();
+
+  const formattedBirthDate = formatBirthDate(birth_date);
 
   try {
     await sql`
-                UPDATE customers
-                SET name = ${name},
-                  email = ${email},
-                  phone = ${phone},
-                  birth_date = ${formattedBirthDate},
-                  pathology = ${pathology}
-                WHERE id = ${id}
-            `;
+      UPDATE customers
+      SET name = ${name},
+        email = ${email},
+        phone = ${phone},
+        birth_date = ${formattedBirthDate},
+        pathology = ${pathology}
+      WHERE id = ${id}
+    `;
   } catch (error) {
-    return {
-      message: 'Database Error: Failed to update this customer.',
-    };
+    return getDatabaseError({ error, item: 'customer', operation: 'update' });
   }
 
-  revalidatePath('/dashboard/customers');
-  redirect('/dashboard/customers');
+  validateAndRedirect('customers');
+}
+
+function hasEmailOrPhone(email: string, phone: string) {
+  return email !== '' || phone !== '';
+}
+
+function getEmailOrPhoneError() {
+  return {
+    errors: {
+      phone: ['Phone or email is required'],
+      email: ['Email or phone is required'],
+    },
+    message: 'Missing fields. Failed to create this customer.',
+  };
 }
 
 function formatBirthDate(birthDate: string) {

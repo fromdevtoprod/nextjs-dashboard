@@ -1,9 +1,8 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { sql } from '@vercel/postgres';
-import { z } from 'zod';
+import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
+import { validatedOrderFields } from './schemas';
 
 type State = {
   errors?: {
@@ -14,63 +13,32 @@ type State = {
   message?: string | null;
 };
 
-const FormSchema = z.object({
-  id: z.string(),
-  customer_id: z.string().min(1, { message: 'The customer is required' }),
-  product_id: z.string().min(1, { message: 'The product is required' }),
-  payment_status: z.enum(['pending', 'paid']),
-  date: z.string(),
-});
-
-const CreateOrder = FormSchema.omit({ id: true, date: true });
-
 export async function createOrder(prevState: State, formData: FormData) {
-  const validatedFields = CreateOrder.safeParse({
-    customer_id: formData.get('customer'),
-    product_id: formData.get('product-id'),
-    payment_status: formData.get('payment-status'),
-  });
-
-  console.log('validatedFields', validatedFields);
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to add an order.',
-    };
-  }
+  const validatedFields = validatedOrderFields(formData);
+  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
 
   const { customer_id, product_id, payment_status } = validatedFields.data;
-  const date = new Date().toISOString().split('T')[0];
 
   try {
     await sql`
       INSERT INTO orders (customer_id, product_id, date, payment_status, order_status)
-      VALUES (${customer_id}, ${product_id}, ${date}, ${payment_status}, 'pending')
+      VALUES (${customer_id}, ${product_id}, ${getDate()}, ${payment_status}, 'pending')
       `;
   } catch (error) {
-    console.error('Database Error:', error);
-    return {
-      message: 'Database Error: Failed to add this order.',
-    };
+    return getDatabaseError({ error, item: 'order', operation: 'insert' });
   }
 
-  revalidatePath('/dashboard/orders');
-  redirect('/dashboard/orders');
+  validateAndRedirect('orders');
 }
 
 export async function deleteOrder(id: string) {
   try {
-    await sql`
-      DELETE FROM orders WHERE id = ${id}
-    `;
+    await sql`DELETE FROM orders WHERE id = ${id}`;
   } catch (error) {
-    console.error('Database Error:', error);
-    throw new Error('Failed to delete this order.');
+    return getDatabaseError({ error, item: 'order', operation: 'delete' });
   }
 
-  revalidatePath('/dashboard/orders');
-  redirect('/dashboard/orders');
+  validateAndRedirect('orders');
 }
 
 export async function updateOrder(
@@ -78,40 +46,26 @@ export async function updateOrder(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = CreateOrder.safeParse({
-    customer_id: formData.get('customer'),
-    product_id: formData.get('product-id'),
-    payment_status: formData.get('payment-status'),
-  });
-
-  console.log('validatedFields', validatedFields);
-  console.log('id', id);
-
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-      message: 'Missing fields. Failed to update this order.',
-    };
-  }
+  const validatedFields = validatedOrderFields(formData);
+  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
 
   const { customer_id, product_id, payment_status } = validatedFields.data;
 
   try {
     await sql`
-      UPDATE orders
-      SET
+      UPDATE orders SET
         customer_id = ${customer_id},
         product_id = ${product_id},
         payment_status = ${payment_status}
       WHERE id = ${id}
     `;
   } catch (error) {
-    console.error('Database Error:', error);
-    return {
-      message: 'Database Error: Failed to update this order.',
-    };
+    return getDatabaseError({ error, item: 'order', operation: 'update' });
   }
 
-  revalidatePath('/dashboard/orders');
-  redirect('/dashboard/orders');
+  validateAndRedirect('orders');
+}
+
+function getDate() {
+  return new Date().toISOString().split('T')[0];
 }
