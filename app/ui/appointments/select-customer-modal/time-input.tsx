@@ -1,5 +1,5 @@
-import { ClockIcon } from '@heroicons/react/24/outline';
 import { TimeField } from './time-field';
+import { MyClockIcon } from '../../icons/clock';
 
 export default function TimeInput({
   onSetTime,
@@ -12,7 +12,7 @@ export default function TimeInput({
       <div className="relative mt-2 rounded-md">
         <div className="relative">
           <TimeField onChange={onSetTime} />
-          <ClockIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+          <MyClockIcon additionalClassName="absolute left-3 top-1/2 -translate-y-1/2" />
         </div>
       </div>
     </div>

@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-export default function ClickableDaySlot({ day }: { day: number }) {
+export function ClickableDaySlot({ day }: { day: number }) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();

@@ -1,6 +1,6 @@
-import ClickableDaySlot from './clickable-day-slot';
+import { ClickableDaySlot } from './clickable-day-slot';
 
-export default function DaySlot({
+export function DaySlot({
   day,
   activeMonth,
   activeYear,

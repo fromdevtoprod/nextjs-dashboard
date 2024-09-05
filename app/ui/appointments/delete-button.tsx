@@ -1,19 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { deleteOrder } from '@/app/lib/actions/orders';
+import { deleteAppointment } from '@/app/lib/actions/appointments';
 import DeleteConfirmationModal from '../delete-confirmation-modal';
 import { DeleteButton } from '../buttons/delete-button';
 
-export default function DeleteOrderButton({ id }: { id: string }) {
+export function DeleteAppointmentButton({ id }: { id: string }) {
   const [isModalDisplayed, setIsModalDisplayed] = useState(false);
-  const deleteCureWithId = deleteOrder.bind(null, id);
+  const deleteAppointmentWithId = deleteAppointment.bind(null, id);
   return (
     <form>
       {isModalDisplayed && (
         <DeleteConfirmationModal
-          item="order"
-          onConfirmation={() => deleteCureWithId()}
+          item="care"
+          onConfirmation={() => deleteAppointmentWithId()}
           onCancel={() => setIsModalDisplayed(false)}
         />
       )}

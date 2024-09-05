@@ -1,8 +1,8 @@
-import { Appointment } from '@/app/lib/definitions';
-import Preview from './preview';
 import { PropsWithChildren } from 'react';
+import { Appointment } from '@/app/lib/definitions';
+import { Preview } from './preview';
 
-export default function ActiveDayAppointments({
+export function ActiveDayAppointments({
   appointments,
   children,
 }: PropsWithChildren<{
@@ -13,12 +13,13 @@ export default function ActiveDayAppointments({
       <div className="px-4">
         {appointments.map((appointment, index) => (
           <Preview
-            key={index}
-            hour={getHour(appointment.date)}
-            product_name={appointment.product_name}
-            endedTime={getHour(appointment.end_date)}
             customer={appointment.customer_name}
+            endedTime={getHour(appointment.end_date)}
+            hour={getHour(appointment.date)}
+            id={appointment.id}
             isFirst={index === 0}
+            key={index}
+            product_name={appointment.product_name}
           />
         ))}
       </div>

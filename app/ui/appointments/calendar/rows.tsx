@@ -1,7 +1,7 @@
-import EndRow from './end-row';
-import StartRow from './start-row';
+import { EndRow } from './end-row';
+import { StartRow } from './start-row';
 
-export default function Rows({
+export function Rows({
   activeDay,
   activeMonth,
   activeYear,

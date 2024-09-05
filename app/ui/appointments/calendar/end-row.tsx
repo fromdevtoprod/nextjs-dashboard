@@ -1,6 +1,6 @@
-import Row from './row';
+import { Row } from './row';
 
-export default function EndRow({
+export function EndRow({
   countEmptySlots,
   daysCount,
   activeDay,

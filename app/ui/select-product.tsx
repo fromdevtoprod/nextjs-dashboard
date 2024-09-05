@@ -1,5 +1,6 @@
-import { HandRaisedIcon, ListBulletIcon } from '@heroicons/react/24/outline';
+import { ListBulletIcon } from '@heroicons/react/24/outline';
 import { Care, Cure } from '@/app/lib/definitions';
+import { MyHandRaisedIcon } from './icons/hand';
 
 export default function SelectProduct({
   errors,
@@ -37,7 +38,7 @@ export default function SelectProduct({
           ))}
         </select>
         {productType === 'care' ? (
-          <HandRaisedIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
+          <MyHandRaisedIcon additionalClassName="absolute left-3 top-1/2 -translate-y-1/2" />
         ) : (
           <ListBulletIcon className="pointer-events-none absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500" />
         )}

@@ -1,6 +1,6 @@
-import Rows from './rows';
+import { Rows } from './rows';
 
-export default async function TableBody({
+export async function TableBody({
   activeDay,
   activeMonth,
   activeYear,

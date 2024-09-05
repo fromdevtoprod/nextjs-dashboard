@@ -1,7 +1,7 @@
-import DaySlot from './day-slot';
-import EmptySlot from './empty-slot';
+import { DaySlot } from './day-slot';
+import { EmptySlot } from './empty-slot';
 
-export default function Row({
+export function Row({
   rowIndex,
   firstRowDays,
   daysCount,

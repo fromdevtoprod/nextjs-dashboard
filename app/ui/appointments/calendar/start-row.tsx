@@ -1,7 +1,7 @@
-import DaySlot from './day-slot';
-import EmptySlot from './empty-slot';
+import { DaySlot } from './day-slot';
+import { EmptySlot } from './empty-slot';
 
-export default function StartRow({
+export function StartRow({
   countEmptySlots,
   activeDay,
   activeMonth,

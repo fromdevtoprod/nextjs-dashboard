@@ -60,3 +60,17 @@ export async function createAppointment(prevState: State, formData: FormData) {
   revalidatePath('/dashboard/appointments');
   redirect('/dashboard/appointments');
 }
+
+export async function deleteAppointment(appointmentId: string) {
+  try {
+    await sql`DELETE FROM appointments WHERE id = ${appointmentId}`;
+  } catch (error) {
+    console.error('Database Error:', error);
+    return {
+      message: 'Database Error: Failed to delete this appointment.',
+    };
+  }
+
+  revalidatePath('/dashboard/appointments');
+  redirect('/dashboard/appointments');
+}

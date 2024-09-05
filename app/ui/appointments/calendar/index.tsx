@@ -2,9 +2,9 @@ import { fetchAppointments } from '@/app/lib/data/appointments';
 import ActiveMonth from './active-month';
 import PreviousMonthArrow from './previous-month';
 import NextMonthArrow from './next-month';
-import TableBody from './tbody';
+import { TableBody } from './tbody';
 import TableHead from './thead';
-import ActiveDayAppointments from './active-day-appointments';
+import { ActiveDayAppointments } from './active-day-appointments';
 import { BookAppointmentButton } from '../book-appointment-button';
 import { CustomerField } from '@/app/lib/definitions';
 
