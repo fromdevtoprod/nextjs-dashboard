@@ -31,9 +31,9 @@ export async function createOrder(prevState: State, formData: FormData) {
   validateAndRedirect('orders');
 }
 
-export async function deleteOrder(id: string) {
+export async function deleteOrder(orderId: string) {
   try {
-    await sql`DELETE FROM orders WHERE id = ${id}`;
+    await sql`DELETE FROM orders WHERE id = ${orderId}`;
   } catch (error) {
     return getDatabaseError({ error, item: 'order', operation: 'delete' });
   }
@@ -64,6 +64,27 @@ export async function updateOrder(
   }
 
   validateAndRedirect('orders');
+}
+
+export async function updateOrderStatus(orderId: string, status: string) {
+  try {
+    await getUpdateOrderStatusRequest(orderId, status);
+  } catch (error) {
+    return getDatabaseError({
+      error,
+      item: 'order',
+      operation: 'update',
+    });
+  }
+
+  validateAndRedirect('orders');
+}
+
+export async function getUpdateOrderStatusRequest(
+  orderId: string,
+  status: string,
+) {
+  return sql`UPDATE orders SET order_status = ${status} WHERE id = ${orderId}`;
 }
 
 function getDate() {

@@ -6,6 +6,7 @@ import { MyHandRaisedIcon } from '../../icons/hand';
 import { MyUserIcon } from '../../icons/user';
 import { DeleteAppointmentButton } from '../delete-button';
 import { EditButton } from '../../buttons/edit-button';
+import { MyListBulletIcon } from '../../icons/list-bullet';
 
 export function Preview({
   customer,
@@ -13,14 +14,18 @@ export function Preview({
   hour,
   id,
   isFirst = false,
-  product_name,
+  productName,
+  productType,
+  orderId,
 }: {
   customer: string;
   endedTime: string;
   hour: string;
   id: string;
   isFirst?: boolean;
-  product_name: string;
+  productName: string;
+  productType: 'care' | 'cure';
+  orderId: string;
 }) {
   return (
     <div
@@ -34,12 +39,17 @@ export function Preview({
           From {hour} to {endedTime}
         </p>
         <div className="mt-2 flex items-center">
-          <MyHandRaisedIcon additionalClassName="mr-1" />
+          {productType === 'cure' && (
+            <MyListBulletIcon additionalClassName="mr-1" />
+          )}
+          {productType === 'care' && (
+            <MyHandRaisedIcon additionalClassName="mr-1" />
+          )}
           <a
             tabIndex={0}
             className="text-lg font-medium leading-5 text-gray-800 focus:outline-none dark:text-gray-100"
           >
-            {product_name}
+            {productName}
           </a>
         </div>
         <p className="mt-2 flex items-center text-sm leading-4 text-gray-600 dark:text-gray-300">
@@ -54,7 +64,7 @@ export function Preview({
         </div>
 
         <div className="mt-2">
-          <DeleteAppointmentButton id={id} />
+          <DeleteAppointmentButton appointmentId={id} orderId={orderId} />
         </div>
       </div>
     </div>

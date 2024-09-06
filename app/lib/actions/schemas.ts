@@ -44,6 +44,7 @@ export function validatedAppointmentFields(formData: FormData) {
     date: formData.get('date'),
     end_date: formData.get('end-date'),
     time: formData.get('time'),
+    product_id: formData.get('product-id'),
   });
 }
 
@@ -113,6 +114,7 @@ function getAppointmentSchema() {
     date: z.string().min(1, { message: 'Date required' }),
     end_date: z.string().min(1, { message: 'End date required' }),
     time: z.string().min(1, { message: 'Time required' }),
+    product_id: z.string().min(1, { message: 'Product required' }),
   });
 
   return FormSchema.omit({ id: true });

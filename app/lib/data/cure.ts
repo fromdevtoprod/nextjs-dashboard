@@ -45,3 +45,17 @@ export async function fetchCureById(productId: string) {
     throw new Error('Failed to fetch cure by ID.');
   }
 }
+
+export async function getCureTotalSessionNumber(productId: string) {
+  try {
+    const sessionNumber = await sql`
+        SELECT SUM(care_1_session_number + care_2_session_number)
+        FROM cure_content
+        WHERE product_id = ${productId}
+    `;
+    return sessionNumber.rows[0].sum as number;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch cure session number.');
+  }
+}

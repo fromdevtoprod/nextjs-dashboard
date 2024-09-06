@@ -9,13 +9,13 @@ export async function fetchAppointments(
   try {
     const data = await sql<Appointment>`
       SELECT
-        appointments.id,
-        appointments.order_id,
+        customers.name AS customer_name,
         appointments.date,
         appointments.end_date,
-        orders.customer_id,
+        appointments.id,
+        appointments.order_id,
         products.name AS product_name,
-        customers.name AS customer_name
+        products.type AS product_type
       FROM appointments
       LEFT JOIN orders ON orders.id = appointments.order_id
       LEFT JOIN products ON products.id = orders.product_id

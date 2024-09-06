@@ -19,7 +19,9 @@ export function ActiveDayAppointments({
             id={appointment.id}
             isFirst={index === 0}
             key={index}
-            product_name={appointment.product_name}
+            orderId={appointment.order_id}
+            productName={appointment.product_name}
+            productType={appointment.product_type}
           />
         ))}
       </div>

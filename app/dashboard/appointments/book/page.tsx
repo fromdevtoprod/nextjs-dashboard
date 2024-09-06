@@ -16,7 +16,7 @@ export default async function Page({
   };
 }) {
   const customer = await fetchCustomerById(searchParams.customerId);
-  if (searchParams.productType === 'care') {
+  if (isCareProductType(searchParams.productType)) {
     // const cares = await fetchCareFromRenataCategory();
     // return (
     //   <Container>
@@ -45,10 +45,11 @@ export default async function Page({
   // Right now, we'll just throw an error
   // Because the customer needs to order a cure first
   if (pendingOrder.length === 0) {
-    throw new Error('Customer has no pending order.');
+    throw new Error('Customer has no cure order. Please order a cure.');
   }
 
   const cure = await fetchCureById(pendingOrder[0].product_id);
+  // TODO: check how many appointments in the table for this order_id
   const cares = await Promise.all([
     fetchCareById(cure.care_1_id),
     fetchCareById(cure.care_2_id),
@@ -60,11 +61,17 @@ export default async function Page({
         customer={customer}
         date={searchParams.date || getCurrentDate()}
         orderId={pendingOrder[0].id}
+        productId={pendingOrder[0].product_id}
         time={searchParams.time}
       />
     </Container>
   );
 }
+
+function isCareProductType(productType: string) {
+  return productType === 'care';
+}
+
 /**
  * Should return the current date with this format : YYYY-MM-DD
  */

@@ -44,9 +44,9 @@ export type Care = {
   category_id: string;
   category_name: string;
   duration: number;
+  product_amount: number;
   product_id: string;
   product_name: string;
-  product_amount: number;
 };
 
 export type CareCategory = {
@@ -60,38 +60,36 @@ export type CureContent = {
 };
 
 export type Cure = {
-  product_id: string;
-  product_name: string;
-  product_amount: number;
   care_1_id: string;
   care_1_session_number: number;
   care_2_id: string;
   care_2_session_number: number;
+  product_amount: number;
+  product_id: string;
+  product_name: string;
 };
 
 export type Order = {
-  id: string;
+  care_duration?: number;
   customer_id: string;
   customer_name: string;
-  product_id: string;
-  product_type: 'care' | 'cure';
-  product_name: string;
-  payment_status: 'pending' | 'paid';
-  order_status: 'pending' | 'done';
   date: string;
-  care_duration?: number;
+  id: string;
+  order_status: 'pending' | 'done';
+  payment_status: 'pending' | 'paid';
+  product_id: string;
+  product_name: string;
+  product_type: 'care' | 'cure';
 };
 
 export type Appointment = {
-  id: string;
-  product_id: string;
-  product_name: string;
-  product_type: string;
   customer_name: string;
-  status: 'pending' | 'done';
   date: string;
   end_date: string;
-  customer_id: string;
+  id: string;
+  order_id: string;
+  product_name: string;
+  product_type: 'care' | 'cure';
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function
