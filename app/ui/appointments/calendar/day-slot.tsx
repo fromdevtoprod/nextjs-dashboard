@@ -17,7 +17,7 @@ export function DaySlot({
 }
 
 function isWeekend(day: number, month: number, year: number): boolean {
-  return new Date(year, month, day).getDay() === 0;
+  return new Date(year, month - 1, day).getDay() === 0;
 }
 
 function ActiveDaySlot({ day }: { day: number }) {
