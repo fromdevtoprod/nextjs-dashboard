@@ -33,6 +33,23 @@ export async function fetchAppointments(
   }
 }
 
+export async function fetchAppointmentNumberByCareId(
+  orderId: string,
+  careId: string,
+) {
+  try {
+    const data = await sql`
+      SELECT COUNT(*) FROM appointments
+      WHERE order_id = ${orderId}
+      AND care_id = ${careId}
+    `;
+    return data.rows[0].count as number;
+  } catch (err) {
+    console.error('Database Error:', err);
+    throw new Error('Failed to fetch appointments.');
+  }
+}
+
 function convertToTwoDigit(number: number) {
   return number < 10 ? `0${number}` : number;
 }

@@ -1,9 +1,15 @@
+import { redirect } from 'next/navigation';
 import { fetchCustomerById } from '@/app/lib/data/customers';
-import { SelectCareForm } from '@/app/ui/appointments/select-care-form';
+import { SelectCareForAppointmentForm } from '@/app/ui/appointments/select-care-for-appointment-form';
 import { fetchPendingOrdersByCustomer } from '@/app/lib/data/orders';
+import {
+  getAvailableCares,
+  getAvailableCaresInCure,
+} from '@/app/business/appointments';
+import { fetchCareList } from '@/app/lib/data/care';
+import { isCareProductType } from '@/app/business/care';
+import { ProductType } from '@/app/lib/definitions';
 import { Container } from './container';
-import { fetchCureById } from '@/app/lib/data/cure';
-import { fetchCareById } from '@/app/lib/data/care';
 
 export default async function Page({
   searchParams,
@@ -11,52 +17,45 @@ export default async function Page({
   searchParams: {
     date?: string;
     customerId: string;
-    productType: 'care' | 'cure';
+    productType: ProductType;
     time: string;
   };
 }) {
   const customer = await fetchCustomerById(searchParams.customerId);
   if (isCareProductType(searchParams.productType)) {
-    // const cares = await fetchCareFromRenataCategory();
-    // return (
-    //   <Container>
-    //     <SelectCareForm
-    //       cares={cares}
-    //       customer={customer}
-    //       date={searchParams.date || getCurrentDate()}
-    //       time={searchParams.time}
-    //     />
-    //   </Container>
-    // );
-
-    // Implement a specific form for the care product type not in a cure
-    throw new Error('TODO.');
+    const availableCares = await getAvailableCares();
+    return (
+      <Container>
+        <SelectCareForAppointmentForm
+          cares={availableCares}
+          customer={customer}
+          date={searchParams.date || getCurrentDate()}
+          orderId=""
+          time={searchParams.time}
+        />
+      </Container>
+    );
   }
 
   const pendingOrder = await fetchPendingOrdersByCustomer(
     searchParams.customerId,
   );
-  console.log('pendingOrder', pendingOrder);
+
   if (pendingOrder.length > 1) {
     throw new Error('Customer has more than one pending order.');
   }
 
-  // We'll deal with this case later
-  // Right now, we'll just throw an error
-  // Because the customer needs to order a cure first
   if (pendingOrder.length === 0) {
-    throw new Error('Customer has no cure order. Please order a cure.');
+    return redirect('/dashboard/orders/add');
   }
 
-  const cure = await fetchCureById(pendingOrder[0].product_id);
-  // TODO: check how many appointments in the table for this order_id
-  const cares = await Promise.all([
-    fetchCareById(cure.care_1_id),
-    fetchCareById(cure.care_2_id),
-  ]);
+  const cares = await getAvailableCaresInCure({
+    orderId: pendingOrder[0].id,
+    productId: pendingOrder[0].product_id,
+  });
   return (
     <Container>
-      <SelectCareForm
+      <SelectCareForAppointmentForm
         cares={cares}
         customer={customer}
         date={searchParams.date || getCurrentDate()}
@@ -65,10 +64,6 @@ export default async function Page({
       />
     </Container>
   );
-}
-
-function isCareProductType(productType: string) {
-  return productType === 'care';
 }
 
 /**

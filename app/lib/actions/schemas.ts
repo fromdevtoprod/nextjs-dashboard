@@ -40,11 +40,12 @@ export function validatedOrderFields(formData: FormData) {
 
 export function validatedAppointmentFields(formData: FormData) {
   return getAppointmentSchema().safeParse({
-    order_id: formData.get('order-id'),
+    customer_id: formData.get('customer-id'),
     date: formData.get('date'),
     end_date: formData.get('end-date'),
-    time: formData.get('time'),
+    order_id: formData.get('order-id'),
     product_id: formData.get('product-id'),
+    time: formData.get('time'),
   });
 }
 
@@ -109,12 +110,13 @@ function getOrderSchema() {
 
 function getAppointmentSchema() {
   const FormSchema = z.object({
-    id: z.string(),
-    order_id: z.string().min(1, { message: 'Order required' }),
+    customer_id: z.string(),
     date: z.string().min(1, { message: 'Date required' }),
     end_date: z.string().min(1, { message: 'End date required' }),
-    time: z.string().min(1, { message: 'Time required' }),
+    id: z.string(),
+    order_id: z.string(),
     product_id: z.string().min(1, { message: 'Product required' }),
+    time: z.string().min(1, { message: 'Time required' }),
   });
 
   return FormSchema.omit({ id: true });

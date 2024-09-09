@@ -24,9 +24,9 @@ export default function SelectCustomer({
   };
   return (
     <div className="mb-4">
-      <label htmlFor="customer" className="mb-2 block text-sm font-medium">
+      {/* <label htmlFor="customer" className="mb-2 block text-sm font-medium">
         Select a customer
-      </label>
+      </label> */}
       <div className="relative">
         <select
           id="customer"

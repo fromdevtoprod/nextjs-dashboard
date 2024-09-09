@@ -8,7 +8,7 @@ import {
   DialogPanel,
   DialogTitle,
 } from '@headlessui/react';
-import { CustomerField } from '@/app/lib/definitions';
+import { CustomerField, ProductType } from '@/app/lib/definitions';
 import { SelectCustomer } from './select-customer';
 import { SelectProductType } from './select-product-type';
 import TimeInput from './time-input';
@@ -28,9 +28,7 @@ export function SelectCustomerModal({
   const router = useRouter();
 
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
-  const [selectedProductType, setSelectedProductType] = useState<
-    'care' | 'cure'
-  >();
+  const [selectedProductType, setSelectedProductType] = useState<ProductType>();
   const [time, setTime] = useState('00:00');
 
   const handleAction = () => {

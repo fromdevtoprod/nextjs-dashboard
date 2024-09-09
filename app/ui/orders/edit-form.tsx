@@ -3,7 +3,13 @@
 // @ts-ignore
 import { useActionState, useState } from 'react';
 import { updateOrder } from '@/app/lib/actions/orders';
-import { Care, Cure, CustomerField, Order } from '@/app/lib/definitions';
+import {
+  Care,
+  Cure,
+  CustomerField,
+  Order,
+  ProductType,
+} from '@/app/lib/definitions';
 import { Button } from '../button';
 import CancelButton from '../cancel-button';
 import SelectCustomer from '../select-customer';
@@ -30,9 +36,9 @@ export default function Form({
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>(
     order.customer_id,
   );
-  const [selectedProductType, setSelectedProductType] = useState<
-    'care' | 'cure'
-  >(order.product_type);
+  const [selectedProductType, setSelectedProductType] = useState<ProductType>(
+    order.product_type,
+  );
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">

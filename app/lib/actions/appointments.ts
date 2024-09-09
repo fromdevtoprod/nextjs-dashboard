@@ -1,11 +1,12 @@
 'use server';
 
 import { sql } from '@vercel/postgres';
+import { isCureProductType } from '@/app/business/cure';
 import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
 import { validatedAppointmentFields } from './schemas';
 import { fetchOrderById } from '../data/orders';
 import { getCureTotalSessionNumber } from '../data/cure';
-import { getUpdateOrderStatusRequest } from './orders';
+import { getInsertOrderRequest, getUpdateOrderStatusRequest } from './orders';
 
 type State = {
   errors?: {
@@ -23,10 +24,19 @@ export async function createAppointment(prevState: State, formData: FormData) {
     return getFieldErrors(validatedFields.error);
   }
 
-  const { order_id, date, end_date, time } = validatedFields.data;
+  let { order_id } = validatedFields.data;
+  const { date, end_date, time } = validatedFields.data;
   const completeDateWithTime = `${date} ${time}`;
 
   try {
+    if (!order_id) {
+      const insertOrderResult = await getInsertOrderRequest({
+        customerId: validatedFields.data.customer_id,
+        productId: validatedFields.data.product_id,
+        paymentStatus: 'pending',
+      });
+      order_id = insertOrderResult.rows[0].id;
+    }
     await sql`INSERT INTO appointments (order_id, date, end_date, care_id) VALUES (${order_id}, ${completeDateWithTime}, ${end_date}, ${validatedFields.data.product_id})`;
     const appointmentsCount = await getAppointmentCountByOrder(order_id);
     const { product_id, product_type } = await fetchOrderById(order_id);
@@ -64,10 +74,6 @@ export async function deleteAppointment(
   }
 
   validateAndRedirect('appointments');
-}
-
-function isCureProductType(productType: string) {
-  return productType === 'cure';
 }
 
 async function getAppointmentCountByOrder(orderId: string) {

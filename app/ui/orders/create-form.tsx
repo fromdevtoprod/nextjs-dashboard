@@ -3,7 +3,7 @@
 // @ts-ignore
 import { useActionState, useState } from 'react';
 import { createOrder } from '@/app/lib/actions/orders';
-import { Care, Cure, CustomerField } from '@/app/lib/definitions';
+import { Care, Cure, CustomerField, ProductType } from '@/app/lib/definitions';
 import { Button } from '../button';
 import SelectCustomer from '../select-customer';
 import SelectProduct from '../select-product';
@@ -14,7 +14,7 @@ import SelectProductType from '../select-product-type';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({
+export function AddOrderForm({
   cares,
   cures,
   customers,
@@ -25,9 +25,7 @@ export default function Form({
 }) {
   const [state, formAction] = useActionState(createOrder, initialState);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
-  const [selectedProductType, setSelectedProductType] = useState<
-    'care' | 'cure'
-  >();
+  const [selectedProductType, setSelectedProductType] = useState<ProductType>();
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -37,12 +35,10 @@ export default function Form({
           selectedCustomerId={selectedCustomerId}
           onCustomerSelect={setSelectedCustomerId}
         />
-        {selectedCustomerId && (
-          <SelectProductType
-            errors={state.errors?.product_type || []}
-            onProductTypeSelect={setSelectedProductType}
-          />
-        )}
+        <SelectProductType
+          errors={state.errors?.product_type || []}
+          onProductTypeSelect={setSelectedProductType}
+        />
         {selectedProductType && (
           <SelectProduct
             productType={selectedProductType}

@@ -20,10 +20,11 @@ export async function createOrder(prevState: State, formData: FormData) {
   const { customer_id, product_id, payment_status } = validatedFields.data;
 
   try {
-    await sql`
-      INSERT INTO orders (customer_id, product_id, date, payment_status, order_status)
-      VALUES (${customer_id}, ${product_id}, ${getDate()}, ${payment_status}, 'pending')
-      `;
+    await getInsertOrderRequest({
+      customerId: customer_id,
+      productId: product_id,
+      paymentStatus: payment_status,
+    });
   } catch (error) {
     return getDatabaseError({ error, item: 'order', operation: 'insert' });
   }
@@ -85,6 +86,22 @@ export async function getUpdateOrderStatusRequest(
   status: string,
 ) {
   return sql`UPDATE orders SET order_status = ${status} WHERE id = ${orderId}`;
+}
+
+export async function getInsertOrderRequest({
+  customerId,
+  paymentStatus,
+  productId,
+}: {
+  customerId: string;
+  paymentStatus: string;
+  productId: string;
+}) {
+  return sql`
+      INSERT INTO orders (customer_id, product_id, date, payment_status, order_status)
+      VALUES (${customerId}, ${productId}, ${getDate()}, ${paymentStatus}, 'pending')
+      RETURNING id
+      `;
 }
 
 function getDate() {

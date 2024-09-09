@@ -1,5 +1,5 @@
 import { ListBulletIcon } from '@heroicons/react/24/outline';
-import { Care, Cure } from '@/app/lib/definitions';
+import { Care, Cure, ProductType } from '@/app/lib/definitions';
 import { MyHandRaisedIcon } from './icons/hand';
 
 export default function SelectProduct({
@@ -10,7 +10,7 @@ export default function SelectProduct({
   onProductSelect,
 }: {
   errors: string[];
-  productType: 'care' | 'cure';
+  productType: ProductType;
   products: Care[] | Cure[];
   value?: string;
   onProductSelect?: (productId: string) => void;
@@ -26,7 +26,7 @@ export default function SelectProduct({
           name="product-id"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           onChange={(e) => onProductSelect && onProductSelect(e.target.value)}
-          value={value}
+          defaultValue={value || ''}
         >
           <option value="" disabled>
             Select a product

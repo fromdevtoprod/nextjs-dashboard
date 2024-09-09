@@ -59,6 +59,8 @@ export type CureContent = {
   session_number: number;
 };
 
+export type ProductType = 'care' | 'cure';
+
 export type Cure = {
   care_1_id: string;
   care_1_session_number: number;
@@ -79,7 +81,7 @@ export type Order = {
   payment_status: 'pending' | 'paid';
   product_id: string;
   product_name: string;
-  product_type: 'care' | 'cure';
+  product_type: ProductType;
 };
 
 export type Appointment = {
@@ -90,7 +92,7 @@ export type Appointment = {
   id: string;
   order_id: string;
   product_name: string;
-  product_type: 'care' | 'cure';
+  product_type: ProductType;
 };
 
 // The database returns a number for amount, but we later format it to a string with the formatCurrency function

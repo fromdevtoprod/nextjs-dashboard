@@ -1,4 +1,5 @@
 import { Cog6ToothIcon } from '@heroicons/react/24/outline';
+import { ProductType } from '@/app/lib/definitions';
 
 export default function SelectProductType({
   errors,
@@ -7,24 +8,24 @@ export default function SelectProductType({
 }: {
   errors: string[];
   value?: string;
-  onProductTypeSelect: (productType: 'care' | 'cure') => void;
+  onProductTypeSelect: (productType: ProductType) => void;
 }) {
   return (
     <div className="mb-4">
-      <label htmlFor="product-type" className="mb-2 block text-sm font-medium">
+      {/* <label htmlFor="product-type" className="mb-2 block text-sm font-medium">
         Select a product type
-      </label>
+      </label> */}
       <div className="relative">
         <select
           id="product-type"
           name="product-type"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          onChange={(e) =>
-            onProductTypeSelect(e.target.value as 'care' | 'cure')
-          }
-          defaultValue={value}
+          onChange={(e) => onProductTypeSelect(e.target.value as ProductType)}
+          defaultValue={value || ''}
         >
-          <option value="">Select a product type</option>
+          <option value="" disabled>
+            Select a product type
+          </option>
           <option value="care">Care</option>
           <option value="cure">Cure</option>
         </select>
