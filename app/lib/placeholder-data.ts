@@ -315,6 +315,18 @@ const products = [
     amount: 150,
   },
   {
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd88',
+    name: 'Chi Nei Tsang',
+    type: 'care',
+    amount: 110,
+  },
+  {
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd89',
+    name: 'Tui Na',
+    type: 'care',
+    amount: 110,
+  },
+  {
     id: 'cb58f01f-2260-4db2-b068-1451286bdd90',
     name: 'Drainage Lymphatique',
     type: 'cure',

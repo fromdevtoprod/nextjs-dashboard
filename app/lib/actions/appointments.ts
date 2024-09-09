@@ -46,6 +46,8 @@ export async function createAppointment(prevState: State, formData: FormData) {
       if (totalSessionNumber === appointmentsCount) {
         await getUpdateOrderStatusRequest(order_id, 'done');
       }
+    } else {
+      await getUpdateOrderStatusRequest(order_id, 'done');
     }
   } catch (error) {
     return getDatabaseError({
@@ -63,7 +65,7 @@ export async function deleteAppointment(
   orderId: string,
 ) {
   try {
-    await sql`DELETE FROM appointments WHERE id = ${appointmentId}`;
+    await getDeleteAppointmentRequest(appointmentId);
     await getUpdateOrderStatusRequest(orderId, 'pending');
   } catch (error) {
     return getDatabaseError({
@@ -80,4 +82,12 @@ async function getAppointmentCountByOrder(orderId: string) {
   const appointmentsCount =
     await sql`SELECT COUNT(*) FROM appointments WHERE order_id = ${orderId}`;
   return appointmentsCount.rows[0].count as number;
+}
+
+async function getDeleteAppointmentRequest(appointmentId: string) {
+  return sql`DELETE FROM appointments WHERE id = ${appointmentId}`;
+}
+
+export async function getDeleteAppointmentByOrderRequest(orderId: string) {
+  return sql`DELETE FROM appointments WHERE order_id = ${orderId}`;
 }

@@ -2,9 +2,10 @@
 
 // @ts-ignore
 import { useActionState, useState } from 'react';
+import { CalendarIcon } from '@heroicons/react/24/outline';
 import { createAppointment } from '@/app/lib/actions/appointments';
 import { Care, CustomerField } from '@/app/lib/definitions';
-import { CalendarIcon } from '@heroicons/react/24/outline';
+import { calculateEndTime } from '@/app/business/appointments';
 import { Button } from '../button';
 import CancelButton from '../cancel-button';
 import FormErrorMessage from '../form-error-message';
@@ -97,17 +98,4 @@ export function SelectCareForAppointmentForm({
 function formatEndDate(startDate: string, endTime: string) {
   const [year, month, day] = startDate.split('-').map(Number);
   return `${year}-${month}-${day} ${endTime}:00`;
-}
-
-// This function should calculate the end time of the appointment based on the
-// selected care and the start time of the appointment. The duration of the care
-// should be added to the start time to get the end time. The start time is
-// passed as a string in the format "HH:MM" and the duration of the care is
-// stored in the care object as an integer. The end time should be returned as a
-// string in the format "HH:MM".
-function calculateEndTime(startTime: string, duration: number) {
-  const [hours, minutes] = startTime.split(':').map(Number);
-  const endHours = hours + Math.floor(duration / 60);
-  const endMinutes = minutes + (duration % 60);
-  return `${endHours}:${endMinutes}`;
 }

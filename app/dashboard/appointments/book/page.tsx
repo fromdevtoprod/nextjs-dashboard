@@ -6,7 +6,6 @@ import {
   getAvailableCares,
   getAvailableCaresInCure,
 } from '@/app/business/appointments';
-import { fetchCareList } from '@/app/lib/data/care';
 import { isCareProductType } from '@/app/business/care';
 import { ProductType } from '@/app/lib/definitions';
 import { Container } from './container';
