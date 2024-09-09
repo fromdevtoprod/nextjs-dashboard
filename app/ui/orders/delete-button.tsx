@@ -5,15 +5,15 @@ import { deleteOrder } from '@/app/lib/actions/orders';
 import DeleteConfirmationModal from '../delete-confirmation-modal';
 import { DeleteButton } from '../buttons/delete-button';
 
-export default function DeleteOrderButton({ id }: { id: string }) {
+export function DeleteOrderButton({ orderId }: { orderId: string }) {
   const [isModalDisplayed, setIsModalDisplayed] = useState(false);
-  const deleteCureWithId = deleteOrder.bind(null, id);
+  const deleteOrderWithId = deleteOrder.bind(null, orderId);
   return (
     <form>
       {isModalDisplayed && (
         <DeleteConfirmationModal
           item="order"
-          onConfirmation={() => deleteCureWithId()}
+          onConfirmation={() => deleteOrderWithId()}
           onCancel={() => setIsModalDisplayed(false)}
         />
       )}

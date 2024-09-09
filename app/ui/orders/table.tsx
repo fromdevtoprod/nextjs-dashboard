@@ -1,6 +1,6 @@
 import { fetchOrders } from '@/app/lib/data/orders';
 import { capitalize, formatDateToLocal } from '@/app/lib/utils';
-import DeleteOrderButton from './delete-button';
+import { DeleteOrderButton } from './delete-button';
 import { EditButton } from '../buttons/edit-button';
 
 export default async function OrdersTable() {
@@ -43,7 +43,7 @@ export default async function OrdersTable() {
                   </div>
                   <div className="flex justify-end gap-2">
                     <EditButton href={`/dashboard/orders/${order.id}/edit`} />
-                    <DeleteOrderButton id={order.id} />
+                    <DeleteOrderButton orderId={order.id} />
                   </div>
                 </div>
               ))}
@@ -103,7 +103,7 @@ export default async function OrdersTable() {
                         <EditButton
                           href={`/dashboard/orders/${order.id}/edit`}
                         />
-                        <DeleteOrderButton id={order.id} />
+                        <DeleteOrderButton orderId={order.id} />
                       </div>
                     </td>
                   </tr>

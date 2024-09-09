@@ -7,6 +7,10 @@ import { validatedAppointmentFields } from './schemas';
 import { fetchOrderById } from '../data/orders';
 import { getCureTotalSessionNumber } from '../data/cure';
 import { getInsertOrderRequest, getUpdateOrderStatusRequest } from './orders';
+import {
+  getAppointmentCountByOrder,
+  getDeleteAppointmentRequest,
+} from '../sql/appointment';
 
 type State = {
   errors?: {
@@ -68,26 +72,9 @@ export async function deleteAppointment(
     await getDeleteAppointmentRequest(appointmentId);
     await getUpdateOrderStatusRequest(orderId, 'pending');
   } catch (error) {
-    return getDatabaseError({
-      error,
-      item: 'appointment',
-      operation: 'delete',
-    });
+    return {
+      message: `Database Error: Failed to delete this appointment.`,
+    };
   }
-
   validateAndRedirect('appointments');
-}
-
-async function getAppointmentCountByOrder(orderId: string) {
-  const appointmentsCount =
-    await sql`SELECT COUNT(*) FROM appointments WHERE order_id = ${orderId}`;
-  return appointmentsCount.rows[0].count as number;
-}
-
-async function getDeleteAppointmentRequest(appointmentId: string) {
-  return sql`DELETE FROM appointments WHERE id = ${appointmentId}`;
-}
-
-export async function getDeleteAppointmentByOrderRequest(orderId: string) {
-  return sql`DELETE FROM appointments WHERE order_id = ${orderId}`;
 }

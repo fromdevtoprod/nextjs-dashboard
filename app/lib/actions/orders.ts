@@ -3,7 +3,8 @@
 import { sql } from '@vercel/postgres';
 import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
 import { validatedOrderFields } from './schemas';
-import { getDeleteAppointmentByOrderRequest } from './appointments';
+import { getDeleteOrderRequest } from '../sql/order';
+import { getDeleteAppointmentByOrderIdRequest } from '../sql/appointment';
 
 type State = {
   errors?: {
@@ -35,13 +36,11 @@ export async function createOrder(prevState: State, formData: FormData) {
 
 export async function deleteOrder(orderId: string) {
   try {
-    await getDeleteAppointmentByOrderRequest(orderId);
-    await sql`DELETE FROM orders WHERE id = ${orderId}`;
+    await getDeleteAppointmentByOrderIdRequest(orderId);
+    await getDeleteOrderRequest(orderId);
   } catch (error) {
-    return getDatabaseError({ error, item: 'order', operation: 'delete' });
+    return { message: `Database Error: Failed to delete this order.` };
   }
-
-  validateAndRedirect('orders');
 }
 
 export async function updateOrder(
