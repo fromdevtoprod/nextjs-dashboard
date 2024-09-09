@@ -3,8 +3,12 @@
 import { sql } from '@vercel/postgres';
 import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
 import { validatedOrderFields } from './schemas';
-import { getDeleteOrderRequest } from '../sql/order';
-import { getDeleteAppointmentByOrderIdRequest } from '../sql/appointment';
+import {
+  executeDeleteOrderRequest,
+  executeInsertOrderRequest,
+  executeUpdateOrderStatusRequest,
+} from '../sql/order';
+import { executeDeleteAppointmentByOrderRequest } from '../sql/appointment';
 
 type State = {
   errors?: {
@@ -22,7 +26,7 @@ export async function createOrder(prevState: State, formData: FormData) {
   const { customer_id, product_id, payment_status } = validatedFields.data;
 
   try {
-    await getInsertOrderRequest({
+    await executeInsertOrderRequest({
       customerId: customer_id,
       productId: product_id,
       paymentStatus: payment_status,
@@ -36,11 +40,13 @@ export async function createOrder(prevState: State, formData: FormData) {
 
 export async function deleteOrder(orderId: string) {
   try {
-    await getDeleteAppointmentByOrderIdRequest(orderId);
-    await getDeleteOrderRequest(orderId);
+    await executeDeleteAppointmentByOrderRequest(orderId);
+    await executeDeleteOrderRequest(orderId);
   } catch (error) {
     return { message: `Database Error: Failed to delete this order.` };
   }
+
+  validateAndRedirect('orders');
 }
 
 export async function updateOrder(
@@ -70,41 +76,12 @@ export async function updateOrder(
 
 export async function updateOrderStatus(orderId: string, status: string) {
   try {
-    await getUpdateOrderStatusRequest(orderId, status);
+    await executeUpdateOrderStatusRequest(orderId, status);
   } catch (error) {
-    return getDatabaseError({
-      error,
-      item: 'order',
-      operation: 'update',
-    });
+    return {
+      message: `Database Error: Failed to update this order.`,
+    };
   }
 
   validateAndRedirect('orders');
-}
-
-export async function getUpdateOrderStatusRequest(
-  orderId: string,
-  status: string,
-) {
-  return sql`UPDATE orders SET order_status = ${status} WHERE id = ${orderId}`;
-}
-
-export async function getInsertOrderRequest({
-  customerId,
-  paymentStatus,
-  productId,
-}: {
-  customerId: string;
-  paymentStatus: string;
-  productId: string;
-}) {
-  return sql`
-      INSERT INTO orders (customer_id, product_id, date, payment_status, order_status)
-      VALUES (${customerId}, ${productId}, ${getDate()}, ${paymentStatus}, 'pending')
-      RETURNING id
-      `;
-}
-
-function getDate() {
-  return new Date().toISOString().split('T')[0];
 }

@@ -1,5 +1,5 @@
 import { ProductType } from '@/app/lib/definitions';
 
-export function isCureProductType(productType: ProductType) {
+export function hasCureProductType(productType: ProductType) {
   return productType === 'cure';
 }

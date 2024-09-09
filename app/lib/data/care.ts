@@ -1,5 +1,9 @@
 import { sql } from '@vercel/postgres';
-import { Care, CareCategory } from '@/app/lib/definitions';
+import {
+  Care,
+  CareCategory,
+  CareShortDescription,
+} from '@/app/lib/definitions';
 
 export async function fetchCareList() {
   try {
@@ -41,7 +45,7 @@ export async function fetchCareCategories() {
 
 export async function fetchCareById(productId: string) {
   try {
-    const data = await sql<Care>`
+    const selectCareResult = await sql<Care>`
       SELECT
         care_catalog.product_id,
         care_catalog.category_id,
@@ -54,9 +58,7 @@ export async function fetchCareById(productId: string) {
       LEFT JOIN products ON care_catalog.product_id = products.id
       WHERE care_catalog.product_id = ${productId}
     `;
-
-    const care = data.rows[0];
-    return care;
+    return selectCareResult.rows[0];
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch this care.');
@@ -70,7 +72,7 @@ export async function fetchCareFromRenataCategory() {
 
 async function fetchCareByCategoryName(name: string) {
   try {
-    const data = await sql<Care>`
+    const data = await sql<CareShortDescription>`
       SELECT
         DISTINCT products.id AS product_id,
         products.name AS product_name,

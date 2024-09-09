@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { Order } from '@/app/lib/definitions';
+import { executeSelectPendingOrderRequest } from '../sql/order';
 
 export async function fetchOrders() {
   try {
@@ -53,14 +54,9 @@ export async function fetchOrderById(id: string) {
 
 export async function fetchPendingOrdersByCustomer(customerId: string) {
   try {
-    const data = await sql<Order>`
-      SELECT orders.id, orders.product_id
-      FROM orders
-      WHERE orders.customer_id=${customerId}
-      AND orders.order_status='pending'
-    `;
-    const cureCatalog = data.rows;
-    return cureCatalog;
+    const pendingOrderResult =
+      await executeSelectPendingOrderRequest(customerId);
+    return pendingOrderResult.rows;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch pending orders for this customer.');

@@ -40,6 +40,12 @@ export type LatestInvoice = {
   amount: string;
 };
 
+export type CareShortDescription = {
+  duration: number;
+  product_id: string;
+  product_name: string;
+};
+
 export type Care = {
   category_id: string;
   category_name: string;
@@ -69,6 +75,12 @@ export type Cure = {
   product_amount: number;
   product_id: string;
   product_name: string;
+};
+
+export type PendingOrder = {
+  id: string;
+  product_id: string;
+  product_type: ProductType;
 };
 
 export type Order = {

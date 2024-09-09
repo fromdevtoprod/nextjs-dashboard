@@ -1,15 +1,18 @@
 'use server';
 
 import { sql } from '@vercel/postgres';
-import { isCureProductType } from '@/app/business/cure';
-import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
+import { hasCureProductType } from '@/app/business/cure';
+import { getFieldErrors, validateAndRedirect } from './utils';
 import { validatedAppointmentFields } from './schemas';
 import { fetchOrderById } from '../data/orders';
 import { getCureTotalSessionNumber } from '../data/cure';
-import { getInsertOrderRequest, getUpdateOrderStatusRequest } from './orders';
 import {
-  getAppointmentCountByOrder,
-  getDeleteAppointmentRequest,
+  executeInsertOrderRequest,
+  executeUpdateOrderStatusRequest,
+} from '../sql/order';
+import {
+  executeCountAppointmentRequest,
+  executeDeleteAppointmentRequest,
 } from '../sql/appointment';
 
 type State = {
@@ -28,37 +31,35 @@ export async function createAppointment(prevState: State, formData: FormData) {
     return getFieldErrors(validatedFields.error);
   }
 
-  let { order_id } = validatedFields.data;
-  const { date, end_date, time } = validatedFields.data;
+  let { orderId } = validatedFields.data;
+  const { customerId, date, endDate, productId, time } = validatedFields.data;
   const completeDateWithTime = `${date} ${time}`;
 
   try {
-    if (!order_id) {
-      const insertOrderResult = await getInsertOrderRequest({
-        customerId: validatedFields.data.customer_id,
-        productId: validatedFields.data.product_id,
+    if (!orderId) {
+      const insertOrderResult = await executeInsertOrderRequest({
+        customerId,
+        productId,
         paymentStatus: 'pending',
       });
-      order_id = insertOrderResult.rows[0].id;
+      orderId = insertOrderResult.rows[0].id;
     }
-    await sql`INSERT INTO appointments (order_id, date, end_date, care_id) VALUES (${order_id}, ${completeDateWithTime}, ${end_date}, ${validatedFields.data.product_id})`;
-    const appointmentsCount = await getAppointmentCountByOrder(order_id);
-    const { product_id, product_type } = await fetchOrderById(order_id);
+    await sql`INSERT INTO appointments (order_id, date, end_date, care_id) VALUES (${orderId}, ${completeDateWithTime}, ${endDate}, ${productId})`;
+    const appointmentCount = await executeCountAppointmentRequest(orderId);
+    const { product_id, product_type } = await fetchOrderById(orderId);
 
-    if (isCureProductType(product_type)) {
+    if (hasCureProductType(product_type)) {
       const totalSessionNumber = await getCureTotalSessionNumber(product_id);
-      if (totalSessionNumber === appointmentsCount) {
-        await getUpdateOrderStatusRequest(order_id, 'done');
+      if (totalSessionNumber === appointmentCount) {
+        await executeUpdateOrderStatusRequest(orderId, 'done');
       }
     } else {
-      await getUpdateOrderStatusRequest(order_id, 'done');
+      await executeUpdateOrderStatusRequest(orderId, 'done');
     }
   } catch (error) {
-    return getDatabaseError({
-      error,
-      item: 'appointment',
-      operation: 'insert',
-    });
+    return {
+      message: `Database Error: Failed to insert this appointment.`,
+    };
   }
 
   validateAndRedirect('appointments');
@@ -69,8 +70,8 @@ export async function deleteAppointment(
   orderId: string,
 ) {
   try {
-    await getDeleteAppointmentRequest(appointmentId);
-    await getUpdateOrderStatusRequest(orderId, 'pending');
+    await executeDeleteAppointmentRequest(appointmentId);
+    await executeUpdateOrderStatusRequest(orderId, 'pending');
   } catch (error) {
     return {
       message: `Database Error: Failed to delete this appointment.`,

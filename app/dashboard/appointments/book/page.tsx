@@ -3,10 +3,10 @@ import { fetchCustomerById } from '@/app/lib/data/customers';
 import { SelectCareForAppointmentForm } from '@/app/ui/appointments/select-care-for-appointment-form';
 import { fetchPendingOrdersByCustomer } from '@/app/lib/data/orders';
 import {
-  getAvailableCares,
+  getAvailableCaresByCustomer,
   getAvailableCaresInCure,
 } from '@/app/business/appointments';
-import { isCareProductType } from '@/app/business/care';
+import { hasCareProductType } from '@/app/business/care';
 import { ProductType } from '@/app/lib/definitions';
 import { Container } from './container';
 
@@ -20,46 +20,45 @@ export default async function Page({
     time: string;
   };
 }) {
-  const customer = await fetchCustomerById(searchParams.customerId);
-  if (isCareProductType(searchParams.productType)) {
-    const availableCares = await getAvailableCares();
+  const { customerId, date, productType, time } = searchParams;
+  const customer = await fetchCustomerById(customerId);
+
+  if (hasCareProductType(productType)) {
+    const availableCares = await getAvailableCaresByCustomer(customer.id);
     return (
       <Container>
         <SelectCareForAppointmentForm
           cares={availableCares}
           customer={customer}
-          date={searchParams.date || getCurrentDate()}
+          date={date || getCurrentDate()}
           orderId=""
-          time={searchParams.time}
+          time={time}
         />
       </Container>
     );
   }
 
-  const pendingOrder = await fetchPendingOrdersByCustomer(
-    searchParams.customerId,
-  );
+  const pendingOrders = await fetchPendingOrdersByCustomer(customerId);
 
-  if (pendingOrder.length > 1) {
+  if (pendingOrders.length > 1) {
     throw new Error('Customer has more than one pending order.');
-  }
-
-  if (pendingOrder.length === 0) {
+  } else if (pendingOrders.length === 0) {
     return redirect('/dashboard/orders/add');
   }
 
+  const pendingOrder = pendingOrders[0];
   const cares = await getAvailableCaresInCure({
-    orderId: pendingOrder[0].id,
-    productId: pendingOrder[0].product_id,
+    orderId: pendingOrder.id,
+    productId: pendingOrder.product_id,
   });
   return (
     <Container>
       <SelectCareForAppointmentForm
         cares={cares}
         customer={customer}
-        date={searchParams.date || getCurrentDate()}
-        orderId={pendingOrder[0].id}
-        time={searchParams.time}
+        date={date || getCurrentDate()}
+        orderId={pendingOrder.id}
+        time={time}
       />
     </Container>
   );
