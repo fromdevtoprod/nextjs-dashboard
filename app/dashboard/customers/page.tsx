@@ -4,7 +4,7 @@ import Table from '@/app/ui/customers/table';
 import { lusitana } from '@/app/ui/fonts';
 import Search from '@/app/ui/search';
 import { CustomersTableSkeleton } from '@/app/ui/customers/skeletons';
-import { CreateCustomer } from '@/app/ui/customers/buttons';
+import { AddButtonLink } from '@/app/ui/buttons/add-link';
 
 export const metadata: Metadata = {
   title: 'Customers',
@@ -23,7 +23,10 @@ export default async function Page({
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search customers..." />
-        <CreateCustomer />
+        <AddButtonLink
+          href="/dashboard/customers/create"
+          label="Create Customer"
+        />
       </div>
       <Suspense fallback={<CustomersTableSkeleton />}>
         <Table query={query} />

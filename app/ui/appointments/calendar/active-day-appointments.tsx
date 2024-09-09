@@ -21,6 +21,7 @@ export function ActiveDayAppointments({
             key={index}
             orderId={appointment.order_id}
             productName={appointment.product_name}
+            paymentStatus={appointment.payment_status}
           />
         ))}
       </div>

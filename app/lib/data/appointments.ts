@@ -16,7 +16,8 @@ export async function fetchAppointments(
         appointments.id,
         appointments.order_id,
         products.name AS product_name,
-        products.type AS product_type
+        products.type AS product_type,
+        orders.payment_status AS payment_status
       FROM appointments
       LEFT JOIN orders ON orders.id = appointments.order_id
       LEFT JOIN products ON products.id = appointments.care_id

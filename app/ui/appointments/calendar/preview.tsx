@@ -1,11 +1,13 @@
 'use client';
 
 import clsx from 'clsx';
+import { PaymentStatus } from '@/app/lib/definitions';
 import { MyClockIcon } from '../../icons/clock';
 import { MyHandRaisedIcon } from '../../icons/hand';
 import { MyUserIcon } from '../../icons/user';
 import { DeleteAppointmentButton } from '../delete-button';
-import { EditButton } from '../../buttons/edit-button';
+import { PaymentDetails } from './payment-status';
+import { MyDollarIcon } from '../../icons/dollar';
 
 export function Preview({
   customer,
@@ -13,6 +15,7 @@ export function Preview({
   hour,
   id,
   isFirst = false,
+  paymentStatus,
   productName,
   orderId,
 }: {
@@ -21,6 +24,7 @@ export function Preview({
   hour: string;
   id: string;
   isFirst?: boolean;
+  paymentStatus: PaymentStatus;
   productName: string;
   orderId: string;
 }) {
@@ -48,13 +52,10 @@ export function Preview({
           <MyUserIcon additionalClassName="mr-1" />
           {customer}
         </p>
+        <PaymentDetails status={paymentStatus} />
       </div>
 
       <div>
-        <div className="flex">
-          <EditButton href={`/dashboard/appointments/${id}/edit`} />
-        </div>
-
         <div className="mt-2">
           <DeleteAppointmentButton appointmentId={id} orderId={orderId} />
         </div>
