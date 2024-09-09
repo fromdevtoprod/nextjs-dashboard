@@ -3,8 +3,8 @@
 // @ts-ignore
 import { useActionState, useState } from 'react';
 import { createCure } from '@/app/lib/actions/cure';
-import { Care } from '@/app/lib/definitions';
-import CureDetails from './cure-details';
+import { CareShortDescription } from '@/app/lib/definitions';
+import { CureDetails } from './cure-details';
 import AddCareButton from './add-care-button';
 import RemoveCareButton from './remove-care-button';
 import CancelButton from '../cancel-button';
@@ -15,7 +15,7 @@ import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({ cares }: { cares: Care[] }) {
+export function CreateCureForm({ cares }: { cares: CareShortDescription[] }) {
   const [isSecondCareDisplayed, setIsSecondCareDisplayed] = useState(false);
   const [state, formAction] = useActionState(createCure, initialState);
   return (
