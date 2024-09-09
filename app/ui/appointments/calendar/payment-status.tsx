@@ -1,6 +1,6 @@
 import clsx from 'clsx';
+import { CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
 import { PaymentStatus } from '@/app/lib/definitions';
-import { capitalize } from '@/app/lib/utils';
 import { MyDollarIcon } from '../../icons/dollar';
 
 export function PaymentDetails({ status }: { status: PaymentStatus }) {
@@ -10,12 +10,25 @@ export function PaymentDetails({ status }: { status: PaymentStatus }) {
       <div className="flex items-center">
         <span
           className={clsx(
-            'inline-block rounded-full px-2 py-1 text-xs font-semibold',
-            status === 'paid' && 'bg-green-200 text-green-800',
-            status === 'pending' && 'bg-yellow-200 text-yellow-800',
+            'inline-flex items-center rounded-full px-2 py-1 text-xs',
+            {
+              'bg-yellow-200 text-yellow-800': status === 'pending',
+              'bg-green-500 text-white': status === 'paid',
+            },
           )}
         >
-          {capitalize(status)}
+          {status === 'pending' ? (
+            <>
+              Pending
+              <ClockIcon className="ml-1 w-4 text-yellow-800" />
+            </>
+          ) : null}
+          {status === 'paid' ? (
+            <>
+              Paid
+              <CheckIcon className="ml-1 w-4 text-white" />
+            </>
+          ) : null}
         </span>
       </div>
     </div>
