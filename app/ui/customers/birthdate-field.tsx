@@ -2,8 +2,10 @@ import { useState } from 'react';
 
 export default function BirthDateField({
   defaultValue = '',
+  isDisabled = false,
 }: {
   defaultValue?: string;
+  isDisabled?: boolean;
 }) {
   const [birthDate, setBirthDate] = useState(defaultValue);
 
@@ -23,6 +25,7 @@ export default function BirthDateField({
       aria-describedby="birth_date-error"
       value={birthDate}
       onChange={updateBirthDate}
+      disabled={isDisabled}
     />
   );
 }

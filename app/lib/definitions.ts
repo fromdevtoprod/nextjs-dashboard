@@ -97,8 +97,18 @@ export type Order = {
   product_type: ProductType;
 };
 
+export type AppointmentShortDescription = {
+  date: string;
+  id: string;
+  order_id: string;
+  product_name: string;
+  product_type: ProductType;
+  payment_status: PaymentStatus;
+};
+
 export type Appointment = {
   care_id: string;
+  customer_id: string;
   customer_name: string;
   date: string;
   end_date: string;

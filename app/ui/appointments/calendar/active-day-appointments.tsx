@@ -13,7 +13,8 @@ export function ActiveDayAppointments({
       <div className="px-4">
         {appointments.map((appointment, index) => (
           <Preview
-            customer={appointment.customer_name}
+            customerId={appointment.customer_id}
+            customerName={appointment.customer_name}
             endedTime={getHour(appointment.end_date)}
             hour={getHour(appointment.date)}
             id={appointment.id}

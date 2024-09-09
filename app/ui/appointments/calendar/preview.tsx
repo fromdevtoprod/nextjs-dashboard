@@ -7,10 +7,11 @@ import { MyHandRaisedIcon } from '../../icons/hand';
 import { MyUserIcon } from '../../icons/user';
 import { DeleteAppointmentButton } from '../delete-button';
 import { PaymentDetails } from './payment-status';
-import { MyDollarIcon } from '../../icons/dollar';
+import { CustomerNameLink } from '../../customers/customer-name-link';
 
 export function Preview({
-  customer,
+  customerId,
+  customerName,
   endedTime,
   hour,
   id,
@@ -19,7 +20,8 @@ export function Preview({
   productName,
   orderId,
 }: {
-  customer: string;
+  customerId: string;
+  customerName: string;
   endedTime: string;
   hour: string;
   id: string;
@@ -50,7 +52,10 @@ export function Preview({
         </div>
         <p className="mt-2 flex items-center text-sm leading-4 text-gray-600 dark:text-gray-300">
           <MyUserIcon additionalClassName="mr-1" />
-          {customer}
+          <CustomerNameLink
+            customerName={customerName}
+            href={`/dashboard/customers/${customerId}/view`}
+          />
         </p>
         <PaymentDetails status={paymentStatus} />
       </div>

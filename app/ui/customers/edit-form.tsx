@@ -13,7 +13,7 @@ import BirthDateInput from '../birthdate-input';
 import PathologyTextarea from '../pathology-textarea';
 import FormErrorMessage from '../form-error-message';
 
-export default function Form({ customer }: { customer: Customer }) {
+export function EditCustomerForm({ customer }: { customer: Customer }) {
   const initialState = { message: null, error: {} };
   const updateCustomerWithId = updateCustomer.bind(null, customer.id);
   const [state, formAction] = useActionState(
