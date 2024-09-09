@@ -1,14 +1,14 @@
 import { redirect } from 'next/navigation';
 import { fetchCustomerById } from '@/app/lib/data/customers';
 import { SelectCareForAppointmentForm } from '@/app/ui/appointments/select-care-for-appointment-form';
-import { fetchPendingOrdersByCustomer } from '@/app/lib/data/orders';
 import {
   getAvailableCaresByCustomer,
-  getAvailableCaresInCure,
-} from '@/app/business/appointments';
-import { hasCareProductType } from '@/app/business/care';
+  hasCareProductType,
+} from '@/app/business/care';
+import { getAvailableCaresInCure } from '@/app/business/cure';
 import { ProductType } from '@/app/lib/definitions';
 import { Container } from './container';
+import { findPendingCureByCustomer } from '@/app/business/order';
 
 export default async function Page({
   searchParams,
@@ -38,18 +38,14 @@ export default async function Page({
     );
   }
 
-  const pendingOrders = await fetchPendingOrdersByCustomer(customerId);
-
-  if (pendingOrders.length > 1) {
-    throw new Error('Customer has more than one pending order.');
-  } else if (pendingOrders.length === 0) {
+  const pendingCure = await findPendingCureByCustomer(customerId);
+  if (!pendingCure) {
     return redirect('/dashboard/orders/add');
   }
 
-  const pendingOrder = pendingOrders[0];
   const cares = await getAvailableCaresInCure({
-    orderId: pendingOrder.id,
-    productId: pendingOrder.product_id,
+    orderId: pendingCure.id,
+    productId: pendingCure.product_id,
   });
   return (
     <Container>
@@ -57,7 +53,7 @@ export default async function Page({
         cares={cares}
         customer={customer}
         date={date || getCurrentDate()}
-        orderId={pendingOrder.id}
+        orderId={pendingCure.id}
         time={time}
       />
     </Container>
