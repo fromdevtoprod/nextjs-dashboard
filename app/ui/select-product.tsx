@@ -1,8 +1,8 @@
 import { ListBulletIcon } from '@heroicons/react/24/outline';
-import { Care, Cure, ProductType } from '@/app/lib/definitions';
+import { CareShortDescription, Cure, ProductType } from '@/app/lib/definitions';
 import { MyHandRaisedIcon } from './icons/hand';
 
-export default function SelectProduct({
+export function SelectProduct({
   errors,
   productType,
   products,
@@ -11,7 +11,7 @@ export default function SelectProduct({
 }: {
   errors: string[];
   productType: ProductType;
-  products: Care[] | Cure[];
+  products: CareShortDescription[] | Cure[];
   value?: string;
   onProductSelect?: (productId: string) => void;
 }) {

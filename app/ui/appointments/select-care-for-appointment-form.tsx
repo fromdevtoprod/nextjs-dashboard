@@ -9,7 +9,7 @@ import { calculateEndTime } from '@/app/business/appointments';
 import { Button } from '../button';
 import CancelButton from '../cancel-button';
 import FormErrorMessage from '../form-error-message';
-import SelectProduct from '../select-product';
+import { SelectProduct } from '../select-product';
 import NameInput from '../name-input';
 import { TimeInput } from '../time-input';
 import Input from '../input';

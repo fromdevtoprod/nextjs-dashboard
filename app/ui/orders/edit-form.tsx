@@ -4,7 +4,7 @@
 import { useActionState, useState } from 'react';
 import { updateOrder } from '@/app/lib/actions/orders';
 import {
-  Care,
+  CareShortDescription,
   Cure,
   CustomerField,
   Order,
@@ -13,20 +13,20 @@ import {
 import { Button } from '../button';
 import CancelButton from '../cancel-button';
 import SelectCustomer from '../select-customer';
-import SelectProduct from '../select-product';
+import { SelectProduct } from '../select-product';
 import SelectPaymentStatus from './select-payment-status';
 import FormErrorMessage from '../form-error-message';
 import SelectProductType from '../select-product-type';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({
+export function EditOrderForm({
   cares,
   cures,
   customers,
   order,
 }: {
-  cares: Care[];
+  cares: CareShortDescription[];
   cures: Cure[];
   customers: CustomerField[];
   order: Order;

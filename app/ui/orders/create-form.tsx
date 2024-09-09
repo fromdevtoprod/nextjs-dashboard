@@ -3,10 +3,15 @@
 // @ts-ignore
 import { useActionState, useState } from 'react';
 import { createOrder } from '@/app/lib/actions/orders';
-import { Care, Cure, CustomerField, ProductType } from '@/app/lib/definitions';
+import {
+  CareShortDescription,
+  Cure,
+  CustomerField,
+  ProductType,
+} from '@/app/lib/definitions';
 import { Button } from '../button';
 import SelectCustomer from '../select-customer';
-import SelectProduct from '../select-product';
+import { SelectProduct } from '../select-product';
 import SelectPaymentStatus from './select-payment-status';
 import CancelButton from '../cancel-button';
 import FormErrorMessage from '../form-error-message';
@@ -19,7 +24,7 @@ export function AddOrderForm({
   cures,
   customers,
 }: {
-  cares: Care[];
+  cares: CareShortDescription[];
   cures: Cure[];
   customers: CustomerField[];
 }) {

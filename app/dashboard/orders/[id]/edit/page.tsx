@@ -1,5 +1,5 @@
 import { fetchOrderById } from '@/app/lib/data/orders';
-import Form from '@/app/ui/orders/edit-form';
+import { EditOrderForm } from '@/app/ui/orders/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchCareFromRenataCategory } from '@/app/lib/data/care';
 import { fetchCureCatalog } from '@/app/lib/data/cure';
@@ -23,7 +23,12 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <Form cares={cares} cures={cures} customers={customers} order={order} />
+      <EditOrderForm
+        cares={cares}
+        cures={cures}
+        customers={customers}
+        order={order}
+      />
     </main>
   );
 }
