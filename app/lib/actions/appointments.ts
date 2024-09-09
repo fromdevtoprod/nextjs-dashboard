@@ -10,8 +10,9 @@ import { getUpdateOrderStatusRequest } from './orders';
 type State = {
   errors?: {
     name?: string[];
-    amount?: string[];
-    session_number?: string[];
+    date?: string[];
+    time?: string[];
+    product?: string[];
   };
   message?: string | null;
 };
@@ -25,19 +26,17 @@ export async function createAppointment(prevState: State, formData: FormData) {
   const { order_id, date, end_date, time } = validatedFields.data;
   const completeDateWithTime = `${date} ${time}`;
 
-  // order id: 0dac7f3b-8ef8-4f07-af0f-9887b585e5fb
-  // product id : e8189c93-170e-4eda-84eb-3820173e9d98
-
   try {
-    await sql`INSERT INTO appointments (order_id, date, end_date, product_id) VALUES (${order_id}, ${completeDateWithTime}, ${end_date}, ${validatedFields.data.product_id})`;
+    await sql`INSERT INTO appointments (order_id, date, end_date, care_id) VALUES (${order_id}, ${completeDateWithTime}, ${end_date}, ${validatedFields.data.product_id})`;
     const appointmentsCount = await getAppointmentCountByOrder(order_id);
     const { product_id, product_type } = await fetchOrderById(order_id);
 
     if (isCureProductType(product_type)) {
       const totalSessionNumber = await getCureTotalSessionNumber(product_id);
-      if (totalSessionNumber > appointmentsCount) return;
+      if (totalSessionNumber === appointmentsCount) {
+        await getUpdateOrderStatusRequest(order_id, 'done');
+      }
     }
-    await getUpdateOrderStatusRequest(order_id, 'done');
   } catch (error) {
     return getDatabaseError({
       error,

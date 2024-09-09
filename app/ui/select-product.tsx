@@ -25,8 +25,8 @@ export default function SelectProduct({
           id="product-id"
           name="product-id"
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
-          defaultValue={value || ''}
           onChange={(e) => onProductSelect && onProductSelect(e.target.value)}
+          value={value}
         >
           <option value="" disabled>
             Select a product

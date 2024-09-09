@@ -9,6 +9,7 @@ export async function fetchAppointments(
   try {
     const data = await sql<Appointment>`
       SELECT
+        appointments.care_id,
         customers.name AS customer_name,
         appointments.date,
         appointments.end_date,
@@ -18,7 +19,7 @@ export async function fetchAppointments(
         products.type AS product_type
       FROM appointments
       LEFT JOIN orders ON orders.id = appointments.order_id
-      LEFT JOIN products ON products.id = orders.product_id
+      LEFT JOIN products ON products.id = appointments.care_id
       LEFT JOIN customers ON customers.id = orders.customer_id
       WHERE EXTRACT(DAY FROM appointments.date) = ${convertToTwoDigit(day)}
       AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(month)}

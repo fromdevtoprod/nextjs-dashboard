@@ -61,7 +61,6 @@ export default async function Page({
         customer={customer}
         date={searchParams.date || getCurrentDate()}
         orderId={pendingOrder[0].id}
-        productId={pendingOrder[0].product_id}
         time={searchParams.time}
       />
     </Container>

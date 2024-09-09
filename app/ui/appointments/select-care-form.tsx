@@ -20,14 +20,12 @@ export function SelectCareForm({
   customer,
   date,
   orderId,
-  productId,
   time,
 }: {
   cares: Care[];
   customer: CustomerField;
   date: string;
   orderId: string;
-  productId: string;
   time: string;
 }) {
   const [state, formAction] = useActionState(createAppointment, initialState);
@@ -69,6 +67,7 @@ export function SelectCareForm({
           products={cares}
           errors={state.errors?.product || []}
           onProductSelect={setCareId}
+          value={careId}
         />
         <div className="mt-2 text-sm text-gray-500">
           {endTime && `Estimated end time of the appointment ${endTime}`}
@@ -78,7 +77,7 @@ export function SelectCareForm({
         <input type="hidden" name="end-date" readOnly value={endDate} />
         <input type="hidden" name="order-id" readOnly value={orderId} />
         <input type="hidden" name="date" readOnly value={date} />
-        <input type="hidden" name="product-id" readOnly value={productId} />
+        {/* <input type="hidden" name="care-id" readOnly value={careId} /> */}
       </div>
 
       <div className="mt-6 flex justify-end gap-4">

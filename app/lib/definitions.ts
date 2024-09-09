@@ -83,6 +83,7 @@ export type Order = {
 };
 
 export type Appointment = {
+  care_id: string;
   customer_name: string;
   date: string;
   end_date: string;

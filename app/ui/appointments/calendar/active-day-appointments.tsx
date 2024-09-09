@@ -21,7 +21,6 @@ export function ActiveDayAppointments({
             key={index}
             orderId={appointment.order_id}
             productName={appointment.product_name}
-            productType={appointment.product_type}
           />
         ))}
       </div>

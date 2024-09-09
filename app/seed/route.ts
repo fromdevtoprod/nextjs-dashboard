@@ -234,15 +234,15 @@ async function seedAppointments() {
       order_id UUID NOT NULL,
       date TIMESTAMP NOT NULL,
       end_date TIMESTAMP NOT NULL,
-      product_id UUID NOT NULL
+      care_id UUID NOT NULL
     );
   `;
 
   const insertedAppointments = await Promise.all(
     appointments.map(
       (appointment) => client.sql`
-        INSERT INTO appointments (id, order_id, date, end_date, product_id)
-        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.date}, ${appointment.end_date}, ${appointment.product_id})
+        INSERT INTO appointments (id, order_id, date, end_date, care_id)
+        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.date}, ${appointment.end_date}, ${appointment.care_id})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
