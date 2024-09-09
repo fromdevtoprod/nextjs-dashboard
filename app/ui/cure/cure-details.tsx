@@ -1,15 +1,15 @@
-import { Care } from '@/app/lib/definitions';
+import { CareShortDescription } from '@/app/lib/definitions';
 import { MyClockIcon } from '../icons/clock';
 import { MyHandRaisedIcon } from '../icons/hand';
 
-export default function CureDetails({
+export function CureDetails({
   cares,
   position,
   selectedCare = '',
   sessionNumber = 0,
   errors,
 }: {
-  cares: Care[];
+  cares: CareShortDescription[];
   position: number;
   selectedCare?: string;
   sessionNumber?: number;

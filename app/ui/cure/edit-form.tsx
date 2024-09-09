@@ -4,8 +4,8 @@
 import { useActionState, useState } from 'react';
 import { Button } from '../button';
 import { updateCure } from '@/app/lib/actions/cure';
-import { Care, Cure } from '@/app/lib/definitions';
-import CureDetails from './cure-details';
+import { CareShortDescription, Cure } from '@/app/lib/definitions';
+import { CureDetails } from './cure-details';
 import AddCareButton from './add-care-button';
 import RemoveCareButton from './remove-care-button';
 import CancelButton from '../cancel-button';
@@ -15,7 +15,13 @@ import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({ cares, cure }: { cares: Care[]; cure: Cure }) {
+export function EditCureForm({
+  cares,
+  cure,
+}: {
+  cares: CareShortDescription[];
+  cure: Cure;
+}) {
   const [isSecondCareDisplayed, setIsSecondCareDisplayed] = useState(
     !!cure.care_2_id,
   );

@@ -1,5 +1,5 @@
 import { fetchCureById } from '@/app/lib/data/cure';
-import Form from '@/app/ui/cure/edit-form';
+import { EditCureForm } from '@/app/ui/cure/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { fetchCareFromRenataCategory } from '@/app/lib/data/care';
 
@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           },
         ]}
       />
-      <Form cares={cares} cure={cure} />
+      <EditCureForm cares={cares} cure={cure} />
     </main>
   );
 }
