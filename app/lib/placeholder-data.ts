@@ -261,110 +261,51 @@ const cares = [
   },
 ];
 
-const cureContent = [
+const cures = [
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd90',
+    amount: 550,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd90',
     care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
     care_1_session_number: 5,
     care_2_id: null,
     care_2_session_number: null,
+    name: 'Drainage Lymphatique',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd91',
+    amount: 650,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd91',
     care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
     care_1_session_number: 5,
     care_2_id: null,
     care_2_session_number: null,
+    name: 'Remodelage',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd92',
+    amount: 275,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd92',
     care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd86',
     care_1_session_number: 5,
     care_2_id: null,
     care_2_session_number: null,
+    name: 'Miracle Face',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd93',
+    amount: 650,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd93',
     care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd87',
     care_1_session_number: 5,
     care_2_id: null,
     care_2_session_number: null,
+    name: 'Le Combo',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd94',
+    amount: 600,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd94',
     care_1_id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
     care_1_session_number: 2,
     care_2_id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
     care_2_session_number: 3,
-  },
-];
-
-const products = [
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
-    name: 'Drainage Lymphatique',
-    type: 'care',
-    amount: 130,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
-    name: 'Remodelage',
-    type: 'care',
-    amount: 150,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd86',
-    name: 'Miracle Face',
-    type: 'care',
-    amount: 65,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd87',
-    name: 'Combo',
-    type: 'care',
-    amount: 150,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd88',
-    name: 'Chi Nei Tsang',
-    type: 'care',
-    amount: 110,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd89',
-    name: 'Tui Na',
-    type: 'care',
-    amount: 110,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd90',
-    name: 'Drainage Lymphatique',
-    type: 'cure',
-    amount: 550,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd91',
-    name: 'Remodelage',
-    type: 'cure',
-    amount: 650,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd92',
-    name: 'Miracle Face',
-    type: 'cure',
-    amount: 275,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd93',
-    name: 'Le Combo',
-    type: 'cure',
-    amount: 650,
-  },
-  {
-    id: 'cb58f01f-2260-4db2-b068-1451286bdd94',
     name: '2 Drainages & 3 Remodelages',
-    type: 'cure',
-    amount: 600,
   },
 ];
 
@@ -372,7 +313,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597133',
     customer_id: customers[0].id,
-    product_id: products[0].id,
+    product_id: cares[0].id,
     date: '2024-06-09',
     payment_status: 'pending',
     order_status: 'pending',
@@ -380,7 +321,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597134',
     customer_id: customers[1].id,
-    product_id: products[1].id,
+    product_id: cares[1].id,
     date: '2023-03-01',
     payment_status: 'paid',
     order_status: 'done',
@@ -388,7 +329,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597135',
     customer_id: customers[2].id,
-    product_id: products[2].id,
+    product_id: cares[2].id,
     date: '2023-06-18',
     payment_status: 'pending',
     order_status: 'pending',
@@ -396,7 +337,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597136',
     customer_id: customers[3].id,
-    product_id: products[3].id,
+    product_id: cares[3].id,
     date: '2023-06-17',
     payment_status: 'paid',
     order_status: 'done',
@@ -404,7 +345,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597137',
     customer_id: customers[4].id,
-    product_id: products[4].id,
+    product_id: cares[4].id,
     date: '2023-06-07',
     payment_status: 'pending',
     order_status: 'pending',
@@ -412,7 +353,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597138',
     customer_id: customers[5].id,
-    product_id: products[5].id,
+    product_id: cares[5].id,
     date: '2023-06-03',
     payment_status: 'paid',
     order_status: 'done',
@@ -420,7 +361,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597139',
     customer_id: customers[6].id,
-    product_id: products[6].id,
+    product_id: cures[0].id,
     date: '2023-06-27',
     payment_status: 'paid',
     order_status: 'done',
@@ -428,7 +369,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597140',
     customer_id: customers[7].id,
-    product_id: products[7].id,
+    product_id: cures[1].id,
     date: '2023-06-27',
     payment_status: 'paid',
     order_status: 'done',
@@ -436,7 +377,7 @@ const orders = [
   {
     id: '965f7318-4d48-4b81-b6aa-501308597141',
     customer_id: customers[8].id,
-    product_id: products[8].id,
+    product_id: cures[2].id,
     date: '2023-06-27',
     payment_status: 'paid',
     order_status: 'done',
@@ -449,35 +390,35 @@ const appointments = [
     order_id: orders[0].id,
     date: '2024-09-03 09:00:00',
     end_date: '2024-09-03 10:10:00',
-    care_id: products[0].id,
+    care_id: cares[0].id,
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5ae',
     order_id: orders[1].id,
     date: '2024-09-03 10:30:00',
     end_date: '2024-09-03 11:40:00',
-    care_id: products[1].id,
+    care_id: cares[1].id,
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5af',
     order_id: orders[2].id,
     date: '2024-09-03 12:00:00',
     end_date: '2024-09-03 12:30:00',
-    care_id: products[2].id,
+    care_id: cares[2].id,
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b0',
     order_id: orders[3].id,
     date: '2024-09-03 14:00:00',
     end_date: '2024-09-03 15:15:00',
-    care_id: products[3].id,
+    care_id: cares[3].id,
   },
   {
     id: '10b2eeaa-3150-4e04-a7bc-c3f7f3f7a5b1',
     order_id: orders[4].id,
     date: '2024-09-03 16:15:00',
     end_date: '2024-09-03 17:45:00',
-    care_id: products[4].id,
+    care_id: cares[4].id,
   },
 ];
 
@@ -488,8 +429,7 @@ export {
   revenue,
   careCategories,
   cares,
-  cureContent,
-  products,
+  cures,
   orders,
   appointments,
 };

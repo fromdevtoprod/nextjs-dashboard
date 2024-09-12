@@ -1,24 +1,14 @@
 import { sql } from '@vercel/postgres';
 import { Cure } from '@/app/lib/definitions';
+import { findAllCuresController } from '@/src/interface-adapters/cures/find-all-cures.controller';
 
-export async function fetchCureCatalog() {
+export async function fetchAllCures() {
   try {
-    const data = await sql<Cure>`
-      SELECT
-        DISTINCT products.id AS product_id,
-        products.name AS product_name,
-        products.amount AS product_amount,
-        cure_content.care_1_session_number,
-        COALESCE(cure_content.care_2_session_number, 0) AS care_2_session_number
-      FROM products
-      LEFT JOIN cure_content ON cure_content.product_id = products.id
-      WHERE products.type = 'cure'
-    `;
-    const cureCatalog = data.rows;
-    return cureCatalog;
+    const cures = await findAllCuresController();
+    return cures;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch the cure catalog.');
+    throw new Error('Failed to fetch cures.');
   }
 }
 

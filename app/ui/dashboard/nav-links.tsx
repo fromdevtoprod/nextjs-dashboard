@@ -34,8 +34,8 @@ const links = [
     icon: HandRaisedIcon,
   },
   {
-    name: 'Cure',
-    href: '/dashboard/cure',
+    name: 'Cures',
+    href: '/dashboard/cures',
     icon: ListBulletIcon,
   },
   {

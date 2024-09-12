@@ -1,6 +1,5 @@
-import { QueryResult } from '@vercel/postgres';
-import { Cure } from '@/app/lib/definitions';
+import { SelectedCure } from '@/src/entities/models/cure';
 
-export interface ICureRepository {
-  getCureById(id: string): Promise<QueryResult<Cure>>;
+export interface ICuresRepository {
+  findAll(): Promise<SelectedCure[]>;
 }

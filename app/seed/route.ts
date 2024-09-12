@@ -9,8 +9,7 @@ import {
   cares,
   orders,
   appointments,
-  products,
-  cureContent,
+  cures,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -135,73 +134,76 @@ async function seedCareCategories() {
   return insertedCareCategories;
 }
 
-async function seedCareCatalog() {
+async function seedCares() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS cares (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      amount INT NOT NULL,
       category_id UUID NOT NULL,
+      amount INT NOT NULL,
+      CONSTRAINT fk_category FOREIGN KEY(category_id) REFERENCES care_categories(id),
       duration INT NOT NULL,
       name VARCHAR(255) NOT NULL
     );
   `;
 
-  const insertedCareCatalog = await Promise.all(
+  const insertedCares = await Promise.all(
     cares.map(
       (care) => client.sql`
-        INSERT INTO cares (amount, category_id, duration, name)
-        VALUES (${care.amount}, ${care.category_id}, ${care.duration}, ${care.name});
+        INSERT INTO cares (id, amount, category_id, duration, name)
+        VALUES (${care.id}, ${care.amount}, ${care.category_id}, ${care.duration}, ${care.name});
       `,
     ),
   );
 
-  return insertedCareCatalog;
+  return insertedCares;
 }
 
-async function seedCureContent() {
+async function seedCures() {
   await client.sql`
-    CREATE TABLE IF NOT EXISTS cure_content (
-      product_id UUID NOT NULL,
+    CREATE TABLE IF NOT EXISTS cures (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      amount INT NOT NULL,
       care_1_id UUID NOT NULL,
+      CONSTRAINT fk_care_1 FOREIGN KEY(care_1_id) REFERENCES cares(id),
       care_1_session_number INT NOT NULL,
       care_2_id UUID NULL,
-      care_2_session_number INT NULL
+      CONSTRAINT fk_care_2 FOREIGN KEY(care_2_id) REFERENCES cares(id),
+      care_2_session_number INT NULL,
+      name VARCHAR(255) NOT NULL
     );
   `;
 
-  const insertedCureContent = await Promise.all(
-    cureContent.map(
-      (content) => client.sql`
-        INSERT INTO cure_content (product_id, care_1_id, care_1_session_number, care_2_id, care_2_session_number)
-        VALUES (${content.product_id}, ${content.care_1_id}, ${content.care_1_session_number}, ${content.care_2_id}, ${content.care_2_session_number});
+  const insertedCures = await Promise.all(
+    cures.map(
+      (cure) => client.sql`
+        INSERT INTO cures (id, amount, care_1_id, care_1_session_number, care_2_id, care_2_session_number, name)
+        VALUES (${cure.id}, ${cure.amount}, ${cure.care_1_id}, ${cure.care_1_session_number}, ${cure.care_2_id}, ${cure.care_2_session_number}, ${cure.name});
       `,
     ),
   );
 
-  return insertedCureContent;
+  return insertedCures;
 }
 
 async function seedProducts() {
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS products (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      type VARCHAR(255) NOT NULL,
-      amount INT NOT NULL
-    );
-  `;
-
-  const insertedProducts = await Promise.all(
-    products.map(
-      (product) => client.sql`
-        INSERT INTO products (id, name, type, amount)
-        VALUES (${product.id}, ${product.name}, ${product.type}, ${product.amount})
-        ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
-  );
-
-  return insertedProducts;
+  // await client.sql`
+  //   CREATE TABLE IF NOT EXISTS products (
+  //     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  //     name VARCHAR(255) NOT NULL,
+  //     type VARCHAR(255) NOT NULL,
+  //     amount INT NOT NULL
+  //   );
+  // `;
+  // const insertedProducts = await Promise.all(
+  //   products.map(
+  //     (product) => client.sql`
+  //       INSERT INTO products (id, name, type, amount)
+  //       VALUES (${product.id}, ${product.name}, ${product.type}, ${product.amount})
+  //       ON CONFLICT (id) DO NOTHING;
+  //     `,
+  //   ),
+  // );
+  // return insertedProducts;
 }
 
 async function seedOrders() {
@@ -261,11 +263,11 @@ export async function GET() {
     await seedInvoices();
     await seedRevenue();
     await seedCareCategories();
-    await seedCareCatalog();
-    await seedCureContent();
-    await seedProducts();
-    await seedOrders();
-    await seedAppointments();
+    // await seedCares();
+    // await seedCures();
+    // await seedProducts();
+    // await seedOrders();
+    // await seedAppointments();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });

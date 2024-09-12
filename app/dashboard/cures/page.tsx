@@ -6,17 +6,17 @@ import { CureTableSkeleton } from '@/app/ui/cure/skeletons';
 import { AddButtonLink } from '@/app/ui/buttons/add-link';
 
 export const metadata: Metadata = {
-  title: 'Cure',
+  title: 'Cures',
 };
 
 export default async function Page() {
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">
-        <h1 className={`${lusitana.className} text-2xl`}>Cure</h1>
+        <h1 className={`${lusitana.className} text-2xl`}>Cures</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <AddButtonLink href="/dashboard/cure/create" label="Create Cure" />
+        <AddButtonLink href="/dashboard/cures/create" label="Create Cure" />
       </div>
       <Suspense fallback={<CureTableSkeleton />}>
         <Table />

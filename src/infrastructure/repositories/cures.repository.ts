@@ -1,20 +1,12 @@
-import { Cure } from '@/src/entities/models/cure';
-import { QueryResult, sql } from '@vercel/postgres';
+import { sql } from '@vercel/postgres';
+import { ICuresRepository } from '@/src/application/repositories/cures.repository.interface';
+import { SelectedCure } from '@/src/entities/models/cure';
 
-export class CureRepository {
-  public async getCureById(productId: string): Promise<QueryResult<Cure>> {
-    return sql<Cure>`
-      SELECT
-        products.id as product_id,
-        products.name as product_name,
-        products.amount as product_amount,
-        cure_content.care_1_id,
-        cure_content.care_1_session_number,
-        cure_content.care_2_id,
-        cure_content.care_2_session_number
-      FROM products
-      LEFT JOIN cure_content ON products.id = cure_content.product_id
-      WHERE products.id=${productId}
-    `;
+export class CuresRepository implements ICuresRepository {
+  public async findAll(): Promise<SelectedCure[]> {
+    const queryResult = await sql<SelectedCure>`
+        SELECT id, amount, care_1_id, care_1_session_number, care_2_id, COALESCE(care_2_session_number, 0) AS care_2_session_number, name FROM cures
+      `;
+    return queryResult.rows;
   }
 }

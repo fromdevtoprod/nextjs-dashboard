@@ -1,25 +1,25 @@
-import { fetchCureCatalog } from '@/app/lib/data/cure';
+import { fetchAllCures } from '@/app/lib/data/cure';
 import DeleteCureButton from './delete-button';
 import { EditButton } from '../buttons/edit-button';
 
 export default async function CureTable() {
-  const cureCatalog = await fetchCureCatalog();
+  const cures = await fetchAllCures();
   return (
     <div className="mt-6 flow-root">
       <div className="overflow-x-auto">
         <div className="inline-block min-w-full align-middle">
           <div className="overflow-hidden rounded-md bg-gray-50 p-2 md:pt-0">
             <div className="md:hidden">
-              {cureCatalog?.map((cure) => (
+              {cures?.map((cure) => (
                 <div
-                  key={cure.product_id}
+                  key={cure.id}
                   className="mb-2 w-full rounded-md bg-white p-4"
                 >
                   <div className="flex items-center justify-between border-b pb-4">
                     <div>
                       <div className="mb-2 flex items-center">
                         <div className="flex items-center gap-3">
-                          <p>{cure.product_name}</p>
+                          <p>{cure.name}</p>
                         </div>
                       </div>
                     </div>
@@ -27,14 +27,12 @@ export default async function CureTable() {
                   <div className="flex w-full items-center justify-between border-b py-5">
                     <div className="flex w-1/2 flex-col">
                       <p className="text-xs">Amount</p>
-                      <p className="font-medium">{cure.product_amount}</p>
+                      <p className="font-medium">{cure.amount}</p>
                     </div>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <EditButton
-                      href={`/dashboard/cure/${cure.product_id}/edit`}
-                    />
-                    <DeleteCureButton id={cure.product_id} />
+                    <EditButton href={`/dashboard/cure/${cure.id}/edit`} />
+                    <DeleteCureButton id={cure.id} />
                   </div>
                 </div>
               ))}
@@ -58,25 +56,23 @@ export default async function CureTable() {
               </thead>
 
               <tbody className="divide-y divide-gray-200 text-gray-900">
-                {cureCatalog.map((cure) => (
-                  <tr key={cure.product_id} className="group">
+                {cures.map((cure) => (
+                  <tr key={cure.id} className="group">
                     <td className="whitespace-nowrap bg-white py-5 pl-4 pr-3 text-sm text-black group-first-of-type:rounded-md group-last-of-type:rounded-md sm:pl-6">
                       <div className="flex items-center gap-3">
-                        <p>{cure.product_name}</p>
+                        <p>{cure.name}</p>
                       </div>
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {cure.product_amount}€
+                      {cure.amount}€
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                       {cure.care_1_session_number + cure.care_2_session_number}
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <EditButton
-                          href={`/dashboard/cure/${cure.product_id}/edit`}
-                        />
-                        <DeleteCureButton id={cure.product_id} />
+                        <EditButton href={`/dashboard/cure/${cure.id}/edit`} />
+                        <DeleteCureButton id={cure.id} />
                       </div>
                     </td>
                   </tr>
