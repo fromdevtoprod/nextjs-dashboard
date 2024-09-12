@@ -6,7 +6,6 @@ import { Button } from '../button';
 import { updateCare } from '@/app/lib/actions/care';
 import { Care, CareCategory } from '@/app/lib/definitions';
 import CancelButton from '../cancel-button';
-import SelectStatus from '../select-status';
 import AmountInput from '../amount-input';
 import NameInput from '../name-input';
 import DurationInput from '../duration-input';
@@ -15,27 +14,21 @@ import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({
+export function EditCareForm({
   care,
   categories,
 }: {
   care: Care;
   categories: CareCategory[];
 }) {
-  const updateCareWithId = updateCare.bind(null, care.product_id);
+  const updateCareWithId = updateCare.bind(null, care.id);
   const [state, formAction] = useActionState(updateCareWithId, initialState);
   return (
     <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         <SelectCategory categories={categories} value={care.category_id} />
-        <NameInput
-          errors={state.errors?.name || []}
-          value={care.product_name}
-        />
-        <AmountInput
-          errors={state.errors?.amount || []}
-          value={care.product_amount}
-        />
+        <NameInput errors={state.errors?.name || []} value={care.name} />
+        <AmountInput errors={state.errors?.amount || []} value={care.amount} />
         <DurationInput
           errors={state.errors?.duration || []}
           value={care.duration}

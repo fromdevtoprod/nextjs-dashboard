@@ -4,28 +4,16 @@ import {
   CareCategory,
   CareShortDescription,
 } from '@/app/lib/definitions';
+import { findAllCaresController } from '@/src/interface-adapters/cares/find-all-cares.controller';
+import { findCareByIdController } from '@/src/interface-adapters/cares/find-care.controller';
 
-export async function fetchCareList() {
+export async function fetchCares() {
   try {
-    const data = await sql<Care>`
-      SELECT
-        DISTINCT care_catalog.product_id,
-        care_catalog.category_id,
-        care_catalog.duration,
-        care_categories.name AS category_name,
-        products.name AS product_name,
-        products.amount AS product_amount
-      FROM products
-      LEFT JOIN care_catalog ON products.id = care_catalog.product_id
-      LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
-      WHERE products.type = 'care';
-    `;
-
-    const careList = data.rows;
-    return careList;
+    const cares = await findAllCaresController();
+    return cares;
   } catch (err) {
     console.error('Database Error:', err);
-    throw new Error('Failed to fetch the care list.');
+    throw new Error('Failed to fetch cares.');
   }
 }
 
@@ -43,22 +31,10 @@ export async function fetchCareCategories() {
   }
 }
 
-export async function fetchCareById(productId: string) {
+export async function fetchCareById(id: string) {
   try {
-    const selectCareResult = await sql<Care>`
-      SELECT
-        care_catalog.product_id,
-        care_catalog.category_id,
-        care_catalog.duration,
-        care_categories.name AS category_name,
-        products.name AS product_name,
-        products.amount AS product_amount
-      FROM care_catalog
-      LEFT JOIN care_categories ON care_catalog.category_id = care_categories.id
-      LEFT JOIN products ON care_catalog.product_id = products.id
-      WHERE care_catalog.product_id = ${productId}
-    `;
-    return selectCareResult.rows[0];
+    const care = await findCareByIdController(id);
+    return care;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch this care.');

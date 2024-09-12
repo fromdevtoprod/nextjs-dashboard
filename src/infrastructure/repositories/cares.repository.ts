@@ -1,43 +1,86 @@
 import { sql } from '@vercel/postgres';
-import { CreatedCare } from '@/src/entities/models/care';
+import { CreatedCare, SelectedCare } from '@/src/entities/models/care';
 import { ICaresRepository } from '@/src/application/repositories/cares.repository.interface';
 
 export class CaresRepository implements ICaresRepository {
   public async createCare({
+    amount,
     categoryId,
     duration,
-    productId,
+    name,
   }: {
+    amount: number;
     categoryId: string;
     duration: number;
-    productId: string;
+    name: string;
   }): Promise<CreatedCare> {
-    const catalog =
-      await sql`INSERT INTO care_catalog (product_id, category_id, duration) VALUES (${productId}, ${categoryId}, ${duration}) RETURNING *`;
+    const queryResult =
+      await sql<CreatedCare>`INSERT INTO cares (amount, category_id, duration, name) VALUES (${amount}, ${categoryId}, ${duration}, ${name}) RETURNING *`;
     return {
-      category_id: catalog.rows[0].category_id,
-      duration: catalog.rows[0].duration,
+      amount: queryResult.rows[0].amount,
+      category_id: queryResult.rows[0].category_id,
+      duration: queryResult.rows[0].duration,
+      id: queryResult.rows[0].id,
+      name: queryResult.rows[0].name,
     };
   }
 
-  public async deleteCare(productId: string): Promise<void> {
-    await sql`DELETE FROM care_catalog WHERE product_id = ${productId}`;
+  public async deleteCare(id: string): Promise<void> {
+    await sql`DELETE FROM cares WHERE id = ${id}`;
+  }
+
+  public async findAll(): Promise<SelectedCare[]> {
+    const queryResult = await sql<SelectedCare>`
+      SELECT
+        amount,
+        category_id,
+        care_categories.name AS category_name,
+        duration,
+        cares.id,
+        cares.name
+      FROM cares
+      LEFT JOIN care_categories ON cares.category_id = care_categories.id
+    `;
+    return queryResult.rows;
+  }
+
+  public async findCareById(id: string): Promise<SelectedCare> {
+    const queryResult = await sql<SelectedCare>`
+      SELECT
+        amount,
+        category_id,
+        care_categories.name AS category_name,
+        duration,
+        cares.id,
+        cares.name
+      FROM cares
+      LEFT JOIN care_categories ON cares.category_id = care_categories.id
+      WHERE cares.id = ${id}
+    `;
+    return queryResult.rows[0];
   }
 
   public async updateCare({
+    amount,
     categoryId,
     duration,
-    productId,
+    id,
+    name,
   }: {
+    amount: number;
     categoryId: string;
     duration: number;
-    productId: string;
+    id: string;
+    name: string;
   }): Promise<CreatedCare> {
-    const catalog =
-      await sql`UPDATE care_catalog SET category_id = ${categoryId}, duration = ${duration} WHERE product_id = ${productId} RETURNING *`;
+    const queryResult =
+      await sql<CreatedCare>`UPDATE cares SET amount = ${amount}, category_id = ${categoryId}, duration = ${duration}, name = ${name} WHERE id = ${id} RETURNING *`;
     return {
-      category_id: catalog.rows[0].category_id,
-      duration: catalog.rows[0].duration,
+      amount: queryResult.rows[0].amount,
+      category_id: queryResult.rows[0].category_id,
+      duration: queryResult.rows[0].duration,
+      id: queryResult.rows[0].id,
+      name: queryResult.rows[0].name,
     };
   }
 }

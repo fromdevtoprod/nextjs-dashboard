@@ -47,12 +47,12 @@ export type CareShortDescription = {
 };
 
 export type Care = {
+  amount: number;
   category_id: string;
   category_name: string;
   duration: number;
-  product_amount: number;
-  product_id: string;
-  product_name: string;
+  id: string;
+  name: string;
 };
 
 export type CareCategory = {

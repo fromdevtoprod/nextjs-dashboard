@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { InputParseError } from '@/src/entities/errors/common';
-import { Care } from '@/src/entities/models/care';
+import { CreatedCare } from '@/src/entities/models/care';
 import { updateCareUseCase } from '@/src/application/use-cases/cares/update-care.use-case';
 
 const inputSchema = z.object({
@@ -17,7 +17,7 @@ const inputSchema = z.object({
 export async function updateCareController(
   productId: string,
   input: any,
-): Promise<Care> {
+): Promise<CreatedCare> {
   const { data, error: inputParseError } = inputSchema.safeParse(input);
   if (inputParseError) {
     throw new InputParseError(

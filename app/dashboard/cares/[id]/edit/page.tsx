@@ -1,5 +1,5 @@
 import { fetchCareById, fetchCareCategories } from '@/app/lib/data/care';
-import Form from '@/app/ui/care/edit-form';
+import { EditCareForm } from '@/app/ui/care/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export default async function Page({ params }: { params: { id: string } }) {
@@ -10,15 +10,15 @@ export default async function Page({ params }: { params: { id: string } }) {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Care', href: '/dashboard/care' },
+          { label: 'Cares', href: '/dashboard/cares' },
           {
             label: 'Edit Care',
-            href: `/dashboard/care/${id}/edit}`,
+            href: `/dashboard/cares/${id}/edit}`,
             active: true,
           },
         ]}
       />
-      <Form care={care} categories={categories} />
+      <EditCareForm care={care} categories={categories} />
     </main>
   );
 }

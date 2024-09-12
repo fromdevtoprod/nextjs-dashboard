@@ -32,7 +32,7 @@ export async function createCare(prevState: State, formData: FormData) {
         'An error happened while creating a care. Please try again later.',
     };
   }
-  validateAndRedirect('care');
+  validateAndRedirect('cares');
 }
 
 export async function deleteCare(id: string) {
@@ -43,7 +43,7 @@ export async function deleteCare(id: string) {
       message: `Failed to delete this care.`,
     };
   }
-  validateAndRedirect('care');
+  validateAndRedirect('cares');
 }
 
 export async function updateCare(
@@ -66,5 +66,5 @@ export async function updateCare(
         'An error happened while updating a care. Please try again later.',
     };
   }
-  validateAndRedirect('care');
+  validateAndRedirect('cares');
 }

@@ -1,23 +1,29 @@
-import { CreatedCare } from '@/src/entities/models/care';
+import { CreatedCare, SelectedCare } from '@/src/entities/models/care';
 
 export interface ICaresRepository {
   createCare({
+    amount,
     categoryId,
     duration,
-    productId,
+    name,
   }: {
+    amount: number;
     categoryId: string;
     duration: number;
-    productId: string;
+    name: string;
   }): Promise<CreatedCare>;
   deleteCare(productId: string): Promise<void>;
+  findAll(): Promise<SelectedCare[]>;
+  findCareById(id: string): Promise<SelectedCare>;
   updateCare({
     categoryId,
     duration,
-    productId,
+    id,
+    name,
   }: {
     categoryId: string;
     duration: number;
-    productId: string;
+    id: string;
+    name: string;
   }): Promise<CreatedCare>;
 }

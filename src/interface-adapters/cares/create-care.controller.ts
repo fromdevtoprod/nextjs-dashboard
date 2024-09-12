@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { createCareUseCase } from '@/src/application/use-cases/cares/create-care.use-case';
 import { InputParseError } from '@/src/entities/errors/common';
-import { Care } from '@/src/entities/models/care';
+import { CreatedCare } from '@/src/entities/models/care';
 
 const inputSchema = z.object({
   amount: z.coerce
@@ -14,7 +14,7 @@ const inputSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
 });
 
-export async function createCareController(input: any): Promise<Care> {
+export async function createCareController(input: any): Promise<CreatedCare> {
   const { data, error: inputParseError } = inputSchema.safeParse(input);
   if (inputParseError) {
     throw new InputParseError(

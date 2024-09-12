@@ -1,7 +1,5 @@
 // This file contains placeholder data that you'll be replacing with real data in the Data Fetching chapter:
 
-import { date } from 'zod';
-
 // https://nextjs.org/learn/dashboard-app/fetching-data
 const users = [
   {
@@ -218,36 +216,48 @@ const careCategories = [
   },
 ];
 
-const careCatalog = [
+const cares = [
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
+    amount: 130,
     category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
     duration: 70,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd84',
+    name: 'Drainage Lymphatique',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
+    amount: 150,
     category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
     duration: 70,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd85',
+    name: 'Remodelage',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd86',
+    amount: 65,
     category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
     duration: 30,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd86',
+    name: 'Miracle Face',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd87',
+    amount: 150,
     category_id: 'd10ed416-5896-48da-b966-21e8cbef752a',
     duration: 75,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd87',
+    name: 'Combo',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd88',
+    amount: 110,
     category_id: 'd10ed416-5896-48da-b966-21e8cbef752b',
     duration: 90,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd88',
+    name: 'Chi Nei Tsang',
   },
   {
-    product_id: 'cb58f01f-2260-4db2-b068-1451286bdd89',
+    amount: 110,
     category_id: 'd10ed416-5896-48da-b966-21e8cbef752b',
     duration: 90,
+    id: 'cb58f01f-2260-4db2-b068-1451286bdd89',
+    name: 'Tui Na',
   },
 ];
 
@@ -477,7 +487,7 @@ export {
   invoices,
   revenue,
   careCategories,
-  careCatalog,
+  cares,
   cureContent,
   products,
   orders,

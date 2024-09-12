@@ -6,7 +6,7 @@ import {
   revenue,
   users,
   careCategories,
-  careCatalog,
+  cares,
   orders,
   appointments,
   products,
@@ -137,18 +137,20 @@ async function seedCareCategories() {
 
 async function seedCareCatalog() {
   await client.sql`
-    CREATE TABLE IF NOT EXISTS care_catalog (
-      product_id UUID NOT NULL,
+    CREATE TABLE IF NOT EXISTS cares (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      amount INT NOT NULL,
       category_id UUID NOT NULL,
-      duration INT NOT NULL
+      duration INT NOT NULL,
+      name VARCHAR(255) NOT NULL
     );
   `;
 
   const insertedCareCatalog = await Promise.all(
-    careCatalog.map(
+    cares.map(
       (care) => client.sql`
-        INSERT INTO care_catalog (product_id, category_id, duration)
-        VALUES (${care.product_id}, ${care.category_id}, ${care.duration});
+        INSERT INTO cares (amount, category_id, duration, name)
+        VALUES (${care.amount}, ${care.category_id}, ${care.duration}, ${care.name});
       `,
     ),
   );

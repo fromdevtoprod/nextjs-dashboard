@@ -29,8 +29,8 @@ const links = [
     icon: CalendarIcon,
   },
   {
-    name: 'Care',
-    href: '/dashboard/care',
+    name: 'Cares',
+    href: '/dashboard/cares',
     icon: HandRaisedIcon,
   },
   {

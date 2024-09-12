@@ -3,7 +3,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export function validateAndRedirect(
-  items: 'appointments' | 'care' | 'cure' | 'customers' | 'orders',
+  items: 'appointments' | 'cares' | 'cure' | 'customers' | 'orders',
 ) {
   const url = `/dashboard/${items}`;
   revalidatePath(url);
