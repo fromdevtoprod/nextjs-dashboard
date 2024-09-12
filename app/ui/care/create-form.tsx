@@ -14,7 +14,7 @@ import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
-export default function Form({ categories }: { categories: CareCategory[] }) {
+export function CreateCareForm({ categories }: { categories: CareCategory[] }) {
   const [state, formAction] = useActionState(createCare, initialState);
   return (
     <form action={formAction}>

@@ -1,8 +1,10 @@
 'use server';
 
-import { sql } from '@vercel/postgres';
-import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
-import { validatedCareFields } from './schemas';
+import { InputParseError } from '@/src/entities/errors/common';
+import { createCareController } from '@/src/interface-adapters/cares/create-care.controller';
+import { deleteCareController } from '@/src/interface-adapters/cares/delete-care.controller';
+import { updateCareController } from '@/src/interface-adapters/cares/update-care.controller';
+import { validateAndRedirect } from './utils';
 
 type State = {
   errors?: {
@@ -15,31 +17,32 @@ type State = {
 };
 
 export async function createCare(prevState: State, formData: FormData) {
-  const validatedFields = validatedCareFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const { category_id, product_name, product_amount, duration } =
-    validatedFields.data;
-
   try {
-    const product =
-      await sql`INSERT INTO products (name, type, amount) VALUES (${product_name}, 'care', ${product_amount}) RETURNING *`;
-    await sql`INSERT INTO care_catalog (product_id, category_id, duration) VALUES (${product.rows[0].id}, ${category_id}, ${duration})`;
+    const data = Object.fromEntries(formData.entries());
+    await createCareController(data);
   } catch (error) {
-    return getDatabaseError({ error, item: 'care', operation: 'insert' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    return {
+      message:
+        'An error happened while creating a care. Please try again later.',
+    };
   }
-
   validateAndRedirect('care');
 }
 
 export async function deleteCare(id: string) {
   try {
-    await sql`DELETE FROM products WHERE id=${id}`;
-    await sql`DELETE FROM care_catalog WHERE product_id=${id}`;
+    await deleteCareController(id);
   } catch (error) {
-    return getDatabaseError({ error, item: 'care', operation: 'delete' });
+    return {
+      message: `Failed to delete this care.`,
+    };
   }
-
   validateAndRedirect('care');
 }
 
@@ -48,18 +51,20 @@ export async function updateCare(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = validatedCareFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const { category_id, product_name, product_amount, duration } =
-    validatedFields.data;
-
   try {
-    await sql`UPDATE products SET name = ${product_name}, amount = ${product_amount} WHERE id = ${id}`;
-    await sql`UPDATE care_catalog SET category_id = ${category_id}, duration = ${duration} WHERE product_id = ${id}`;
+    const data = Object.fromEntries(formData.entries());
+    await updateCareController(id, data);
   } catch (error) {
-    return getDatabaseError({ error, item: 'care', operation: 'update' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    return {
+      message:
+        'An error happened while updating a care. Please try again later.',
+    };
   }
-
   validateAndRedirect('care');
 }

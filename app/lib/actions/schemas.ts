@@ -1,14 +1,5 @@
 import { z } from 'zod';
 
-export function validatedCareFields(formData: FormData) {
-  return getCareSchema().safeParse({
-    category_id: formData.get('category'),
-    duration: formData.get('duration'),
-    product_amount: formData.get('amount'),
-    product_name: formData.get('name'),
-  });
-}
-
 export function validatedCureFields(formData: FormData) {
   return getCureSchema().safeParse({
     product_name: formData.get('name'),
@@ -47,22 +38,6 @@ export function validatedAppointmentFields(formData: FormData) {
     productId: formData.get('product-id'),
     time: formData.get('time'),
   });
-}
-
-function getCareSchema() {
-  const FormSchema = z.object({
-    id: z.string(),
-    category_id: z.string().min(1, { message: 'Category is required' }),
-    duration: z.coerce
-      .number()
-      .gt(0, { message: 'Please enter a duration greater than 0.' }),
-    product_amount: z.coerce
-      .number()
-      .gt(0, { message: 'Please enter an amount greater than 0€.' }),
-    product_name: z.string().min(1, { message: 'Name is required' }),
-  });
-
-  return FormSchema.omit({ id: true });
 }
 
 function getCureSchema() {

@@ -1,6 +1,6 @@
 import { fetchCareCategories } from '@/app/lib/data/care';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import Form from '@/app/ui/care/create-form';
+import { CreateCareForm } from '@/app/ui/care/create-form';
 
 export default async function Page() {
   const categories = await fetchCareCategories();
@@ -16,7 +16,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form categories={categories} />
+      <CreateCareForm categories={categories} />
     </main>
   );
 }
