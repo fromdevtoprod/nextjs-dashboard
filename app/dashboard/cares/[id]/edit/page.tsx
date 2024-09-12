@@ -1,11 +1,11 @@
-import { fetchCareById, fetchCareCategories } from '@/app/lib/data/care';
+import { fetchCareById, fetchAllCareCategories } from '@/app/lib/data/care';
 import { EditCareForm } from '@/app/ui/care/edit-form';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   const care = await fetchCareById(id);
-  const categories = await fetchCareCategories();
+  const categories = await fetchAllCareCategories();
   return (
     <main>
       <Breadcrumbs

@@ -1,9 +1,9 @@
-import { fetchCares } from '@/app/lib/data/care';
+import { fetchAllCares } from '@/app/lib/data/care';
 import DeleteCareButton from './delete-button';
 import { EditButton } from '../buttons/edit-button';
 
 export async function CaresTable() {
-  const cares = await fetchCares();
+  const cares = await fetchAllCares();
   return (
     <div className="mt-6 flow-root">
       <div className="overflow-x-auto">

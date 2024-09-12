@@ -15,8 +15,7 @@ export async function updateCareUseCase(
     name: string;
   },
 ): Promise<CreatedCare> {
-  const caresRepository = new CaresRepository();
-  return caresRepository.updateCare({
+  return new CaresRepository().updateCare({
     amount,
     categoryId: category,
     duration,

@@ -1,13 +1,12 @@
 import { sql } from '@vercel/postgres';
-import {
-  Care,
-  CareCategory,
-  CareShortDescription,
-} from '@/app/lib/definitions';
+import { CareShortDescription } from '@/app/lib/definitions';
 import { findAllCaresController } from '@/src/interface-adapters/cares/find-all-cares.controller';
 import { findCareByIdController } from '@/src/interface-adapters/cares/find-care.controller';
+import { SelectedCare } from '@/src/entities/models/care';
+import { findAllCaresCategoriesController } from '@/src/interface-adapters/cares-categories/find-all-cares-categories.controller';
+import { SelectedCareCategory } from '@/src/entities/models/care-category';
 
-export async function fetchCares() {
+export async function fetchAllCares(): Promise<SelectedCare[]> {
   try {
     const cares = await findAllCaresController();
     return cares;
@@ -17,14 +16,12 @@ export async function fetchCares() {
   }
 }
 
-export async function fetchCareCategories() {
+export async function fetchAllCareCategories(): Promise<
+  SelectedCareCategory[]
+> {
   try {
-    const data = await sql<CareCategory>`
-      SELECT * FROM care_categories
-    `;
-
-    const categories = data.rows;
-    return categories;
+    const careCategories = await findAllCaresCategoriesController();
+    return careCategories;
   } catch (err) {
     console.error('Database Error:', err);
     throw new Error('Failed to fetch all care categories.');
