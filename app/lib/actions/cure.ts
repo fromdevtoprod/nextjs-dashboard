@@ -1,8 +1,10 @@
 'use server';
 
-import { sql } from '@vercel/postgres';
-import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
-import { validatedCureFields } from './schemas';
+import { InputParseError } from '@/src/entities/errors/common';
+import { createCureController } from '@/src/interface-adapters/cures/create-cure.controller';
+import { deleteCureController } from '@/src/interface-adapters/cures/delete-cure.controller';
+import { updateCureController } from '@/src/interface-adapters/cures/update-cure.controller';
+import { validateAndRedirect } from './utils';
 
 type State = {
   errors?: {
@@ -14,41 +16,36 @@ type State = {
 };
 
 export async function createCure(prevState: State, formData: FormData) {
-  const validatedFields = validatedCureFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const {
-    product_name,
-    product_amount,
-    care_1_id,
-    care_1_session_number,
-    care_2_id,
-    care_2_session_number,
-  } = validatedFields.data;
-
   try {
-    const product =
-      await sql`INSERT INTO products (name, type, amount) VALUES (${product_name}, 'cure', ${product_amount}) RETURNING *`;
-    await sql`
-      INSERT INTO cure_content (product_id, care_1_id, care_1_session_number, care_2_id, care_2_session_number)
-      VALUES (${product.rows[0].id}, ${care_1_id}, ${care_1_session_number}, ${care_2_id}, ${care_2_session_number})
-      `;
+    const data = Object.fromEntries(formData.entries());
+    console.log('data', data);
+    await createCureController(data);
   } catch (error) {
-    return getDatabaseError({ error, item: 'cure', operation: 'insert' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    console.error('error', error);
+    return {
+      message:
+        'An error happened while creating a cure. Please try again later.',
+    };
   }
-
-  validateAndRedirect('cure');
+  validateAndRedirect('cures');
 }
 
 export async function deleteCure(id: string) {
   try {
-    await sql`DELETE FROM products WHERE id = ${id};`;
-    await sql`DELETE FROM cure_content WHERE product_id = ${id};`;
+    await deleteCureController(id);
   } catch (error) {
-    return getDatabaseError({ error, item: 'cure', operation: 'delete' });
+    console.error('error', error);
+    return {
+      message: `Failed to delete this cure.`,
+    };
   }
-
-  validateAndRedirect('cure');
+  validateAndRedirect('cures');
 }
 
 export async function updateCure(
@@ -56,30 +53,29 @@ export async function updateCure(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = validatedCureFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const {
-    product_name,
-    product_amount,
-    care_1_id,
-    care_1_session_number,
-    care_2_id,
-    care_2_session_number,
-  } = validatedFields.data;
-
   try {
-    await sql`UPDATE products SET name = ${product_name}, amount = ${product_amount} WHERE id = ${id}`;
-    await sql`UPDATE cure_content SET
-        care_1_id = ${care_1_id},
-        care_1_session_number = ${care_1_session_number},
-        care_2_id = ${care_2_id},
-        care_2_session_number = ${care_2_session_number}
-      WHERE product_id = ${id}
-    `;
+    const data = Object.fromEntries(formData.entries());
+    await updateCureController(id, {
+      amount: data.amount,
+      care_1: data.care_1,
+      session_number_1: data.session_number_1,
+      care_2: data.care_2,
+      session_number_2: data.session_number_2,
+      id,
+      name: data.name,
+    });
   } catch (error) {
-    return getDatabaseError({ error, item: 'cure', operation: 'update' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    console.error('error', error);
+    return {
+      message:
+        'An error happened while updating a cure. Please try again later.',
+    };
   }
-
-  validateAndRedirect('cure');
+  validateAndRedirect('cures');
 }

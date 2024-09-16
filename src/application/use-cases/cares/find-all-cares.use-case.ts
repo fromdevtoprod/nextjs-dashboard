@@ -4,3 +4,9 @@ import { CaresRepository } from '@/src/infrastructure/repositories/cares.reposit
 export function findAllCaresUseCase(): Promise<SelectedCare[]> {
   return new CaresRepository().findAll();
 }
+
+export function findAllCaresByCategoryNameUseCase(
+  name: string,
+): Promise<SelectedCare[]> {
+  return new CaresRepository().findAllCaresByCategoryName(name);
+}

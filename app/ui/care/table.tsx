@@ -38,7 +38,7 @@ export async function CaresTable() {
                     </div>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <EditButton href={`/dashboard/care/${care.id}/edit`} />
+                    <EditButton href={`/dashboard/cares/${care.id}/edit`} />
                     <DeleteCareButton id={care.id} />
                   </div>
                 </div>

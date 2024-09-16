@@ -31,7 +31,7 @@ export default async function CureTable() {
                     </div>
                   </div>
                   <div className="flex justify-end gap-2">
-                    <EditButton href={`/dashboard/cure/${cure.id}/edit`} />
+                    <EditButton href={`/dashboard/cures/${cure.id}/edit`} />
                     <DeleteCureButton id={cure.id} />
                   </div>
                 </div>
@@ -71,7 +71,7 @@ export default async function CureTable() {
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">
-                        <EditButton href={`/dashboard/cure/${cure.id}/edit`} />
+                        <EditButton href={`/dashboard/cures/${cure.id}/edit`} />
                         <DeleteCureButton id={cure.id} />
                       </div>
                     </td>

@@ -27,7 +27,7 @@ export function CreateCareForm({ categories }: { categories: CareCategory[] }) {
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <CancelButton url="/dashboard/care" />
+        <CancelButton url="/dashboard/cares" />
         <Button type="submit">Create Care</Button>
       </div>
     </form>

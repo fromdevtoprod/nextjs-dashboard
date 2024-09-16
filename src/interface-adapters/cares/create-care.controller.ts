@@ -22,5 +22,10 @@ export async function createCareController(input: any): Promise<CreatedCare> {
       inputParseError,
     );
   }
-  return createCareUseCase(data);
+  return createCareUseCase({
+    amount: data.amount,
+    categoryId: data.category,
+    duration: data.duration,
+    name: data.name,
+  });
 }

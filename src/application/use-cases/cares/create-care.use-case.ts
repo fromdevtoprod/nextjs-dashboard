@@ -1,20 +1,16 @@
 import { CreatedCare } from '@/src/entities/models/care';
 import { CaresRepository } from '@/src/infrastructure/repositories/cares.repository';
+import { CreateCarePayload } from '@/src/application/repositories/cares.repository.interface';
 
 export async function createCareUseCase({
-  category,
+  categoryId,
   duration,
   amount,
   name,
-}: {
-  category: string;
-  duration: number;
-  amount: number;
-  name: string;
-}): Promise<CreatedCare> {
+}: CreateCarePayload): Promise<CreatedCare> {
   return new CaresRepository().createCare({
     amount,
-    categoryId: category,
+    categoryId,
     duration,
     name,
   });

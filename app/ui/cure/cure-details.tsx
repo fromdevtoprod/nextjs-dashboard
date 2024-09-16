@@ -1,4 +1,4 @@
-import { CareShortDescription } from '@/app/lib/definitions';
+import { SelectedCare } from '@/src/entities/models/care';
 import { MyClockIcon } from '../icons/clock';
 import { MyHandRaisedIcon } from '../icons/hand';
 
@@ -9,7 +9,7 @@ export function CureDetails({
   sessionNumber = 0,
   errors,
 }: {
-  cares: CareShortDescription[];
+  cares: SelectedCare[];
   position: number;
   selectedCare?: string;
   sessionNumber?: number;
@@ -36,8 +36,8 @@ export function CureDetails({
               defaultValue={selectedCare}
             >
               {cares.map((care) => (
-                <option key={care.product_id} value={care.product_id}>
-                  {care.product_name}
+                <option key={care.id} value={care.id}>
+                  {care.name}
                 </option>
               ))}
             </select>

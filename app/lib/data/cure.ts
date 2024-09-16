@@ -1,38 +1,24 @@
 import { sql } from '@vercel/postgres';
-import { Cure } from '@/app/lib/definitions';
 import { findAllCuresController } from '@/src/interface-adapters/cures/find-all-cures.controller';
+import { findCureByIdController } from '@/src/interface-adapters/cures/find-cure.controller';
 
 export async function fetchAllCures() {
   try {
     const cures = await findAllCuresController();
     return cures;
-  } catch (err) {
-    console.error('Database Error:', err);
+  } catch (error) {
+    console.error('fetchAllCures >> findAllCuresController', error);
     throw new Error('Failed to fetch cures.');
   }
 }
 
-export async function fetchCureById(productId: string) {
+export async function fetchCureById(id: string) {
   try {
-    const cureData = await sql<Cure>`
-      SELECT
-        products.id as product_id,
-        products.name as product_name,
-        products.amount as product_amount,
-        cure_content.care_1_id,
-        cure_content.care_1_session_number,
-        cure_content.care_2_id,
-        cure_content.care_2_session_number
-      FROM products
-      LEFT JOIN cure_content ON products.id = cure_content.product_id
-      WHERE products.id=${productId}
-    `;
-
-    const cure = cureData.rows[0];
+    const cure = await findCureByIdController(id);
     return cure;
-  } catch (err) {
-    console.error('Database Error:', err);
-    throw new Error('Failed to fetch cure by ID.');
+  } catch (error) {
+    console.error('fetchCureById >> findCureByIdController', error);
+    throw new Error('Failed to fetch this cure.');
   }
 }
 
@@ -44,8 +30,8 @@ export async function getCureTotalSessionNumber(productId: string) {
         WHERE product_id = ${productId}
     `;
     return sessionNumber.rows[0].sum as number;
-  } catch (err) {
-    console.error('Database Error:', err);
+  } catch (error) {
+    console.error('getCureTotalSessionNumber', error);
     throw new Error('Failed to fetch cure session number.');
   }
 }

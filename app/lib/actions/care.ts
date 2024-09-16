@@ -27,6 +27,7 @@ export async function createCare(prevState: State, formData: FormData) {
         message: error.message,
       };
     }
+    console.error('createCare >> createCareController', error);
     return {
       message:
         'An error happened while creating a care. Please try again later.',
@@ -39,6 +40,7 @@ export async function deleteCare(id: string) {
   try {
     await deleteCareController(id);
   } catch (error) {
+    console.error('deleteCare >> deleteCareController', error);
     return {
       message: `Failed to delete this care.`,
     };
@@ -61,6 +63,7 @@ export async function updateCare(
         message: error.message,
       };
     }
+    console.error('updateCare >> updateCareController', error);
     return {
       message:
         'An error happened while updating a care. Please try again later.',

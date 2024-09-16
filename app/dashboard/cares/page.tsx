@@ -16,7 +16,7 @@ export default async function Page() {
         <h1 className={`${lusitana.className} text-2xl`}>Cares</h1>
       </div>
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <AddButtonLink href="/dashboard/care/create" label="Create Care" />
+        <AddButtonLink href="/dashboard/cares/create" label="Create Care" />
       </div>
       <Suspense fallback={<CareTableSkeleton />}>
         <CaresTable />

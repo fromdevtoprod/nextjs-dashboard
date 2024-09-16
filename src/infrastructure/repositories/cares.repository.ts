@@ -1,6 +1,10 @@
 import { sql } from '@vercel/postgres';
 import { CreatedCare, SelectedCare } from '@/src/entities/models/care';
-import { ICaresRepository } from '@/src/application/repositories/cares.repository.interface';
+import {
+  CreateCarePayload,
+  ICaresRepository,
+  UpdateCarePayload,
+} from '@/src/application/repositories/cares.repository.interface';
 
 export class CaresRepository implements ICaresRepository {
   public async createCare({
@@ -8,12 +12,7 @@ export class CaresRepository implements ICaresRepository {
     categoryId,
     duration,
     name,
-  }: {
-    amount: number;
-    categoryId: string;
-    duration: number;
-    name: string;
-  }): Promise<CreatedCare> {
+  }: CreateCarePayload): Promise<CreatedCare> {
     const queryResult =
       await sql<CreatedCare>`INSERT INTO cares (amount, category_id, duration, name) VALUES (${amount}, ${categoryId}, ${duration}, ${name}) RETURNING *`;
     return {
@@ -27,6 +26,24 @@ export class CaresRepository implements ICaresRepository {
 
   public async deleteCare(id: string): Promise<void> {
     await sql`DELETE FROM cares WHERE id = ${id}`;
+  }
+
+  public async findAllCaresByCategoryName(
+    name: string,
+  ): Promise<SelectedCare[]> {
+    const queryResult = await sql<SelectedCare>`
+      SELECT
+        amount,
+        category_id,
+        care_categories.name AS category_name,
+        duration,
+        cares.id,
+        cares.name
+      FROM cares
+      LEFT JOIN care_categories ON cares.category_id = care_categories.id
+      WHERE care_categories.name = ${name}
+    `;
+    return queryResult.rows;
   }
 
   public async findAll(): Promise<SelectedCare[]> {
@@ -66,13 +83,7 @@ export class CaresRepository implements ICaresRepository {
     duration,
     id,
     name,
-  }: {
-    amount: number;
-    categoryId: string;
-    duration: number;
-    id: string;
-    name: string;
-  }): Promise<CreatedCare> {
+  }: UpdateCarePayload): Promise<CreatedCare> {
     const queryResult =
       await sql<CreatedCare>`UPDATE cares SET amount = ${amount}, category_id = ${categoryId}, duration = ${duration}, name = ${name} WHERE id = ${id} RETURNING *`;
     return {

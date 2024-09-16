@@ -2,8 +2,8 @@
 
 // @ts-ignore
 import { useActionState, useState } from 'react';
+import { SelectedCare } from '@/src/entities/models/care';
 import { createCure } from '@/app/lib/actions/cure';
-import { CareShortDescription } from '@/app/lib/definitions';
 import { CureDetails } from './cure-details';
 import AddCareButton from './add-care-button';
 import RemoveCareButton from './remove-care-button';
@@ -15,7 +15,7 @@ import FormErrorMessage from '../form-error-message';
 
 const initialState = { message: null, error: {} };
 
-export function CreateCureForm({ cares }: { cares: CareShortDescription[] }) {
+export function CreateCureForm({ cares }: { cares: SelectedCare[] }) {
   const [isSecondCareDisplayed, setIsSecondCareDisplayed] = useState(false);
   const [state, formAction] = useActionState(createCure, initialState);
   return (
@@ -56,7 +56,7 @@ export function CreateCureForm({ cares }: { cares: CareShortDescription[] }) {
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <CancelButton url="/dashboard/cure" />
+        <CancelButton url="/dashboard/cures" />
         <Button type="submit">Create Cure</Button>
       </div>
     </form>

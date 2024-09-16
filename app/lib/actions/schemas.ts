@@ -1,16 +1,5 @@
 import { z } from 'zod';
 
-export function validatedCureFields(formData: FormData) {
-  return getCureSchema().safeParse({
-    product_name: formData.get('name'),
-    care_1_id: formData.get('care_1'),
-    care_1_session_number: formData.get('session_number_1'),
-    care_2_id: formData.get('care_2'),
-    care_2_session_number: formData.get('session_number_2'),
-    product_amount: formData.get('amount'),
-  });
-}
-
 export function validatedCustomerFields(formData: FormData) {
   return getCustomerSchema().safeParse({
     name: formData.get('name'),
@@ -38,24 +27,6 @@ export function validatedAppointmentFields(formData: FormData) {
     productId: formData.get('product-id'),
     time: formData.get('time'),
   });
-}
-
-function getCureSchema() {
-  const FormSchema = z.object({
-    product_id: z.string(),
-    product_name: z.string().min(1, { message: 'Name is required' }),
-    care_1_id: z.string().min(1, { message: 'One minimal care is required' }),
-    care_1_session_number: z.coerce
-      .number()
-      .gt(0, { message: 'Please enter a session number greater than 0.' }),
-    care_2_id: z.string().nullable(),
-    care_2_session_number: z.coerce.number(),
-    product_amount: z.coerce
-      .number()
-      .gt(0, { message: 'Please enter an amount greater than 0.' }),
-  });
-
-  return FormSchema.omit({ product_id: true });
 }
 
 function getCustomerSchema() {

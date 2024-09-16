@@ -15,7 +15,7 @@ const inputSchema = z.object({
 });
 
 export async function updateCareController(
-  productId: string,
+  careId: string,
   input: any,
 ): Promise<CreatedCare> {
   const { data, error: inputParseError } = inputSchema.safeParse(input);
@@ -25,5 +25,11 @@ export async function updateCareController(
       inputParseError,
     );
   }
-  return updateCareUseCase(productId, data);
+  return updateCareUseCase({
+    amount: data.amount,
+    categoryId: data.category,
+    duration: data.duration,
+    id: careId,
+    name: data.name,
+  });
 }
