@@ -26,7 +26,8 @@ export class OrdersRepository implements IOrdersRepository {
   }
 
   public async findAll(): Promise<SelectedOrder[]> {
-    const queryResult = await sql<SelectedOrder>`SELECT * FROM orders`;
+    const queryResult =
+      await sql<SelectedOrder>`SELECT orders.*, customers.name AS customer_name FROM orders INNER JOIN customers ON orders.customer_id = customers.id`;
     return queryResult.rows;
   }
 

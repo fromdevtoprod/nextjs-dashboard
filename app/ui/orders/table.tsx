@@ -1,10 +1,10 @@
-import { fetchOrders } from '@/app/lib/data/orders';
+import { fetchAllOrders } from '@/app/lib/data/orders';
 import { capitalize, formatDateToLocal } from '@/app/lib/utils';
 import { DeleteOrderButton } from './delete-button';
 import { EditButton } from '../buttons/edit-button';
 
 export default async function OrdersTable() {
-  const orders = await fetchOrders();
+  const orders = await fetchAllOrders();
   return (
     <div className="mt-6 flow-root">
       <div className="overflow-x-auto">
@@ -27,16 +27,13 @@ export default async function OrdersTable() {
                   </div>
                   <div className="flex w-full items-center justify-between border-b py-5">
                     <div className="flex w-1/2 flex-col">
-                      <p className="text-xs">Product name</p>
-                      <p className="font-medium">{order.product_name}</p>
+                      <p className="text-xs">Payment status</p>
+                      <p className="font-medium">{order.payment_status}</p>
                     </div>
                     <div className="flex w-1/2 flex-col">
                       <p className="text-xs">Product type</p>
                       <p className="font-medium">{order.product_type}</p>
                     </div>
-                  </div>
-                  <div className="pt-4 text-sm">
-                    <p>Payment status : {order.payment_status}</p>
                   </div>
                   <div className="pt-4 text-sm">
                     <p>Order status : {order.order_status}</p>
@@ -55,22 +52,19 @@ export default async function OrdersTable() {
                     Customer
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
-                    Product name
+                    Date
                   </th>
                   <th scope="col" className="px-3 py-5 font-medium">
                     Product type
                   </th>
-                  <th scope="col" className="px-3 py-5 font-medium">
-                    Date
+                  <th scope="col" className="px-4 py-5 font-medium">
+                    Order status
                   </th>
                   <th scope="col" className="px-4 py-5 font-medium">
                     Payment status
                   </th>
-                  <th scope="col" className="px-4 py-5 font-medium">
-                    Order status
-                  </th>
                   <th scope="col" className="relative py-3 pl-6 pr-3">
-                    <span className="sr-only">Edit</span>
+                    <span className="sr-only">Actions</span>
                   </th>
                 </tr>
               </thead>
@@ -83,20 +77,17 @@ export default async function OrdersTable() {
                         <p>{order.customer_name}</p>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
-                      {order.product_name}
+                    <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
+                      {formatDateToLocal(order.date, 'fr-FR')}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm">
                       {capitalize(order.product_type)}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                      {formatDateToLocal(order.date, 'fr-FR')}
+                      {capitalize(order.order_status)}
                     </td>
                     <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
                       {capitalize(order.payment_status)}
-                    </td>
-                    <td className="whitespace-nowrap bg-white px-4 py-5 text-sm group-first-of-type:rounded-md group-last-of-type:rounded-md">
-                      {capitalize(order.order_status)}
                     </td>
                     <td className="whitespace-nowrap bg-white py-3 pl-6 pr-3">
                       <div className="flex justify-end gap-3">

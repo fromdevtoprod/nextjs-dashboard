@@ -1,30 +1,15 @@
 import { sql } from '@vercel/postgres';
 import { Order } from '@/app/lib/definitions';
 import { executeSelectPendingOrderRequest } from '../sql/order';
+import { findAllOrdersController } from '@/src/interface-adapters/orders/find-all-orders.controller';
 
-export async function fetchOrders() {
+export async function fetchAllOrders() {
   try {
-    const data = await sql<Order>`
-      SELECT
-        orders.id,
-        orders.customer_id,
-        orders.product_id,
-        orders.date,
-        orders.payment_status,
-        orders.order_status,
-        customers.name as customer_name,
-        products.name as product_name,
-        products.type as product_type
-      FROM orders
-      LEFT JOIN customers ON orders.customer_id = customers.id
-      LEFT JOIN products ON orders.product_id = products.id
-      ORDER BY orders.date DESC
-    `;
-    const orders = data.rows;
+    const orders = await findAllOrdersController();
     return orders;
-  } catch (err) {
-    console.error('Database Error:', err);
-    throw new Error('Failed to fetch orders.');
+  } catch (error) {
+    console.error('fetchAllOrders >> findAllOrdersController', error);
+    throw new Error('Failed to fetch all orders.');
   }
 }
 

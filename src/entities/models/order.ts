@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const selectedOrderSchema = z.object({
   id: z.string(),
   customer_id: z.string(),
+  customer_name: z.string(),
   date: z.string(),
   order_status: z.string(),
   payment_status: z.string(),
