@@ -185,44 +185,25 @@ async function seedCures() {
   return insertedCures;
 }
 
-async function seedProducts() {
-  // await client.sql`
-  //   CREATE TABLE IF NOT EXISTS products (
-  //     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-  //     name VARCHAR(255) NOT NULL,
-  //     type VARCHAR(255) NOT NULL,
-  //     amount INT NOT NULL
-  //   );
-  // `;
-  // const insertedProducts = await Promise.all(
-  //   products.map(
-  //     (product) => client.sql`
-  //       INSERT INTO products (id, name, type, amount)
-  //       VALUES (${product.id}, ${product.name}, ${product.type}, ${product.amount})
-  //       ON CONFLICT (id) DO NOTHING;
-  //     `,
-  //   ),
-  // );
-  // return insertedProducts;
-}
-
 async function seedOrders() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS orders (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
       customer_id UUID NOT NULL,
-      product_id UUID NOT NULL,
+      CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(id),
       date DATE NOT NULL,
+      order_status VARCHAR(255) NOT NULL,
       payment_status VARCHAR(255) NOT NULL,
-      order_status VARCHAR(255) NOT NULL
+      product_id UUID NOT NULL,
+      product_type VARCHAR(255) NOT NULL
     );
   `;
 
   const insertedOrders = await Promise.all(
     orders.map(
       (order) => client.sql`
-        INSERT INTO orders (id, customer_id, product_id, date, payment_status, order_status)
-        VALUES (${order.id}, ${order.customer_id}, ${order.product_id}, ${order.date}, ${order.payment_status}, ${order.order_status})
+        INSERT INTO orders (id, customer_id, date, order_status, payment_status, product_id, product_type)
+        VALUES (${order.id}, ${order.customer_id}, ${order.date}, ${order.order_status}, ${order.payment_status}, ${order.product_id}, ${order.product_type})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
@@ -258,15 +239,15 @@ async function seedAppointments() {
 export async function GET() {
   try {
     await client.sql`BEGIN`;
-    await seedUsers();
-    await seedCustomers();
-    await seedInvoices();
-    await seedRevenue();
-    await seedCareCategories();
+    // await seedUsers();
+    // await seedCustomers();
+    // await seedInvoices();
+    // await seedRevenue();
+    // await seedCareCategories();
     // await seedCares();
     // await seedCures();
     // await seedProducts();
-    // await seedOrders();
+    await seedOrders();
     // await seedAppointments();
     await client.sql`COMMIT`;
 
