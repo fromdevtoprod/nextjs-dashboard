@@ -3,13 +3,6 @@
 // @ts-ignore
 import { useActionState, useState } from 'react';
 import { updateOrder } from '@/app/lib/actions/orders';
-import {
-  CareShortDescription,
-  Cure,
-  CustomerField,
-  Order,
-  ProductType,
-} from '@/app/lib/definitions';
 import { Button } from '../button';
 import CancelButton from '../cancel-button';
 import SelectCustomer from '../select-customer';
@@ -17,6 +10,10 @@ import { SelectProduct } from '../select-product';
 import SelectPaymentStatus from './select-payment-status';
 import FormErrorMessage from '../form-error-message';
 import SelectProductType from '../select-product-type';
+import { SelectedCare } from '@/src/entities/models/care';
+import { SelectedCustomer } from '@/src/entities/models/customer';
+import { SelectedCure } from '@/src/entities/models/cure';
+import { SelectedOrder } from '@/src/entities/models/order';
 
 const initialState = { message: null, error: {} };
 
@@ -26,17 +23,17 @@ export function EditOrderForm({
   customers,
   order,
 }: {
-  cares: CareShortDescription[];
-  cures: Cure[];
-  customers: CustomerField[];
-  order: Order;
+  cares: SelectedCare[];
+  cures: SelectedCure[];
+  customers: SelectedCustomer[];
+  order: SelectedOrder;
 }) {
   const updateOrderWithId = updateOrder.bind(null, order.id);
   const [state, formAction] = useActionState(updateOrderWithId, initialState);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>(
     order.customer_id,
   );
-  const [selectedProductType, setSelectedProductType] = useState<ProductType>(
+  const [selectedProductType, setSelectedProductType] = useState<string>(
     order.product_type,
   );
   return (

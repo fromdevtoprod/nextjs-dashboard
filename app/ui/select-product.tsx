@@ -1,5 +1,4 @@
 import { ListBulletIcon } from '@heroicons/react/24/outline';
-import { ProductType } from '@/app/lib/definitions';
 import { SelectedCare } from '@/src/entities/models/care';
 import { SelectedCure } from '@/src/entities/models/cure';
 import { MyHandRaisedIcon } from './icons/hand';
@@ -12,7 +11,7 @@ export function SelectProduct({
   onProductSelect,
 }: {
   errors: string[];
-  productType: ProductType;
+  productType: string;
   products: SelectedCare[] | SelectedCure[];
   value?: string;
   onProductSelect?: (productId: string) => void;

@@ -40,12 +40,6 @@ export type LatestInvoice = {
   amount: string;
 };
 
-export type CareShortDescription = {
-  duration: number;
-  product_id: string;
-  product_name: string;
-};
-
 export type Care = {
   amount: number;
   category_id: string;

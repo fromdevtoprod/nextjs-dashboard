@@ -10,6 +10,7 @@ import {
 import { executeDeleteAppointmentByOrderRequest } from '../sql/appointment';
 import { InputParseError } from '@/src/entities/errors/common';
 import { createOrderController } from '@/src/interface-adapters/orders/create-order.controller';
+import { updateOrderController } from '@/src/interface-adapters/orders/update-order.controller';
 
 type State = {
   errors?: {
@@ -57,23 +58,23 @@ export async function updateOrder(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = validatedOrderFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const { customer_id, product_id, payment_status } = validatedFields.data;
-
   try {
-    await sql`
-      UPDATE orders SET
-        customer_id = ${customer_id},
-        product_id = ${product_id},
-        payment_status = ${payment_status}
-      WHERE id = ${id}
-    `;
+    const data = Object.fromEntries(formData.entries());
+    console.log('data', data);
+    await updateOrderController(id, data);
   } catch (error) {
-    return getDatabaseError({ error, item: 'order', operation: 'update' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    console.error('updateOrder >> updateOrderController', error);
+    return {
+      message:
+        'An error happened while updating an order. Please try again later.',
+    };
   }
-
   validateAndRedirect('orders');
 }
 

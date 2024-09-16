@@ -2,6 +2,7 @@ import { sql } from '@vercel/postgres';
 import { Order } from '@/app/lib/definitions';
 import { executeSelectPendingOrderRequest } from '../sql/order';
 import { findAllOrdersController } from '@/src/interface-adapters/orders/find-all-orders.controller';
+import { findOrderByIdController } from '@/src/interface-adapters/orders/find-order.controller';
 
 export async function fetchAllOrders() {
   try {
@@ -15,25 +16,11 @@ export async function fetchAllOrders() {
 
 export async function fetchOrderById(id: string) {
   try {
-    const data = await sql<Order>`
-      SELECT
-        orders.id,
-        orders.customer_id,
-        orders.product_id,
-        orders.payment_status,
-        orders.order_status,
-        products.type AS product_type
-      FROM orders
-      LEFT JOIN customers ON orders.customer_id = customers.id
-      LEFT JOIN products ON orders.product_id = products.id
-      WHERE orders.id = ${id}
-    `;
-
-    const order = data.rows[0];
+    const order = await findOrderByIdController(id);
     return order;
-  } catch (err) {
-    console.error('Database Error:', err);
-    throw new Error('Failed to fetch order.');
+  } catch (error) {
+    console.error('fetchOrderById >> findOrderByIdController', error);
+    throw new Error('Failed to fetch this order.');
   }
 }
 
