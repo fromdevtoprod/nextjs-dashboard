@@ -1,16 +1,10 @@
 'use server';
 
-import { sql } from '@vercel/postgres';
-import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
-import { validatedOrderFields } from './schemas';
-import {
-  executeDeleteOrderRequest,
-  executeUpdateOrderStatusRequest,
-} from '../sql/order';
-import { executeDeleteAppointmentByOrderRequest } from '../sql/appointment';
 import { InputParseError } from '@/src/entities/errors/common';
 import { createOrderController } from '@/src/interface-adapters/orders/create-order.controller';
 import { updateOrderController } from '@/src/interface-adapters/orders/update-order.controller';
+import { deleteOrderController } from '@/src/interface-adapters/orders/delete-order.controller';
+import { validateAndRedirect } from './utils';
 
 type State = {
   errors?: {
@@ -42,14 +36,15 @@ export async function createOrder(prevState: State, formData: FormData) {
   validateAndRedirect('orders');
 }
 
-export async function deleteOrder(orderId: string) {
+export async function deleteOrder(id: string) {
   try {
-    await executeDeleteAppointmentByOrderRequest(orderId);
-    await executeDeleteOrderRequest(orderId);
+    await deleteOrderController(id);
   } catch (error) {
-    return { message: `Database Error: Failed to delete this order.` };
+    console.error('deleteOrder >> deleteOrderController', error);
+    return {
+      message: `Failed to delete this order.`,
+    };
   }
-
   validateAndRedirect('orders');
 }
 
@@ -75,17 +70,5 @@ export async function updateOrder(
         'An error happened while updating an order. Please try again later.',
     };
   }
-  validateAndRedirect('orders');
-}
-
-export async function updateOrderStatus(orderId: string, status: string) {
-  try {
-    await executeUpdateOrderStatusRequest(orderId, status);
-  } catch (error) {
-    return {
-      message: `Database Error: Failed to update this order.`,
-    };
-  }
-
   validateAndRedirect('orders');
 }

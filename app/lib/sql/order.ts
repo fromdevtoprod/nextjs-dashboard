@@ -1,10 +1,6 @@
 import { sql } from '@vercel/postgres';
 import { PendingOrder } from '../definitions';
 
-export async function executeDeleteOrderRequest(orderId: string) {
-  return sql`DELETE FROM orders WHERE id = ${orderId}`;
-}
-
 export async function executeSelectPendingOrderRequest(customerId: string) {
   return sql<PendingOrder>`
       SELECT orders.id, orders.product_id, products.type as product_type
@@ -13,13 +9,6 @@ export async function executeSelectPendingOrderRequest(customerId: string) {
       WHERE orders.customer_id=${customerId}
       AND orders.order_status='pending'
     `;
-}
-
-export async function executeUpdateOrderStatusRequest(
-  orderId: string,
-  status: string,
-) {
-  return sql`UPDATE orders SET order_status = ${status} WHERE id = ${orderId}`;
 }
 
 export async function executeInsertOrderRequest({

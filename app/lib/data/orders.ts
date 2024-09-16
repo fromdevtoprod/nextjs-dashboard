@@ -1,8 +1,6 @@
-import { sql } from '@vercel/postgres';
-import { Order } from '@/app/lib/definitions';
-import { executeSelectPendingOrderRequest } from '../sql/order';
 import { findAllOrdersController } from '@/src/interface-adapters/orders/find-all-orders.controller';
 import { findOrderByIdController } from '@/src/interface-adapters/orders/find-order.controller';
+import { executeSelectPendingOrderRequest } from '../sql/order';
 
 export async function fetchAllOrders() {
   try {

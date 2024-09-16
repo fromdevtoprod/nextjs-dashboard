@@ -1,9 +1,5 @@
 import { sql } from '@vercel/postgres';
 
-export async function executeDeleteAppointmentByOrderRequest(orderId: string) {
-  return sql`DELETE FROM appointments WHERE order_id = ${orderId}`;
-}
-
 export async function executeDeleteAppointmentRequest(appointmentId: string) {
   return sql`DELETE FROM appointments WHERE id = ${appointmentId}`;
 }
