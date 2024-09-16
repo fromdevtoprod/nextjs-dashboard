@@ -5,10 +5,11 @@ import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
 import { validatedOrderFields } from './schemas';
 import {
   executeDeleteOrderRequest,
-  executeInsertOrderRequest,
   executeUpdateOrderStatusRequest,
 } from '../sql/order';
 import { executeDeleteAppointmentByOrderRequest } from '../sql/appointment';
+import { InputParseError } from '@/src/entities/errors/common';
+import { createOrderController } from '@/src/interface-adapters/orders/create-order.controller';
 
 type State = {
   errors?: {
@@ -20,21 +21,23 @@ type State = {
 };
 
 export async function createOrder(prevState: State, formData: FormData) {
-  const validatedFields = validatedOrderFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const { customer_id, product_id, payment_status } = validatedFields.data;
-
   try {
-    await executeInsertOrderRequest({
-      customerId: customer_id,
-      productId: product_id,
-      paymentStatus: payment_status,
-    });
+    const data = Object.fromEntries(formData.entries());
+    console.log('data', data);
+    await createOrderController(data);
   } catch (error) {
-    return getDatabaseError({ error, item: 'order', operation: 'insert' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    console.error('createOrder >> createOrderController', error);
+    return {
+      message:
+        'An error happened while adding an order. Please try again later.',
+    };
   }
-
   validateAndRedirect('orders');
 }
 

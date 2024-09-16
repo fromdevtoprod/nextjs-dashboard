@@ -27,7 +27,7 @@ export async function createCure(prevState: State, formData: FormData) {
         message: error.message,
       };
     }
-    console.error('error', error);
+    console.error('createCure >> createCureController', error);
     return {
       message:
         'An error happened while creating a cure. Please try again later.',
@@ -40,7 +40,7 @@ export async function deleteCure(id: string) {
   try {
     await deleteCureController(id);
   } catch (error) {
-    console.error('error', error);
+    console.error('deleteCure >> deleteCureController', error);
     return {
       message: `Failed to delete this cure.`,
     };
@@ -71,7 +71,7 @@ export async function updateCure(
         message: error.message,
       };
     }
-    console.error('error', error);
+    console.error('updateCure >> updateCureController', error);
     return {
       message:
         'An error happened while updating a cure. Please try again later.',

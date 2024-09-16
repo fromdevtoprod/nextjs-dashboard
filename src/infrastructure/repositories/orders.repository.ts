@@ -14,9 +14,9 @@ export class OrdersRepository implements IOrdersRepository {
   public async createOrder(payload: CreateOrderPayload): Promise<CreatedOrder> {
     console.log('Creating order');
     const queryResult = await sql<CreatedOrder>`
-      INSERT INTO orders (customer_id, date, order_status, payment_status, product_id, product_type)
+      INSERT INTO orders(customer_id, date, order_status, payment_status, product_id, product_type)
       VALUES (${payload.customerId}, ${payload.date}, ${payload.orderStatus}, ${payload.paymentStatus}, ${payload.productId}, ${payload.productType})
-      RETURNING
+      RETURNING *
     `;
     return queryResult.rows[0];
   }
@@ -26,8 +26,14 @@ export class OrdersRepository implements IOrdersRepository {
   }
 
   public async findAll(): Promise<SelectedOrder[]> {
-    const queryResult =
-      await sql<SelectedOrder>`SELECT orders.*, customers.name AS customer_name FROM orders INNER JOIN customers ON orders.customer_id = customers.id`;
+    const queryResult = await sql<SelectedOrder>`
+      SELECT
+        orders.*,
+        customers.name AS customer_name
+      FROM orders
+      INNER JOIN customers ON orders.customer_id = customers.id
+      ORDER BY orders.date DESC
+    `;
     return queryResult.rows;
   }
 

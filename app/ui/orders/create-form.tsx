@@ -3,12 +3,10 @@
 // @ts-ignore
 import { useActionState, useState } from 'react';
 import { createOrder } from '@/app/lib/actions/orders';
-import {
-  CareShortDescription,
-  Cure,
-  CustomerField,
-  ProductType,
-} from '@/app/lib/definitions';
+import { ProductType } from '@/app/lib/definitions';
+import { SelectedCare } from '@/src/entities/models/care';
+import { SelectedCure } from '@/src/entities/models/cure';
+import { SelectedCustomer } from '@/src/entities/models/customer';
 import { Button } from '../button';
 import SelectCustomer from '../select-customer';
 import { SelectProduct } from '../select-product';
@@ -24,9 +22,9 @@ export function AddOrderForm({
   cures,
   customers,
 }: {
-  cares: CareShortDescription[];
-  cures: Cure[];
-  customers: CustomerField[];
+  cares: SelectedCare[];
+  cures: SelectedCure[];
+  customers: SelectedCustomer[];
 }) {
   const [state, formAction] = useActionState(createOrder, initialState);
   const [selectedCustomerId, setSelectedCustomerId] = useState<string>('');
