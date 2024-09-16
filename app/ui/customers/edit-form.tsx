@@ -2,9 +2,9 @@
 
 // @ts-ignore
 import { useActionState } from 'react';
-import { Button } from '../button';
 import { updateCustomer } from '@/app/lib/actions/customers';
-import { Customer } from '@/app/lib/definitions';
+import { SelectedCustomer } from '@/src/entities/models/customer';
+import { Button } from '../button';
 import CancelButton from '../cancel-button';
 import NameInput from '../name-input';
 import EmailInput from '../email-input';
@@ -13,7 +13,7 @@ import BirthDateInput from '../birthdate-input';
 import PathologyTextarea from '../pathology-textarea';
 import FormErrorMessage from '../form-error-message';
 
-export function EditCustomerForm({ customer }: { customer: Customer }) {
+export function EditCustomerForm({ customer }: { customer: SelectedCustomer }) {
   const initialState = { message: null, error: {} };
   const updateCustomerWithId = updateCustomer.bind(null, customer.id);
   const [state, formAction] = useActionState(
@@ -28,7 +28,7 @@ export function EditCustomerForm({ customer }: { customer: Customer }) {
         <PhoneInput errors={state.errors?.phone || []} value={customer.phone} />
         <BirthDateInput
           errors={state.errors?.birth_date || []}
-          value={customer.birth_date}
+          value={customer.birthDate}
         />
         <PathologyTextarea
           errors={state.errors?.pathology || []}

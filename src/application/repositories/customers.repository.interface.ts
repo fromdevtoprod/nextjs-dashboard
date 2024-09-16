@@ -1,4 +1,7 @@
-import { CreatedCustomer } from '@/src/entities/models/customer';
+import {
+  CreatedCustomer,
+  SelectedCustomer,
+} from '@/src/entities/models/customer';
 
 export type CreateCustomerPayload = {
   name: string;
@@ -13,5 +16,7 @@ export type UpdateCustomerPayload = CreateCustomerPayload & { id: string };
 export interface ICustomersRepository {
   createCustomer(payload: CreateCustomerPayload): Promise<CreatedCustomer>;
   deleteCustomer(id: string): Promise<void>;
+  findAll(): Promise<SelectedCustomer[]>;
+  findCustomerById(id: string): Promise<SelectedCustomer>;
   updateCustomer(payload: UpdateCustomerPayload): Promise<CreatedCustomer>;
 }

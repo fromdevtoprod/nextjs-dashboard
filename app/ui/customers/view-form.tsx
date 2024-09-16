@@ -1,6 +1,6 @@
 'use client';
 
-import { AppointmentShortDescription, Customer } from '@/app/lib/definitions';
+import { AppointmentShortDescription } from '@/app/lib/definitions';
 import NameInput from '../name-input';
 import EmailInput from '../email-input';
 import PhoneInput from '../phone-input';
@@ -9,14 +9,15 @@ import PathologyTextarea from '../pathology-textarea';
 import { ButtonLink } from '../buttons/button-link';
 import { Button } from '../button';
 import { useRouter } from 'next/navigation';
-import { capitalize, formatDateToLocal } from '@/app/lib/utils';
+import { formatDateToLocal } from '@/app/lib/utils';
+import { SelectedCustomer } from '@/src/entities/models/customer';
 
 export function ViewCustomerForm({
   appointments,
   customer,
 }: {
   appointments: AppointmentShortDescription[];
-  customer: Customer;
+  customer: SelectedCustomer;
 }) {
   const router = useRouter();
   return (
@@ -44,7 +45,7 @@ export function ViewCustomerForm({
           errors={[]}
           isDisabled={true}
           label=""
-          value={customer.birth_date}
+          value={customer.birthDate}
         />
         <PathologyTextarea
           errors={[]}

@@ -1,25 +1,15 @@
 import { sql } from '@vercel/postgres';
-import {
-  Customer,
-  CustomerField,
-  CustomersTableType,
-} from '@/app/lib/definitions';
+import { CustomersTableType } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
+import { findCustomerByIdController } from '@/src/interface-adapters/customers/find-customer.controller';
+import { findAllCustomersController } from '@/src/interface-adapters/customers/find-all-customers.controller';
 
 export async function fetchCustomers() {
   try {
-    const data = await sql<CustomerField>`
-      SELECT
-        id,
-        name
-      FROM customers
-      ORDER BY name ASC
-    `;
-
-    const customers = data.rows;
+    const customers = await findAllCustomersController();
     return customers;
-  } catch (err) {
-    console.error('Database Error:', err);
+  } catch (error) {
+    console.error('fetchCustomerById >> findCustomerByIdController', error);
     throw new Error('Failed to fetch all customers.');
   }
 }
@@ -58,26 +48,10 @@ export async function fetchFilteredCustomers(query: string) {
 
 export async function fetchCustomerById(id: string) {
   try {
-    const data = await sql<Customer>`
-      SELECT
-        id,
-        name,
-        email,
-        phone,
-        birth_date,
-        pathology
-      FROM customers
-      WHERE id = ${id}
-    `;
-    const customer = data.rows[0];
-    return { ...customer, birth_date: formatBirthDate(customer.birth_date) };
-  } catch (err) {
-    console.error('Database Error:', err);
-    throw new Error('Failed to fetch customer by ID.');
+    const customer = await findCustomerByIdController(id);
+    return customer;
+  } catch (error) {
+    console.error('fetchCustomerById >> findCustomerByIdController', error);
+    throw new Error('Failed to fetch this customer.');
   }
-}
-
-// This function will format US date to french format date (DD/MM/YYYY)
-function formatBirthDate(birthDate: string) {
-  return birthDate.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3/$2/$1');
 }
