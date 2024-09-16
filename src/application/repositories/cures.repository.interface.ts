@@ -12,9 +12,9 @@ export type CreateCurePayload = {
 export type UpdateCurePayload = { id: string } & CreateCurePayload;
 
 export interface ICuresRepository {
-  createCure({}: CreateCurePayload): Promise<CreatedCure>;
+  createCure(payload: CreateCurePayload): Promise<CreatedCure>;
   deleteCure(id: string): Promise<void>;
   findAll(): Promise<SelectedCure[]>;
   findCureById(id: string): Promise<SelectedCure>;
-  updateCure({}: UpdateCurePayload): Promise<CreatedCure>;
+  updateCure(payload: UpdateCurePayload): Promise<CreatedCure>;
 }

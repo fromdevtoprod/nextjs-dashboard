@@ -7,29 +7,14 @@ import {
 import { CreatedCure, SelectedCure } from '@/src/entities/models/cure';
 
 export class CuresRepository implements ICuresRepository {
-  public async createCure({
-    amount,
-    care_1_id,
-    care_1_session_number,
-    care_2_id,
-    care_2_session_number,
-    name,
-  }: CreateCurePayload): Promise<CreatedCure> {
+  public async createCure(payload: CreateCurePayload): Promise<CreatedCure> {
     console.log('Creating cure');
     const queryResult = await sql<CreatedCure>`
         INSERT INTO cures (amount, care_1_id, care_1_session_number, care_2_id, care_2_session_number, name)
-        VALUES (${amount}, ${care_1_id}, ${care_1_session_number}, ${care_2_id}, ${care_2_session_number}, ${name})
+        VALUES (${payload.amount}, ${payload.care_1_id}, ${payload.care_1_session_number}, ${payload.care_2_id}, ${payload.care_2_session_number}, ${payload.name})
         RETURNING *
       `;
-    return {
-      id: queryResult.rows[0].id,
-      amount: queryResult.rows[0].amount,
-      care_1_id: queryResult.rows[0].care_1_id,
-      care_1_session_number: queryResult.rows[0].care_1_session_number,
-      care_2_id: queryResult.rows[0].care_2_id,
-      care_2_session_number: queryResult.rows[0].care_2_session_number,
-      name: queryResult.rows[0].name,
-    };
+    return queryResult.rows[0];
   }
 
   public async deleteCure(id: string): Promise<void> {
@@ -50,30 +35,14 @@ export class CuresRepository implements ICuresRepository {
     return queryResult.rows[0];
   }
 
-  public async updateCure({
-    amount,
-    care_1_id,
-    care_1_session_number,
-    care_2_id,
-    care_2_session_number,
-    id,
-    name,
-  }: UpdateCurePayload): Promise<CreatedCure> {
+  public async updateCure(payload: UpdateCurePayload): Promise<CreatedCure> {
     console.log('Updating cure');
     const queryResult = await sql<CreatedCure>`
         UPDATE cures
-        SET amount = ${amount}, care_1_id = ${care_1_id}, care_1_session_number = ${care_1_session_number}, care_2_id = ${care_2_id}, care_2_session_number = ${care_2_session_number}, name = ${name}
-        WHERE id = ${id}
+        SET amount = ${payload.amount}, care_1_id = ${payload.care_1_id}, care_1_session_number = ${payload.care_1_session_number}, care_2_id = ${payload.care_2_id}, care_2_session_number = ${payload.care_2_session_number}, name = ${payload.name}
+        WHERE id = ${payload.id}
         RETURNING *
       `;
-    return {
-      id: queryResult.rows[0].id,
-      amount: queryResult.rows[0].amount,
-      care_1_id: queryResult.rows[0].care_1_id,
-      care_1_session_number: queryResult.rows[0].care_1_session_number,
-      care_2_id: queryResult.rows[0].care_2_id,
-      care_2_session_number: queryResult.rows[0].care_2_session_number,
-      name: queryResult.rows[0].name,
-    };
+    return queryResult.rows[0];
   }
 }

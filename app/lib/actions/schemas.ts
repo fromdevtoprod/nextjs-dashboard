@@ -1,15 +1,5 @@
 import { z } from 'zod';
 
-export function validatedCustomerFields(formData: FormData) {
-  return getCustomerSchema().safeParse({
-    name: formData.get('name'),
-    email: formData.get('email'),
-    phone: formData.get('phone'),
-    birth_date: formData.get('birth_date'),
-    pathology: formData.get('pathology'),
-  });
-}
-
 export function validatedOrderFields(formData: FormData) {
   return getOrderSchema().safeParse({
     customer_id: formData.get('customer'),
@@ -27,19 +17,6 @@ export function validatedAppointmentFields(formData: FormData) {
     productId: formData.get('product-id'),
     time: formData.get('time'),
   });
-}
-
-function getCustomerSchema() {
-  const FormSchema = z.object({
-    id: z.string(),
-    name: z.string().min(1, { message: 'Name is required' }),
-    email: z.string(),
-    phone: z.string(),
-    birth_date: z.string().min(1, { message: 'Birth date is required' }),
-    pathology: z.string(),
-  });
-
-  return FormSchema.omit({ id: true });
 }
 
 function getOrderSchema() {

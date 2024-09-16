@@ -20,3 +20,4 @@ export const createdCustomerSchema = z.object({
 
 export type SelectedCustomer = z.infer<typeof selectedCustomer>;
 export type CreatedCustomer = z.infer<typeof createdCustomerSchema>;
+export type UpdatedCustomer = CreatedCustomer;

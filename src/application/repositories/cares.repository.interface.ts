@@ -12,20 +12,10 @@ export type UpdateCarePayload = CreateCarePayload & {
 };
 
 export interface ICaresRepository {
-  createCare({
-    amount,
-    categoryId,
-    duration,
-    name,
-  }: CreateCarePayload): Promise<CreatedCare>;
+  createCare(payload: CreateCarePayload): Promise<CreatedCare>;
   deleteCare(id: string): Promise<void>;
   findAll(): Promise<SelectedCare[]>;
   findAllCaresByCategoryName(name: string): Promise<SelectedCare[]>;
   findCareById(id: string): Promise<SelectedCare>;
-  updateCare({
-    categoryId,
-    duration,
-    id,
-    name,
-  }: UpdateCarePayload): Promise<CreatedCare>;
+  updateCare(payload: UpdateCarePayload): Promise<CreatedCare>;
 }

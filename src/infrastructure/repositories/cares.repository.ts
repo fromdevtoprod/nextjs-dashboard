@@ -7,21 +7,10 @@ import {
 } from '@/src/application/repositories/cares.repository.interface';
 
 export class CaresRepository implements ICaresRepository {
-  public async createCare({
-    amount,
-    categoryId,
-    duration,
-    name,
-  }: CreateCarePayload): Promise<CreatedCare> {
+  public async createCare(payload: CreateCarePayload): Promise<CreatedCare> {
     const queryResult =
-      await sql<CreatedCare>`INSERT INTO cares (amount, category_id, duration, name) VALUES (${amount}, ${categoryId}, ${duration}, ${name}) RETURNING *`;
-    return {
-      amount: queryResult.rows[0].amount,
-      category_id: queryResult.rows[0].category_id,
-      duration: queryResult.rows[0].duration,
-      id: queryResult.rows[0].id,
-      name: queryResult.rows[0].name,
-    };
+      await sql<CreatedCare>`INSERT INTO cares (amount, category_id, duration, name) VALUES (${payload.amount}, ${payload.categoryId}, ${payload.duration}, ${payload.name}) RETURNING *`;
+    return queryResult.rows[0];
   }
 
   public async deleteCare(id: string): Promise<void> {
@@ -77,21 +66,9 @@ export class CaresRepository implements ICaresRepository {
     return queryResult.rows[0];
   }
 
-  public async updateCare({
-    amount,
-    categoryId,
-    duration,
-    id,
-    name,
-  }: UpdateCarePayload): Promise<CreatedCare> {
+  public async updateCare(payload: UpdateCarePayload): Promise<CreatedCare> {
     const queryResult =
-      await sql<CreatedCare>`UPDATE cares SET amount = ${amount}, category_id = ${categoryId}, duration = ${duration}, name = ${name} WHERE id = ${id} RETURNING *`;
-    return {
-      amount: queryResult.rows[0].amount,
-      category_id: queryResult.rows[0].category_id,
-      duration: queryResult.rows[0].duration,
-      id: queryResult.rows[0].id,
-      name: queryResult.rows[0].name,
-    };
+      await sql<CreatedCare>`UPDATE cares SET amount = ${payload.amount}, category_id = ${payload.categoryId}, duration = ${payload.duration}, name = ${payload.name} WHERE id = ${payload.id} RETURNING *`;
+    return queryResult.rows[0];
   }
 }

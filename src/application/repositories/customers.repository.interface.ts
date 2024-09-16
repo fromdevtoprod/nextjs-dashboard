@@ -8,6 +8,10 @@ export type CreateCustomerPayload = {
   pathology: string;
 };
 
+export type UpdateCustomerPayload = CreateCustomerPayload & { id: string };
+
 export interface ICustomersRepository {
   createCustomer(payload: CreateCustomerPayload): Promise<CreatedCustomer>;
+  deleteCustomer(id: string): Promise<void>;
+  updateCustomer(payload: UpdateCustomerPayload): Promise<CreatedCustomer>;
 }

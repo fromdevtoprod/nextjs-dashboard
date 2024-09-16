@@ -1,10 +1,10 @@
 'use server';
 
-import { sql } from '@vercel/postgres';
 import { InputParseError } from '@/src/entities/errors/common';
 import { createCustomerController } from '@/src/interface-adapters/customers/create-customer.controller';
-import { validatedCustomerFields } from './schemas';
-import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
+import { deleteCustomerController } from '@/src/interface-adapters/customers/delete-customer.controller';
+import { updateCustomerController } from '@/src/interface-adapters/customers/update-customer.controller';
+import { validateAndRedirect } from './utils';
 
 type State = {
   errors?: {
@@ -37,11 +37,13 @@ export async function createCustomer(prevState: State, formData: FormData) {
 
 export async function deleteCustomer(id: string) {
   try {
-    sql`DELETE FROM customers WHERE id = ${id}`;
+    await deleteCustomerController(id);
   } catch (error) {
-    return getDatabaseError({ error, item: 'customer', operation: 'delete' });
+    console.error('error', error);
+    return {
+      message: `Failed to delete this customer.`,
+    };
   }
-
   validateAndRedirect('customers');
 }
 
@@ -50,47 +52,21 @@ export async function updateCustomer(
   prevState: State,
   formData: FormData,
 ) {
-  const validatedFields = validatedCustomerFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const { name, email, phone, birth_date, pathology } = validatedFields.data;
-
-  if (!hasEmailOrPhone(phone, email)) return getEmailOrPhoneError();
-
-  const formattedBirthDate = formatBirthDate(birth_date);
-
   try {
-    await sql`
-      UPDATE customers
-      SET name = ${name},
-        email = ${email},
-        phone = ${phone},
-        birth_date = ${formattedBirthDate},
-        pathology = ${pathology}
-      WHERE id = ${id}
-    `;
+    const data = Object.fromEntries(formData.entries());
+    await updateCustomerController(id, data);
   } catch (error) {
-    return getDatabaseError({ error, item: 'customer', operation: 'update' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    console.error('updateCustomer >> updateCustomerController', error);
+    return {
+      message:
+        'An error happened while updating a customer. Please try again later.',
+    };
   }
-
   validateAndRedirect('customers');
-}
-
-function hasEmailOrPhone(email: string, phone: string) {
-  return email !== '' || phone !== '';
-}
-
-function getEmailOrPhoneError() {
-  return {
-    errors: {
-      phone: ['Phone or email is required'],
-      email: ['Email or phone is required'],
-    },
-    message: 'Missing fields. Failed to create this customer.',
-  };
-}
-
-function formatBirthDate(birthDate: string) {
-  const [day, month, year] = birthDate.split('/');
-  return `${year}-${month}-${day}`;
 }
