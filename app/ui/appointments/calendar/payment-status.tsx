@@ -1,9 +1,8 @@
 import clsx from 'clsx';
 import { CheckIcon, ClockIcon } from '@heroicons/react/24/outline';
-import { PaymentStatus } from '@/app/lib/definitions';
 import { MyDollarIcon } from '../../icons/dollar';
 
-export function PaymentDetails({ status }: { status: PaymentStatus }) {
+export function PaymentDetails({ status }: { status: string }) {
   return (
     <div className="mt-2 flex items-center">
       <MyDollarIcon additionalClassName="mr-1" />

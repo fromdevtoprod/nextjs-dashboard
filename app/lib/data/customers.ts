@@ -4,7 +4,7 @@ import { formatCurrency } from '@/app/lib/utils';
 import { findCustomerByIdController } from '@/src/interface-adapters/customers/find-customer.controller';
 import { findAllCustomersController } from '@/src/interface-adapters/customers/find-all-customers.controller';
 
-export async function fetchCustomers() {
+export async function fetchAllCustomers() {
   try {
     const customers = await findAllCustomersController();
     return customers;

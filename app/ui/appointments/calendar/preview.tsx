@@ -10,6 +10,7 @@ import { PaymentDetails } from './payment-status';
 import { CustomerNameLink } from '../../customers/customer-name-link';
 
 export function Preview({
+  careName,
   customerId,
   customerName,
   endedTime,
@@ -17,17 +18,16 @@ export function Preview({
   id,
   isFirst = false,
   paymentStatus,
-  productName,
   orderId,
 }: {
+  careName: string;
   customerId: string;
   customerName: string;
   endedTime: string;
   hour: string;
   id: string;
   isFirst?: boolean;
-  paymentStatus: PaymentStatus;
-  productName: string;
+  paymentStatus: string;
   orderId: string;
 }) {
   return (
@@ -37,7 +37,7 @@ export function Preview({
       })}
     >
       <div className="basis-5/6">
-        <p className="mb-2 flex items-center text-xs font-light leading-3 text-gray-500 dark:text-gray-300">
+        <p className="mb-2 flex items-center text-sm leading-3 text-gray-800 dark:text-gray-100">
           <MyClockIcon additionalClassName="mr-1" />
           From {hour} to {endedTime}
         </p>
@@ -45,9 +45,9 @@ export function Preview({
           <MyHandRaisedIcon additionalClassName="mr-1" />
           <a
             tabIndex={0}
-            className="text-lg font-medium leading-5 text-gray-800 focus:outline-none dark:text-gray-100"
+            className="text-sm font-medium leading-5 text-gray-800 focus:outline-none dark:text-gray-100"
           >
-            {productName}
+            {careName}
           </a>
         </div>
         <p className="mt-2 flex items-center text-sm leading-4 text-gray-600 dark:text-gray-300">

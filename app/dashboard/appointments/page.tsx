@@ -2,14 +2,14 @@ import { Suspense } from 'react';
 import Calendar from '@/app/ui/appointments/calendar';
 import { lusitana } from '@/app/ui/fonts';
 import { AppointmentsCalendarSkeleton } from '@/app/ui/appointments/skeletons';
-import { fetchCustomers } from '@/app/lib/data/customers';
+import { fetchAllCustomers } from '@/app/lib/data/customers';
 
 export default async function Page({
   searchParams,
 }: {
   searchParams: { day?: string; month?: string; year?: string };
 }) {
-  const customers = await fetchCustomers();
+  const customers = await fetchAllCustomers();
   return (
     <div className="w-full">
       <div className="flex w-full items-center justify-between">

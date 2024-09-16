@@ -1,12 +1,12 @@
 import { PropsWithChildren } from 'react';
-import { Appointment } from '@/app/lib/definitions';
 import { Preview } from './preview';
+import { SelectedAppointment } from '@/src/entities/models/appointment';
 
 export function ActiveDayAppointments({
   appointments,
   children,
 }: PropsWithChildren<{
-  appointments: Appointment[];
+  appointments: SelectedAppointment[];
 }>) {
   return (
     <div className="rounded-b bg-gray-50 px-5 py-5 dark:bg-gray-700">
@@ -21,7 +21,7 @@ export function ActiveDayAppointments({
             isFirst={index === 0}
             key={index}
             orderId={appointment.order_id}
-            productName={appointment.product_name}
+            careName={appointment.care_name}
             paymentStatus={appointment.payment_status}
           />
         ))}

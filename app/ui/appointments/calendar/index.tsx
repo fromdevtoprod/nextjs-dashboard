@@ -1,4 +1,4 @@
-import { fetchAppointments } from '@/app/lib/data/appointments';
+import { fetchAppointmentsByDate } from '@/app/lib/data/appointments';
 import ActiveMonth from './active-month';
 import PreviousMonthArrow from './previous-month';
 import NextMonthArrow from './next-month';
@@ -19,7 +19,7 @@ export default async function Calendar({
   activeYear: number;
   customers: CustomerField[];
 }) {
-  const appointments = await fetchAppointments(
+  const appointments = await fetchAppointmentsByDate(
     activeDay,
     activeMonth,
     activeYear,

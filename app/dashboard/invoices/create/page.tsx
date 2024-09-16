@@ -1,9 +1,9 @@
-import { fetchCustomers } from '@/app/lib/data/customers';
+import { fetchAllCustomers } from '@/app/lib/data/customers';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import Form from '@/app/ui/invoices/create-form';
 
 export default async function Page() {
-  const customers = await fetchCustomers();
+  const customers = await fetchAllCustomers();
   return (
     <main>
       <Breadcrumbs

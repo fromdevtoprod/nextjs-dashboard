@@ -2,13 +2,13 @@ import { notFound } from 'next/navigation';
 import { fetchInvoiceById } from '@/app/lib/data/invoices';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import Form from '@/app/ui/invoices/edit-form';
-import { fetchCustomers } from '@/app/lib/data/customers';
+import { fetchAllCustomers } from '@/app/lib/data/customers';
 
 export default async function Page({ params }: { params: { id: string } }) {
   const { id } = params;
   const [invoice, customers] = await Promise.all([
     fetchInvoiceById(id),
-    fetchCustomers(),
+    fetchAllCustomers(),
   ]);
 
   if (!invoice) {

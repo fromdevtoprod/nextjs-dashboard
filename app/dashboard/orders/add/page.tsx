@@ -1,13 +1,13 @@
 import { fetchCareFromRenataCategory } from '@/app/lib/data/care';
 import { fetchAllCures } from '@/app/lib/data/cure';
-import { fetchCustomers } from '@/app/lib/data/customers';
+import { fetchAllCustomers } from '@/app/lib/data/customers';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import { AddOrderForm } from '@/app/ui/orders/create-form';
 
 export default async function Page() {
   const cares = await fetchCareFromRenataCategory();
   const cures = await fetchAllCures();
-  const customers = await fetchCustomers();
+  const customers = await fetchAllCustomers();
   return (
     <main>
       <Breadcrumbs
