@@ -1,8 +1,10 @@
 'use server';
 
 import { sql } from '@vercel/postgres';
-import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
+import { InputParseError } from '@/src/entities/errors/common';
+import { createCustomerController } from '@/src/interface-adapters/customers/create-customer.controller';
 import { validatedCustomerFields } from './schemas';
+import { getDatabaseError, getFieldErrors, validateAndRedirect } from './utils';
 
 type State = {
   errors?: {
@@ -13,23 +15,23 @@ type State = {
 };
 
 export async function createCustomer(prevState: State, formData: FormData) {
-  const validatedFields = validatedCustomerFields(formData);
-  if (!validatedFields.success) return getFieldErrors(validatedFields.error);
-
-  const { name, email, phone, birth_date, pathology } = validatedFields.data;
-  const formattedBirthDate = formatBirthDate(birth_date);
-
-  if (!hasEmailOrPhone(phone, email)) return getEmailOrPhoneError();
-
   try {
-    await sql`
-      INSERT INTO customers (name, email, phone, birth_date, pathology) 
-      VALUES (${name}, ${email}, ${phone}, ${formattedBirthDate}, ${pathology})
-    `;
+    const data = Object.fromEntries(formData.entries());
+    console.log('data', data);
+    await createCustomerController(data);
   } catch (error) {
-    return getDatabaseError({ error, item: 'customer', operation: 'insert' });
+    if (error instanceof InputParseError) {
+      return {
+        errors: error.fieldErrors,
+        message: error.message,
+      };
+    }
+    console.error('error', error);
+    return {
+      message:
+        'An error happened while creating a customer. Please try again later.',
+    };
   }
-
   validateAndRedirect('customers');
 }
 

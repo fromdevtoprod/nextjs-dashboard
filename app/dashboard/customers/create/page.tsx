@@ -1,5 +1,5 @@
 import Breadcrumbs from '@/app/ui/breadcrumbs';
-import Form from '@/app/ui/customers/create-form';
+import { CreateCustomerForm } from '@/app/ui/customers/create-form';
 
 export default async function Page() {
   return (
@@ -14,7 +14,7 @@ export default async function Page() {
           },
         ]}
       />
-      <Form />
+      <CreateCustomerForm />
     </main>
   );
 }

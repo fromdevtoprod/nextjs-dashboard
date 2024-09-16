@@ -12,7 +12,7 @@ import BirthDateInput from '../birthdate-input';
 import PathologyTextarea from '../pathology-textarea';
 import FormErrorMessage from '../form-error-message';
 
-export default function Form() {
+export function CreateCustomerForm() {
   const initialState = { message: null, error: {} };
   const [state, formAction] = useActionState(createCustomer, initialState);
   return (
