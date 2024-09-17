@@ -36,7 +36,7 @@ export function SelectCareForAppointmentForm({
     endDate = '';
 
   if (careId) {
-    const care = cares.find((care) => care.product_id === careId);
+    const care = cares.find((care) => care.id === careId);
     if (care) {
       endTime = calculateEndTime(time, care.duration);
       endDate = formatEndDate(date, endTime);
