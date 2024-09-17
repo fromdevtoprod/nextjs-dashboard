@@ -12,6 +12,7 @@ export type CreateCurePayload = {
 export type UpdateCurePayload = { id: string } & CreateCurePayload;
 
 export interface ICuresRepository {
+  countCureTotalSessionNumber(id: string): Promise<number>;
   createCure(payload: CreateCurePayload): Promise<CreatedCure>;
   deleteCure(id: string): Promise<void>;
   findAll(): Promise<SelectedCure[]>;

@@ -61,8 +61,14 @@ export async function fetchAvailableCares(
   customerId: string,
   productType: ProductType,
 ) {
-  return findAvailableCaresController({
-    customerId,
-    productType,
-  });
+  try {
+    const caresWithOrderId = await findAvailableCaresController({
+      customerId,
+      productType,
+    });
+    return caresWithOrderId;
+  } catch (error) {
+    console.error('fetchAvailableCares >> findAvailableCaresController', error);
+    throw new Error('Failed to fetch available cares for this customer.');
+  }
 }

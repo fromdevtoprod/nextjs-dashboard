@@ -4,7 +4,12 @@ import {
   UpdatedAppointment,
 } from '@/src/entities/models/appointment';
 
-export type CreateAppointmentPayload = {};
+export type CreateAppointmentPayload = {
+  careId: string;
+  date: string;
+  endDate: string;
+  orderId: string;
+};
 
 export type UpdateAppointmentPayload = {
   id: string;
@@ -25,6 +30,7 @@ export interface IAppointmentsRepository {
   countAppointmentsByCareId(
     payload: CountAppointmentsByCareIdPayload,
   ): Promise<number>;
+  countAppointmentsByOrderId(orderId: string): Promise<number>;
   createAppointment(
     payload: CreateAppointmentPayload,
   ): Promise<CreatedAppointment>;

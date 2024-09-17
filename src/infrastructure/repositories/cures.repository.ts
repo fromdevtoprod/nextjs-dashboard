@@ -7,6 +7,13 @@ import {
 import { CreatedCure, SelectedCure } from '@/src/entities/models/cure';
 
 export class CuresRepository implements ICuresRepository {
+  public async countCureTotalSessionNumber(id: string): Promise<number> {
+    const queryResult = await sql`
+      SELECT SUM(care_1_session_number + COALESCE(care_2_session_number, 0)) FROM cures WHERE id = ${id}
+    `;
+    return queryResult.rows[0].sum;
+  }
+
   public async createCure(payload: CreateCurePayload): Promise<CreatedCure> {
     console.log('Creating cure');
     const queryResult = await sql<CreatedCure>`

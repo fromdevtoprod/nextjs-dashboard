@@ -75,10 +75,10 @@ export function SelectCareForAppointmentForm({
         </div>
         <FormErrorMessage message={state.message} />
 
-        <input type="hidden" name="end-date" readOnly value={endDate} />
-        <input type="hidden" name="order-id" readOnly value={orderId} />
+        <input type="hidden" name="end_date" readOnly value={endDate} />
+        <input type="hidden" name="order_id" readOnly value={orderId} />
         <input type="hidden" name="date" readOnly value={date} />
-        <input type="hidden" name="customer-id" readOnly value={customer.id} />
+        <input type="hidden" name="customer_id" readOnly value={customer.id} />
       </div>
 
       <div className="mt-6 flex justify-end gap-4">

@@ -13,7 +13,15 @@ export type CreateOrderPayload = {
   productType: ProductType;
 };
 
-export type UpdateOrderPayload = { id: string } & CreateOrderPayload;
+export type UpdateOrderPayload = {
+  id: string;
+  customerId?: string;
+  date?: string;
+  orderStatus?: OrderStatus;
+  paymentStatus?: PaymentStatus;
+  productId?: string;
+  productType?: ProductType;
+};
 
 export type FindOrdersPayload = {
   customerId: string;

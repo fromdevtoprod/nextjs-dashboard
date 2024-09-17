@@ -17,9 +17,14 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     careId,
     orderId,
   }: CountAppointmentsByCareIdPayload): Promise<number> {
-    const queryResult = await sql`
-      SELECT COUNT(*) FROM appointments WHERE care_id = ${careId} AND order_id = ${orderId}
-    `;
+    const queryResult =
+      await sql`SELECT COUNT(*) FROM appointments WHERE care_id = ${careId} AND order_id = ${orderId}`;
+    return queryResult.rows[0].count;
+  }
+
+  public async countAppointmentsByOrderId(orderId: string): Promise<number> {
+    const queryResult =
+      await sql`SELECT COUNT(*) FROM appointments WHERE order_id = ${orderId}`;
     return queryResult.rows[0].count;
   }
 
@@ -28,6 +33,17 @@ export class AppointmentsRepository implements IAppointmentsRepository {
   ): Promise<CreatedAppointment> {
     console.log('Creating appointment');
     const queryResult = await sql<CreatedAppointment>`
+      INSERT INTO appointments (
+        order_id,
+        date,
+        end_date,
+        care_id
+      ) VALUES (
+        ${payload.orderId},
+        ${payload.date},
+        ${payload.endDate},
+        ${payload.careId}
+      ) RETURNING *
     `;
     return queryResult.rows[0];
   }
