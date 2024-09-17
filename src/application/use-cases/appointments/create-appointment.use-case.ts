@@ -1,9 +1,8 @@
-import { CreatedAppointment } from '@/src/entities/models/appointment';
 import { AppointmentsRepository } from '@/src/infrastructure/repositories/appointments.repository';
 import { createOrderUseCase } from '../orders/create-order.use-case';
 import { findOrderByIdUseCase } from '../orders/find-order.use-case';
-import { countCureTotalSessionNumberUseCase } from '../cures/count-cure-total-session-number';
 import { updateOrderUseCase } from '../orders/update-order.use-case';
+import { findCureByIdUseCase } from '../cures/find-cure.use-case';
 
 export type CreateAppointmentUseCasePayload = {
   customerId: string;
@@ -13,16 +12,66 @@ export type CreateAppointmentUseCasePayload = {
   productId: string;
 };
 
+const appointmentsRepository = new AppointmentsRepository();
+
 export async function createAppointmentUseCase({
   customerId,
   date,
   endDate,
   productId,
   orderId,
-}: CreateAppointmentUseCasePayload): Promise<CreatedAppointment> {
-  const appointmentsRepository = new AppointmentsRepository();
+}: CreateAppointmentUseCasePayload): Promise<any> {
+  const orderEntity = await getOrderEntity({
+    orderId,
+    customerId,
+    date,
+    productId,
+  });
+
+  orderId = orderEntity.getId();
+  await appointmentsRepository.createAppointment({
+    careId: productId,
+    date,
+    endDate,
+    orderId,
+  });
+
+  const appointmentIds = await getAppointmentIds(orderId);
+  const order = await findOrderByIdUseCase(orderId);
+
+  if (order.isCare()) {
+    return completeOrder(orderId);
+  }
+
+  const cure = await findCureByIdUseCase(productId);
+  if (cure.isCompleted(appointmentIds)) {
+    return completeOrder(orderId);
+  }
+}
+
+function completeOrder(orderId: string) {
+  return updateOrderUseCase({ id: orderId, orderStatus: 'completed' });
+}
+
+async function getAppointmentIds(orderId: string) {
+  const appointments =
+    await appointmentsRepository.findAppointmentsByOrderId(orderId);
+  return appointments.map((appointment) => appointment.getId());
+}
+
+function getOrderEntity({
+  orderId,
+  customerId,
+  date,
+  productId,
+}: {
+  orderId: string;
+  customerId: string;
+  date: string;
+  productId: string;
+}) {
   if (!orderId) {
-    const createdOrder = await createOrderUseCase({
+    return createOrderUseCase({
       customerId,
       date,
       orderStatus: 'pending',
@@ -30,27 +79,6 @@ export async function createAppointmentUseCase({
       productId,
       productType: 'care',
     });
-    orderId = createdOrder.id;
   }
-  const createdAppointment = await appointmentsRepository.createAppointment({
-    careId: productId,
-    date,
-    endDate,
-    orderId,
-  });
-  const appointmentsCount =
-    await appointmentsRepository.countAppointmentsByOrderId(orderId);
-  const order = await findOrderByIdUseCase(orderId);
-
-  if (order.product_type === 'cure') {
-    const totalSessionNumber =
-      await countCureTotalSessionNumberUseCase(productId);
-    if (totalSessionNumber === appointmentsCount) {
-      await updateOrderUseCase({ id: orderId, orderStatus: 'completed' });
-    }
-  } else {
-    await updateOrderUseCase({ id: orderId, orderStatus: 'completed' });
-  }
-
-  return createdAppointment;
+  return findOrderByIdUseCase(orderId);
 }

@@ -1,8 +1,8 @@
-import { SelectedOrder } from '@/src/entities/models/order';
+import { OrderEntity, SelectedOrder } from '@/src/entities/models/order';
 import { OrdersRepository } from '@/src/infrastructure/repositories/orders.repository';
 import { FindOrdersPayload } from '@/src/application/repositories/orders.repository.interface';
 
-export function findOrderByIdUseCase(id: string): Promise<SelectedOrder> {
+export function findOrderByIdUseCase(id: string): Promise<OrderEntity> {
   return new OrdersRepository().findOrderById(id);
 }
 

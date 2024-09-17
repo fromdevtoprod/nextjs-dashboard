@@ -7,19 +7,20 @@ import {
 } from '@/src/application/repositories/orders.repository.interface';
 import {
   CreatedOrder,
+  OrderEntity,
   SelectedOrder,
   UpdatedOrder,
 } from '@/src/entities/models/order';
 
 export class OrdersRepository implements IOrdersRepository {
-  public async createOrder(payload: CreateOrderPayload): Promise<CreatedOrder> {
+  public async createOrder(payload: CreateOrderPayload): Promise<OrderEntity> {
     console.log('Creating order');
     const queryResult = await sql<CreatedOrder>`
       INSERT INTO orders(customer_id, date, order_status, payment_status, product_id, product_type)
       VALUES (${payload.customerId}, ${payload.date}, ${payload.orderStatus}, ${payload.paymentStatus}, ${payload.productId}, ${payload.productType})
       RETURNING *
     `;
-    return queryResult.rows[0];
+    return new OrderEntity(queryResult.rows[0]);
   }
 
   public async deleteOrder(id: string): Promise<void> {
@@ -38,10 +39,10 @@ export class OrdersRepository implements IOrdersRepository {
     return queryResult.rows;
   }
 
-  public async findOrderById(id: string): Promise<SelectedOrder> {
+  public async findOrderById(id: string): Promise<OrderEntity> {
     const queryResult =
-      await sql<SelectedOrder>`SELECT * FROM orders WHERE id = ${id}`;
-    return queryResult.rows[0];
+      await sql<CreatedOrder>`SELECT * FROM orders WHERE id = ${id}`;
+    return new OrderEntity(queryResult.rows[0]);
   }
 
   public async findOrderWithParameters({

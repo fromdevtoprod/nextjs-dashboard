@@ -1,5 +1,5 @@
 import {
-  CreatedAppointment,
+  AppointmentEntity,
   SelectedAppointment,
   UpdatedAppointment,
 } from '@/src/entities/models/appointment';
@@ -30,16 +30,16 @@ export interface IAppointmentsRepository {
   countAppointmentsByCareId(
     payload: CountAppointmentsByCareIdPayload,
   ): Promise<number>;
-  countAppointmentsByOrderId(orderId: string): Promise<number>;
   createAppointment(
     payload: CreateAppointmentPayload,
-  ): Promise<CreatedAppointment>;
+  ): Promise<AppointmentEntity>;
   deleteAppointment(id: string): Promise<void>;
   findAll(): Promise<SelectedAppointment[]>;
   findAppointmentsByDate(
     payload: FindAppointmentsByDatePayload,
   ): Promise<SelectedAppointment[]>;
   findAppointmentById(id: string): Promise<SelectedAppointment>;
+  findAppointmentsByOrderId(orderId: string): Promise<AppointmentEntity[]>;
   updateAppointment(
     payload: UpdateAppointmentPayload,
   ): Promise<UpdatedAppointment>;

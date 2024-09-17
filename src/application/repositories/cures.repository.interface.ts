@@ -1,4 +1,8 @@
-import { CreatedCure, SelectedCure } from '@/src/entities/models/cure';
+import {
+  CreatedCure,
+  CureEntity,
+  SelectedCure,
+} from '@/src/entities/models/cure';
 
 export type CreateCurePayload = {
   amount: number;
@@ -12,10 +16,9 @@ export type CreateCurePayload = {
 export type UpdateCurePayload = { id: string } & CreateCurePayload;
 
 export interface ICuresRepository {
-  countCureTotalSessionNumber(id: string): Promise<number>;
   createCure(payload: CreateCurePayload): Promise<CreatedCure>;
   deleteCure(id: string): Promise<void>;
   findAll(): Promise<SelectedCure[]>;
-  findCureById(id: string): Promise<SelectedCure>;
+  findCureById(id: string): Promise<CureEntity>;
   updateCure(payload: UpdateCurePayload): Promise<CreatedCure>;
 }

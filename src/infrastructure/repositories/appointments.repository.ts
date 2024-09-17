@@ -7,6 +7,7 @@ import {
   UpdateAppointmentPayload,
 } from '@/src/application/repositories/appointments.repository.interface';
 import {
+  AppointmentEntity,
   CreatedAppointment,
   SelectedAppointment,
   UpdatedAppointment,
@@ -22,15 +23,9 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     return queryResult.rows[0].count;
   }
 
-  public async countAppointmentsByOrderId(orderId: string): Promise<number> {
-    const queryResult =
-      await sql`SELECT COUNT(*) FROM appointments WHERE order_id = ${orderId}`;
-    return queryResult.rows[0].count;
-  }
-
   public async createAppointment(
     payload: CreateAppointmentPayload,
-  ): Promise<CreatedAppointment> {
+  ): Promise<AppointmentEntity> {
     console.log('Creating appointment');
     const queryResult = await sql<CreatedAppointment>`
       INSERT INTO appointments (
@@ -45,7 +40,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
         ${payload.careId}
       ) RETURNING *
     `;
-    return queryResult.rows[0];
+    return new AppointmentEntity(queryResult.rows[0]);
   }
 
   public async deleteAppointment(id: string): Promise<void> {
@@ -89,6 +84,15 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     const queryResult =
       await sql<SelectedAppointment>`SELECT * FROM appointments WHERE id = ${id}`;
     return queryResult.rows[0];
+  }
+
+  public async findAppointmentsByOrderId(
+    orderId: string,
+  ): Promise<AppointmentEntity[]> {
+    const queryResult = await sql<SelectedAppointment>`
+      SELECT * FROM appointments WHERE order_id = ${orderId}
+    `;
+    return queryResult.rows.map((row) => new AppointmentEntity(row));
   }
 
   public async updateAppointment(

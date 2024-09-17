@@ -1,4 +1,9 @@
-import { CreatedOrder, SelectedOrder } from '@/src/entities/models/order';
+import {
+  CreatedOrder,
+  OrderEntity,
+  SelectedOrder,
+  UpdatedOrder,
+} from '@/src/entities/models/order';
 
 export type OrderStatus = 'pending' | 'completed';
 export type PaymentStatus = 'pending' | 'paid';
@@ -30,10 +35,10 @@ export type FindOrdersPayload = {
 };
 
 export interface IOrdersRepository {
-  createOrder(payload: CreateOrderPayload): Promise<CreatedOrder>;
+  createOrder(payload: CreateOrderPayload): Promise<OrderEntity>;
   deleteOrder(id: string): Promise<void>;
   findAll(): Promise<SelectedOrder[]>;
-  findOrderById(id: string): Promise<SelectedOrder>;
+  findOrderById(id: string): Promise<OrderEntity>;
   findOrderWithParameters(payload: FindOrdersPayload): Promise<SelectedOrder>;
-  updateOrder(payload: UpdateOrderPayload): Promise<CreatedOrder>;
+  updateOrder(payload: UpdateOrderPayload): Promise<UpdatedOrder>;
 }
