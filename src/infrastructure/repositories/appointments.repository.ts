@@ -1,5 +1,6 @@
 import { sql } from '@vercel/postgres';
 import {
+  CountAppointmentsByCareIdPayload,
   CreateAppointmentPayload,
   FindAppointmentsByDatePayload,
   IAppointmentsRepository,
@@ -12,6 +13,16 @@ import {
 } from '@/src/entities/models/appointment';
 
 export class AppointmentsRepository implements IAppointmentsRepository {
+  public async countAppointmentsByCareId({
+    careId,
+    orderId,
+  }: CountAppointmentsByCareIdPayload): Promise<number> {
+    const queryResult = await sql`
+      SELECT COUNT(*) FROM appointments WHERE care_id = ${careId} AND order_id = ${orderId}
+    `;
+    return queryResult.rows[0].count;
+  }
+
   public async createAppointment(
     payload: CreateAppointmentPayload,
   ): Promise<CreatedAppointment> {

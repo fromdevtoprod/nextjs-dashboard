@@ -1,14 +1,14 @@
 import { redirect } from 'next/navigation';
 import { fetchCustomerById } from '@/app/lib/data/customers';
 import { SelectCareForAppointmentForm } from '@/app/ui/appointments/select-care-for-appointment-form';
-import {
-  getAvailableCaresByCustomer,
-  hasCareProductType,
-} from '@/app/business/care';
-import { getAvailableCaresInCure } from '@/app/business/cure';
 import { ProductType } from '@/app/lib/definitions';
+import { fetchPendingCureOrderByCustomer } from '@/app/lib/data/orders';
 import { Container } from './container';
-import { findPendingCureByCustomer } from '@/app/business/order';
+import {
+  fetchAvailableCaresByCure,
+  fetchAvailableCaresByCustomer,
+} from '@/app/lib/data/care';
+import { fetchCureById } from '@/app/lib/data/cure';
 
 export default async function Page({
   searchParams,
@@ -23,8 +23,8 @@ export default async function Page({
   const { customerId, date, productType, time } = searchParams;
   const customer = await fetchCustomerById(customerId);
 
-  if (hasCareProductType(productType)) {
-    const availableCares = await getAvailableCaresByCustomer(customer.id);
+  if (productType === 'care') {
+    const availableCares = await fetchAvailableCaresByCustomer(customer.id);
     return (
       <Container>
         <SelectCareForAppointmentForm
@@ -38,14 +38,18 @@ export default async function Page({
     );
   }
 
-  const pendingCure = await findPendingCureByCustomer(customerId);
-  if (!pendingCure) {
+  const pendingCureOrder = await fetchPendingCureOrderByCustomer(customerId);
+  if (!pendingCureOrder) {
     return redirect('/dashboard/orders/add');
   }
 
-  const cares = await getAvailableCaresInCure({
-    orderId: pendingCure.id,
-    productId: pendingCure.product_id,
+  const cure = await fetchCureById(pendingCureOrder.product_id);
+  const cares = await fetchAvailableCaresByCure({
+    care_1_id: cure.care_1_id,
+    care_1_session_number: cure.care_1_session_number,
+    care_2_id: cure.care_2_id,
+    care_2_session_number: cure.care_2_session_number,
+    orderId: pendingCureOrder.id,
   });
   return (
     <Container>
@@ -53,7 +57,7 @@ export default async function Page({
         cares={cares}
         customer={customer}
         date={date || getCurrentDate()}
-        orderId={pendingCure.id}
+        orderId={pendingCureOrder.id}
         time={time}
       />
     </Container>

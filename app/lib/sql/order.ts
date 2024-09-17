@@ -3,7 +3,10 @@ import { PendingOrder } from '../definitions';
 
 export async function executeSelectPendingOrderRequest(customerId: string) {
   return sql<PendingOrder>`
-      SELECT orders.id, orders.product_id, products.type as product_type
+      SELECT
+        orders.id,
+        orders.product_id,
+        products.type as product_type
       FROM orders
       LEFT JOIN products ON products.id = orders.product_id
       WHERE orders.customer_id=${customerId}

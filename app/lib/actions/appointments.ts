@@ -1,7 +1,6 @@
 'use server';
 
 import { sql } from '@vercel/postgres';
-import { hasCureProductType } from '@/app/business/cure';
 import { getFieldErrors, validateAndRedirect } from './utils';
 import { validatedAppointmentFields } from './schemas';
 import { fetchOrderById } from '../data/orders';
@@ -48,7 +47,7 @@ export async function createAppointment(prevState: State, formData: FormData) {
     const appointmentCount = await executeCountAppointmentRequest(orderId);
     const { product_id, product_type } = await fetchOrderById(orderId);
 
-    if (hasCureProductType(product_type)) {
+    if (product_type === 'cure') {
       const totalSessionNumber = await getCureTotalSessionNumber(product_id);
       if (totalSessionNumber === appointmentCount) {
         await executeUpdateOrderStatusRequest(orderId, 'done');

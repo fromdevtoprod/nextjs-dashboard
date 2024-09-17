@@ -1,6 +1,11 @@
 import { findAllOrdersController } from '@/src/interface-adapters/orders/find-all-orders.controller';
-import { findOrderByIdController } from '@/src/interface-adapters/orders/find-order.controller';
+import {
+  findOrderByIdController,
+  findOrderWithParametersController,
+} from '@/src/interface-adapters/orders/find-order.controller';
 import { executeSelectPendingOrderRequest } from '../sql/order';
+import { SelectedOrder } from '@/src/entities/models/order';
+import { SelectedCare } from '@/src/entities/models/care';
 
 export async function fetchAllOrders() {
   try {
@@ -22,13 +27,21 @@ export async function fetchOrderById(id: string) {
   }
 }
 
-export async function fetchPendingOrdersByCustomer(customerId: string) {
+export async function fetchPendingCureOrderByCustomer(
+  customerId: string,
+): Promise<SelectedOrder> {
   try {
-    const pendingOrderResult =
-      await executeSelectPendingOrderRequest(customerId);
-    return pendingOrderResult.rows;
-  } catch (err) {
-    console.error('Database Error:', err);
-    throw new Error('Failed to fetch pending orders for this customer.');
+    const pendingCureOrder = await findOrderWithParametersController({
+      customerId,
+      status: 'pending',
+      type: 'cure',
+    });
+    return pendingCureOrder;
+  } catch (error) {
+    console.error(
+      'fetchPendingCureByCustomer >> findOrderWithParametersController',
+      error,
+    );
+    throw new Error('Failed to fetch pending cure for this customer.');
   }
 }

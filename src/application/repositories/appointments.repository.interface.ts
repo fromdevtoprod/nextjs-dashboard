@@ -16,7 +16,15 @@ export type FindAppointmentsByDatePayload = {
   year: number;
 };
 
+export type CountAppointmentsByCareIdPayload = {
+  careId: string;
+  orderId: string;
+};
+
 export interface IAppointmentsRepository {
+  countAppointmentsByCareId(
+    payload: CountAppointmentsByCareIdPayload,
+  ): Promise<number>;
   createAppointment(
     payload: CreateAppointmentPayload,
   ): Promise<CreatedAppointment>;

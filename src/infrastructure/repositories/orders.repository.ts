@@ -1,6 +1,7 @@
 import { sql } from '@vercel/postgres';
 import {
   CreateOrderPayload,
+  FindOrdersPayload,
   IOrdersRepository,
   UpdateOrderPayload,
 } from '@/src/application/repositories/orders.repository.interface';
@@ -40,6 +41,18 @@ export class OrdersRepository implements IOrdersRepository {
   public async findOrderById(id: string): Promise<SelectedOrder> {
     const queryResult =
       await sql<SelectedOrder>`SELECT * FROM orders WHERE id = ${id}`;
+    return queryResult.rows[0];
+  }
+
+  public async findOrderWithParameters({
+    customerId,
+    status,
+    type,
+  }: FindOrdersPayload): Promise<SelectedOrder> {
+    const queryResult = await sql<SelectedOrder>`
+      SELECT * FROM orders
+      WHERE customer_id = ${customerId} AND order_status = ${status} AND product_type = ${type}
+    `;
     return queryResult.rows[0];
   }
 

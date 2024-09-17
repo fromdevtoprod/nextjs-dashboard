@@ -2,10 +2,14 @@ import { SelectedCare } from '@/src/entities/models/care';
 import { SelectedCareCategory } from '@/src/entities/models/care-category';
 import {
   findAllCaresByCategoryNameController,
+  findAllCaresByCure,
+  FindAllCaresByCurePayload,
+  findAllCaresByCustomerIdController,
   findAllCaresController,
 } from '@/src/interface-adapters/cares/find-all-cares.controller';
 import { findAllCaresCategoriesController } from '@/src/interface-adapters/cares-categories/find-all-cares-categories.controller';
 import { findCareByIdController } from '@/src/interface-adapters/cares/find-care.controller';
+import { fetchCureById } from './cure';
 
 export async function fetchAllCares(): Promise<SelectedCare[]> {
   try {
@@ -32,7 +36,7 @@ export async function fetchAllCareCategories(): Promise<
   }
 }
 
-export async function fetchCareById(id: string) {
+export async function fetchCareById(id: string): Promise<SelectedCare> {
   try {
     const care = await findCareByIdController(id);
     return care;
@@ -42,7 +46,7 @@ export async function fetchCareById(id: string) {
   }
 }
 
-export async function fetchCareFromRenataCategory() {
+export async function fetchCareFromRenataCategory(): Promise<SelectedCare[]> {
   try {
     const CATEGORY_NAME = 'Renata França';
     const careCategories =
@@ -54,5 +58,32 @@ export async function fetchCareFromRenataCategory() {
       error,
     );
     throw new Error('Failed to fetch all care categories.');
+  }
+}
+
+export async function fetchAvailableCaresByCustomer(
+  customerId: string,
+): Promise<SelectedCare[]> {
+  try {
+    const availableCares = await findAllCaresByCustomerIdController(customerId);
+    return availableCares;
+  } catch (error) {
+    console.error(
+      'fetchAvailableCaresByCustomer >> findAvailableCaresByCustomerIdController',
+      error,
+    );
+    throw new Error('Failed to fetch pending care for this customer.');
+  }
+}
+
+export async function fetchAvailableCaresByCure(
+  payload: FindAllCaresByCurePayload,
+): Promise<SelectedCare[]> {
+  try {
+    const availableCares = await findAllCaresByCure(payload);
+    return availableCares;
+  } catch (error) {
+    console.error('fetchAvailableCaresByCure', error);
+    throw new Error('Failed to fetch available cares in cure.');
   }
 }

@@ -15,10 +15,17 @@ export type CreateOrderPayload = {
 
 export type UpdateOrderPayload = { id: string } & CreateOrderPayload;
 
+export type FindOrdersPayload = {
+  customerId: string;
+  status: OrderStatus;
+  type: ProductType;
+};
+
 export interface IOrdersRepository {
   createOrder(payload: CreateOrderPayload): Promise<CreatedOrder>;
   deleteOrder(id: string): Promise<void>;
   findAll(): Promise<SelectedOrder[]>;
   findOrderById(id: string): Promise<SelectedOrder>;
+  findOrderWithParameters(payload: FindOrdersPayload): Promise<SelectedOrder>;
   updateOrder(payload: UpdateOrderPayload): Promise<CreatedOrder>;
 }
