@@ -3,6 +3,7 @@ import {
   CreateOrderPayload,
   FindOrdersPayload,
   IOrdersRepository,
+  OrderStatus,
   UpdateOrderPayload,
 } from '@/src/application/repositories/orders.repository.interface';
 import {
@@ -70,6 +71,15 @@ export class OrdersRepository implements IOrdersRepository {
         product_type = ${payload.productType}
       WHERE id = ${payload.id}
     `;
+    return queryResult.rows[0];
+  }
+
+  public async updateOrderStatus(
+    id: string,
+    status: OrderStatus,
+  ): Promise<UpdatedOrder> {
+    const queryResult =
+      await sql<UpdatedOrder>`UPDATE orders SET order_status = ${status} WHERE id = ${id} RETURNING *`;
     return queryResult.rows[0];
   }
 }

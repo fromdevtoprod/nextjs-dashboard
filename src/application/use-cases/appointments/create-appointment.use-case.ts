@@ -28,9 +28,6 @@ export async function createAppointmentUseCase({
     productId: careId,
   });
   orderId = orderEntity.getId();
-  console.log('careId', careId);
-  console.log('orderId', orderId);
-  console.log('customerId', customerId);
 
   await appointmentsRepository.createAppointment({
     careId,

@@ -1,5 +1,4 @@
 import {
-  CreatedOrder,
   OrderEntity,
   SelectedOrder,
   UpdatedOrder,
@@ -41,4 +40,5 @@ export interface IOrdersRepository {
   findOrderById(id: string): Promise<OrderEntity>;
   findOrderWithParameters(payload: FindOrdersPayload): Promise<SelectedOrder>;
   updateOrder(payload: UpdateOrderPayload): Promise<UpdatedOrder>;
+  updateOrderStatus(id: string, status: OrderStatus): Promise<UpdatedOrder>;
 }
