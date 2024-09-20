@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { formatDateToLocal } from '@/app/lib/utils';
 import NameInput from '../name-input';
@@ -9,8 +8,8 @@ import PhoneInput from '../phone-input';
 import BirthDateInput from '../birthdate-input';
 import PathologyTextarea from '../pathology-textarea';
 import { ButtonLink } from '../buttons/button-link';
-import { Button } from '../button';
 import { SelectedAppointment } from '@/src/entities/models/appointment';
+import { BackButton } from '../buttons/back-button';
 
 export function ViewCustomerForm({
   appointments,
@@ -19,7 +18,6 @@ export function ViewCustomerForm({
   appointments: SelectedAppointment[];
   customer: SelectedCustomer;
 }) {
-  const router = useRouter();
   return (
     <>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
@@ -85,7 +83,7 @@ export function ViewCustomerForm({
       </div>
 
       <div className="mt-6 flex justify-end gap-4">
-        <Button onClick={() => router.back()}>Back</Button>
+        <BackButton />
       </div>
     </>
   );

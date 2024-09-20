@@ -4,7 +4,7 @@
 import { useActionState } from 'react';
 import { createCustomer } from '@/app/lib/actions/customers';
 import { Button } from '../button';
-import CancelButton from '../cancel-button';
+import CancelButton from '../buttons/cancel-button';
 import NameInput from '../name-input';
 import EmailInput from '../email-input';
 import PhoneInput from '../phone-input';

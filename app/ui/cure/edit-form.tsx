@@ -9,7 +9,7 @@ import { Button } from '../button';
 import { CureDetails } from './cure-details';
 import AddCareButton from './add-care-button';
 import RemoveCareButton from './remove-care-button';
-import CancelButton from '../cancel-button';
+import CancelButton from '../buttons/cancel-button';
 import AmountInput from '../amount-input';
 import NameInput from '../name-input';
 import FormErrorMessage from '../form-error-message';

@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Button } from '@/app/ui/button';
 import { updateInvoice } from '@/app/lib/actions/invoices';
-import CancelButton from '../cancel-button';
+import CancelButton from '../buttons/cancel-button';
 
 const initialState = { message: null, error: {} };
 

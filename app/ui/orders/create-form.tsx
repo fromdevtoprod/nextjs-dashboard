@@ -11,7 +11,7 @@ import { Button } from '../button';
 import SelectCustomer from '../select-customer';
 import { SelectProduct } from '../select-product';
 import SelectPaymentStatus from './select-payment-status';
-import CancelButton from '../cancel-button';
+import CancelButton from '../buttons/cancel-button';
 import FormErrorMessage from '../form-error-message';
 import SelectProductType from '../select-product-type';
 

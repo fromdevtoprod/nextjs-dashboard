@@ -7,7 +7,7 @@ import { createAppointment } from '@/app/lib/actions/appointments';
 import { Care, CustomerField } from '@/app/lib/definitions';
 import { calculateEndTime } from '@/app/business/appointments';
 import { Button } from '../button';
-import CancelButton from '../cancel-button';
+import CancelButton from '../buttons/cancel-button';
 import FormErrorMessage from '../form-error-message';
 import { SelectProduct } from '../select-product';
 import NameInput from '../name-input';

@@ -8,7 +8,7 @@ import { SelectedCustomer } from '@/src/entities/models/customer';
 import { SelectedCure } from '@/src/entities/models/cure';
 import { SelectedOrder } from '@/src/entities/models/order';
 import { Button } from '../button';
-import CancelButton from '../cancel-button';
+import CancelButton from '../buttons/cancel-button';
 import SelectCustomer from '../select-customer';
 import { SelectProduct } from '../select-product';
 import SelectPaymentStatus from './select-payment-status';

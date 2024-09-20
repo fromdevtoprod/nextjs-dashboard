@@ -5,7 +5,7 @@ import { useActionState } from 'react';
 import { createCare } from '@/app/lib/actions/care';
 import { CareCategory } from '@/app/lib/definitions';
 import { Button } from '../button';
-import CancelButton from '../cancel-button';
+import CancelButton from '../buttons/cancel-button';
 import AmountInput from '../amount-input';
 import NameInput from '../name-input';
 import DurationInput from '../duration-input';
