@@ -1,13 +1,12 @@
 'use client';
 
+import Link from 'next/link';
 import clsx from 'clsx';
-import { PaymentStatus } from '@/app/lib/definitions';
 import { MyClockIcon } from '../../icons/clock';
 import { MyHandRaisedIcon } from '../../icons/hand';
 import { MyUserIcon } from '../../icons/user';
 import { DeleteAppointmentButton } from '../delete-button';
 import { PaymentDetails } from './payment-status';
-import { CustomerNameLink } from '../../customers/customer-name-link';
 
 export function Preview({
   careName,
@@ -52,12 +51,13 @@ export function Preview({
         </div>
         <p className="mt-2 flex items-center text-sm leading-4 text-gray-600 dark:text-gray-300">
           <MyUserIcon additionalClassName="mr-1" />
-          <CustomerNameLink
-            customerName={customerName}
-            href={`/dashboard/customers/${customerId}/view`}
-          />
+          <Link href={`/dashboard/customers/${customerId}/view`}>
+            {customerName}
+          </Link>
         </p>
-        <PaymentDetails status={paymentStatus} />
+        <Link href={`/dashboard/orders/${orderId}/edit`}>
+          <PaymentDetails status={paymentStatus} />
+        </Link>
       </div>
 
       <div>
