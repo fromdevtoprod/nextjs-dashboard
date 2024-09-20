@@ -17,8 +17,8 @@ export default async function Page({ params }: { params: { id: string } }) {
         breadcrumbs={[
           { label: 'Order', href: '/dashboard/orders' },
           {
-            label: 'Edit Order',
-            href: `/dashboard/orders/${id}/edit}`,
+            label: 'View Order',
+            href: `/dashboard/orders/${id}/view}`,
             active: true,
           },
         ]}
@@ -27,7 +27,11 @@ export default async function Page({ params }: { params: { id: string } }) {
         cares={cares}
         cures={cures}
         customers={customers}
-        order={order}
+        customerId={order.getCustomerId()}
+        paymentStatus={order.getPaymentStatus()}
+        productId={order.getProductId()}
+        productType={order.getProductType()}
+        orderId={order.getId()}
       />
     </main>
   );

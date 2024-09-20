@@ -73,8 +73,16 @@ export class OrderEntity {
     return this.id;
   }
 
+  public getPaymentStatus(): PaymentStatus {
+    return this.paymentStatus;
+  }
+
   public getProductId(): string {
     return this.productId;
+  }
+
+  public getProductType(): ProductType {
+    return this.productType;
   }
 
   public isCare(): boolean {

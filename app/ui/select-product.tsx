@@ -5,22 +5,28 @@ import { MyHandRaisedIcon } from './icons/hand';
 
 export function SelectProduct({
   errors,
-  productType,
+  isDisabled,
+  label = 'Select a',
   products,
+  productType,
   value,
   onProductSelect,
 }: {
   errors: string[];
-  productType: string;
+  isDisabled?: boolean;
+  label?: string;
   products: SelectedCare[] | SelectedCure[];
+  productType: string;
   value?: string;
   onProductSelect?: (productId: string) => void;
 }) {
   return (
     <div className="mb-4">
-      <label htmlFor="product_id" className="mb-2 block text-sm font-medium">
-        Select a {productType}
-      </label>
+      {label && (
+        <label htmlFor="product_id" className="mb-2 block text-sm font-medium">
+          {`${label} ${productType}`}
+        </label>
+      )}
       <div className="relative">
         <select
           id="product_id"
@@ -28,6 +34,7 @@ export function SelectProduct({
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           onChange={(e) => onProductSelect && onProductSelect(e.target.value)}
           defaultValue={value || ''}
+          disabled={isDisabled}
         >
           <option value="" disabled>
             Select a product

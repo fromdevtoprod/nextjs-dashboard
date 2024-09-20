@@ -5,11 +5,13 @@ import { CustomerField } from '@/app/lib/definitions';
 export default function SelectCustomer({
   customers,
   errors,
+  isDisabled = false,
   selectedCustomerId,
   onCustomerSelect,
 }: {
   customers: CustomerField[];
   errors: string[];
+  isDisabled?: boolean;
   selectedCustomerId: string;
   onCustomerSelect: (customer: string) => void;
 }) {
@@ -24,9 +26,6 @@ export default function SelectCustomer({
   };
   return (
     <div className="mb-4">
-      {/* <label htmlFor="customer" className="mb-2 block text-sm font-medium">
-        Select a customer
-      </label> */}
       <div className="relative">
         <select
           id="customer"
@@ -34,6 +33,7 @@ export default function SelectCustomer({
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           defaultValue={selectedCustomerId}
           onChange={handleCustomerSelect}
+          disabled={isDisabled}
         >
           <option value="" disabled>
             Select a customer

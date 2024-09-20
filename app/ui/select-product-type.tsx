@@ -3,10 +3,12 @@ import { ProductType } from '@/app/lib/definitions';
 
 export default function SelectProductType({
   errors,
+  isDisabled = false,
   value,
   onProductTypeSelect,
 }: {
   errors: string[];
+  isDisabled?: boolean;
   value?: string;
   onProductTypeSelect: (productType: ProductType) => void;
 }) {
@@ -22,6 +24,7 @@ export default function SelectProductType({
           className="peer block w-full cursor-pointer rounded-md border border-gray-200 py-2 pl-10 text-sm outline-2 placeholder:text-gray-500"
           onChange={(e) => onProductTypeSelect(e.target.value as ProductType)}
           defaultValue={value || ''}
+          disabled={isDisabled}
         >
           <option value="" disabled>
             Select a product type
