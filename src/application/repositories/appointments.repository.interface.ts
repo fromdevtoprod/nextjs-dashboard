@@ -15,7 +15,7 @@ export type UpdateAppointmentPayload = {
   id: string;
 } & CreateAppointmentPayload;
 
-export type FindAppointmentsByDatePayload = {
+export type FindAllAppointmentsByDatePayload = {
   day: number;
   month: number;
   year: number;
@@ -35,8 +35,11 @@ export interface IAppointmentsRepository {
   ): Promise<AppointmentEntity>;
   deleteAppointment(id: string): Promise<void>;
   findAll(): Promise<SelectedAppointment[]>;
-  findAppointmentsByDate(
-    payload: FindAppointmentsByDatePayload,
+  findAllAppointmentsByCustomerId(
+    customerId: string,
+  ): Promise<SelectedAppointment[]>;
+  findAllAppointmentsByDate(
+    payload: FindAllAppointmentsByDatePayload,
   ): Promise<SelectedAppointment[]>;
   findAppointmentById(id: string): Promise<SelectedAppointment>;
   findAppointmentsByOrderId(orderId: string): Promise<AppointmentEntity[]>;

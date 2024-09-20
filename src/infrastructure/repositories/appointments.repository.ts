@@ -2,7 +2,7 @@ import { sql } from '@vercel/postgres';
 import {
   CountAppointmentsByCareIdPayload,
   CreateAppointmentPayload,
-  FindAppointmentsByDatePayload,
+  FindAllAppointmentsByDatePayload,
   IAppointmentsRepository,
   UpdateAppointmentPayload,
 } from '@/src/application/repositories/appointments.repository.interface';
@@ -53,11 +53,34 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     return queryResult.rows;
   }
 
-  public async findAppointmentsByDate({
+  public async findAllAppointmentsByCustomerId(
+    customerId: string,
+  ): Promise<SelectedAppointment[]> {
+    const queryResult = await sql<SelectedAppointment>`
+      SELECT
+        appointments.id,
+        appointments.care_id,
+        appointments.date,
+        appointments.order_id,
+        cares.name AS care_name,
+        orders.customer_id,
+        orders.product_type,
+        orders.payment_status
+      FROM appointments
+      LEFT JOIN cares ON cares.id = appointments.care_id
+      LEFT JOIN orders ON orders.id = appointments.order_id
+      WHERE order_id IN (
+        SELECT id FROM orders WHERE customer_id = ${customerId}
+      )
+    `;
+    return queryResult.rows;
+  }
+
+  public async findAllAppointmentsByDate({
     day,
     month,
     year,
-  }: FindAppointmentsByDatePayload): Promise<SelectedAppointment[]> {
+  }: FindAllAppointmentsByDatePayload): Promise<SelectedAppointment[]> {
     const queryResult = await sql<SelectedAppointment>`
       SELECT
         appointments.id,

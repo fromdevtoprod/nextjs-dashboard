@@ -1,4 +1,3 @@
-import { PaymentStatus } from '@/src/application/repositories/orders.repository.interface';
 import { z } from 'zod';
 
 export const selectedAppointmentSchema = z.object({

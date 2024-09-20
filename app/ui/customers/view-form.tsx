@@ -1,6 +1,8 @@
 'use client';
 
-import { AppointmentShortDescription } from '@/app/lib/definitions';
+import { useRouter } from 'next/navigation';
+import { SelectedCustomer } from '@/src/entities/models/customer';
+import { formatDateToLocal } from '@/app/lib/utils';
 import NameInput from '../name-input';
 import EmailInput from '../email-input';
 import PhoneInput from '../phone-input';
@@ -8,15 +10,13 @@ import BirthDateInput from '../birthdate-input';
 import PathologyTextarea from '../pathology-textarea';
 import { ButtonLink } from '../buttons/button-link';
 import { Button } from '../button';
-import { useRouter } from 'next/navigation';
-import { formatDateToLocal } from '@/app/lib/utils';
-import { SelectedCustomer } from '@/src/entities/models/customer';
+import { SelectedAppointment } from '@/src/entities/models/appointment';
 
 export function ViewCustomerForm({
   appointments,
   customer,
 }: {
-  appointments: AppointmentShortDescription[];
+  appointments: SelectedAppointment[];
   customer: SelectedCustomer;
 }) {
   const router = useRouter();
@@ -69,9 +69,7 @@ export function ViewCustomerForm({
             {appointments.map((appointment) => (
               <tr key={appointment.id}>
                 <td>{formatDateToLocal(appointment.date)}</td>
-                <td>
-                  {appointment.product_name} ({appointment.product_type})
-                </td>
+                <td>{appointment.care_name}</td>
                 <td>{appointment.payment_status}</td>
                 <td>
                   <ButtonLink
@@ -88,9 +86,6 @@ export function ViewCustomerForm({
 
       <div className="mt-6 flex justify-end gap-4">
         <Button onClick={() => router.back()}>Back</Button>
-        <ButtonLink href={`/dashboard/customers/${customer.id}/edit`}>
-          Edit customer
-        </ButtonLink>
       </div>
     </>
   );

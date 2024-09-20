@@ -1,25 +1,16 @@
-import { sql } from '@vercel/postgres';
-import { AppointmentShortDescription } from '@/app/lib/definitions';
-import { findAppointmentsByDate } from '@/src/application/use-cases/appointments/find-appointment.use-case';
+import { findAllAppointmentsByDateUseCase } from '@/src/application/use-cases/appointments/find-all-appointments-by-date.use-case';
+import { findAllAppointmentsByCustomerIdUseCase } from '@/src/application/use-cases/appointments/find-all-appointments-by-customer.use-case';
 
 export async function fetchAppointmentsByCustomer(customerId: string) {
   try {
-    const selectAppointmentsResult = await sql<AppointmentShortDescription>`
-      SELECT
-        appointments.date,
-        appointments.id,
-        appointments.order_id,
-        products.name AS product_name,
-        products.type AS product_type,
-        orders.payment_status AS payment_status
-      FROM appointments
-      LEFT JOIN orders ON orders.id = appointments.order_id
-      LEFT JOIN products ON products.id = appointments.care_id
-      WHERE orders.customer_id = ${customerId}
-    `;
-    return selectAppointmentsResult.rows;
+    const appointments =
+      await findAllAppointmentsByCustomerIdUseCase(customerId);
+    return appointments;
   } catch (err) {
-    console.error('Database Error:', err);
+    console.error(
+      'fetchAppointmentsByCustomer >> findAllAppointmentsByCustomerIdUseCase :',
+      err,
+    );
     throw new Error('Failed to fetch appointments for this customer.');
   }
 }
@@ -30,7 +21,11 @@ export async function fetchAppointmentsByDate(
   year: number,
 ) {
   try {
-    const appointments = await findAppointmentsByDate({ day, month, year });
+    const appointments = await findAllAppointmentsByDateUseCase({
+      day,
+      month,
+      year,
+    });
     return appointments;
   } catch (error) {
     console.error(
