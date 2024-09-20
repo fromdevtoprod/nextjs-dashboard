@@ -9,7 +9,7 @@ export type CreateAppointmentUseCasePayload = {
   date: string;
   endDate: string;
   orderId: string;
-  productId: string;
+  careId: string;
 };
 
 const appointmentsRepository = new AppointmentsRepository();
@@ -18,32 +18,34 @@ export async function createAppointmentUseCase({
   customerId,
   date,
   endDate,
-  productId,
+  careId,
   orderId,
 }: CreateAppointmentUseCasePayload): Promise<any> {
   const orderEntity = await getOrderEntity({
     orderId,
     customerId,
     date,
-    productId,
+    productId: careId,
   });
-
   orderId = orderEntity.getId();
+  console.log('careId', careId);
+  console.log('orderId', orderId);
+  console.log('customerId', customerId);
+
   await appointmentsRepository.createAppointment({
-    careId: productId,
+    careId,
     date,
     endDate,
     orderId,
   });
 
-  const appointmentIds = await getAppointmentIds(orderId);
   const order = await findOrderByIdUseCase(orderId);
-
   if (order.isCare()) {
     return completeOrder(orderId);
   }
 
-  const cure = await findCureByIdUseCase(productId);
+  const appointmentIds = await getAppointmentIds(orderId);
+  const cure = await findCureByIdUseCase(order.getProductId());
   if (cure.isCompleted(appointmentIds)) {
     return completeOrder(orderId);
   }

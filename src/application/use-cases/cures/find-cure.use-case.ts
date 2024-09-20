@@ -1,6 +1,5 @@
-import { CureEntity } from '@/src/entities/models/cure';
 import { CuresRepository } from '@/src/infrastructure/repositories/cures.repository';
 
-export function findCureByIdUseCase(id: string): Promise<CureEntity> {
+export function findCureByIdUseCase(id: string) {
   return new CuresRepository().findCureById(id);
 }

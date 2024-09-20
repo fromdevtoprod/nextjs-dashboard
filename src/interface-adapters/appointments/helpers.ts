@@ -26,6 +26,6 @@ export function parseAppointmentForm(
     date: `${data.date} ${data.time}`,
     endDate: data.end_date,
     orderId: data.order_id,
-    productId: data.product_id,
+    careId: data.product_id,
   };
 }
