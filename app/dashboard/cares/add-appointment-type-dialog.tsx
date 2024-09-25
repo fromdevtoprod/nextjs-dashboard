@@ -40,14 +40,14 @@ export function AddAppointmentTypeDialog({
       <DialogTrigger asChild>
         <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
           <Plus className="mr-2 h-5 w-5" />
-          Add Appointment Type
+          Add Care
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Appointment Type</DialogTitle>
+          <DialogTitle>Add New Care</DialogTitle>
           <DialogDescription>
-            Create a new appointment type for your schedule.
+            Create a new care for your schedule.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>

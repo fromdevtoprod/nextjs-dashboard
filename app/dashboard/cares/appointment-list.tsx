@@ -31,10 +31,8 @@ export function AppointmentList({
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Appointment Types</CardTitle>
-        <CardDescription>
-          Manage your appointment types, packages, and their settings.
-        </CardDescription>
+        <CardTitle>Cares</CardTitle>
+        <CardDescription>Manage your cares and their settings.</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
