@@ -10,6 +10,7 @@ import {
   orders,
   appointments,
   cures,
+  appointmentTypes,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -236,6 +237,30 @@ async function seedAppointments() {
   return insertedAppointments;
 }
 
+async function seedAppointmentTypes() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS appointment_types (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      duration INT NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      price INT NOT NULL,
+      session_count INT NOT NULL
+    );
+  `;
+
+  const insertedAppointmentTypes = await Promise.all(
+    appointmentTypes.map(
+      (appointmentType) => client.sql`
+        INSERT INTO appointment_types(id, duration, name, price, session_count)
+        VALUES (${appointmentType.id}, ${appointmentType.duration}, ${appointmentType.name}, ${appointmentType.price}, ${appointmentType.session_count})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedAppointmentTypes;
+}
+
 export async function GET() {
   try {
     await client.sql`BEGIN`;
@@ -247,8 +272,9 @@ export async function GET() {
     // await seedCares();
     // await seedCures();
     // await seedProducts();
-    await seedOrders();
+    // await seedOrders();
     // await seedAppointments();
+    await seedAppointmentTypes();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });

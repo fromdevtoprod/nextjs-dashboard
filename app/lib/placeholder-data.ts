@@ -440,6 +440,79 @@ const appointments = [
   },
 ];
 
+const appointmentTypes = [
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25a',
+    duration: 70,
+    name: 'Drainage Lymphatique',
+    price: 130,
+    session_count: 1,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25b',
+    duration: 70,
+    name: 'Remodelage',
+    price: 150,
+    session_count: 1,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25c',
+    duration: 30,
+    name: 'Miracle Face',
+    price: 65,
+    session_count: 1,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25d',
+    duration: 75,
+    name: 'Combo',
+    price: 150,
+    session_count: 1,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25e',
+    duration: 90,
+    name: 'Chi Nei Tsang',
+    price: 110,
+    session_count: 1,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25f',
+    duration: 90,
+    name: 'Tui Na',
+    price: 110,
+    session_count: 1,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25g',
+    duration: 70,
+    name: 'Drainage Lymphatique',
+    price: 550,
+    session_count: 5,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25h',
+    duration: 70,
+    name: 'Remodelage',
+    price: 650,
+    session_count: 5,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25i',
+    duration: 30,
+    name: 'Miracle Face',
+    price: 275,
+    session_count: 5,
+  },
+  {
+    id: 'f5becf4e-724c-4c4c-b81e-366050e9d25j',
+    duration: 75,
+    name: 'Le Combo',
+    price: 650,
+    session_count: 5,
+  },
+];
+
 export {
   users,
   customers,
@@ -450,4 +523,5 @@ export {
   cures,
   orders,
   appointments,
+  appointmentTypes,
 };
