@@ -1,7 +1,9 @@
 import { fetchAllAppointmentTypes } from '@/app/lib/data/appointment-types';
-import { AppointmentsContainer } from './appointments-container';
+import { AppointmentTypesContainer } from './appointment-types-container';
 
 export default async function AppointmentTypesPage() {
   const appointmentTypes = await fetchAllAppointmentTypes();
-  return <AppointmentsContainer initialAppointmentTypes={appointmentTypes} />;
+  return (
+    <AppointmentTypesContainer initialAppointmentTypes={appointmentTypes} />
+  );
 }

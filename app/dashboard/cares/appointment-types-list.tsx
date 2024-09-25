@@ -17,17 +17,17 @@ import {
   TableRow,
 } from '@/components/ui/table';
 
-type AppointmentListProps = {
+type AppointmentTypesListProps = {
   appointmentTypes: SelectedAppointmentType[];
   onEditClick: (type: any) => void;
   onDeleteClick: (id: string) => void;
 };
 
-export function AppointmentList({
+export function AppointmentTypesList({
   appointmentTypes,
   onEditClick,
   onDeleteClick,
-}: AppointmentListProps) {
+}: AppointmentTypesListProps) {
   return (
     <Card>
       <CardHeader>

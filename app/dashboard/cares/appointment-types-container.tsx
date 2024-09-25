@@ -4,16 +4,16 @@ import { useState } from 'react';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { AddAppointmentTypeDialog } from './add-appointment-type-dialog';
 import { EditAppointmentTypeDialog } from './edit-appointment-type-dialog';
-import { AppointmentList } from './appointment-list';
+import { AppointmentTypesList } from './appointment-types-list';
 import { getDeleteRequest } from './helpers';
 
-type AppointmentsContainerProps = {
+type AppointmentTypesContainerProps = {
   initialAppointmentTypes: SelectedAppointmentType[];
 };
 
-export function AppointmentsContainer({
+export function AppointmentTypesContainer({
   initialAppointmentTypes,
-}: AppointmentsContainerProps) {
+}: AppointmentTypesContainerProps) {
   const [appointmentTypes, setAppointmentTypes] = useState(
     initialAppointmentTypes,
   );
@@ -52,7 +52,7 @@ export function AppointmentsContainer({
           />
         </div>
 
-        <AppointmentList
+        <AppointmentTypesList
           appointmentTypes={appointmentTypes}
           onEditClick={(type) => setEditingType(type)}
           onDeleteClick={handleDeleteType}
