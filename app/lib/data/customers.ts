@@ -9,7 +9,7 @@ export async function fetchAllCustomers() {
     const customers = await findAllCustomersController();
     return customers;
   } catch (error) {
-    console.error('fetchCustomerById >> findCustomerByIdController', error);
+    console.error('fetchAllCustomers >> findAllCustomersController', error);
     throw new Error('Failed to fetch all customers.');
   }
 }

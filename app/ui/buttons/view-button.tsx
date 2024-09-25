@@ -1,13 +1,13 @@
-import Link from 'next/link';
 import { EyeIcon } from '@heroicons/react/24/outline';
 
-export function ViewButton({ href }: { href: string }) {
+export function ViewButton({ label }: { label: string }) {
   return (
-    <Link
-      href={href}
-      className="rounded-md border-0 bg-blue-400 p-2 hover:bg-blue-200"
+    <button
+      type="button"
+      className="flex h-10 items-center rounded-lg bg-green-600 px-4 text-sm font-medium text-white transition-colors hover:bg-green-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     >
-      <EyeIcon className="w-5 text-white" />
-    </Link>
+      <span className="hidden md:block">{label}</span>
+      <EyeIcon className="h-5 md:ml-4" />
+    </button>
   );
 }

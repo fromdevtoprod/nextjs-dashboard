@@ -10,6 +10,8 @@ import PathologyTextarea from '../pathology-textarea';
 import { ButtonLink } from '../buttons/button-link';
 import { SelectedAppointment } from '@/src/entities/models/appointment';
 import { BackButton } from '../buttons/back-button';
+import Link from 'next/link';
+import { ViewButton } from '../buttons/view-button';
 
 export function ViewCustomerForm({
   appointments,
@@ -52,8 +54,7 @@ export function ViewCustomerForm({
           value={customer.pathology}
         />
 
-        {/* display customer last appointments with the help of a table using the full width available */}
-        <h2 className="mt-6 text-lg font-bold">Last appointments</h2>
+        <h2 className="mt-6 text-lg font-bold">Appointments history</h2>
         <table className="mt-6 w-full">
           <thead>
             <tr>
@@ -70,11 +71,9 @@ export function ViewCustomerForm({
                 <td>{appointment.care_name}</td>
                 <td>{appointment.payment_status}</td>
                 <td>
-                  <ButtonLink
-                    href={`/dashboard/orders/${appointment.order_id}/edit`}
-                  >
-                    View order
-                  </ButtonLink>
+                  <Link href={`/dashboard/orders/${appointment.order_id}/edit`}>
+                    <ViewButton label="View order" />
+                  </Link>
                 </td>
               </tr>
             ))}

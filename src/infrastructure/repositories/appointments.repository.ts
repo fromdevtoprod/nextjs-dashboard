@@ -49,6 +49,21 @@ export class AppointmentsRepository implements IAppointmentsRepository {
 
   public async findAll(): Promise<SelectedAppointment[]> {
     const queryResult = await sql<SelectedAppointment>`
+      SELECT
+        appointments.id,
+        appointments.care_id,
+        appointments.date,
+        appointments.order_id,
+        cares.name AS care_name,
+        customers.name AS customer_name,
+        orders.customer_id,
+        orders.product_type,
+        orders.payment_status
+      FROM appointments
+      LEFT JOIN cares ON cares.id = appointments.care_id
+      LEFT JOIN orders ON orders.id = appointments.order_id
+      LEFT JOIN customers ON customers.id = orders.customer_id
+      ORDER BY date DESC
     `;
     return queryResult.rows;
   }

@@ -1,17 +1,98 @@
-import AcmeLogo from '@/app/ui/acme-logo';
-import LoginForm from '@/app/ui/login-form';
+'use client';
+
+// @ts-ignore
+import { useActionState } from 'react';
+import Link from 'next/link';
+import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Heart } from 'lucide-react';
+import { authenticate } from '../lib/actions/user';
 
 export default function LoginPage() {
+  const [errorMessage, formAction, isPending] = useActionState(
+    authenticate,
+    undefined,
+  );
   return (
-    <main className="flex items-center justify-center md:h-screen">
-      <div className="relative mx-auto flex w-full max-w-[400px] flex-col space-y-2.5 p-4 md:-mt-32">
-        <div className="flex h-20 w-full items-end rounded-lg bg-blue-500 p-3 md:h-36">
-          <div className="w-32 text-white md:w-36">
-            <AcmeLogo />
-          </div>
+    <div className="flex min-h-screen items-center justify-center bg-[#F8F4E3]">
+      <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
+        <div className="flex flex-col items-center space-y-2">
+          <Heart className="h-12 w-12 text-[#7C9885]" />
+          <h1 className="text-3xl font-bold text-[#7C9885]">CareSchedule</h1>
+          <h2 className="text-xl font-semibold text-[#2C3E50]">Welcome Back</h2>
         </div>
-        <LoginForm />
+        <form action={formAction} className="space-y-6">
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-[#2C3E50]">
+              Email
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              placeholder="your@email.com"
+              required
+              className="w-full rounded-md border border-[#A4C3D2] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7C9885]"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="password" className="text-[#2C3E50]">
+              Password
+            </Label>
+            <Input
+              id="password"
+              name="password"
+              type="password"
+              placeholder="••••••••"
+              required
+              className="w-full rounded-md border border-[#A4C3D2] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#7C9885]"
+            />
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <Checkbox
+                id="remember"
+                className="border-[#A4C3D2] text-[#7C9885] focus:ring-[#7C9885]"
+              />
+              <Label htmlFor="remember" className="ml-2 text-sm text-[#2C3E50]">
+                Remember me
+              </Label>
+            </div>
+            <Link
+              href="/forgot-password"
+              className="text-sm text-[#7C9885] hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
+          <Button
+            disabled={isPending}
+            type="submit"
+            className="w-full bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+          >
+            Log in
+          </Button>
+          <div className="flex h-8 items-end space-x-1">
+            {errorMessage && (
+              <>
+                <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+                <p className="text-sm text-red-500">{errorMessage}</p>
+              </>
+            )}
+          </div>
+        </form>
+        <div className="text-center">
+          <p className="text-sm text-[#2C3E50]">
+            Don't have an account?{' '}
+            <Link href="/signup" className="text-[#7C9885] hover:underline">
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
-    </main>
+    </div>
   );
 }
