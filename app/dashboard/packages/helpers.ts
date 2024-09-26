@@ -1,18 +1,7 @@
 import { CreatePackageResponse } from '@/pages/api/packages';
-import {
-  CreatedPackage,
-  SelectedPackage,
-} from '@/src/entities/models/package-model';
+import { CreatedPackage } from '@/src/entities/models/package-model';
 
 const URL = '/api/packages';
-
-export function getDeleteRequest(packageId: string) {
-  const headers = getRequestHeaders('DELETE');
-  return fetch(URL, {
-    ...headers,
-    body: JSON.stringify({ id: packageId }),
-  });
-}
 
 export async function getPostRequest(newPackage: CreatedPackage) {
   const headers = getRequestHeaders('POST');
@@ -21,14 +10,6 @@ export async function getPostRequest(newPackage: CreatedPackage) {
     body: JSON.stringify(newPackage),
   });
   return response.json() as Promise<CreatePackageResponse>;
-}
-
-export function getPutRequest(updatedPackage: SelectedPackage) {
-  const headers = getRequestHeaders('PUT');
-  return fetch(URL, {
-    ...headers,
-    body: JSON.stringify(updatedPackage),
-  });
 }
 
 function getRequestHeaders(method: 'POST' | 'PUT' | 'DELETE') {

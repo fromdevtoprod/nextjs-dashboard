@@ -9,102 +9,111 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { getAppointmentTypePayload, getPutRequest } from './helpers';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { getClientPayload, getPutRequest } from './helpers';
+import { SelectedCustomer } from '@/src/entities/models/customer';
 
-type AppointmentTypesPageProps = {
-  duration: number;
+type EditClientProps = {
+  birthDate: string;
+  email: string;
   id: string;
   isOpen: boolean;
   name: string;
-  price: number;
-  sessionCount: number;
-  onOpenChange: (open: boolean) => void;
+  pathology: string;
+  phone: string;
   onDialogSubmit: (data: any) => void;
+  onOpenChange: () => void;
 };
 
-export function EditAppointmentTypeDialog({
-  duration,
+export function EditClientDialog({
+  birthDate,
+  email,
   id,
   isOpen,
   name,
-  price,
-  sessionCount,
-  onOpenChange,
+  pathology,
+  phone,
   onDialogSubmit,
-}: AppointmentTypesPageProps) {
+  onOpenChange,
+}: EditClientProps) {
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
     // @ts-ignore
     const formData = new FormData(event.target);
-    const updatedAppointmentType = {
+    const updatedClient = {
       id,
-      ...getAppointmentTypePayload(formData),
-    } as SelectedAppointmentType;
-    await getPutRequest(updatedAppointmentType);
-    onDialogSubmit(updatedAppointmentType);
+      ...getClientPayload(formData),
+    } as SelectedCustomer;
+    await getPutRequest(updatedClient);
+    onDialogSubmit(updatedClient);
   };
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Appointment Type</DialogTitle>
+          <DialogTitle>Edit Client</DialogTitle>
           <DialogDescription>
-            Make changes to the appointment type or package here.
+            Make changes to the client information here.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-name" className="text-right">
+              <Label htmlFor="name" className="text-right">
                 Name
               </Label>
               <Input
-                id="edit-name"
+                id="name"
                 name="name"
                 defaultValue={name}
                 className="col-span-3"
-                required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-duration" className="text-right">
-                Duration (minutes)
+              <Label htmlFor="email" className="text-right">
+                Email
               </Label>
               <Input
-                id="edit-duration"
-                name="duration"
-                type="number"
-                defaultValue={duration}
+                id="email"
+                name="email"
+                type="email"
+                defaultValue={email}
                 className="col-span-3"
-                required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-price" className="text-right">
-                Price ($)
+              <Label htmlFor="phone" className="text-right">
+                Phone
               </Label>
               <Input
-                id="edit-price"
-                name="price"
-                type="number"
-                step="0.01"
-                defaultValue={price}
+                id="phone"
+                name="phone"
+                type="tel"
+                defaultValue={phone}
                 className="col-span-3"
-                required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-sessionCount" className="text-right">
-                Sessions in Package
+              <Label htmlFor="birthDate" className="text-right">
+                Birth date
               </Label>
               <Input
-                id="edit-sessionCount"
-                name="sessionCount"
-                type="number"
-                defaultValue={sessionCount}
+                id="birthDate"
+                name="birthDate"
+                type="date"
+                defaultValue={birthDate}
+                className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="pathology" className="text-right">
+                Pathology
+              </Label>
+              <Input
+                id="pathology"
+                name="pathology"
+                defaultValue={pathology}
                 className="col-span-3"
               />
             </div>
