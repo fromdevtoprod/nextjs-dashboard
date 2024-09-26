@@ -12,11 +12,12 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { getAppointmentTypePayload, getPostRequest } from './helpers';
+import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 
 type AppointmentTypesPageProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onDialogSubmit: (data: any) => void;
+  onDialogSubmit: (newAppointmentType: SelectedAppointmentType) => void;
 };
 
 export function AddAppointmentTypeDialog({

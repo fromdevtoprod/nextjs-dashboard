@@ -11,6 +11,7 @@ import {
   appointments,
   cures,
   appointmentTypes,
+  packages,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -259,6 +260,32 @@ async function seedAppointmentTypes() {
   );
 
   return insertedAppointmentTypes;
+}
+
+async function seedPackages() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS packages (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      appointment_type_id UUID NOT NULL,
+      CONSTRAINT fk_appointment_type_id FOREIGN KEY(appointment_type_id) REFERENCES appointment_types(id),
+      customer_id UUID NOT NULL,
+      CONSTRAINT fk_customer_id FOREIGN KEY(customer_id) REFERENCES customers(id),
+      remaining_sessions INT NOT NULL,
+      start_date TIMESTAMP NOT NULL
+    );
+  `;
+
+  const insertedPackages = await Promise.all(
+    packages.map(
+      (packageInProgress) => client.sql`
+        INSERT INTO packages(id, appointment_type_id, customer_id, remaining_sessions, start_date)
+        VALUES (${packageInProgress.id}, ${packageInProgress.appointment_type_id}, ${packageInProgress.customer_id}, ${packageInProgress.remaining_sessions}, ${packageInProgress.start_date}) 
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedPackages;
 }
 
 export async function GET() {

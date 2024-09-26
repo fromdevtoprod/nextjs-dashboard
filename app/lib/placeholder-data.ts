@@ -513,6 +513,16 @@ const appointmentTypes = [
   },
 ];
 
+const packages = [
+  {
+    id: '8680fa16-15cf-4c87-9237-37f52975e9c5',
+    appointment_type_id: 'f5becf4e-724c-4c4c-b81e-366050e9d25a',
+    customer_id: customers[0].id,
+    remaining_sessions: 3,
+    start_date: '2024-09-03',
+  },
+];
+
 export {
   users,
   customers,
@@ -524,4 +534,5 @@ export {
   orders,
   appointments,
   appointmentTypes,
+  packages,
 };

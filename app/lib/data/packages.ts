@@ -1,4 +1,5 @@
 import { findAppointmentTypesBySessionCountController } from '@/src/interface-adapters/appointment-types/find-appointment-types-by-session-count.controller';
+import { findAllPackagesController } from '@/src/interface-adapters/packages/find-all-packages.controller';
 
 export async function fetchAppointmentTypesBySessionCount() {
   try {
@@ -10,5 +11,15 @@ export async function fetchAppointmentTypesBySessionCount() {
       err,
     );
     throw new Error('Failed to fetch all package types.');
+  }
+}
+
+export async function fetchAllPackages() {
+  try {
+    const packages = await findAllPackagesController();
+    return packages;
+  } catch (err) {
+    console.error('fetchAllPackages >> findAllPackagesController :', err);
+    throw new Error('Failed to fetch all packages.');
   }
 }
