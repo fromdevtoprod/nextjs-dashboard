@@ -49,7 +49,11 @@ export function AppointmentTypesList({
           <TableBody>
             {appointmentTypes.map((type) => (
               <TableRow key={type.id}>
-                <TableCell className="font-medium">{type.name}</TableCell>
+                <TableCell className="font-medium">
+                  {type.session_count > 1
+                    ? `${type.name} (Package)`
+                    : type.name}
+                </TableCell>
                 <TableCell>{type.duration}</TableCell>
                 <TableCell>{type.price.toFixed(2)}</TableCell>
                 <TableCell>

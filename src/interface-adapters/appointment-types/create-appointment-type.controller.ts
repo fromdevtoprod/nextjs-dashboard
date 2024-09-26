@@ -12,7 +12,7 @@ export async function createAppointmentTypeController(
     createdAppointmentTypeSchema.safeParse(payload);
   if (inputParseError) {
     throw new InputParseError(
-      'Please fill all the missing fields.',
+      'Please provide all the missing fields.',
       inputParseError,
     );
   }
