@@ -1,3 +1,4 @@
+import { CreateAppointmentTypeResponse } from '@/pages/api/appointment-types';
 import {
   CreatedAppointmentType,
   SelectedAppointmentType,
@@ -28,12 +29,15 @@ export function getDeleteRequest(appointmentTypeId: string) {
   });
 }
 
-export function getPostRequest(newAppointmentType: CreatedAppointmentType) {
+export async function getPostRequest(
+  newAppointmentType: CreatedAppointmentType,
+) {
   const headers = getRequestHeaders('POST');
-  return fetch(URL, {
+  const result = await fetch(URL, {
     ...headers,
     body: JSON.stringify(newAppointmentType),
   });
+  return result.json() as Promise<CreateAppointmentTypeResponse>;
 }
 
 export function getPutRequest(updatedAppointmentType: SelectedAppointmentType) {

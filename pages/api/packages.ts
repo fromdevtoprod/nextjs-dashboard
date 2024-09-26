@@ -1,11 +1,11 @@
+import { NextApiRequest, NextApiResponse } from 'next';
 import {
   CreatedPackage,
   SelectedPackage,
 } from '@/src/entities/models/package-model';
 import { createPackageController } from '@/src/interface-adapters/packages/create-package.controller';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-export type CreatedPackageResponse = {
+export type CreatePackageResponse = {
   message: string;
   createdPackage: SelectedPackage;
 };
@@ -39,7 +39,7 @@ export default async function handler(
     return res.status(201).json({
       message: 'Package started successfully',
       createdPackage,
-    } as CreatedPackageResponse);
+    } as CreatePackageResponse);
   }
   // else if (req.method === 'PUT') {
   //   const { id, name, price, duration, session_count } = req.body;

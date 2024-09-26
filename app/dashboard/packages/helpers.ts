@@ -1,4 +1,4 @@
-import { CreatedPackageResponse } from '@/pages/api/packages';
+import { CreatePackageResponse } from '@/pages/api/packages';
 import {
   CreatedPackage,
   SelectedPackage,
@@ -20,7 +20,7 @@ export async function getPostRequest(newPackage: CreatedPackage) {
     ...headers,
     body: JSON.stringify(newPackage),
   });
-  return response.json() as Promise<CreatedPackageResponse>;
+  return response.json() as Promise<CreatePackageResponse>;
 }
 
 export function getPutRequest(updatedPackage: SelectedPackage) {

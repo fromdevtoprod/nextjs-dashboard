@@ -7,6 +7,11 @@ import {
   SelectedAppointmentType,
 } from '@/src/entities/models/appointment-types';
 
+export type CreateAppointmentTypeResponse = {
+  message: string;
+  createdAppointmentType: SelectedAppointmentType;
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse,
@@ -25,12 +30,13 @@ export default async function handler(
       session_count,
     };
 
-    await createAppointmentTypeController(newAppointmentType);
+    const createdAppointmentType =
+      await createAppointmentTypeController(newAppointmentType);
 
     return res.status(201).json({
-      message: 'Appointment type added successfully',
-      appointmentType: newAppointmentType,
-    });
+      message: 'Appointment type created successfully',
+      createdAppointmentType,
+    } as CreateAppointmentTypeResponse);
   } else if (req.method === 'PUT') {
     const { id, name, price, duration, session_count } = req.body;
 

@@ -13,7 +13,7 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
       INSERT INTO appointment_types (duration, name, price, session_count)
       VALUES (${payload.duration}, ${payload.name}, ${payload.price}, ${payload.session_count})
       RETURNING *`;
-    return queryResult.rows[0];
+    return { ...payload, id: queryResult.rows[0].id };
   }
 
   public async delete(id: string): Promise<void> {
