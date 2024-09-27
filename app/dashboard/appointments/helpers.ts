@@ -12,6 +12,15 @@ export async function getPostRequest(newAppointment: CreateAppointmentPayload) {
   return response.json() as Promise<CreateAppointmentResponse>;
 }
 
+export async function getDeleteRequest(id: string) {
+  const headers = getRequestHeaders('DELETE');
+  const response = await fetch(URL, {
+    ...headers,
+    body: JSON.stringify({ id }),
+  });
+  return response.json() as Promise<void>;
+}
+
 function getRequestHeaders(method: 'POST' | 'PUT' | 'DELETE') {
   return {
     method,

@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { createAppointmentController } from '@/src/interface-adapters/appointments/create-appointment.controller';
 import { CreateAppointmentPayload } from '@/src/application/repositories/appointments.repository.interface';
+import { deleteAppointmentController } from '@/src/interface-adapters/appointments/delete-appointment.controller';
 
 export type CreateAppointmentResponse = {
   message: string;
@@ -54,21 +55,21 @@ export default async function handler(
   //     message: 'Appointment type updated successfully',
   //     appointmentType: updatedAppointmentType,
   //   });
-  // } else if (req.method === 'DELETE') {
-  //   const { id } = req.body;
-
-  //   if (!id) {
-  //     return res.status(400).json({ message: 'Id is required.' });
-  //   }
-
-  //   await deleteAppointmentTypeController(id);
-
-  //   return res.status(201).json({
-  //     message: 'Appointment type deleted successfully',
-  //     appointmentType: id,
-  //   });
   // }
-  else {
+  else if (req.method === 'DELETE') {
+    const { id } = req.body;
+
+    if (!id) {
+      return res.status(400).json({ message: 'Id is required.' });
+    }
+
+    await deleteAppointmentController(id);
+
+    return res.status(201).json({
+      message: 'Appointment deleted successfully',
+      appointmentId: id,
+    });
+  } else {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }

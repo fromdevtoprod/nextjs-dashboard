@@ -41,6 +41,14 @@ export function AppointmentsContainer({
     }
   };
 
+  const handleDeleteAppointment = (appointmentId: string) => {
+    setUpcomingAppointments((prevAppointments) =>
+      prevAppointments.filter(
+        (appointment) => appointment.id !== appointmentId,
+      ),
+    );
+  };
+
   useEffect(() => {
     if (initialAppointments) {
       setUpcomingAppointments(initialAppointments);
@@ -57,7 +65,10 @@ export function AppointmentsContainer({
 
       <div className="grid gap-6 md:grid-cols-2">
         <AppointmentsCalendar />
-        <AppointmentList appointments={upcomingAppointments} />
+        <AppointmentList
+          appointments={upcomingAppointments}
+          whenDeleteDone={handleDeleteAppointment}
+        />
       </div>
     </main>
   );

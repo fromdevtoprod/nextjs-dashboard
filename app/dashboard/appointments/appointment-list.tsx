@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -8,12 +9,22 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { Trash2 } from 'lucide-react';
+import { getDeleteRequest } from './helpers';
 
 type AppointmentListProps = {
   appointments: UpcomingAppointment[];
+  whenDeleteDone: (appointmentId: string) => void;
 };
 
-export function AppointmentList({ appointments }: AppointmentListProps) {
+export function AppointmentList({
+  appointments,
+  whenDeleteDone,
+}: AppointmentListProps) {
+  const handleDeleteClick = async (appointmentId: string) => {
+    await getDeleteRequest(appointmentId);
+    whenDeleteDone(appointmentId);
+  };
   return (
     <Card>
       <CardHeader>
@@ -28,6 +39,7 @@ export function AppointmentList({ appointments }: AppointmentListProps) {
               <TableHead>Date</TableHead>
               <TableHead>Time</TableHead>
               <TableHead>Package</TableHead>
+              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -39,6 +51,18 @@ export function AppointmentList({ appointments }: AppointmentListProps) {
                 <TableCell>{appointment.time}</TableCell>
                 <TableCell>
                   {appointment.session_count > 1 ? 'Yes' : 'No'}
+                </TableCell>
+                <TableCell>
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-red-500 hover:text-red-700"
+                      onClick={() => handleDeleteClick(appointment.id)}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
