@@ -20,6 +20,9 @@ export default async function AppointmentsPage({
   );
   return (
     <AppointmentsContainer
+      activeDay={activeDay}
+      activeMonth={activeMonth}
+      activeYear={activeYear}
       appointmentTypes={appointmentTypes}
       clients={clients}
       initialAppointments={appointmentsByDate}

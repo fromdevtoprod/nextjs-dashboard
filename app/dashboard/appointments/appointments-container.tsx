@@ -9,12 +9,18 @@ import { SelectedCustomer } from '@/src/entities/models/customer';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 
 type AppointmentsContainerProps = {
+  activeDay: number;
+  activeMonth: number;
+  activeYear: number;
   appointmentTypes: SelectedAppointmentType[];
   clients: SelectedCustomer[];
   initialAppointments: UpcomingAppointment[];
 };
 
 export function AppointmentsContainer({
+  activeDay,
+  activeMonth,
+  activeYear,
   appointmentTypes,
   clients,
   initialAppointments,
@@ -23,15 +29,23 @@ export function AppointmentsContainer({
     useState<UpcomingAppointment[]>(initialAppointments);
 
   const handleAddAppointment = (createdAppointment: UpcomingAppointment) => {
-    setUpcomingAppointments((prevAppointments) => [
-      ...prevAppointments,
-      createdAppointment,
-    ]);
+    const date = new Date(createdAppointment.date);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const year = date.getFullYear();
+    if (month === activeMonth && day === activeDay && year === activeYear) {
+      setUpcomingAppointments((prevAppointments) => [
+        ...prevAppointments,
+        createdAppointment,
+      ]);
+    }
   };
 
   useEffect(() => {
-    setUpcomingAppointments(initialAppointments);
-  });
+    if (initialAppointments) {
+      setUpcomingAppointments(initialAppointments);
+    }
+  }, [initialAppointments]);
 
   return (
     <main className="flex-1 overflow-y-auto p-8">
