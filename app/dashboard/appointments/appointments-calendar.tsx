@@ -35,6 +35,7 @@ export function AppointmentsCalendar() {
           selected={selectedDate}
           onSelect={setSelectedDate}
           className="rounded-md border"
+          numberOfMonths={3}
         />
       </CardContent>
     </Card>

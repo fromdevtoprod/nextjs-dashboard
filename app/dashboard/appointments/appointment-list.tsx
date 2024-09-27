@@ -1,3 +1,6 @@
+import { Trash2 } from 'lucide-react';
+import { deleteAppointment } from '@/app/lib/actions/appointments';
+import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -8,9 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { UpcomingAppointment } from '@/src/entities/models/appointment';
-import { Trash2 } from 'lucide-react';
-import { getDeleteRequest } from './helpers';
 
 type AppointmentListProps = {
   appointments: UpcomingAppointment[];
@@ -22,7 +22,7 @@ export function AppointmentList({
   whenDeleteDone,
 }: AppointmentListProps) {
   const handleDeleteClick = async (appointmentId: string) => {
-    await getDeleteRequest(appointmentId);
+    await deleteAppointment(appointmentId);
     whenDeleteDone(appointmentId);
   };
   return (

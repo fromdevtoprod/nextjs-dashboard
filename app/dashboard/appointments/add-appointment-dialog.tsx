@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
+import { createAppointment } from '@/app/lib/actions/appointments';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { SelectedCustomer } from '@/src/entities/models/customer';
@@ -26,7 +27,6 @@ import {
 } from '@/components/ui/dialog';
 import { CustomersCombobox } from '@/components/customers-combobox';
 import { Switch } from '@/components/ui/switch';
-import { getPostRequest } from './helpers';
 
 type AddAppointmentDialogProps = {
   initialAppointmentTypes: SelectedAppointmentType[];
@@ -61,7 +61,7 @@ export function AddAppointmentDialog({
       date,
       time,
     };
-    const { createdAppointment } = await getPostRequest(newAppointment);
+    const { createdAppointment } = await createAppointment(newAppointment);
     onDialogSubmit(createdAppointment);
   };
 
