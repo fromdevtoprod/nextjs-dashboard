@@ -16,4 +16,10 @@ export class NotesRepository implements INotesRepository {
       ) RETURNING *;
     `;
   }
+
+  public async delete(appointmentId: string): Promise<void> {
+    await sql`
+      DELETE FROM notes WHERE appointment_id = ${appointmentId};
+    `;
+  }
 }

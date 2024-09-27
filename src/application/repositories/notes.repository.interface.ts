@@ -5,4 +5,5 @@ export type AddNotesPayload = {
 
 export interface INotesRepository {
   add(payload: AddNotesPayload): Promise<void>;
+  delete(appointmentId: string): Promise<void>;
 }

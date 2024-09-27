@@ -45,6 +45,12 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     await sql`DELETE FROM appointments WHERE id = ${id}`;
   }
 
+  public async findAllAppointments(): Promise<SelectedAppointment[]> {
+    const queryResult =
+      await sql<SelectedAppointment>`SELECT * FROM appointments`;
+    return queryResult.rows;
+  }
+
   public async findAllAppointmentsByDate({
     day,
     month,

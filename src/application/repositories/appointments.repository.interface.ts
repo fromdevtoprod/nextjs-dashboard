@@ -25,6 +25,7 @@ export interface IAppointmentsRepository {
     payload: CreateAppointmentPayload,
   ): Promise<UpcomingAppointment>;
   deleteAppointment(id: string): Promise<void>;
+  findAllAppointments(): Promise<SelectedAppointment[]>;
   findAllAppointmentsByDate(
     payload: FindAllAppointmentsByDatePayload,
   ): Promise<UpcomingAppointment[]>;
