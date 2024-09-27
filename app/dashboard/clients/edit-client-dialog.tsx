@@ -1,3 +1,4 @@
+import { SelectedCustomer } from '@/src/entities/models/customer';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,8 +10,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { getClientPayload, getPutRequest } from './helpers';
-import { SelectedCustomer } from '@/src/entities/models/customer';
+import { updateClient } from '@/app/lib/actions/customers';
+import { getClientPayload } from './helpers';
 
 type EditClientProps = {
   birthDate: string;
@@ -45,7 +46,7 @@ export function EditClientDialog({
       id,
       ...getClientPayload(formData),
     } as SelectedCustomer;
-    await getPutRequest(updatedClient);
+    await updateClient(updatedClient);
     onDialogSubmit(updatedClient);
   };
   return (

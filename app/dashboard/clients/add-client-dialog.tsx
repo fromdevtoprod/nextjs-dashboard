@@ -12,7 +12,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { SelectedCustomer } from '@/src/entities/models/customer';
-import { getClientPayload, getPostRequest } from './helpers';
+import { getClientPayload } from './helpers';
+import { createClient } from '@/app/lib/actions/customers';
 
 type AddClientDialogProps = {
   isOpen: boolean;
@@ -32,7 +33,7 @@ export function AddClientDialog({
     // @ts-ignore
     const formData = new FormData(event.target);
     const newClientPayload = getClientPayload(formData);
-    const { createdClient } = await getPostRequest(newClientPayload);
+    const { createdClient } = await createClient(newClientPayload);
     onDialogSubmit(createdClient);
   };
   return (

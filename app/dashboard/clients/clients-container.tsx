@@ -1,14 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { Search } from 'lucide-react';
+import { SelectedCustomer } from '@/src/entities/models/customer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { deleteClient } from '@/app/lib/actions/customers';
 import { AddClientDialog } from './add-client-dialog';
 import { ClientList } from './client-list';
 import { EditClientDialog } from './edit-client-dialog';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { getDeleteRequest } from './helpers';
 
 type ClientsContainerProps = {
   initialClients: SelectedCustomer[];
@@ -44,7 +44,7 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
   };
 
   const handleDeleteClient = async (clientId: string) => {
-    await getDeleteRequest(clientId);
+    await deleteClient(clientId);
     setClients(clients.filter((client) => client.id !== clientId));
   };
 
