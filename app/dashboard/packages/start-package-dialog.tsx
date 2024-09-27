@@ -1,6 +1,11 @@
 'use client';
 
 import { Plus } from 'lucide-react';
+import { SelectedCustomer } from '@/src/entities/models/customer';
+import {
+  CreatedPackage,
+  SelectedPackage,
+} from '@/src/entities/models/package-model';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -20,12 +25,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { getPostRequest } from './helpers';
-import {
-  CreatedPackage,
-  SelectedPackage,
-} from '@/src/entities/models/package-model';
+import { startPackage } from '@/app/lib/actions/packages';
 
 type StartPackageDialogProps = {
   customers: SelectedCustomer[];
@@ -61,7 +61,7 @@ export function StartPackageDialog({
       start_date,
       // expiryDate: expiryDate.toISOString().split('T')[0],
     } as CreatedPackage;
-    const { createdPackage } = await getPostRequest(newPackage);
+    const { createdPackage } = await startPackage(newPackage);
     onDialogSubmit(createdPackage);
   };
 

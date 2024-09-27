@@ -3,7 +3,7 @@ import { CreatedPackage } from '@/src/entities/models/package-model';
 
 const URL = '/api/packages';
 
-export async function getPostRequest(newPackage: CreatedPackage) {
+export async function startPackage(newPackage: CreatedPackage) {
   const headers = getRequestHeaders('POST');
   const response = await fetch(URL, {
     ...headers,
