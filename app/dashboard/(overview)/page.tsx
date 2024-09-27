@@ -25,7 +25,7 @@ export default function Page() {
           Welcome back, Dr. Smith
         </h1>
         <p className="text-[#2C3E50]">
-          Here's what's happening with your practice today.
+          {`Here's what's happening with your practice today.`}
         </p>
       </div>
 
