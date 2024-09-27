@@ -1,4 +1,5 @@
 import {
+  HistoryAppointment,
   SelectedAppointment,
   UpcomingAppointment,
 } from '@/src/entities/models/appointment';
@@ -26,6 +27,9 @@ export interface IAppointmentsRepository {
   ): Promise<UpcomingAppointment>;
   deleteAppointment(id: string): Promise<void>;
   findAllAppointments(): Promise<SelectedAppointment[]>;
+  findAllAppointmentsByCustomer(
+    customerId: string,
+  ): Promise<HistoryAppointment[]>;
   findAllAppointmentsByDate(
     payload: FindAllAppointmentsByDatePayload,
   ): Promise<UpcomingAppointment[]>;

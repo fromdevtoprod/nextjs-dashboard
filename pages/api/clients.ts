@@ -25,7 +25,7 @@ export default async function handler(
   if (req.method === 'POST') {
     const { birth_date, email, name, pathology, phone } = req.body;
 
-    if (!birth_date || !(email || phone) || !name || !pathology) {
+    if (!birth_date || (!email && !phone) || !name) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 

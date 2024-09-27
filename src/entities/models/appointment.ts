@@ -16,5 +16,13 @@ export const upcomingAppointmentSchema = z.object({
   time: z.string(),
 });
 
+export const historyAppointmentSchema = z.object({
+  date: z.string(),
+  id: z.string(),
+  notes: z.string(),
+  type: z.string(),
+});
+
 export type SelectedAppointment = z.infer<typeof selectedAppointmentSchema>;
 export type UpcomingAppointment = z.infer<typeof upcomingAppointmentSchema>;
+export type HistoryAppointment = z.infer<typeof historyAppointmentSchema>;

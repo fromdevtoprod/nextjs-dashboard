@@ -5,6 +5,7 @@ import {
   IAppointmentsRepository,
 } from '@/src/application/repositories/appointments.repository.interface';
 import {
+  HistoryAppointment,
   SelectedAppointment,
   UpcomingAppointment,
 } from '@/src/entities/models/appointment';
@@ -48,6 +49,19 @@ export class AppointmentsRepository implements IAppointmentsRepository {
   public async findAllAppointments(): Promise<SelectedAppointment[]> {
     const queryResult =
       await sql<SelectedAppointment>`SELECT * FROM appointments`;
+    return queryResult.rows;
+  }
+
+  public async findAllAppointmentsByCustomer(
+    customerId: string,
+  ): Promise<HistoryAppointment[]> {
+    const queryResult = await sql<HistoryAppointment>`
+      SELECT appointments.id, appointments.date, appointment_types.name AS type, notes.content as notes
+      FROM appointments
+      LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
+      LEFT JOIN notes ON notes.appointment_id = appointments.id
+      WHERE customer_id = ${customerId}
+    `;
     return queryResult.rows;
   }
 
