@@ -17,7 +17,7 @@ import {
   LogOut,
 } from 'lucide-react';
 
-export default async function Page() {
+export default function Page() {
   return (
     <main className="flex-1 overflow-y-auto p-8">
       <div className="mb-8">

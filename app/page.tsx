@@ -158,7 +158,7 @@ export default function Page() {
                   className="flex flex-col items-center rounded-lg bg-white p-6 text-center shadow-lg"
                 >
                   <Star className="mb-4 h-12 w-12 text-[#D68C45]" />
-                  <p className="mb-4 text-[#2C3E50]">"{testimonial.quote}"</p>
+                  <p className="mb-4 text-[#2C3E50]">{`"${testimonial.quote}"`}</p>
                   <p className="font-bold text-[#2C3E50]">
                     {testimonial.author}
                   </p>
