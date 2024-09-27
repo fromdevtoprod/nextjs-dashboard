@@ -34,8 +34,8 @@ export function ClientList({
               <TableHead>Name</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Phone</TableHead>
-              <TableHead>Last Appointment</TableHead>
-              <TableHead>Next Appointment</TableHead>
+              {/* <TableHead>Last Appointment</TableHead>
+              <TableHead>Next Appointment</TableHead> */}
               <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
@@ -45,8 +45,8 @@ export function ClientList({
                 <TableCell className="font-medium">{client.name}</TableCell>
                 <TableCell>{client.email}</TableCell>
                 <TableCell>{client.phone}</TableCell>
-                <TableCell>{client.lastAppointment}</TableCell>
-                <TableCell>{client.nextAppointment}</TableCell>
+                {/* <TableCell>{client.lastAppointment}</TableCell>
+                <TableCell>{client.nextAppointment}</TableCell> */}
                 <TableCell>
                   <div className="flex space-x-2">
                     <Button
