@@ -9,8 +9,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { getAppointmentTypePayload, getPutRequest } from './helpers';
+import { getAppointmentTypePayload } from './helpers';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { updateAppointmentType } from '@/app/lib/actions/appointment-types';
 
 type AppointmentTypesPageProps = {
   duration: number;
@@ -43,7 +44,7 @@ export function EditAppointmentTypeDialog({
       id,
       ...getAppointmentTypePayload(formData),
     } as SelectedAppointmentType;
-    await getPutRequest(updatedAppointmentType);
+    await updateAppointmentType(updatedAppointmentType);
     onDialogSubmit(updatedAppointmentType);
   };
   return (

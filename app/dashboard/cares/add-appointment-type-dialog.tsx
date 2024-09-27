@@ -12,7 +12,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
-import { getAppointmentTypePayload, getPostRequest } from './helpers';
+import { getAppointmentTypePayload } from './helpers';
+import { createAppointmentType } from '@/app/lib/actions/appointment-types';
 
 type AppointmentTypesPageProps = {
   isOpen: boolean;
@@ -32,7 +33,8 @@ export function AddAppointmentTypeDialog({
     // @ts-ignore
     const formData = new FormData(event.target);
     const newAppointmentType = getAppointmentTypePayload(formData);
-    const { createdAppointmentType } = await getPostRequest(newAppointmentType);
+    const { createdAppointmentType } =
+      await createAppointmentType(newAppointmentType);
     onDialogSubmit(createdAppointmentType);
   };
 

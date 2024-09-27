@@ -5,7 +5,7 @@ import { SelectedAppointmentType } from '@/src/entities/models/appointment-types
 import { AddAppointmentTypeDialog } from './add-appointment-type-dialog';
 import { EditAppointmentTypeDialog } from './edit-appointment-type-dialog';
 import { AppointmentTypesList } from './appointment-types-list';
-import { getDeleteRequest } from './helpers';
+import { deleteAppointmentType } from '@/app/lib/actions/appointment-types';
 
 type AppointmentTypesContainerProps = {
   initialAppointmentTypes: SelectedAppointmentType[];
@@ -36,7 +36,7 @@ export function AppointmentTypesContainer({
   };
 
   const handleDeleteType = async (id: string) => {
-    await getDeleteRequest(id);
+    await deleteAppointmentType(id);
     setAppointmentTypes(appointmentTypes.filter((type) => type.id !== id));
   };
 
