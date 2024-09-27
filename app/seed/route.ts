@@ -8,6 +8,7 @@ import {
   appointments,
   appointmentTypes,
   packages,
+  notes,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -184,6 +185,29 @@ async function seedPackages() {
   );
 
   return insertedPackages;
+}
+
+async function seedNotes() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS notes (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      appointment_id UUID NOT NULL,
+      CONSTRAINT fk_appointment_id FOREIGN KEY(appointment_id) REFERENCES appointments(id),
+      content TEXT NOT NULL
+    );
+  `;
+
+  const insertedNotes = await Promise.all(
+    notes.map(
+      (note) => client.sql`
+        INSERT INTO packages(id, appointment_id, content)
+        VALUES (${note.id}, ${note.appointment_id}, ${note.content}) 
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedNotes;
 }
 
 export async function GET() {

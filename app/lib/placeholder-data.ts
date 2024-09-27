@@ -319,6 +319,34 @@ const appointments = [
   },
 ];
 
+const notes = [
+  {
+    id: '70c1c81f-cd58-4fa7-8bd0-ed3aea791663',
+    appointment_id: appointments[0].id,
+    content: 'First meeting, discussed goals',
+  },
+  {
+    id: '70c1c81f-cd58-4fa7-8bd0-ed3aea791664',
+    appointment_id: appointments[1].id,
+    content: 'Follow-up on initial goals',
+  },
+  {
+    id: '70c1c81f-cd58-4fa7-8bd0-ed3aea791665',
+    appointment_id: appointments[2].id,
+    content: 'Continued progress discussion',
+  },
+  {
+    id: '70c1c81f-cd58-4fa7-8bd0-ed3aea791666',
+    appointment_id: appointments[3].id,
+    content: 'Reviewed test results',
+  },
+  {
+    id: '70c1c81f-cd58-4fa7-8bd0-ed3aea791667',
+    appointment_id: appointments[4].id,
+    content: 'Discussed work-related stress',
+  },
+];
+
 export {
   users,
   customers,
@@ -327,4 +355,5 @@ export {
   appointmentTypes,
   packages,
   appointments,
+  notes,
 };
