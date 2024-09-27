@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const selectedAppointmentSchema = z.object({
   appointment_type_id: z.string(),
-  client_id: z.string(),
+  customer_id: z.string(),
   date: z.string(),
   id: z.string(),
 });

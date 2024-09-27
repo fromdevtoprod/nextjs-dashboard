@@ -5,6 +5,7 @@ import {
 
 export interface IPackagesRepository {
   create(payload: CreatedPackage): Promise<SelectedPackage>;
+  delete(id: string): Promise<void>;
   findAll(): Promise<SelectedPackage[]>;
   findById(id: string): Promise<SelectedPackage>;
 }

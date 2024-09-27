@@ -5,7 +5,7 @@ import {
 
 export type CreateAppointmentPayload = {
   appointment_type_id: string;
-  client_id: string;
+  customer_id: string;
   date: string;
 };
 

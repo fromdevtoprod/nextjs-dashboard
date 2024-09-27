@@ -24,6 +24,12 @@ export class PackagesRepository implements IPackagesRepository {
     return this.findById(package_id);
   }
 
+  public async delete(id: string): Promise<void> {
+    await sql`
+      DELETE FROM packages WHERE id = ${id};
+    `;
+  }
+
   public async findAll(): Promise<SelectedPackage[]> {
     const queryResult = await sql<SelectedPackage>`
       SELECT 

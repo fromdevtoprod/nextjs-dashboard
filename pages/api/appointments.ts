@@ -14,15 +14,15 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    const { appointment_type_id, client_id, date, time } = req.body;
+    const { appointment_type_id, customer_id, date, time } = req.body;
 
-    if (!appointment_type_id || !client_id || !date || !time) {
+    if (!appointment_type_id || !customer_id || !date || !time) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
     const newAppointment: CreateAppointmentPayload = {
       appointment_type_id,
-      client_id,
+      customer_id,
       date: `${date} ${time}`,
     };
 

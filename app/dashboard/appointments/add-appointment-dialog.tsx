@@ -57,7 +57,7 @@ export function AddAppointmentDialog({
     const time = formData.get('time') as string;
     const newAppointment = {
       appointment_type_id,
-      client_id: clientId,
+      customer_id: clientId,
       date,
       time,
     };

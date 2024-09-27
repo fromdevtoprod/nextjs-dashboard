@@ -2,12 +2,10 @@ import { AppointmentsRepository } from '@/src/infrastructure/repositories/appoin
 
 const appointmentsRepository = new AppointmentsRepository();
 
-export async function deleteAllAppointmentsByTypeUseCase(
-  appointmentTypeId: string,
-) {
+export async function deleteAllAppointmentsByClientUseCase(customerId: string) {
   const allAppointments = await appointmentsRepository.findAllAppointments();
   const appointmentsWithThisType = allAppointments.filter(
-    (appointment) => appointment.appointment_type_id === appointmentTypeId,
+    (appointment) => appointment.customer_id === customerId,
   );
   const allPromises: Promise<void>[] = [];
   appointmentsWithThisType.forEach(async (appointment) => {

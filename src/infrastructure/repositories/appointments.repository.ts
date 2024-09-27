@@ -21,7 +21,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
         date
       ) VALUES (
         ${payload.appointment_type_id},
-        ${payload.client_id},
+        ${payload.customer_id},
         ${payload.date}
       ) RETURNING *
     `;
