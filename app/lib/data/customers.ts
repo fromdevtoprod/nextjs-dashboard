@@ -3,8 +3,9 @@ import { CustomersTableType } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 import { findCustomerByIdController } from '@/src/interface-adapters/customers/find-customer.controller';
 import { findAllCustomersController } from '@/src/interface-adapters/customers/find-all-customers.controller';
+import { SelectedCustomer } from '@/src/entities/models/customer';
 
-export async function fetchAllCustomers() {
+export async function fetchAllCustomers(): Promise<SelectedCustomer[]> {
   try {
     const customers = await findAllCustomersController();
     return customers;

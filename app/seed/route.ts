@@ -5,11 +5,7 @@ import {
   customers,
   revenue,
   users,
-  careCategories,
-  cares,
-  orders,
   appointments,
-  cures,
   appointmentTypes,
   packages,
 } from '../lib/placeholder-data';
@@ -115,121 +111,23 @@ async function seedRevenue() {
   return insertedRevenue;
 }
 
-async function seedCareCategories() {
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS care_categories (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      name VARCHAR(255) NOT NULL
-    );
-  `;
-
-  const insertedCareCategories = await Promise.all(
-    careCategories.map(
-      (careCategory) => client.sql`
-        INSERT INTO care_categories (id, name)
-        VALUES (${careCategory.id}, ${careCategory.name})
-        ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
-  );
-
-  return insertedCareCategories;
-}
-
-async function seedCares() {
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS cares (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      category_id UUID NOT NULL,
-      amount INT NOT NULL,
-      CONSTRAINT fk_category FOREIGN KEY(category_id) REFERENCES care_categories(id),
-      duration INT NOT NULL,
-      name VARCHAR(255) NOT NULL
-    );
-  `;
-
-  const insertedCares = await Promise.all(
-    cares.map(
-      (care) => client.sql`
-        INSERT INTO cares (id, amount, category_id, duration, name)
-        VALUES (${care.id}, ${care.amount}, ${care.category_id}, ${care.duration}, ${care.name});
-      `,
-    ),
-  );
-
-  return insertedCares;
-}
-
-async function seedCures() {
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS cures (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      amount INT NOT NULL,
-      care_1_id UUID NOT NULL,
-      CONSTRAINT fk_care_1 FOREIGN KEY(care_1_id) REFERENCES cares(id),
-      care_1_session_number INT NOT NULL,
-      care_2_id UUID NULL,
-      CONSTRAINT fk_care_2 FOREIGN KEY(care_2_id) REFERENCES cares(id),
-      care_2_session_number INT NULL,
-      name VARCHAR(255) NOT NULL
-    );
-  `;
-
-  const insertedCures = await Promise.all(
-    cures.map(
-      (cure) => client.sql`
-        INSERT INTO cures (id, amount, care_1_id, care_1_session_number, care_2_id, care_2_session_number, name)
-        VALUES (${cure.id}, ${cure.amount}, ${cure.care_1_id}, ${cure.care_1_session_number}, ${cure.care_2_id}, ${cure.care_2_session_number}, ${cure.name});
-      `,
-    ),
-  );
-
-  return insertedCures;
-}
-
-async function seedOrders() {
-  await client.sql`
-    CREATE TABLE IF NOT EXISTS orders (
-      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      customer_id UUID NOT NULL,
-      CONSTRAINT fk_customer FOREIGN KEY(customer_id) REFERENCES customers(id),
-      date DATE NOT NULL,
-      order_status VARCHAR(255) NOT NULL,
-      payment_status VARCHAR(255) NOT NULL,
-      product_id UUID NOT NULL,
-      product_type VARCHAR(255) NOT NULL
-    );
-  `;
-
-  const insertedOrders = await Promise.all(
-    orders.map(
-      (order) => client.sql`
-        INSERT INTO orders (id, customer_id, date, order_status, payment_status, product_id, product_type)
-        VALUES (${order.id}, ${order.customer_id}, ${order.date}, ${order.order_status}, ${order.payment_status}, ${order.product_id}, ${order.product_type})
-        ON CONFLICT (id) DO NOTHING;
-      `,
-    ),
-  );
-
-  return insertedOrders;
-}
-
 async function seedAppointments() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS appointments (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      order_id UUID NOT NULL,
-      date TIMESTAMP NOT NULL,
-      end_date TIMESTAMP NOT NULL,
-      care_id UUID NOT NULL
+      appointment_type_id UUID NOT NULL,
+      CONSTRAINT fk_appointment_type_id FOREIGN KEY(appointment_type_id) REFERENCES appointment_types(id),
+      customer_id UUID NOT NULL,
+      CONSTRAINT fk_customer_id FOREIGN KEY(customer_id) REFERENCES customers(id),
+      date TIMESTAMP NOT NULL
     );
   `;
 
   const insertedAppointments = await Promise.all(
     appointments.map(
       (appointment) => client.sql`
-        INSERT INTO appointments (id, order_id, date, end_date, care_id)
-        VALUES (${appointment.id}, ${appointment.order_id}, ${appointment.date}, ${appointment.end_date}, ${appointment.care_id})
+        INSERT INTO appointments (id, appointment_type_id, customer_id, date)
+        VALUES (${appointment.id}, ${appointment.appointment_type_id}, ${appointment.customer_id}, ${appointment.date})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),
@@ -295,13 +193,8 @@ export async function GET() {
     // await seedCustomers();
     // await seedInvoices();
     // await seedRevenue();
-    // await seedCareCategories();
-    // await seedCares();
-    // await seedCures();
-    // await seedProducts();
-    // await seedOrders();
-    // await seedAppointments();
-    await seedAppointmentTypes();
+    // await seedAppointmentTypes();
+    await seedAppointments();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });

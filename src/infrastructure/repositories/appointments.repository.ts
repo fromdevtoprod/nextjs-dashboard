@@ -1,116 +1,65 @@
 import { sql } from '@vercel/postgres';
 import {
-  CountAppointmentsByCareIdPayload,
   CreateAppointmentPayload,
   FindAllAppointmentsByDatePayload,
   IAppointmentsRepository,
-  UpdateAppointmentPayload,
 } from '@/src/application/repositories/appointments.repository.interface';
 import {
-  AppointmentEntity,
-  CreatedAppointment,
   SelectedAppointment,
-  UpdatedAppointment,
+  UpcomingAppointment,
 } from '@/src/entities/models/appointment';
 
 export class AppointmentsRepository implements IAppointmentsRepository {
-  public async countAppointmentsByCareId({
-    careId,
-    orderId,
-  }: CountAppointmentsByCareIdPayload): Promise<number> {
-    const queryResult =
-      await sql`SELECT COUNT(*) FROM appointments WHERE care_id = ${careId} AND order_id = ${orderId}`;
-    return queryResult.rows[0].count;
-  }
-
   public async createAppointment(
     payload: CreateAppointmentPayload,
-  ): Promise<AppointmentEntity> {
+  ): Promise<UpcomingAppointment> {
     console.log('Creating appointment');
-    const queryResult = await sql<CreatedAppointment>`
+    const queryResult = await sql<SelectedAppointment>`
       INSERT INTO appointments (
-        order_id,
-        date,
-        end_date,
-        care_id
+        appointment_type_id,
+        customer_id,
+        date
       ) VALUES (
-        ${payload.orderId},
-        ${payload.date},
-        ${payload.endDate},
-        ${payload.careId}
+        ${payload.appointment_type_id},
+        ${payload.client_id},
+        ${payload.date}
       ) RETURNING *
     `;
-    return new AppointmentEntity(queryResult.rows[0]);
+    const createdAppointment = queryResult.rows[0];
+    const queryResult2 = await sql<UpcomingAppointment>`
+      SELECT
+        appointments.id,
+        appointments.date,
+        appointment_types.name AS appointment_type_name,
+        appointment_types.session_count,
+        customers.name AS client_name
+      FROM appointments
+      LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
+      LEFT JOIN customers ON customers.id = appointments.customer_id
+      WHERE appointments.id = ${createdAppointment.id}
+      `;
+    return queryResult2.rows[0];
   }
 
   public async deleteAppointment(id: string): Promise<void> {
     await sql`DELETE FROM appointments WHERE id = ${id}`;
   }
 
-  public async findAll(): Promise<SelectedAppointment[]> {
-    const queryResult = await sql<SelectedAppointment>`
-      SELECT
-        appointments.id,
-        appointments.care_id,
-        appointments.date,
-        appointments.order_id,
-        cares.name AS care_name,
-        customers.name AS customer_name,
-        orders.customer_id,
-        orders.product_type,
-        orders.payment_status
-      FROM appointments
-      LEFT JOIN cares ON cares.id = appointments.care_id
-      LEFT JOIN orders ON orders.id = appointments.order_id
-      LEFT JOIN customers ON customers.id = orders.customer_id
-      ORDER BY date DESC
-    `;
-    return queryResult.rows;
-  }
-
-  public async findAllAppointmentsByCustomerId(
-    customerId: string,
-  ): Promise<SelectedAppointment[]> {
-    const queryResult = await sql<SelectedAppointment>`
-      SELECT
-        appointments.id,
-        appointments.care_id,
-        appointments.date,
-        appointments.order_id,
-        cares.name AS care_name,
-        orders.customer_id,
-        orders.product_type,
-        orders.payment_status
-      FROM appointments
-      LEFT JOIN cares ON cares.id = appointments.care_id
-      LEFT JOIN orders ON orders.id = appointments.order_id
-      WHERE order_id IN (
-        SELECT id FROM orders WHERE customer_id = ${customerId}
-      )
-    `;
-    return queryResult.rows;
-  }
-
   public async findAllAppointmentsByDate({
     day,
     month,
     year,
-  }: FindAllAppointmentsByDatePayload): Promise<SelectedAppointment[]> {
-    const queryResult = await sql<SelectedAppointment>`
+  }: FindAllAppointmentsByDatePayload): Promise<UpcomingAppointment[]> {
+    const queryResult = await sql<UpcomingAppointment>`
       SELECT
         appointments.id,
         appointments.date,
-        appointments.end_date,
-        appointments.order_id,
-        cares.name AS care_name,
-        customers.name AS customer_name,
-        orders.customer_id,
-        orders.product_type,
-        orders.payment_status
+        appointment_types.name AS appointment_type_name,
+        appointment_types.session_count,
+        customers.name AS client_name
       FROM appointments
-      LEFT JOIN orders ON orders.id = appointments.order_id
-      LEFT JOIN customers ON customers.id = orders.customer_id
-      LEFT JOIN cares ON cares.id = appointments.care_id
+      LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
+      LEFT JOIN customers ON customers.id = appointments.customer_id
       WHERE EXTRACT(DAY FROM appointments.date) = ${convertToTwoDigit(day)}
       AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(month)}
       AND EXTRACT(YEAR FROM appointments.date) = ${year}
@@ -118,27 +67,25 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     return queryResult.rows;
   }
 
+  public async findAllUpcomingAppointments(): Promise<UpcomingAppointment[]> {
+    const queryResult = await sql<UpcomingAppointment>`
+      SELECT
+        appointments.id,
+        appointments.date,
+        appointment_types.name AS appointment_type_name,
+        appointment_types.session_count,
+        customers.name AS client_name
+      FROM appointments
+      LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
+      LEFT JOIN customers ON customers.id = appointments.customer_id
+      ORDER BY appointments.date
+    `;
+    return queryResult.rows;
+  }
+
   public async findAppointmentById(id: string): Promise<SelectedAppointment> {
     const queryResult =
       await sql<SelectedAppointment>`SELECT * FROM appointments WHERE id = ${id}`;
-    return queryResult.rows[0];
-  }
-
-  public async findAppointmentsByOrderId(
-    orderId: string,
-  ): Promise<AppointmentEntity[]> {
-    const queryResult = await sql<SelectedAppointment>`
-      SELECT * FROM appointments WHERE order_id = ${orderId}
-    `;
-    return queryResult.rows.map((row) => new AppointmentEntity(row));
-  }
-
-  public async updateAppointment(
-    payload: UpdateAppointmentPayload,
-  ): Promise<UpdatedAppointment> {
-    console.log('Updating appointment');
-    const queryResult = await sql<UpdatedAppointment>`
-    `;
     return queryResult.rows[0];
   }
 }

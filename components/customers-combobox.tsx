@@ -20,7 +20,13 @@ import {
 } from '@/components/ui/popover';
 import { CustomerField } from '@/app/lib/definitions';
 
-export function CustomersCombobox({ clients }: { clients: CustomerField[] }) {
+export function CustomersCombobox({
+  clients,
+  onChangeClient,
+}: {
+  clients: CustomerField[];
+  onChangeClient: (clientId: string) => void;
+}) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
@@ -52,6 +58,7 @@ export function CustomersCombobox({ clients }: { clients: CustomerField[] }) {
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue);
                     setOpen(false);
+                    onChangeClient(client.id);
                   }}
                 >
                   <Check
