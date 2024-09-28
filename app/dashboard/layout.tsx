@@ -1,3 +1,4 @@
+import { NavMenu } from '@/components/ui/nav-content';
 import { SideNav } from '@/components/ui/side-nav';
 
 export default function DashboardPage({
@@ -7,7 +8,8 @@ export default function DashboardPage({
 }) {
   return (
     <div className="flex h-screen bg-[#F8F4E3]">
-      <SideNav />
+      {/* <SideNav /> */}
+      <NavMenu />
 
       {/* Main content area */}
       {children}
