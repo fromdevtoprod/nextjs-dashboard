@@ -13,7 +13,7 @@ import {
   Menu,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+// import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export function NavMenu() {
@@ -55,9 +55,9 @@ function NavContent({ className = '' }) {
           </span>
         </Link>
       </div>
-      <div className="px-4 py-2">
+      {/* <div className="px-4 py-2">
         <Input placeholder="Search..." className="w-full" />
-      </div>
+      </div> */}
       <ul className="mt-4">
         {[
           { icon: BarChart2, label: 'Overview', href: '/dashboard' },
@@ -91,10 +91,7 @@ function NavContent({ className = '' }) {
         ))}
       </ul>
       <div className="absolute bottom-4 left-4 right-4">
-        <Button
-          variant="outline"
-          className="w-full justify-start text-[#2C3E50]"
-        >
+        <Button variant="outline" className="justify-start text-[#2C3E50]">
           <LogOut className="mr-2 h-5 w-5" />
           Log out
         </Button>

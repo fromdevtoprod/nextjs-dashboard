@@ -1,5 +1,5 @@
 import { NavMenu } from '@/components/ui/nav-content';
-import { SideNav } from '@/components/ui/side-nav';
+// import { SideNav } from '@/components/ui/side-nav';
 
 export default function DashboardPage({
   children,

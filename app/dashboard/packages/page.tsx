@@ -9,9 +9,6 @@ export default async function PackagesPage() {
   const customers = await fetchAllCustomers();
   const initialPackages = await fetchAllPackages();
   const packageTypes = await fetchAppointmentTypesBySessionCount();
-  console.log('customers', customers);
-  console.log('initialPackages', initialPackages);
-  console.log('packageTypes', packageTypes);
   return (
     <PackageTypesContainer
       customers={customers}

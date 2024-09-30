@@ -55,8 +55,12 @@ export default function ReportsPage() {
   const [selectedReport, setSelectedReport] = useState('overview');
 
   return (
-    <main className="flex-1 overflow-y-auto p-8">
-      <h1 className="mb-8 text-3xl font-bold text-[#2C3E50]">Reports</h1>
+    <main className="flex-1 overflow-y-auto p-4 md:p-8">
+      <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
+        <h1 className="mb-4 text-2xl font-bold text-[#2C3E50] md:mb-0 md:text-3xl">
+          Reports
+        </h1>
+      </div>
 
       <Tabs defaultValue="overview" className="space-y-4">
         <TabsList>

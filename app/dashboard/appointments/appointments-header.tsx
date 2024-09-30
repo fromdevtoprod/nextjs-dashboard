@@ -23,8 +23,10 @@ export function AppointmentsHeader({
     setIsAddingAppointment(false);
   };
   return (
-    <div className="mb-8 flex items-center justify-between">
-      <h1 className="text-3xl font-bold text-[#2C3E50]">Appointments</h1>
+    <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
+      <h1 className="mb-4 text-2xl font-bold text-[#2C3E50] md:mb-0 md:text-3xl">
+        Appointments
+      </h1>
       <AddAppointmentDialog
         initialAppointmentTypes={appointmentTypes}
         clients={clients}
