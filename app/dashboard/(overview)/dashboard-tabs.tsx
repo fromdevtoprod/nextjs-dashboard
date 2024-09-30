@@ -2,13 +2,23 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { UpcomingAppointment } from '@/src/entities/models/appointment';
 
-export function DashboardTabs() {
+type DashboardTabsProps = {
+  upcomingAppointments: UpcomingAppointment[];
+  recentActivities: any[];
+};
+
+export function DashboardTabs({
+  recentActivities,
+  upcomingAppointments,
+}: DashboardTabsProps) {
+  console.log('upcomingAppointments', upcomingAppointments);
   return (
     <Tabs defaultValue="upcoming" className="mt-8">
       <TabsList>
         <TabsTrigger value="upcoming">Upcoming Appointments</TabsTrigger>
-        <TabsTrigger value="recent">Recent Activities</TabsTrigger>
+        {/* <TabsTrigger value="recent">Recent Activities</TabsTrigger> */}
       </TabsList>
       <TabsContent value="upcoming">
         <Card>
@@ -17,32 +27,18 @@ export function DashboardTabs() {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[
-                {
-                  time: '10:00 AM',
-                  client: 'Alice Johnson',
-                  type: 'Therapy Session',
-                },
-                {
-                  time: '11:30 AM',
-                  client: 'Bob Smith',
-                  type: 'Initial Consultation',
-                },
-                {
-                  time: '2:00 PM',
-                  client: 'Carol Williams',
-                  type: 'Follow-up',
-                },
-              ].map((appointment, index) => (
+              {upcomingAppointments.map((appointment, index) => (
                 <div key={index} className="flex items-center">
                   <div className="w-16 text-sm text-[#2C3E50]">
                     {appointment.time}
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-[#2C3E50]">
-                      {appointment.client}
+                      {appointment.client_name}
                     </p>
-                    <p className="text-sm text-[#7C9885]">{appointment.type}</p>
+                    <p className="text-sm text-[#7C9885]">
+                      {appointment.appointment_type_name}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -50,7 +46,7 @@ export function DashboardTabs() {
           </CardContent>
         </Card>
       </TabsContent>
-      <TabsContent value="recent">
+      {/* <TabsContent value="recent">
         <Card>
           <CardHeader>
             <CardTitle>Recent Activities</CardTitle>
@@ -89,7 +85,7 @@ export function DashboardTabs() {
             </div>
           </CardContent>
         </Card>
-      </TabsContent>
+      </TabsContent> */}
     </Tabs>
   );
 }
