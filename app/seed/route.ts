@@ -70,11 +70,12 @@ async function seedCustomers() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS customers (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      email VARCHAR(255) NOT NULL,
-      phone VARCHAR(255) NOT NULL,
       birth_date VARCHAR(255) NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      email VARCHAR(255) NOT NULL,
+      name VARCHAR(255) NOT NULL,
       pathology TEXT
+      phone VARCHAR(255) NOT NULL,
     );
   `;
 

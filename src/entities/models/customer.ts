@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const selectedCustomer = z.object({
   birth_date: z.string(),
+  created_at: z.string(),
   email: z.string(),
   id: z.string(),
   name: z.string(),

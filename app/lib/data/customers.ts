@@ -4,6 +4,7 @@ import { formatCurrency } from '@/app/lib/utils';
 import { findCustomerByIdController } from '@/src/interface-adapters/customers/find-customer.controller';
 import { findAllCustomersController } from '@/src/interface-adapters/customers/find-all-customers.controller';
 import { SelectedCustomer } from '@/src/entities/models/customer';
+import { countNewCustomersUseCase } from '@/src/application/use-cases/customers/count-new-customers.use-case';
 
 export async function fetchAllCustomers(): Promise<SelectedCustomer[]> {
   try {
@@ -54,5 +55,15 @@ export async function fetchCustomerById(id: string) {
   } catch (error) {
     console.error('fetchCustomerById >> findCustomerByIdController', error);
     throw new Error('Failed to fetch this customer.');
+  }
+}
+
+export async function countNewCustomers(): Promise<number> {
+  try {
+    const newCustomersCount = await countNewCustomersUseCase();
+    return newCustomersCount;
+  } catch (error) {
+    console.error('countNewCustomers >> countNewCustomersUseCase', error);
+    throw new Error('Failed to count new customers.');
   }
 }

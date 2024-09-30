@@ -11,10 +11,18 @@ import {
 } from '@/src/entities/models/customer';
 
 export class CustomersRepository implements ICustomersRepository {
+  public async countNewCustomers(): Promise<number> {
+    const queryResult = await sql<{ count: number }>`
+      SELECT COUNT(*)
+      FROM customers
+      WHERE created_at >= NOW() - INTERVAL '1 month'
+    `;
+    return queryResult.rows[0].count;
+  }
+
   public async createCustomer(
     payload: CreateCustomerPayload,
   ): Promise<CreatedCustomer> {
-    console.log('Creating customer');
     const queryResult = await sql<CreatedCustomer>`
       INSERT INTO customers(name, email, phone, birth_date, pathology)
       VALUES(${payload.name}, ${payload.email}, ${payload.phone}, ${payload.birthDate}, ${payload.pathology})
@@ -24,25 +32,21 @@ export class CustomersRepository implements ICustomersRepository {
   }
 
   public async deleteCustomer(id: string): Promise<void> {
-    console.log('Deleting customer');
     await sql`DELETE FROM customers WHERE id = ${id}`;
   }
 
   public async findAll(): Promise<SelectedCustomer[]> {
-    console.log('Finding all customers');
     const queryResult = await sql<SelectedCustomer>`SELECT * FROM customers`;
     return queryResult.rows;
   }
 
   public async findCustomerById(id: string): Promise<SelectedCustomer> {
-    console.log('Finding customer by id');
     const queryResult =
       await sql<SelectedCustomer>`SELECT * FROM customers WHERE id = ${id}`;
     return queryResult.rows[0];
   }
 
   public async updateCustomer(payload: UpdateCustomerPayload): Promise<any> {
-    console.log('Updating customer');
     const queryResult = await sql<UpdatedCustomer>`
       UPDATE customers
       SET name = ${payload.name},

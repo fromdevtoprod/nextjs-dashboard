@@ -4,10 +4,12 @@ import { CalendarDays, Heart, Users, Clipboard } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type DashboardCardsProps = {
+  newCustomersCount: number;
   upcomingAppointmentsCount: number;
 };
 
 export function DashboardCards({
+  newCustomersCount,
   upcomingAppointmentsCount,
 }: DashboardCardsProps) {
   return (
@@ -18,7 +20,7 @@ export function DashboardCards({
           value: upcomingAppointmentsCount,
           icon: CalendarDays,
         },
-        { title: 'New Clients', value: '3', icon: Users },
+        { title: 'New Clients', value: newCustomersCount, icon: Users },
         { title: 'Completed Sessions', value: '8', icon: Clipboard },
         { title: 'Upcoming Breaks', value: '2', icon: Heart },
       ].map((item, index) => (
