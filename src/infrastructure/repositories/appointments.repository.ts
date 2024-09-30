@@ -11,6 +11,15 @@ import {
 } from '@/src/entities/models/appointment';
 
 export class AppointmentsRepository implements IAppointmentsRepository {
+  public async countLastYearAppointments(): Promise<number> {
+    const queryResult = await sql<{ count: number }>`
+      SELECT COUNT(*)
+      FROM appointments
+      WHERE date >= NOW() - INTERVAL '1 year'
+    `;
+    return queryResult.rows[0].count;
+  }
+
   public async countAllUpcomingAppointments(): Promise<number> {
     const queryResult = await sql<{ count: number }>`
       SELECT COUNT(*)

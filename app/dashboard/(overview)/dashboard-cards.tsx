@@ -4,31 +4,41 @@ import { CalendarDays, Heart, Users, Clipboard } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 type DashboardCardsProps = {
-  countCompletedSessions: number;
+  completedSessionsCount: number;
   newCustomersCount: number;
+  totalAppointmentsCount: number;
   upcomingAppointmentsCount: number;
 };
 
 export function DashboardCards({
-  countCompletedSessions,
+  completedSessionsCount,
   newCustomersCount,
+  totalAppointmentsCount,
   upcomingAppointmentsCount,
 }: DashboardCardsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {[
         {
-          title: 'Total Appointments',
-          value: upcomingAppointmentsCount,
+          title: 'Total Appointments (last 365 days)',
+          value: totalAppointmentsCount,
           icon: CalendarDays,
         },
-        { title: 'New Clients', value: newCustomersCount, icon: Users },
         {
-          title: 'Completed Sessions',
-          value: countCompletedSessions,
+          title: 'Total Upcoming Appointments',
+          value: upcomingAppointmentsCount,
+          icon: Heart,
+        },
+        {
+          title: 'New Clients (last 30 days)',
+          value: newCustomersCount,
+          icon: Users,
+        },
+        {
+          title: 'Completed Sessions (last 30 days)',
+          value: completedSessionsCount,
           icon: Clipboard,
         },
-        { title: 'Upcoming Breaks', value: '2', icon: Heart },
       ].map((item, index) => (
         <Card key={index}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

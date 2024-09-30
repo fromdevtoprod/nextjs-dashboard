@@ -1,3 +1,4 @@
+import { countAllAppointmentsUseCase } from '@/src/application/use-cases/appointments/count-all-appointments.use-case';
 import { countAllUpcomingAppointmentsUseCase } from '@/src/application/use-cases/appointments/count-all-upcoming-appointments.use-case';
 import { findAllAppointmentsByClientUseCase } from '@/src/application/use-cases/appointments/find-all-appointments-by-client.use-case';
 import { findAllAppointmentsByDateUseCase } from '@/src/application/use-cases/appointments/find-all-appointments-by-date.use-case';
@@ -54,6 +55,16 @@ export async function fetchAllUpcomingAppointments() {
       error,
     );
     throw new Error('Failed to fetch all upcoming appointments.');
+  }
+}
+
+export async function countAllAppointments() {
+  try {
+    const appointmentsCount = await countAllAppointmentsUseCase();
+    return appointmentsCount;
+  } catch (error) {
+    console.error('countAllAppointments >> countAllAppointmentsUseCase', error);
+    throw new Error('Failed to count all appointments.');
   }
 }
 
