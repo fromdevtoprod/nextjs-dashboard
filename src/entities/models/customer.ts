@@ -10,7 +10,10 @@ export const selectedCustomer = z.object({
   phone: z.string(),
 });
 
-export const createdCustomerSchema = selectedCustomer.omit({ id: true });
+export const createdCustomerSchema = selectedCustomer.omit({
+  id: true,
+  created_at: true,
+});
 
 export type SelectedCustomer = z.infer<typeof selectedCustomer>;
 export type CreatedCustomer = z.infer<typeof createdCustomerSchema>;
