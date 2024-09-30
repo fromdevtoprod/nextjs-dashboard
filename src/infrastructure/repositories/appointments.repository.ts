@@ -32,7 +32,6 @@ export class AppointmentsRepository implements IAppointmentsRepository {
   public async createAppointment(
     payload: CreateAppointmentPayload,
   ): Promise<UpcomingAppointment> {
-    console.log('Creating appointment');
     const queryResult = await sql<SelectedAppointment>`
       INSERT INTO appointments (
         appointment_type_id,

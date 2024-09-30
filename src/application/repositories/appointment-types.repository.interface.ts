@@ -7,6 +7,7 @@ export interface IAppointmentTypesRepository {
   create(payload: CreatedAppointmentType): Promise<SelectedAppointmentType>;
   delete(id: string): Promise<void>;
   findAll(): Promise<SelectedAppointmentType[]>;
+  findById(id: string): Promise<SelectedAppointmentType>;
   findBySessionCountMin(
     sessionCountMin: number,
   ): Promise<SelectedAppointmentType[]>;

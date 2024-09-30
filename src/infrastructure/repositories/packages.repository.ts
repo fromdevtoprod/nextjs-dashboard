@@ -1,9 +1,9 @@
 import { sql } from '@vercel/postgres';
-import { IPackagesRepository } from '@/src/application/repositories/packages.repository.interface';
 import {
-  CreatedPackage,
-  SelectedPackage,
-} from '@/src/entities/models/package-model';
+  CreatePackagePayload,
+  IPackagesRepository,
+} from '@/src/application/repositories/packages.repository.interface';
+import { SelectedPackage } from '@/src/entities/models/package-model';
 
 export class PackagesRepository implements IPackagesRepository {
   public async countCompletedSessions(): Promise<number> {
@@ -16,7 +16,7 @@ export class PackagesRepository implements IPackagesRepository {
     return queryResult.rows[0].count;
   }
 
-  public async create(payload: CreatedPackage): Promise<SelectedPackage> {
+  public async create(payload: CreatePackagePayload): Promise<SelectedPackage> {
     const queryResult = await sql<SelectedPackage>`
       INSERT INTO packages (
         appointment_type_id,

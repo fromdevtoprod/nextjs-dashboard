@@ -26,6 +26,12 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
     return queryResult.rows;
   }
 
+  public async findById(id: string): Promise<SelectedAppointmentType> {
+    const queryResult = await sql<SelectedAppointmentType>`
+      SELECT * FROM appointment_types WHERE id = ${id}`;
+    return queryResult.rows[0];
+  }
+
   public async findBySessionCountMin(
     sessionCountMin: number,
   ): Promise<SelectedAppointmentType[]> {

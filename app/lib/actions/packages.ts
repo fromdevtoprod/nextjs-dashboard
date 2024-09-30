@@ -1,9 +1,9 @@
 import { CreatePackageResponse } from '@/pages/api/packages';
-import { CreatedPackage } from '@/src/entities/models/package-model';
+import { CreatePackagePayload } from '@/src/application/repositories/packages.repository.interface';
 
 const URL = '/api/packages';
 
-export async function startPackage(newPackage: CreatedPackage) {
+export async function startPackage(newPackage: CreatePackagePayload) {
   const headers = getRequestHeaders('POST');
   const response = await fetch(URL, {
     ...headers,

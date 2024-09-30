@@ -61,6 +61,7 @@ export function AddAppointmentDialog({
       appointment_type_id,
       customer_id: clientId,
       date,
+      is_package: isPackage,
       time,
     };
     try {
@@ -111,6 +112,7 @@ export function AddAppointmentDialog({
                 Package
               </Label>
               <Switch
+                id="package"
                 name="package"
                 checked={isPackage}
                 onCheckedChange={setIsPackage}

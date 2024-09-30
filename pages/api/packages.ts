@@ -1,9 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  CreatedPackage,
-  SelectedPackage,
-} from '@/src/entities/models/package-model';
+import { SelectedPackage } from '@/src/entities/models/package-model';
 import { createPackageController } from '@/src/interface-adapters/packages/create-package.controller';
+import { CreatePackagePayload } from '@/src/application/repositories/packages.repository.interface';
 
 export type CreatePackageResponse = {
   message: string;
@@ -27,7 +25,7 @@ export default async function handler(
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    const startedPackage: CreatedPackage = {
+    const startedPackage: CreatePackagePayload = {
       appointment_type_id,
       customer_id,
       remaining_sessions,

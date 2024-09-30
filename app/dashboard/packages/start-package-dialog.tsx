@@ -2,10 +2,7 @@
 
 import { Plus } from 'lucide-react';
 import { SelectedCustomer } from '@/src/entities/models/customer';
-import {
-  CreatedPackage,
-  SelectedPackage,
-} from '@/src/entities/models/package-model';
+import { SelectedPackage } from '@/src/entities/models/package-model';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -27,6 +24,7 @@ import {
 } from '@/components/ui/select';
 import { startPackage } from '@/app/lib/actions/packages';
 import { useToast } from '@/hooks/use-toast';
+import { CreatePackagePayload } from '@/src/application/repositories/packages.repository.interface';
 
 type StartPackageDialogProps = {
   customers: SelectedCustomer[];
@@ -63,7 +61,7 @@ export function StartPackageDialog({
       remaining_sessions: packageType.session_count,
       start_date,
       // expiryDate: expiryDate.toISOString().split('T')[0],
-    } as CreatedPackage;
+    } as CreatePackagePayload;
 
     try {
       const { createdPackage } = await startPackage(newPackage);
