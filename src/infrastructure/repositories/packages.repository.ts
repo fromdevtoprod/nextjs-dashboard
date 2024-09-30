@@ -6,6 +6,16 @@ import {
 } from '@/src/entities/models/package-model';
 
 export class PackagesRepository implements IPackagesRepository {
+  public async countCompletedSessions(): Promise<number> {
+    const queryResult = await sql<{ count: number }>`
+      SELECT COUNT(*)
+      FROM packages
+      WHERE remaining_sessions = 0
+      AND start_date <= NOW() - INTERVAL '1 month'
+    `;
+    return queryResult.rows[0].count;
+  }
+
   public async create(payload: CreatedPackage): Promise<SelectedPackage> {
     const queryResult = await sql<SelectedPackage>`
       INSERT INTO packages (

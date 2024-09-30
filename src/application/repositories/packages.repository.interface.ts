@@ -4,6 +4,7 @@ import {
 } from '@/src/entities/models/package-model';
 
 export interface IPackagesRepository {
+  countCompletedSessions(): Promise<number>;
   create(payload: CreatedPackage): Promise<SelectedPackage>;
   delete(id: string): Promise<void>;
   findAll(): Promise<SelectedPackage[]>;
