@@ -12,8 +12,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { SelectedCustomer } from '@/src/entities/models/customer';
-import { getClientPayload } from './helpers';
 import { createClient } from '@/app/lib/actions/customers';
+import { useToast } from '@/hooks/use-toast';
+import { getClientPayload } from './helpers';
 
 type AddClientDialogProps = {
   isOpen: boolean;
@@ -26,6 +27,8 @@ export function AddClientDialog({
   onDialogSubmit,
   onOpenChange,
 }: AddClientDialogProps) {
+  const { toast } = useToast();
+
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
@@ -33,8 +36,18 @@ export function AddClientDialog({
     // @ts-ignore
     const formData = new FormData(event.target);
     const newClientPayload = getClientPayload(formData);
-    const { createdClient } = await createClient(newClientPayload);
-    onDialogSubmit(createdClient);
+
+    try {
+      const { createdClient } = await createClient(newClientPayload);
+      onDialogSubmit(createdClient);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not add this client.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>

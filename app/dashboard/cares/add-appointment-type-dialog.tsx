@@ -12,8 +12,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
-import { getAppointmentTypePayload } from './helpers';
 import { createAppointmentType } from '@/app/lib/actions/appointment-types';
+import { useToast } from '@/hooks/use-toast';
+import { getAppointmentTypePayload } from './helpers';
 
 type AppointmentTypesPageProps = {
   isOpen: boolean;
@@ -26,6 +27,8 @@ export function AddAppointmentTypeDialog({
   onOpenChange,
   onDialogSubmit,
 }: AppointmentTypesPageProps) {
+  const { toast } = useToast();
+
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
@@ -33,9 +36,19 @@ export function AddAppointmentTypeDialog({
     // @ts-ignore
     const formData = new FormData(event.target);
     const newAppointmentType = getAppointmentTypePayload(formData);
-    const { createdAppointmentType } =
-      await createAppointmentType(newAppointmentType);
-    onDialogSubmit(createdAppointmentType);
+
+    try {
+      const { createdAppointmentType } =
+        await createAppointmentType(newAppointmentType);
+      onDialogSubmit(createdAppointmentType);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not add this appointment type.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (

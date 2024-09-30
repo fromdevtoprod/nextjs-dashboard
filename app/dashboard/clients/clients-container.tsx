@@ -6,6 +6,8 @@ import { SelectedCustomer } from '@/src/entities/models/customer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { deleteClient } from '@/app/lib/actions/customers';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
 import { AddClientDialog } from './add-client-dialog';
 import { ClientList } from './client-list';
 import { EditClientDialog } from './edit-client-dialog';
@@ -21,6 +23,8 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
   const [editingClient, setEditingClient] = useState<SelectedCustomer | null>(
     null,
   );
+
+  const { toast } = useToast();
 
   const filteredClients = clients.filter(
     (client) =>
@@ -44,8 +48,17 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
   };
 
   const handleDeleteClient = async (clientId: string) => {
-    await deleteClient(clientId);
-    setClients(clients.filter((client) => client.id !== clientId));
+    try {
+      await deleteClient(clientId);
+      setClients(clients.filter((client) => client.id !== clientId));
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not delete this client.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -104,6 +117,8 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
         onDialogSubmit={handleEditClient}
         onOpenChange={() => setEditingClient(null)}
       />
+
+      <Toaster />
     </>
   );
 }

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { SelectedPackage } from '@/src/entities/models/package-model';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { Toaster } from '@/components/ui/toaster';
 import { StartPackageDialog } from './start-package-dialog';
 import { PackageList } from './package-list';
 
@@ -77,6 +78,8 @@ export function PackageTypesContainer({
         </Card>
 
         <PackageList filteredPackages={filteredPackages} />
+
+        <Toaster />
       </main>
     </>
   );

@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { Plus } from 'lucide-react';
-import { createAppointment } from '@/app/lib/actions/appointments';
+import { useToast } from '@/hooks/use-toast';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { SelectedCustomer } from '@/src/entities/models/customer';
+import { createAppointment } from '@/app/lib/actions/appointments';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -45,6 +46,7 @@ export function AddAppointmentDialog({
 }: AddAppointmentDialogProps) {
   const [isPackage, setIsPackage] = useState(false);
   const [clientId, setClientId] = useState('');
+  const { toast } = useToast();
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -61,8 +63,17 @@ export function AddAppointmentDialog({
       date,
       time,
     };
-    const { createdAppointment } = await createAppointment(newAppointment);
-    onDialogSubmit(createdAppointment);
+    try {
+      const { createdAppointment } = await createAppointment(newAppointment);
+      onDialogSubmit(createdAppointment);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not create this appointment.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
 
   const appointmentTypes = initialAppointmentTypes.filter((type) =>

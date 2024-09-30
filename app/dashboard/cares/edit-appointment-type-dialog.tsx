@@ -9,9 +9,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { getAppointmentTypePayload } from './helpers';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { updateAppointmentType } from '@/app/lib/actions/appointment-types';
+import { useToast } from '@/hooks/use-toast';
+import { getAppointmentTypePayload } from './helpers';
 
 type AppointmentTypesPageProps = {
   duration: number;
@@ -34,6 +35,8 @@ export function EditAppointmentTypeDialog({
   onOpenChange,
   onDialogSubmit,
 }: AppointmentTypesPageProps) {
+  const { toast } = useToast();
+
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
@@ -44,8 +47,18 @@ export function EditAppointmentTypeDialog({
       id,
       ...getAppointmentTypePayload(formData),
     } as SelectedAppointmentType;
-    await updateAppointmentType(updatedAppointmentType);
-    onDialogSubmit(updatedAppointmentType);
+
+    try {
+      await updateAppointmentType(updatedAppointmentType);
+      onDialogSubmit(updatedAppointmentType);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not update this appointment type.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>

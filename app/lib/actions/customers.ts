@@ -6,29 +6,40 @@ import {
 
 const URL = '/api/clients';
 
-export function deleteClient(id: string) {
+export async function deleteClient(id: string) {
   const headers = getRequestHeaders('DELETE');
-  return fetch(URL, {
+  const response = await fetch(URL, {
     ...headers,
     body: JSON.stringify({ id }),
   });
+  if (!response.ok) {
+    throw new Error('Failed to delete client');
+  }
+  return response.json();
 }
 
 export async function createClient(newClient: CreatedCustomer) {
   const headers = getRequestHeaders('POST');
-  const result = await fetch(URL, {
+  const response = await fetch(URL, {
     ...headers,
     body: JSON.stringify(newClient),
   });
-  return result.json() as Promise<CreateClientResponse>;
+  if (!response.ok) {
+    throw new Error('Failed to add client');
+  }
+  return response.json() as Promise<CreateClientResponse>;
 }
 
-export function updateClient(updatedClient: UpdatedCustomer) {
+export async function updateClient(updatedClient: UpdatedCustomer) {
   const headers = getRequestHeaders('PUT');
-  return fetch(URL, {
+  const response = await fetch(URL, {
     ...headers,
     body: JSON.stringify(updatedClient),
   });
+  if (!response.ok) {
+    throw new Error('Failed to add client');
+  }
+  return response.json();
 }
 
 function getRequestHeaders(method: 'POST' | 'PUT' | 'DELETE') {

@@ -14,6 +14,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { useToast } from '@/hooks/use-toast';
 import { AddNotesDialog } from './add-notes-dialog';
 
 type AppointmentListProps = {
@@ -26,10 +27,20 @@ export function AppointmentList({
   whenDeleteDone,
 }: AppointmentListProps) {
   const [appointmentNotesId, setAppointmentNotesId] = useState('');
+  const { toast } = useToast();
 
   const handleDeleteClick = async (appointmentId: string) => {
-    await deleteAppointment(appointmentId);
-    whenDeleteDone(appointmentId);
+    try {
+      await deleteAppointment(appointmentId);
+      whenDeleteDone(appointmentId);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not delete this appointment.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (

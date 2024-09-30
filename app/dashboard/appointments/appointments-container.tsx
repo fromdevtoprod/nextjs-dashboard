@@ -7,6 +7,7 @@ import { AppointmentList } from './appointment-list';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { Toaster } from '@/components/ui/toaster';
 
 type AppointmentsContainerProps = {
   activeDay: number;
@@ -70,6 +71,8 @@ export function AppointmentsContainer({
           whenDeleteDone={handleDeleteAppointment}
         />
       </div>
+
+      <Toaster />
     </main>
   );
 }

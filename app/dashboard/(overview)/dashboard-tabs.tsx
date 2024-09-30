@@ -13,7 +13,6 @@ export function DashboardTabs({
   recentActivities,
   upcomingAppointments,
 }: DashboardTabsProps) {
-  console.log('upcomingAppointments', upcomingAppointments);
   return (
     <Tabs defaultValue="upcoming" className="mt-8">
       <TabsList>

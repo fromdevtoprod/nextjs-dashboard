@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { startPackage } from '@/app/lib/actions/packages';
+import { useToast } from '@/hooks/use-toast';
 
 type StartPackageDialogProps = {
   customers: SelectedCustomer[];
@@ -42,6 +43,8 @@ export function StartPackageDialog({
   onOpenChange,
   onDialogSubmit,
 }: StartPackageDialogProps) {
+  const { toast } = useToast();
+
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
@@ -61,8 +64,18 @@ export function StartPackageDialog({
       start_date,
       // expiryDate: expiryDate.toISOString().split('T')[0],
     } as CreatedPackage;
-    const { createdPackage } = await startPackage(newPackage);
-    onDialogSubmit(createdPackage);
+
+    try {
+      const { createdPackage } = await startPackage(newPackage);
+      onDialogSubmit(createdPackage);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not start this package.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (

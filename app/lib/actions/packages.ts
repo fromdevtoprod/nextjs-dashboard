@@ -9,6 +9,9 @@ export async function startPackage(newPackage: CreatedPackage) {
     ...headers,
     body: JSON.stringify(newPackage),
   });
+  if (!response.ok) {
+    throw new Error('Failed to start package');
+  }
   return response.json() as Promise<CreatePackageResponse>;
 }
 

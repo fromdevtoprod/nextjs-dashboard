@@ -2,10 +2,12 @@
 
 import { useState } from 'react';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { deleteAppointmentType } from '@/app/lib/actions/appointment-types';
+import { Toaster } from '@/components/ui/toaster';
+import { useToast } from '@/hooks/use-toast';
 import { AddAppointmentTypeDialog } from './add-appointment-type-dialog';
 import { EditAppointmentTypeDialog } from './edit-appointment-type-dialog';
 import { AppointmentTypesList } from './appointment-types-list';
-import { deleteAppointmentType } from '@/app/lib/actions/appointment-types';
 
 type AppointmentTypesContainerProps = {
   initialAppointmentTypes: SelectedAppointmentType[];
@@ -20,6 +22,8 @@ export function AppointmentTypesContainer({
   const [isAddingType, setIsAddingType] = useState(false);
   const [editingType, setEditingType] =
     useState<SelectedAppointmentType | null>(null);
+
+  const { toast } = useToast();
 
   const handleAddType = (newType: SelectedAppointmentType) => {
     setAppointmentTypes([...appointmentTypes, { ...newType }]);
@@ -36,8 +40,17 @@ export function AppointmentTypesContainer({
   };
 
   const handleDeleteType = async (id: string) => {
-    await deleteAppointmentType(id);
-    setAppointmentTypes(appointmentTypes.filter((type) => type.id !== id));
+    try {
+      await deleteAppointmentType(id);
+      setAppointmentTypes(appointmentTypes.filter((type) => type.id !== id));
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not delete this appointment type.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
 
   return (
@@ -71,6 +84,8 @@ export function AppointmentTypesContainer({
         price={editingType?.price || 0}
         sessionCount={editingType?.session_count || 0}
       />
+
+      <Toaster />
     </>
   );
 }

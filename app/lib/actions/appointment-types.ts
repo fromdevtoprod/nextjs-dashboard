@@ -6,33 +6,44 @@ import {
 
 const URL = '/api/appointment-types';
 
-export function deleteAppointmentType(appointmentTypeId: string) {
+export async function deleteAppointmentType(appointmentTypeId: string) {
   const headers = getRequestHeaders('DELETE');
-  return fetch(URL, {
+  const response = await fetch(URL, {
     ...headers,
     body: JSON.stringify({ id: appointmentTypeId }),
   });
+  if (!response.ok) {
+    throw new Error('Failed to delete appointment type');
+  }
+  return response.json() as Promise<void>;
 }
 
 export async function createAppointmentType(
   newAppointmentType: CreatedAppointmentType,
 ) {
   const headers = getRequestHeaders('POST');
-  const result = await fetch(URL, {
+  const response = await fetch(URL, {
     ...headers,
     body: JSON.stringify(newAppointmentType),
   });
-  return result.json() as Promise<CreateAppointmentTypeResponse>;
+  if (!response.ok) {
+    throw new Error('Failed to add appointment type');
+  }
+  return response.json() as Promise<CreateAppointmentTypeResponse>;
 }
 
-export function updateAppointmentType(
+export async function updateAppointmentType(
   updatedAppointmentType: SelectedAppointmentType,
 ) {
   const headers = getRequestHeaders('PUT');
-  return fetch(URL, {
+  const response = await fetch(URL, {
     ...headers,
     body: JSON.stringify(updatedAppointmentType),
   });
+  if (!response.ok) {
+    throw new Error('Failed to update appointment type');
+  }
+  return response.json() as Promise<CreateAppointmentTypeResponse>;
 }
 
 function getRequestHeaders(method: 'POST' | 'PUT' | 'DELETE') {

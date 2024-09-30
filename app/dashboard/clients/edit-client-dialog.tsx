@@ -11,6 +11,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { updateClient } from '@/app/lib/actions/customers';
+import { useToast } from '@/hooks/use-toast';
 import { getClientPayload } from './helpers';
 
 type EditClientProps = {
@@ -36,6 +37,8 @@ export function EditClientDialog({
   onDialogSubmit,
   onOpenChange,
 }: EditClientProps) {
+  const { toast } = useToast();
+
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
@@ -46,8 +49,18 @@ export function EditClientDialog({
       id,
       ...getClientPayload(formData),
     } as SelectedCustomer;
-    await updateClient(updatedClient);
-    onDialogSubmit(updatedClient);
+
+    try {
+      await updateClient(updatedClient);
+      onDialogSubmit(updatedClient);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not update this client.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    }
   };
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>

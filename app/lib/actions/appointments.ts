@@ -9,6 +9,9 @@ export async function createAppointment(payload: CreateAppointmentPayload) {
     ...headers,
     body: JSON.stringify(payload),
   });
+  if (!response.ok) {
+    throw new Error('Failed to create appointment');
+  }
   return response.json() as Promise<CreateAppointmentResponse>;
 }
 
@@ -18,6 +21,9 @@ export async function deleteAppointment(id: string) {
     ...headers,
     body: JSON.stringify({ id }),
   });
+  if (!response.ok) {
+    throw new Error('Failed to delete appointment');
+  }
   return response.json() as Promise<void>;
 }
 
