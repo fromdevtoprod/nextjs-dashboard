@@ -2,6 +2,7 @@ import { sql } from '@vercel/postgres';
 import {
   CreatePackagePayload,
   IPackagesRepository,
+  UpdatePackagePayload,
 } from '@/src/application/repositories/packages.repository.interface';
 import { SelectedPackage } from '@/src/entities/models/package-model';
 
@@ -91,8 +92,41 @@ export class PackagesRepository implements IPackagesRepository {
       FROM packages
       LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
       LEFT JOIN customers ON packages.customer_id = customers.id
-      AND packages.remaining_sessions > 0
+      WHERE packages.remaining_sessions > 0
     `;
     return queryResult.rows;
+  }
+
+  public async findExistingPackage(
+    customer_id: string,
+    appointment_type_id: string,
+  ): Promise<SelectedPackage | null> {
+    const queryResult = await sql<SelectedPackage>`
+      SELECT 
+        appointment_types.name,
+        appointment_types.session_count AS total_sessions,
+        customers.name AS customer_name,
+        packages.appointment_type_id,
+        packages.customer_id,
+        packages.id,
+        packages.remaining_sessions,
+        packages.start_date
+      FROM packages
+      LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
+      LEFT JOIN customers ON packages.customer_id = customers.id
+      WHERE packages.customer_id = ${customer_id}
+      AND packages.appointment_type_id = ${appointment_type_id}
+      AND packages.remaining_sessions > 0
+    `;
+    return queryResult.rows[0];
+  }
+
+  public async update(payload: UpdatePackagePayload): Promise<SelectedPackage> {
+    await sql`
+      UPDATE packages
+      SET remaining_sessions = ${payload.remaining_sessions}
+      WHERE id = ${payload.id};
+    `;
+    return this.findById(payload.id);
   }
 }

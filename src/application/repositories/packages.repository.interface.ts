@@ -7,11 +7,18 @@ export type CreatePackagePayload = {
   start_date: string;
 };
 
+export type UpdatePackagePayload = { id: string; remaining_sessions: number };
+
 export interface IPackagesRepository {
   countCompletedSessions(): Promise<number>;
   create(payload: CreatePackagePayload): Promise<SelectedPackage>;
   delete(id: string): Promise<void>;
   findAll(): Promise<SelectedPackage[]>;
-  findById(id: string): Promise<SelectedPackage>;
   findAllUncompletedPackages(): Promise<SelectedPackage[]>;
+  findById(id: string): Promise<SelectedPackage>;
+  findExistingPackage(
+    customer_id: string,
+    appointment_type_id: string,
+  ): Promise<SelectedPackage | null>;
+  update(payload: UpdatePackagePayload): Promise<SelectedPackage>;
 }

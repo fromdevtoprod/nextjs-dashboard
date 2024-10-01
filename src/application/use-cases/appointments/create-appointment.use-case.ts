@@ -24,6 +24,21 @@ export async function createAppointmentUseCase(
     throw new Error('Appointment type not found');
   }
 
+  const existingPackage = await new PackagesRepository().findExistingPackage(
+    payload.customer_id,
+    payload.appointment_type_id,
+  );
+  if (existingPackage && existingPackage.remaining_sessions > 0) {
+    await new PackagesRepository().update({
+      id: existingPackage.id,
+      remaining_sessions: existingPackage.remaining_sessions - 1,
+    });
+    return {
+      ...createdAppointment,
+      ...getDateTime(createdAppointment.date),
+    };
+  }
+
   await new PackagesRepository().create({
     appointment_type_id: payload.appointment_type_id,
     customer_id: payload.customer_id,
