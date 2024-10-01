@@ -78,6 +78,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
       LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
       LEFT JOIN notes ON notes.appointment_id = appointments.id
       WHERE customer_id = ${customerId}
+      ORDER BY appointments.date DESC
     `;
     return queryResult.rows;
   }
