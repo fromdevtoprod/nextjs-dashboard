@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,6 +17,7 @@ import {
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { createAppointmentType } from '@/app/lib/actions/appointment-types';
 import { useToast } from '@/hooks/use-toast';
+import { Switch } from '@/components/ui/switch';
 import { getAppointmentTypePayload } from './helpers';
 
 type AppointmentTypesPageProps = {
@@ -27,6 +31,7 @@ export function AddAppointmentTypeDialog({
   onOpenChange,
   onDialogSubmit,
 }: AppointmentTypesPageProps) {
+  const [isPackage, setIsPackage] = useState(false);
   const { toast } = useToast();
 
   const handleFormSubmission = async (
@@ -101,6 +106,17 @@ export function AddAppointmentTypeDialog({
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="package" className="text-right">
+                Package
+              </Label>
+              <Switch
+                id="package"
+                name="package"
+                checked={isPackage}
+                onCheckedChange={setIsPackage}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="sessionCount" className="text-right">
                 Sessions in Package
               </Label>
@@ -111,6 +127,7 @@ export function AddAppointmentTypeDialog({
                 className="col-span-3"
                 defaultValue={1}
                 required
+                disabled={!isPackage}
               />
             </div>
           </div>
