@@ -1,20 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { AddAppointmentDialog } from './add-appointment-dialog';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
+import { AddAppointmentDialog } from './add-appointment-dialog';
 
 type AppointmentsHeaderProps = {
-  appointmentTypes: SelectedAppointmentType[];
-  clients: SelectedCustomer[];
+  appointmentTypes: AppointmentTypesWithRemainingSessions[];
   onAddAppointment: (createdAppointment: UpcomingAppointment) => void;
 };
 
 export function AppointmentsHeader({
   appointmentTypes,
-  clients,
   onAddAppointment,
 }: AppointmentsHeaderProps) {
   const [isAddingAppointment, setIsAddingAppointment] = useState(false);
@@ -28,8 +25,7 @@ export function AppointmentsHeader({
         Appointments
       </h1>
       <AddAppointmentDialog
-        initialAppointmentTypes={appointmentTypes}
-        clients={clients}
+        appointmentTypes={appointmentTypes}
         isOpened={isAddingAppointment}
         onOpenChange={setIsAddingAppointment}
         onDialogSubmit={handleDialogSubmit}

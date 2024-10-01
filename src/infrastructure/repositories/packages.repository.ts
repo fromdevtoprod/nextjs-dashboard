@@ -76,4 +76,23 @@ export class PackagesRepository implements IPackagesRepository {
     `;
     return queryResult.rows[0];
   }
+
+  public async findAllUncompletedPackages(): Promise<SelectedPackage[]> {
+    const queryResult = await sql<SelectedPackage>`
+      SELECT 
+        appointment_types.name,
+        appointment_types.session_count AS total_sessions,
+        customers.name AS customer_name,
+        packages.appointment_type_id,
+        packages.customer_id,
+        packages.id,
+        packages.remaining_sessions,
+        packages.start_date
+      FROM packages
+      LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
+      LEFT JOIN customers ON packages.customer_id = customers.id
+      AND packages.remaining_sessions > 0
+    `;
+    return queryResult.rows;
+  }
 }

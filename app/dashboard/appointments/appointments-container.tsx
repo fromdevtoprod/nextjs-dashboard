@@ -5,16 +5,14 @@ import { AppointmentsHeader } from './appointments-header';
 import { AppointmentsCalendar } from './appointments-calendar';
 import { AppointmentList } from './appointment-list';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { Toaster } from '@/components/ui/toaster';
+import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
 
 type AppointmentsContainerProps = {
   activeDay: number;
   activeMonth: number;
   activeYear: number;
-  appointmentTypes: SelectedAppointmentType[];
-  clients: SelectedCustomer[];
+  appointmentTypes: AppointmentTypesWithRemainingSessions[];
   initialAppointments: UpcomingAppointment[];
 };
 
@@ -23,7 +21,6 @@ export function AppointmentsContainer({
   activeMonth,
   activeYear,
   appointmentTypes,
-  clients,
   initialAppointments,
 }: AppointmentsContainerProps) {
   const [upcomingAppointments, setUpcomingAppointments] =
@@ -60,7 +57,6 @@ export function AppointmentsContainer({
     <main className="flex-1 overflow-y-auto p-4 md:p-8">
       <AppointmentsHeader
         appointmentTypes={appointmentTypes}
-        clients={clients}
         onAddAppointment={handleAddAppointment}
       />
 

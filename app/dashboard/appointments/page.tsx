@@ -1,5 +1,5 @@
 import { fetchAllCustomers } from '@/app/lib/data/customers';
-import { fetchAllAppointmentTypes } from '@/app/lib/data/appointment-types';
+import { fetchAppointmentTypesWithRemainingSessions } from '@/app/lib/data/appointment-types';
 import { fetchAllAppointmentsByDate } from '@/app/lib/data/appointments';
 import { AppointmentsContainer } from './appointments-container';
 
@@ -11,20 +11,18 @@ export default async function AppointmentsPage({
   const activeDay = getActiveDay(searchParams.day);
   const activeMonth = getActiveMonth(searchParams.month);
   const activeYear = getActiveYear(searchParams.year);
-  const clients = await fetchAllCustomers();
-  const appointmentTypes = await fetchAllAppointmentTypes();
-  const appointmentsByDate = await fetchAllAppointmentsByDate(
-    activeDay,
-    activeMonth,
-    activeYear,
-  );
+  const [clients, appointmentsByDate] = await Promise.all([
+    fetchAllCustomers(),
+    fetchAllAppointmentsByDate(activeDay, activeMonth, activeYear),
+  ]);
+  const appointmentTypes =
+    await fetchAppointmentTypesWithRemainingSessions(clients);
   return (
     <AppointmentsContainer
       activeDay={activeDay}
       activeMonth={activeMonth}
       activeYear={activeYear}
       appointmentTypes={appointmentTypes}
-      clients={clients}
       initialAppointments={appointmentsByDate}
     />
   );

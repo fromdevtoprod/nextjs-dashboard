@@ -4,8 +4,6 @@ import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
-import { SelectedCustomer } from '@/src/entities/models/customer';
 import { createAppointment } from '@/app/lib/actions/appointments';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -28,18 +26,18 @@ import {
 } from '@/components/ui/dialog';
 import { CustomersCombobox } from '@/components/customers-combobox';
 import { Switch } from '@/components/ui/switch';
+import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
+import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 
 type AddAppointmentDialogProps = {
-  initialAppointmentTypes: SelectedAppointmentType[];
-  clients: SelectedCustomer[];
+  appointmentTypes: AppointmentTypesWithRemainingSessions[];
   isOpened: boolean;
   onDialogSubmit: (createdAppointment: UpcomingAppointment) => void;
   onOpenChange: (isOpened: boolean) => void;
 };
 
 export function AddAppointmentDialog({
-  initialAppointmentTypes,
-  clients,
+  appointmentTypes,
   isOpened,
   onDialogSubmit,
   onOpenChange,
@@ -77,9 +75,17 @@ export function AddAppointmentDialog({
     }
   };
 
-  const appointmentTypes = initialAppointmentTypes.filter((type) =>
-    isPackage ? type.session_count > 1 : type.session_count === 1,
+  const clientAppointmentTypes = appointmentTypes.find(
+    (type) => type.customerId === clientId,
   );
+
+  let filteredAppointmentTypes: SelectedAppointmentType[] = [];
+
+  if (clientAppointmentTypes) {
+    filteredAppointmentTypes = clientAppointmentTypes.appointmentTypes.filter(
+      (type) => (isPackage ? type.session_count > 1 : type.session_count === 1),
+    );
+  }
 
   return (
     <Dialog open={isOpened} onOpenChange={onOpenChange}>
@@ -103,7 +109,10 @@ export function AddAppointmentDialog({
                 Client
               </Label>
               <CustomersCombobox
-                clients={clients}
+                clients={appointmentTypes.map((type) => ({
+                  id: type.customerId,
+                  name: type.customerName,
+                }))}
                 onChangeClient={setClientId}
               />
             </div>
@@ -127,9 +136,9 @@ export function AddAppointmentDialog({
                   <SelectValue placeholder="Select type" />
                 </SelectTrigger>
                 <SelectContent>
-                  {appointmentTypes.map((type) => (
+                  {filteredAppointmentTypes.map((type) => (
                     <SelectItem key={type.id} value={type.id.toString()}>
-                      {type.name + (type.session_count > 1 ? ' (Package)' : '')}
+                      {type.name}
                     </SelectItem>
                   ))}
                 </SelectContent>

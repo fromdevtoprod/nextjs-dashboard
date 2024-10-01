@@ -13,4 +13,5 @@ export interface IPackagesRepository {
   delete(id: string): Promise<void>;
   findAll(): Promise<SelectedPackage[]>;
   findById(id: string): Promise<SelectedPackage>;
+  findAllUncompletedPackages(): Promise<SelectedPackage[]>;
 }

@@ -18,13 +18,17 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { CustomerField } from '@/app/lib/definitions';
+
+type Client = {
+  id: string;
+  name: string;
+};
 
 export function CustomersCombobox({
   clients,
   onChangeClient,
 }: {
-  clients: CustomerField[];
+  clients: Client[];
   onChangeClient: (clientId: string) => void;
 }) {
   const [open, setOpen] = React.useState(false);
