@@ -12,7 +12,7 @@ export class PackagesRepository implements IPackagesRepository {
       SELECT COUNT(*)
       FROM packages
       WHERE remaining_sessions = 0
-      AND start_date <= NOW() - INTERVAL '1 month'
+      AND start_date >= NOW() - INTERVAL '1 month'
     `;
     return queryResult.rows[0].count;
   }
