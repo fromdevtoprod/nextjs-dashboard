@@ -9,6 +9,7 @@ export type CreateAppointmentPayload = {
   customer_id: string;
   date: string;
   is_package: boolean;
+  package_id?: string | null;
 };
 
 export type FindAllAppointmentsByDatePayload = {

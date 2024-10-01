@@ -20,5 +20,7 @@ export interface IPackagesRepository {
     customer_id: string,
     appointment_type_id: string,
   ): Promise<SelectedPackage | null>;
-  update(payload: UpdatePackagePayload): Promise<SelectedPackage>;
+  updateRemainingSessions(
+    payload: UpdatePackagePayload,
+  ): Promise<SelectedPackage>;
 }

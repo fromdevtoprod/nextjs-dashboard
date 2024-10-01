@@ -122,6 +122,8 @@ async function seedAppointments() {
       customer_id UUID NOT NULL,
       CONSTRAINT fk_customer_id FOREIGN KEY(customer_id) REFERENCES customers(id),
       date TIMESTAMP NOT NULL
+      package_id UUID,
+      CONSTRAINT fk_package_id FOREIGN KEY(package_id) REFERENCES packages(id)
     );
   `;
 

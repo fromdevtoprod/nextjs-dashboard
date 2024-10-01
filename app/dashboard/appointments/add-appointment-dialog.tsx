@@ -60,6 +60,7 @@ export function AddAppointmentDialog({
       customer_id: clientId,
       date,
       is_package: isPackage,
+      package_id: isPackage ? searchPackageId(appointment_type_id) : null,
       time,
     };
     try {
@@ -73,6 +74,22 @@ export function AddAppointmentDialog({
         variant: 'destructive',
       });
     }
+  };
+
+  const searchPackageId = (appointmentTypeId: string) => {
+    const appointmentType = appointmentTypes.find(
+      (type) => type.customerId === clientId,
+    );
+    if (!appointmentType) {
+      return null;
+    }
+    const foundType = appointmentType.appointmentTypes.find(
+      (type) => type.id === appointmentTypeId,
+    );
+    if (!foundType || !foundType.package_id) {
+      return null;
+    }
+    return foundType.package_id;
   };
 
   const clientAppointmentTypes = appointmentTypes.find(

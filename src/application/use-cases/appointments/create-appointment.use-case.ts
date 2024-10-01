@@ -9,8 +9,8 @@ const appRepository = new AppointmentsRepository();
 export async function createAppointmentUseCase(
   payload: CreateAppointmentPayload,
 ): Promise<UpcomingAppointment> {
-  const createdAppointment = await appRepository.createAppointment(payload);
   if (!payload.is_package) {
+    const createdAppointment = await appRepository.createAppointment(payload);
     return {
       ...createdAppointment,
       ...getDateTime(createdAppointment.date),
@@ -24,26 +24,35 @@ export async function createAppointmentUseCase(
     throw new Error('Appointment type not found');
   }
 
-  const existingPackage = await new PackagesRepository().findExistingPackage(
-    payload.customer_id,
-    payload.appointment_type_id,
-  );
-  if (existingPackage && existingPackage.remaining_sessions > 0) {
-    await new PackagesRepository().update({
-      id: existingPackage.id,
-      remaining_sessions: existingPackage.remaining_sessions - 1,
-    });
-    return {
-      ...createdAppointment,
-      ...getDateTime(createdAppointment.date),
-    };
+  if (payload.package_id) {
+    const existingPackage = await new PackagesRepository().findById(
+      payload.package_id,
+    );
+    if (existingPackage && existingPackage.remaining_sessions > 0) {
+      await new PackagesRepository().updateRemainingSessions({
+        id: existingPackage.id,
+        remaining_sessions: existingPackage.remaining_sessions - 1,
+      });
+      const createdAppointment = await appRepository.createAppointment({
+        ...payload,
+        package_id: existingPackage.id,
+      });
+      return {
+        ...createdAppointment,
+        ...getDateTime(createdAppointment.date),
+      };
+    }
   }
 
-  await new PackagesRepository().create({
+  const startedPackage = await new PackagesRepository().create({
     appointment_type_id: payload.appointment_type_id,
     customer_id: payload.customer_id,
     remaining_sessions: appointmentType.session_count - 1,
     start_date: new Date(payload.date).toISOString(),
+  });
+  const createdAppointment = await appRepository.createAppointment({
+    ...payload,
+    package_id: startedPackage.id,
   });
   return {
     ...createdAppointment,

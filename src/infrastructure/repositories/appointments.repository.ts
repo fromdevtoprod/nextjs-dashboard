@@ -36,11 +36,13 @@ export class AppointmentsRepository implements IAppointmentsRepository {
       INSERT INTO appointments (
         appointment_type_id,
         customer_id,
-        date
+        date,
+        package_id
       ) VALUES (
         ${payload.appointment_type_id},
         ${payload.customer_id},
-        ${payload.date}
+        ${payload.date},
+        ${payload.package_id}
       ) RETURNING *
     `;
     const createdAppointment = queryResult.rows[0];

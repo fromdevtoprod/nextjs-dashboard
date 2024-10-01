@@ -4,10 +4,14 @@ import { SelectedPackage } from '@/src/entities/models/package-model';
 import { findAllAppointmentTypesUseCase } from './find-all-appointment-types.use-case';
 import { findAllUncompletedPackagesUseCase } from '../packages/find-all-uncompleted-packages.use-case';
 
+type SelectedAppointmentTypeWithPackage = SelectedAppointmentType & {
+  package_id?: string;
+};
+
 export type AppointmentTypesWithRemainingSessions = {
   customerId: string;
   customerName: string;
-  appointmentTypes: SelectedAppointmentType[];
+  appointmentTypes: SelectedAppointmentTypeWithPackage[];
 };
 
 export async function findAppointmentTypesWithRemainingSessionsUseCase(
@@ -22,10 +26,10 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
     allUncompletedPackages,
   );
   const findAppointmentTypeById = findAppointmentType(allAppointmentTypes);
-  const getAllAppointmentTypesResultByClient =
-    getAllAppointmentTypesResult(allAppointmentTypes);
+  const getAllDefaultAppointments =
+    getAllAppointmentByDefault(allAppointmentTypes);
 
-  const getAppointmentTypesPackages = (
+  const filterAppointmentTypesByPackages = (
     uncompletedPackages: SelectedPackage[],
   ) => {
     const appointmentTypesPackages = uncompletedPackages.map(
@@ -39,6 +43,7 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
         return {
           ...appointmentTypePackage,
           name: `${appointmentTypePackage.name} - ${uncompletedPackage.remaining_sessions} session(s) left`,
+          package_id: uncompletedPackage.id,
         };
       },
     );
@@ -47,40 +52,39 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
     );
   };
 
-  const filterAppointmentTypesByPackage =
-    filterAppointmentTypes(allAppointmentTypes);
+  const removeDefaultAppointmentTypes =
+    removeDefaultAppointmentTypesWhenSessionInProgress(allAppointmentTypes);
 
   return clients.map((client) => {
     const clientUncompletedPackages = findUncompletedPackagesByClientId(
       client.id,
     );
     if (clientUncompletedPackages.length === 0) {
-      return getAllAppointmentTypesResultByClient(client);
+      return getAllDefaultAppointments(client);
     }
 
-    const appointmentTypesPackages = getAppointmentTypesPackages(
+    const appointmentTypesPackages = filterAppointmentTypesByPackages(
       clientUncompletedPackages,
     );
     if (appointmentTypesPackages.length === 0) {
-      return getAllAppointmentTypesResultByClient(client);
+      return getAllDefaultAppointments(client);
     }
 
-    const filteredAppointmentTypes = filterAppointmentTypesByPackage(
-      appointmentTypesPackages,
-    );
+    const defaultAppointmentTypesWithoutPackages =
+      removeDefaultAppointmentTypes(appointmentTypesPackages);
 
     return {
       customerId: client.id,
       customerName: client.name,
       appointmentTypes: [
         ...appointmentTypesPackages,
-        ...filteredAppointmentTypes,
+        ...defaultAppointmentTypesWithoutPackages,
       ],
     };
   });
 }
 
-function filterAppointmentTypes(
+function removeDefaultAppointmentTypesWhenSessionInProgress(
   allAppointmentTypes: SelectedAppointmentType[],
 ) {
   return (appointmentTypesPackages: SelectedAppointmentType[]) => {
@@ -93,7 +97,7 @@ function filterAppointmentTypes(
   };
 }
 
-function getAllAppointmentTypesResult(
+function getAllAppointmentByDefault(
   allAppointmentTypes: SelectedAppointmentType[],
 ) {
   return (client: SelectedCustomer) => {

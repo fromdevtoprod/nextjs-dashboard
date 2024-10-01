@@ -121,7 +121,9 @@ export class PackagesRepository implements IPackagesRepository {
     return queryResult.rows[0];
   }
 
-  public async update(payload: UpdatePackagePayload): Promise<SelectedPackage> {
+  public async updateRemainingSessions(
+    payload: UpdatePackagePayload,
+  ): Promise<SelectedPackage> {
     await sql`
       UPDATE packages
       SET remaining_sessions = ${payload.remaining_sessions}

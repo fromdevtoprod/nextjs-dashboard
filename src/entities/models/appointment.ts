@@ -5,6 +5,7 @@ export const selectedAppointmentSchema = z.object({
   customer_id: z.string(),
   date: z.string(),
   id: z.string(),
+  package_id: z.string(),
 });
 
 export const upcomingAppointmentSchema = z.object({
