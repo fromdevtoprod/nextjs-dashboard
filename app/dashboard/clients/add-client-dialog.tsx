@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,7 +17,9 @@ import {
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { createClient } from '@/app/lib/actions/customers';
 import { useToast } from '@/hooks/use-toast';
-import { getClientPayload } from './helpers';
+import { createCustomerController } from '@/src/interface-adapters/customers/create-customer.controller';
+import { InputParseError } from '@/src/entities/errors/common';
+import { updateCustomerController } from '@/src/interface-adapters/customers/update-customer.controller';
 
 type AddClientDialogProps = {
   isOpen: boolean;
@@ -27,18 +32,36 @@ export function AddClientDialog({
   onDialogSubmit,
   onOpenChange,
 }: AddClientDialogProps) {
+  const [emailOrPhoneError, setEmailOrPhoneError] = useState('');
+
   const { toast } = useToast();
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
-    // @ts-ignore
-    const formData = new FormData(event.target);
-    const newClientPayload = getClientPayload(formData);
+
+    let newClientPayload;
+    try {
+      // @ts-ignore
+      const formData = new FormData(event.target);
+      newClientPayload = updateCustomerController('', formData);
+    } catch (error: any) {
+      setEmailOrPhoneError(error.message);
+    }
+
+    if (!newClientPayload) {
+      return;
+    }
 
     try {
-      const { createdClient } = await createClient(newClientPayload);
+      const { createdClient } = await createClient({
+        birthDate: newClientPayload.birthDate,
+        email: newClientPayload.email,
+        name: newClientPayload.name,
+        pathology: newClientPayload.pathology,
+        phone: newClientPayload.phone,
+      });
       onDialogSubmit(createdClient);
     } catch (error) {
       console.error(error);
@@ -70,7 +93,12 @@ export function AddClientDialog({
               <Label htmlFor="name" className="text-right">
                 Name
               </Label>
-              <Input id="name" name="name" className="col-span-3" />
+              <Input
+                id="name"
+                name="name"
+                className="col-span-3"
+                required={true}
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="email" className="text-right">
@@ -93,6 +121,14 @@ export function AddClientDialog({
                 type="tel"
                 className="col-span-3"
               />
+              {emailOrPhoneError && (
+                <>
+                  <div></div>
+                  <p className="col-span-3 text-sm text-red-500">
+                    {emailOrPhoneError}
+                  </p>
+                </>
+              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthDate" className="text-right">
@@ -103,6 +139,7 @@ export function AddClientDialog({
                 name="birthDate"
                 type="date"
                 className="col-span-3"
+                required={true}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">

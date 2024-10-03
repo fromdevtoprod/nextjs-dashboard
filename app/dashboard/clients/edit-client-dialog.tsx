@@ -1,4 +1,4 @@
-import { SelectedCustomer } from '@/src/entities/models/customer';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/dialog';
 import { updateClient } from '@/app/lib/actions/customers';
 import { useToast } from '@/hooks/use-toast';
-import { getClientPayload } from './helpers';
+import { updateCustomerController } from '@/src/interface-adapters/customers/update-customer.controller';
+import { UpdateCustomerPayload } from '@/src/application/repositories/customers.repository.interface';
 
 type EditClientProps = {
   birthDate: string;
@@ -37,22 +38,31 @@ export function EditClientDialog({
   onDialogSubmit,
   onOpenChange,
 }: EditClientProps) {
+  const [emailOrPhoneError, setEmailOrPhoneError] = useState('');
+
   const { toast } = useToast();
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
-    // @ts-ignore
-    const formData = new FormData(event.target);
-    const updatedClient = {
-      id,
-      ...getClientPayload(formData),
-    } as SelectedCustomer;
+
+    let updateCustomerPayload;
+    try {
+      // @ts-ignore
+      const formData = new FormData(event.target);
+      updateCustomerPayload = updateCustomerController(id, formData);
+    } catch (error: any) {
+      setEmailOrPhoneError(error.message);
+    }
+
+    if (!updateCustomerPayload) {
+      return;
+    }
 
     try {
-      await updateClient(updatedClient);
-      onDialogSubmit(updatedClient);
+      await updateClient(updateCustomerPayload);
+      onDialogSubmit(updateCustomerPayload);
     } catch (error) {
       console.error(error);
       toast({
@@ -107,6 +117,14 @@ export function EditClientDialog({
                 defaultValue={phone}
                 className="col-span-3"
               />
+              {emailOrPhoneError && (
+                <>
+                  <div></div>
+                  <p className="col-span-3 text-sm text-red-500">
+                    {emailOrPhoneError}
+                  </p>
+                </>
+              )}
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthDate" className="text-right">

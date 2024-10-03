@@ -39,8 +39,3 @@ function getEmailOrPhoneError() {
     ]),
   );
 }
-
-export function formatBirthDate(birthDate: string) {
-  const [day, month, year] = birthDate.split('/');
-  return `${year}-${month}-${day}`;
-}

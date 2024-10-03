@@ -1,8 +1,8 @@
 import { CreateClientResponse } from '@/pages/api/clients';
 import {
-  CreatedCustomer,
-  UpdatedCustomer,
-} from '@/src/entities/models/customer';
+  CreateCustomerPayload,
+  UpdateCustomerPayload,
+} from '@/src/application/repositories/customers.repository.interface';
 
 const URL = '/api/clients';
 
@@ -18,11 +18,11 @@ export async function deleteClient(id: string) {
   return response.json();
 }
 
-export async function createClient(newClient: CreatedCustomer) {
+export async function createClient(payload: CreateCustomerPayload) {
   const headers = getRequestHeaders('POST');
   const response = await fetch(URL, {
     ...headers,
-    body: JSON.stringify(newClient),
+    body: JSON.stringify(payload),
   });
   if (!response.ok) {
     throw new Error('Failed to add client');
@@ -30,14 +30,14 @@ export async function createClient(newClient: CreatedCustomer) {
   return response.json() as Promise<CreateClientResponse>;
 }
 
-export async function updateClient(updatedClient: UpdatedCustomer) {
+export async function updateClient(payload: UpdateCustomerPayload) {
   const headers = getRequestHeaders('PUT');
   const response = await fetch(URL, {
     ...headers,
-    body: JSON.stringify(updatedClient),
+    body: JSON.stringify(payload),
   });
   if (!response.ok) {
-    throw new Error('Failed to add client');
+    throw new Error('Failed to update client');
   }
   return response.json();
 }
