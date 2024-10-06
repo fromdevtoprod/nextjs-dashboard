@@ -23,18 +23,30 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    const { birthDate, email, name, pathology, phone } = req.body;
+    const {
+      address,
+      birthDate,
+      city,
+      email,
+      name,
+      pathology,
+      phone,
+      postalCode,
+    } = req.body;
 
     if (!birthDate || !(email || phone) || !name) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
     const newCustomer: CreateCustomerPayload = {
+      address,
       birthDate,
+      city,
       email,
       name,
       pathology,
       phone,
+      postalCode,
     };
 
     const createdClient = await createCustomerUseCase(newCustomer);
@@ -44,19 +56,32 @@ export default async function handler(
       createdClient,
     } as CreateClientResponse);
   } else if (req.method === 'PUT') {
-    const { birthDate, email, id, name, pathology, phone } = req.body;
+    const {
+      address,
+      birthDate,
+      city,
+      email,
+      id,
+      name,
+      pathology,
+      phone,
+      postalCode,
+    } = req.body;
 
     if (!birthDate || !(email || phone) || !id || !name) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
     const payload: UpdateCustomerPayload = {
+      address,
       birthDate,
+      city,
       email,
       id,
       name,
       pathology,
       phone,
+      postalCode,
     };
 
     const updatedClient = await updateCustomerUseCase(payload);

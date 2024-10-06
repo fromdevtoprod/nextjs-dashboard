@@ -4,11 +4,14 @@ import {
 } from '@/src/entities/models/customer';
 
 export type CreateCustomerPayload = {
-  name: string;
-  email: string;
-  phone: string;
+  address: string;
   birthDate: string;
+  city: string;
+  email: string;
+  name: string;
   pathology: string;
+  phone: string;
+  postalCode: string;
 };
 
 export type UpdateCustomerPayload = CreateCustomerPayload & { id: string };

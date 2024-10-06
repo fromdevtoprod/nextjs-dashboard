@@ -24,8 +24,8 @@ export class CustomersRepository implements ICustomersRepository {
     payload: CreateCustomerPayload,
   ): Promise<CreatedCustomer> {
     const queryResult = await sql<CreatedCustomer>`
-      INSERT INTO customers(name, email, phone, birth_date, pathology)
-      VALUES(${payload.name}, ${payload.email}, ${payload.phone}, ${payload.birthDate}, ${payload.pathology})
+      INSERT INTO customers(name, email, phone, birth_date, pathology, address, city, postal_code)
+      VALUES(${payload.name}, ${payload.email}, ${payload.phone}, ${payload.birthDate}, ${payload.pathology}, ${payload.address}, ${payload.city}, ${payload.postalCode})
       RETURNING *
     `;
     return queryResult.rows[0];
@@ -49,11 +49,14 @@ export class CustomersRepository implements ICustomersRepository {
   public async updateCustomer(payload: UpdateCustomerPayload): Promise<any> {
     const queryResult = await sql<UpdatedCustomer>`
       UPDATE customers
-      SET name = ${payload.name},
-          email = ${payload.email},
-          phone = ${payload.phone},
+      SET address = ${payload.address},
           birth_date = ${payload.birthDate},
-          pathology = ${payload.pathology}
+          city = ${payload.city},
+          email = ${payload.email},
+          name = ${payload.name},
+          pathology = ${payload.pathology},
+          phone = ${payload.phone},
+          postal_code = ${payload.postalCode}
       WHERE id = ${payload.id}
       RETURNING *
     `;

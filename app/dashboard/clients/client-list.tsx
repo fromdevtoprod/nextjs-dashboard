@@ -1,4 +1,4 @@
-import { Edit, Trash2 } from 'lucide-react';
+import { Edit } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { SelectedCustomer } from '@/src/entities/models/customer';
+import { DeleteClientConfirmation } from './delete-client-confirmation';
 
 type ClientListProps = {
   filteredClients: SelectedCustomer[];
@@ -32,6 +33,8 @@ export function ClientList({
           <TableHeader>
             <TableRow>
               <TableHead>Name</TableHead>
+              <TableHead>Age</TableHead>
+              <TableHead>City</TableHead>
               <TableHead>Email</TableHead>
               <TableHead>Phone</TableHead>
               {/* <TableHead>Last Appointment</TableHead>
@@ -43,6 +46,8 @@ export function ClientList({
             {filteredClients.map((client) => (
               <TableRow key={client.id}>
                 <TableCell className="font-medium">{client.name}</TableCell>
+                <TableCell>{getAgeFromBirthDate(client.birth_date)}</TableCell>
+                <TableCell>{client.city}</TableCell>
                 <TableCell>{client.email}</TableCell>
                 <TableCell>{client.phone}</TableCell>
                 {/* <TableCell>{client.lastAppointment}</TableCell>
@@ -56,14 +61,10 @@ export function ClientList({
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-red-500 hover:text-red-700"
-                      onClick={() => onDeleteClick(client.id)}
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <DeleteClientConfirmation
+                      clientId={client.id}
+                      whenDeleteDone={() => onDeleteClick(client.id)}
+                    />
                   </div>
                 </TableCell>
               </TableRow>
@@ -73,4 +74,15 @@ export function ClientList({
       </CardContent>
     </Card>
   );
+}
+
+function getAgeFromBirthDate(birthDate: string) {
+  const today = new Date();
+  const birth = new Date(birthDate);
+  let age = today.getFullYear() - birth.getFullYear();
+  const m = today.getMonth() - birth.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
+    age--;
+  }
+  return age;
 }

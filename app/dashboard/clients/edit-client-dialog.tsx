@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,34 +15,45 @@ import {
 import { updateClient } from '@/app/lib/actions/customers';
 import { useToast } from '@/hooks/use-toast';
 import { updateCustomerController } from '@/src/interface-adapters/customers/update-customer.controller';
-import { UpdateCustomerPayload } from '@/src/application/repositories/customers.repository.interface';
 
 type EditClientProps = {
+  address: string;
   birthDate: string;
+  city: string;
   email: string;
   id: string;
   isOpen: boolean;
   name: string;
   pathology: string;
   phone: string;
+  postalCode: string;
   onDialogSubmit: (data: any) => void;
-  onOpenChange: () => void;
+  onOpenChange: (isOpen: boolean) => void;
 };
 
 export function EditClientDialog({
+  address,
   birthDate,
+  city,
   email,
   id,
   isOpen,
   name,
   pathology,
   phone,
+  postalCode,
   onDialogSubmit,
   onOpenChange,
 }: EditClientProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const [emailOrPhoneError, setEmailOrPhoneError] = useState('');
 
   const { toast } = useToast();
+
+  const handleOpenChange = () => {
+    setEmailOrPhoneError('');
+    onOpenChange(!isOpen);
+  };
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -49,11 +62,13 @@ export function EditClientDialog({
 
     let updateCustomerPayload;
     try {
+      setIsLoading(true);
       // @ts-ignore
       const formData = new FormData(event.target);
       updateCustomerPayload = updateCustomerController(id, formData);
     } catch (error: any) {
       setEmailOrPhoneError(error.message);
+      setIsLoading(false);
     }
 
     if (!updateCustomerPayload) {
@@ -70,10 +85,12 @@ export function EditClientDialog({
         title: 'Sorry, something went wrong !',
         variant: 'destructive',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Client</DialogTitle>
@@ -128,7 +145,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthDate" className="text-right">
-                Birth date
+                Birth Date
               </Label>
               <Input
                 id="birthDate"
@@ -136,6 +153,45 @@ export function EditClientDialog({
                 type="date"
                 defaultValue={birthDate}
                 className="col-span-3"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="address" className="text-right">
+                Address
+              </Label>
+              <Input
+                id="address"
+                name="address"
+                type="text"
+                className="col-span-3"
+                placeholder="1234 Main Street"
+                defaultValue={address}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="postalCode" className="text-right">
+                Postal Code
+              </Label>
+              <Input
+                id="postalCode"
+                name="postalCode"
+                type="text"
+                className="col-span-3"
+                placeholder="12345"
+                defaultValue={postalCode}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="city" className="text-right">
+                City
+              </Label>
+              <Input
+                id="city"
+                name="city"
+                type="text"
+                className="col-span-3"
+                placeholder="City"
+                defaultValue={city}
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -154,6 +210,7 @@ export function EditClientDialog({
             <Button
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+              disabled={isLoading}
             >
               Save Changes
             </Button>

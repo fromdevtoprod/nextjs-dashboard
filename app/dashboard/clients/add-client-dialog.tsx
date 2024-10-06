@@ -17,14 +17,12 @@ import {
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { createClient } from '@/app/lib/actions/customers';
 import { useToast } from '@/hooks/use-toast';
-import { createCustomerController } from '@/src/interface-adapters/customers/create-customer.controller';
-import { InputParseError } from '@/src/entities/errors/common';
 import { updateCustomerController } from '@/src/interface-adapters/customers/update-customer.controller';
 
 type AddClientDialogProps = {
   isOpen: boolean;
   onDialogSubmit: (createdClient: SelectedCustomer) => void;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange: (isOpen: boolean) => void;
 };
 
 export function AddClientDialog({
@@ -32,9 +30,16 @@ export function AddClientDialog({
   onDialogSubmit,
   onOpenChange,
 }: AddClientDialogProps) {
+  const [isLoading, setIsLoading] = useState(false);
   const [emailOrPhoneError, setEmailOrPhoneError] = useState('');
 
   const { toast } = useToast();
+
+  const handleOpenChange = () => {
+    setIsLoading(false);
+    setEmailOrPhoneError('');
+    onOpenChange(!isOpen);
+  };
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -43,11 +48,13 @@ export function AddClientDialog({
 
     let newClientPayload;
     try {
+      setIsLoading(true);
       // @ts-ignore
       const formData = new FormData(event.target);
       newClientPayload = updateCustomerController('', formData);
     } catch (error: any) {
       setEmailOrPhoneError(error.message);
+      setIsLoading(false);
     }
 
     if (!newClientPayload) {
@@ -56,11 +63,14 @@ export function AddClientDialog({
 
     try {
       const { createdClient } = await createClient({
+        address: newClientPayload.address,
         birthDate: newClientPayload.birthDate,
+        city: newClientPayload.city,
         email: newClientPayload.email,
         name: newClientPayload.name,
         pathology: newClientPayload.pathology,
         phone: newClientPayload.phone,
+        postalCode: newClientPayload.postalCode,
       });
       onDialogSubmit(createdClient);
     } catch (error) {
@@ -70,10 +80,12 @@ export function AddClientDialog({
         title: 'Sorry, something went wrong !',
         variant: 'destructive',
       });
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
           <Plus className="mr-2 h-5 w-5" />
@@ -98,6 +110,7 @@ export function AddClientDialog({
                 name="name"
                 className="col-span-3"
                 required={true}
+                placeholder="M. John Doe"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -109,6 +122,7 @@ export function AddClientDialog({
                 name="email"
                 type="email"
                 className="col-span-3"
+                placeholder="email@company.com"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -120,6 +134,7 @@ export function AddClientDialog({
                 name="phone"
                 type="tel"
                 className="col-span-3"
+                placeholder="+1 123 456 7890"
               />
               {emailOrPhoneError && (
                 <>
@@ -132,7 +147,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthDate" className="text-right">
-                Birth date
+                Birth Date
               </Label>
               <Input
                 id="birthDate"
@@ -140,6 +155,42 @@ export function AddClientDialog({
                 type="date"
                 className="col-span-3"
                 required={true}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="address" className="text-right">
+                Address
+              </Label>
+              <Input
+                id="address"
+                name="address"
+                type="text"
+                className="col-span-3"
+                placeholder="1234 Main Street"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="postalCode" className="text-right">
+                Postal Code
+              </Label>
+              <Input
+                id="postalCode"
+                name="postalCode"
+                type="text"
+                className="col-span-3"
+                placeholder="12345"
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="city" className="text-right">
+                City
+              </Label>
+              <Input
+                id="city"
+                name="city"
+                type="text"
+                className="col-span-3"
+                placeholder="City"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -153,6 +204,7 @@ export function AddClientDialog({
             <Button
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+              disabled={isLoading}
             >
               Add Client
             </Button>
