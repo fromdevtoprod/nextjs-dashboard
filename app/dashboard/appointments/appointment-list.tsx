@@ -64,6 +64,7 @@ export function AppointmentList({
                 <TableHead>Date</TableHead>
                 <TableHead>Time</TableHead>
                 <TableHead>Package</TableHead>
+                <TableHead>Payment</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -77,6 +78,7 @@ export function AppointmentList({
                   <TableCell>
                     {appointment.session_count > 1 ? 'Yes' : 'No'}
                   </TableCell>
+                  <TableCell>{'Paid'}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
                       <Button

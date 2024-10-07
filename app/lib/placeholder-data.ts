@@ -347,6 +347,8 @@ const notes = [
   },
 ];
 
+const payments = [];
+
 export {
   users,
   customers,
@@ -356,4 +358,5 @@ export {
   packages,
   appointments,
   notes,
+  payments,
 };

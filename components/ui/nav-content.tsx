@@ -11,6 +11,7 @@ import {
   LogOut,
   Package,
   Menu,
+  DollarSign,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
@@ -70,6 +71,7 @@ function NavContent({ className = '' }) {
           { icon: Users, label: 'Clients', href: '/dashboard/clients' },
           { icon: CalendarDays, label: 'History', href: '/dashboard/history' },
           { icon: Package, label: 'Packages', href: '/dashboard/packages' },
+          { icon: DollarSign, label: 'Payments', href: '/dashboard/payments' },
           { icon: Clipboard, label: 'Reports', href: '/dashboard/reports' },
           { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
         ].map((item) => (

@@ -1,6 +1,6 @@
 import { DashboardHeader } from './dashboard-header';
-import { SkeletonCards } from './skeleton/skeleton-cards';
-import { SkeletonTabs } from './skeleton/skeleton-tabs';
+import { SkeletonCards } from './skeletons/skeleton-cards';
+import { SkeletonTabs } from './skeletons/skeleton-tabs';
 
 export default function OverviewLoadingSkeleton() {
   return (

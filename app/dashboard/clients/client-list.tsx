@@ -1,5 +1,4 @@
-import { Edit } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { CircleArrowOutUpRight, House, Mail, Phone, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -11,6 +10,7 @@ import {
 } from '@/components/ui/table';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { DeleteClientConfirmation } from './delete-client-confirmation';
+import { EditButton } from '@/app/ui/buttons/edit-button';
 
 type ClientListProps = {
   filteredClients: SelectedCustomer[];
@@ -45,22 +45,41 @@ export function ClientList({
           <TableBody>
             {filteredClients.map((client) => (
               <TableRow key={client.id}>
-                <TableCell className="font-medium">{client.name}</TableCell>
-                <TableCell>{getAgeFromBirthDate(client.birth_date)}</TableCell>
-                <TableCell>{client.city}</TableCell>
-                <TableCell>{client.email}</TableCell>
-                <TableCell>{client.phone}</TableCell>
+                <TableCell className="font-medium">
+                  <div className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    {client.name}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <CircleArrowOutUpRight className="mr-2 h-4 w-4" />
+                    {getAgeFromBirthDate(client.birth_date)}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    {client.city && <House className="mr-2 h-4 w-4" />}
+                    {client.city}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    {client.email && <Mail className="mr-2 h-4 w-4" />}
+                    {client.email}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    {client.phone && <Phone className="mr-2 h-4 w-4" />}
+                    {client.phone}
+                  </div>
+                </TableCell>
                 {/* <TableCell>{client.lastAppointment}</TableCell>
                 <TableCell>{client.nextAppointment}</TableCell> */}
                 <TableCell>
                   <div className="flex space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onEditClick(client)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
+                    <EditButton onClick={() => onEditClick(client)} />
                     <DeleteClientConfirmation
                       clientId={client.id}
                       whenDeleteDone={() => onDeleteClick(client.id)}

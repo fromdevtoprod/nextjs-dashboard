@@ -1,4 +1,4 @@
-import { formatDateToLocal } from '@/app/lib/utils';
+import { Calendar, Package, RefreshCcw, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -36,14 +36,28 @@ export function PackageList({ filteredPackages }: PackageListProps) {
             {filteredPackages.map((pkg) => (
               <TableRow key={pkg.id}>
                 <TableCell className="font-medium">
-                  {pkg.customer_name}
+                  <div className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    {pkg.customer_name}
+                  </div>
                 </TableCell>
-                <TableCell>{pkg.name}</TableCell>
                 <TableCell>
-                  {pkg.remaining_sessions} / {pkg.total_sessions}
+                  <div className="flex items-center">
+                    <Package className="mr-2 h-4 w-4 self-center" />
+                    {pkg.name}
+                  </div>
                 </TableCell>
                 <TableCell>
-                  {new Date(pkg.start_date).toISOString().split('T')[0]}
+                  <div className="flex items-center">
+                    <RefreshCcw className="mr-2 h-4 w-4" />
+                    {pkg.remaining_sessions} / {pkg.total_sessions}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <Calendar className="mr-2 h-4 w-4" />
+                    {new Date(pkg.start_date).toISOString().split('T')[0]}
+                  </div>
                 </TableCell>
                 {/* <TableCell>{pkg.expiryDate}</TableCell> */}
                 {/* <TableCell>

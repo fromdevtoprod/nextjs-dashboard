@@ -9,7 +9,6 @@ export function SkeletonTabs() {
     <Tabs defaultValue="upcoming" className="mt-8">
       <TabsList>
         <TabsTrigger value="upcoming">Upcoming Appointments</TabsTrigger>
-        <TabsTrigger value="recent">Recent Activities</TabsTrigger>
       </TabsList>
       <TabsContent value="upcoming">
         <Card>

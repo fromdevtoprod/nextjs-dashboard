@@ -1,6 +1,4 @@
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
-import { Edit, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
@@ -16,6 +14,16 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { EditButton } from '@/app/ui/buttons/edit-button';
+import { DeleteAppointmentTypeConfirmation } from './delete-appointment-type-confirmation';
+import {
+  DollarSign,
+  HandHelping,
+  Package,
+  RefreshCcw,
+  Text,
+  Timer,
+} from 'lucide-react';
 
 type AppointmentTypesListProps = {
   appointmentTypes: SelectedAppointmentType[];
@@ -50,33 +58,39 @@ export function AppointmentTypesList({
             {appointmentTypes.map((type) => (
               <TableRow key={type.id}>
                 <TableCell className="font-medium">
-                  {type.session_count > 1
-                    ? `${type.name} (Package)`
-                    : type.name}
+                  <div className="flex items-center">
+                    <Text className="mr-2 h-4 w-4 self-center" />
+                    {type.name}
+                  </div>
                 </TableCell>
-                <TableCell>{type.duration}</TableCell>
-                <TableCell>{type.price.toFixed(2)}</TableCell>
                 <TableCell>
-                  {type.session_count > 1 ? 'Package' : 'Single'}
+                  <div className="flex items-center">
+                    <Timer className="mr-2 h-4 w-4 self-center" />
+                    {type.duration}
+                  </div>
                 </TableCell>
-                <TableCell>{type.session_count}</TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <DollarSign className="mr-2 h-4 w-4 self-center" />
+                    {type.price.toFixed(2)}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <CareTypeBadge session_count={type.session_count} />
+                </TableCell>
+                <TableCell>
+                  <div className="flex items-center">
+                    <RefreshCcw className="mr-2 h-4 w-4 self-center" />
+                    {type.session_count}
+                  </div>
+                </TableCell>
                 <TableCell>
                   <div className="flex space-x-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onEditClick(type)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => onDeleteClick(type.id)}
-                      className="text-red-500 hover:text-red-700"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
+                    <EditButton onClick={() => onEditClick(type)} />
+                    <DeleteAppointmentTypeConfirmation
+                      careId={type.id}
+                      whenDeleteDone={() => onDeleteClick(type.id)}
+                    />
                   </div>
                 </TableCell>
               </TableRow>
@@ -85,5 +99,22 @@ export function AppointmentTypesList({
         </Table>
       </CardContent>
     </Card>
+  );
+}
+
+function CareTypeBadge({ session_count }: { session_count: number }) {
+  if (session_count <= 1) {
+    return (
+      <div className="flex items-center">
+        <HandHelping className="mr-2 h-4 w-4 self-center" />
+        Single
+      </div>
+    );
+  }
+  return (
+    <div className="flex items-center">
+      <Package className="mr-2 h-4 w-4 self-center" />
+      Package
+    </div>
   );
 }

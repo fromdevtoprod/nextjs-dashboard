@@ -9,29 +9,28 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { deleteClient } from '@/app/lib/actions/customers';
 import { useToast } from '@/hooks/use-toast';
 import { DeleteButton } from '@/app/ui/buttons/delete-button';
 
-type DeleteClientConfirmationProps = {
-  clientId: string;
+type DeletePaymentConfirmationProps = {
+  paymentId: string;
   whenDeleteDone: () => void;
 };
 
-export function DeleteClientConfirmation({
-  clientId,
+export function DeletePaymentConfirmation({
+  paymentId,
   whenDeleteDone,
-}: DeleteClientConfirmationProps) {
+}: DeletePaymentConfirmationProps) {
   const { toast } = useToast();
 
-  const handleDeleteClient = async () => {
+  const handleDeletePayment = async () => {
     try {
-      await deleteClient(clientId);
+      // await deleteClient(paymentId);
       whenDeleteDone();
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not delete this client.',
+        description: 'We could not delete this payment.',
         title: 'Sorry, something went wrong !',
         variant: 'destructive',
       });
@@ -48,12 +47,12 @@ export function DeleteClientConfirmation({
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
             This action cannot be undone. This will permanently delete your
-            client.
+            payment.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteClient}>
+          <AlertDialogAction onClick={handleDeletePayment}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

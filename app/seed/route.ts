@@ -9,6 +9,7 @@ import {
   appointmentTypes,
   packages,
   notes,
+  payments,
 } from '../lib/placeholder-data';
 
 const client = await db.connect();
@@ -216,6 +217,34 @@ async function seedNotes() {
   return insertedNotes;
 }
 
+async function seedPayments() {
+  await client.sql`
+    CREATE TABLE IF NOT EXISTS payments (
+      id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+      CONSTRAINT fk_appointment_id FOREIGN KEY(appointment_id) REFERENCES appointments(id),
+      amount INT NOT NULL,
+      appointment_id UUID NOT NULL,
+      date TIMESTAMP NOT NULL,
+      method VARCHAR(255) NOT NULL,
+      package_id UUID,
+      CONSTRAINT fk_package_id FOREIGN KEY(package_id) REFERENCES packages(id),
+      status VARCHAR(255) NOT NULL
+    );
+  `;
+
+  const insertedPayments = await Promise.all(
+    payments.map(
+      (payment) => client.sql`
+        INSERT INTO payments(id, appointment_id, amount, date, method, package_id, status)
+        VALUES (${payment.id}, ${payment.appointment_id}, ${payment.amount}, ${payment.date}, ${payment.method}, ${payment.package_id}, ${payment.status})
+        ON CONFLICT (id) DO NOTHING;
+      `,
+    ),
+  );
+
+  return insertedPayments;
+}
+
 export async function GET() {
   try {
     await client.sql`BEGIN`;
@@ -224,7 +253,7 @@ export async function GET() {
     // await seedInvoices();
     // await seedRevenue();
     // await seedAppointmentTypes();
-    await seedAppointments();
+    // await seedAppointments();
     await client.sql`COMMIT`;
 
     return Response.json({ message: 'Database seeded successfully' });
