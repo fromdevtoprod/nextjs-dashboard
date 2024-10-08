@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
-import { createAppointmentController } from '@/src/interface-adapters/appointments/create-appointment.controller';
 import { CreateAppointmentPayload } from '@/src/application/repositories/appointments.repository.interface';
-import { deleteAppointmentController } from '@/src/interface-adapters/appointments/delete-appointment.controller';
+import { createAppointmentUseCase } from '@/src/application/use-cases/appointments/create-appointment.use-case';
+import { deleteAppointmentUseCase } from '@/src/application/use-cases/appointments/delete-appointment.use-case';
 
 export type CreateAppointmentResponse = {
   message: string;
@@ -23,7 +23,14 @@ export default async function handler(
       time,
     } = req.body;
 
-    if (!appointment_type_id || !customer_id || !date || !is_package || !time) {
+    if (
+      !appointment_type_id ||
+      !customer_id ||
+      !date ||
+      is_package === null ||
+      is_package === undefined ||
+      !time
+    ) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
@@ -35,13 +42,18 @@ export default async function handler(
       package_id,
     };
 
-    const createdAppointment =
-      await createAppointmentController(newAppointment);
-
-    return res.status(201).json({
-      message: 'Appointment created successfully',
-      createdAppointment,
-    } as CreateAppointmentResponse);
+    try {
+      const createdAppointment = await createAppointmentUseCase(newAppointment);
+      return res.status(201).json({
+        message: 'Appointment created successfully',
+        createdAppointment,
+      } as CreateAppointmentResponse);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not create this appointment.',
+      });
+    }
   }
   // else if (req.method === 'PUT') {
   //   const { id, name, price, duration, session_count } = req.body;
@@ -72,12 +84,18 @@ export default async function handler(
       return res.status(400).json({ message: 'Id is required.' });
     }
 
-    await deleteAppointmentController(id);
-
-    return res.status(201).json({
-      message: 'Appointment deleted successfully',
-      appointmentId: id,
-    });
+    try {
+      await deleteAppointmentUseCase(id);
+      return res.status(201).json({
+        message: 'Appointment deleted successfully',
+        appointmentId: id,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not delete this appointment.',
+      });
+    }
   } else {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);

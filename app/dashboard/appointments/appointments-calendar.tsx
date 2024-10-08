@@ -29,13 +29,13 @@ export function AppointmentsCalendar() {
       <CardHeader>
         <CardTitle>Calendar</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-4">
         <Calendar
           mode="single"
           selected={selectedDate}
           onSelect={setSelectedDate}
-          className="rounded-md border"
-          numberOfMonths={3}
+          // className="rounded-md border"
+          numberOfMonths={2}
         />
       </CardContent>
     </Card>

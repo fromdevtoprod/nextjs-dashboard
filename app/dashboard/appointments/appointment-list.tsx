@@ -1,10 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Edit3, Trash2 } from 'lucide-react';
-import { deleteAppointment } from '@/app/lib/actions/appointments';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -14,8 +11,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useToast } from '@/hooks/use-toast';
 import { AddNotesDialog } from './add-notes-dialog';
+import { EditButton } from '@/app/ui/buttons/edit-button';
+import { DeleteAppointmentConfirmation } from './delete-appointment-confirmation';
 
 type AppointmentListProps = {
   appointments: UpcomingAppointment[];
@@ -27,22 +25,6 @@ export function AppointmentList({
   whenDeleteDone,
 }: AppointmentListProps) {
   const [appointmentNotesId, setAppointmentNotesId] = useState('');
-  const { toast } = useToast();
-
-  const handleDeleteClick = async (appointmentId: string) => {
-    try {
-      await deleteAppointment(appointmentId);
-      whenDeleteDone(appointmentId);
-    } catch (error) {
-      console.error(error);
-      toast({
-        description: 'We could not delete this appointment.',
-        title: 'Sorry, something went wrong !',
-        variant: 'destructive',
-      });
-    }
-  };
-
   return (
     <>
       <AddNotesDialog
@@ -81,21 +63,14 @@ export function AppointmentList({
                   <TableCell>{'Paid'}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
+                      <EditButton
+                        isLabelDisplayed={false}
                         onClick={() => setAppointmentNotesId(appointment.id)}
-                      >
-                        <Edit3 className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        className="text-red-500 hover:text-red-700"
-                        onClick={() => handleDeleteClick(appointment.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      />
+                      <DeleteAppointmentConfirmation
+                        appointmentId={appointment.id}
+                        whenDeleteDone={() => whenDeleteDone(appointment.id)}
+                      />
                     </div>
                   </TableCell>
                 </TableRow>

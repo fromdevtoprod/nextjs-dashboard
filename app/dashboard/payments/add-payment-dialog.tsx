@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +22,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { SelectedPayment } from '@/src/entities/models/payment';
+import { useToast } from '@/hooks/use-toast';
+import { updatePaymentController } from '@/src/interface-adapters/payments/update-payment.controller';
+import { createPayment } from '@/app/lib/actions/payments';
 
 // Mock data for appointments and packages
 const appointments = [
@@ -35,7 +41,7 @@ const packages = [
 
 type AddPaymentDialogProps = {
   isOpen: boolean;
-  onDialogSubmit: (payment: SelectedPayment) => void;
+  onDialogSubmit: (createdPayment: SelectedPayment) => void;
   onOpenChange: (isOpen: boolean) => void;
 };
 
@@ -44,48 +50,52 @@ export function AddPaymentDialog({
   onDialogSubmit,
   onOpenChange,
 }: AddPaymentDialogProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [fieldError, setFieldError] = useState('');
+  const { toast } = useToast();
+
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
 
-    // let newClientPayload;
-    // try {
-    //   setIsLoading(true);
-    //   // @ts-ignore
-    //   const formData = new FormData(event.target);
-    //   newClientPayload = updateCustomerController('', formData);
-    // } catch (error: any) {
-    //   setEmailOrPhoneError(error.message);
-    //   setIsLoading(false);
-    // }
+    let newPaymentPayload;
+    try {
+      setIsLoading(true);
+      // @ts-ignore
+      const formData = new FormData(event.target);
+      newPaymentPayload = updatePaymentController('', formData);
+    } catch (error: any) {
+      setFieldError('Please fill in all the fields.');
+    } finally {
+      setIsLoading(false);
+    }
 
-    // if (!newClientPayload) {
-    //   return;
-    // }
+    if (!newPaymentPayload) {
+      return;
+    }
 
-    // try {
-    //   const { createdClient } = await createClient({
-    //     address: newClientPayload.address,
-    //     birthDate: newClientPayload.birthDate,
-    //     city: newClientPayload.city,
-    //     email: newClientPayload.email,
-    //     name: newClientPayload.name,
-    //     pathology: newClientPayload.pathology,
-    //     phone: newClientPayload.phone,
-    //     postalCode: newClientPayload.postalCode,
-    //   });
-    //   onDialogSubmit(createdClient);
-    // } catch (error) {
-    //   console.error(error);
-    //   toast({
-    //     description: 'We could not add this client.',
-    //     title: 'Sorry, something went wrong !',
-    //     variant: 'destructive',
-    //   });
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      const { createdPayment } = await createPayment({
+        amount: newPaymentPayload.amount,
+        appointmentId: newPaymentPayload.appointmentId,
+        customerId: newPaymentPayload.customerId,
+        date: newPaymentPayload.date,
+        method: newPaymentPayload.method,
+        packageId: newPaymentPayload.packageId,
+        status: newPaymentPayload.status,
+      });
+      onDialogSubmit(createdPayment);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not add this payment.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -171,10 +181,17 @@ export function AddPaymentDialog({
               />
             </div>
           </div>
+          {fieldError && (
+            <>
+              <div></div>
+              <p className="col-span-3 text-sm text-red-500">{fieldError}</p>
+            </>
+          )}
           <DialogFooter>
             <Button
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+              disabled={isLoading}
             >
               Add Payment
             </Button>

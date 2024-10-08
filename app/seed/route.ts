@@ -221,9 +221,11 @@ async function seedPayments() {
   await client.sql`
     CREATE TABLE IF NOT EXISTS payments (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      CONSTRAINT fk_appointment_id FOREIGN KEY(appointment_id) REFERENCES appointments(id),
       amount INT NOT NULL,
       appointment_id UUID NOT NULL,
+      CONSTRAINT fk_appointment_id FOREIGN KEY(appointment_id) REFERENCES appointments(id),
+      customer_id UUID NOT NULL,
+      CONSTRAINT fk_customer_id FOREIGN KEY(customer_id) REFERENCES customers(id),
       date TIMESTAMP NOT NULL,
       method VARCHAR(255) NOT NULL,
       package_id UUID,
@@ -235,8 +237,8 @@ async function seedPayments() {
   const insertedPayments = await Promise.all(
     payments.map(
       (payment) => client.sql`
-        INSERT INTO payments(id, appointment_id, amount, date, method, package_id, status)
-        VALUES (${payment.id}, ${payment.appointment_id}, ${payment.amount}, ${payment.date}, ${payment.method}, ${payment.package_id}, ${payment.status})
+        INSERT INTO payments(id, appointment_id, amount, customer_id, ,date, method, package_id, status)
+        VALUES (${payment.id}, ${payment.appointment_id}, ${payment.amount}, ${payment.customer_id} ,${payment.date}, ${payment.method}, ${payment.package_id}, ${payment.status})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),

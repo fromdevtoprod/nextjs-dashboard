@@ -60,12 +60,17 @@ export function AppointmentsContainer({
         onAddAppointment={handleAddAppointment}
       />
 
-      <div className="grid gap-6 md:grid-cols-2">
-        <AppointmentsCalendar />
-        <AppointmentList
-          appointments={upcomingAppointments}
-          whenDeleteDone={handleDeleteAppointment}
-        />
+      <div className="grid gap-6 md:grid-cols-6">
+        <div className="col-span-2">
+          <AppointmentsCalendar />
+        </div>
+
+        <div className="col-span-4">
+          <AppointmentList
+            appointments={upcomingAppointments}
+            whenDeleteDone={handleDeleteAppointment}
+          />
+        </div>
       </div>
 
       <Toaster />
