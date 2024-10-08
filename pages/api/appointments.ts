@@ -18,8 +18,8 @@ export default async function handler(
       appointment_type_id,
       customer_id,
       date,
-      is_package,
       package_id,
+      payment,
       time,
     } = req.body;
 
@@ -27,8 +27,8 @@ export default async function handler(
       !appointment_type_id ||
       !customer_id ||
       !date ||
-      is_package === null ||
-      is_package === undefined ||
+      !payment.method ||
+      !payment.status ||
       !time
     ) {
       return res.status(400).json({ message: 'All fields are required.' });
@@ -38,8 +38,11 @@ export default async function handler(
       appointment_type_id,
       customer_id,
       date: `${date} ${time}`,
-      is_package,
       package_id,
+      payment: {
+        method: payment.method,
+        status: payment.status,
+      },
     };
 
     try {

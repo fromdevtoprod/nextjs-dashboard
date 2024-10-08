@@ -51,6 +51,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
         appointments.id,
         appointments.date,
         appointment_types.name AS appointment_type_name,
+        appointment_types.price AS appointment_type_price,
         appointment_types.session_count,
         customers.name AS client_name
       FROM appointments

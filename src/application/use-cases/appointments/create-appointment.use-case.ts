@@ -3,14 +3,13 @@ import { CreateAppointmentPayload } from '../../repositories/appointments.reposi
 import { UpcomingAppointment } from '../../../entities/models/appointment';
 import { PackagesRepository } from '../../../infrastructure/repositories/packages.repository';
 import { AppointmentTypesRepository } from '../../../infrastructure/repositories/appointment-types.repository';
-
-const appRepository = new AppointmentsRepository();
+import { PaymentsRepository } from '@/src/infrastructure/repositories/payments.repository';
 
 export async function createAppointmentUseCase(
   payload: CreateAppointmentPayload,
 ): Promise<UpcomingAppointment> {
-  if (!payload.is_package) {
-    const createdAppointment = await appRepository.createAppointment(payload);
+  if (!payload.package_id) {
+    const createdAppointment = await createAppointment(payload);
     return {
       ...createdAppointment,
       ...getDateTime(createdAppointment.date),
@@ -24,24 +23,22 @@ export async function createAppointmentUseCase(
     throw new Error('Appointment type not found');
   }
 
-  if (payload.package_id) {
-    const existingPackage = await new PackagesRepository().findById(
-      payload.package_id,
-    );
-    if (existingPackage && existingPackage.remaining_sessions > 0) {
-      await new PackagesRepository().updateRemainingSessions({
-        id: existingPackage.id,
-        remaining_sessions: existingPackage.remaining_sessions - 1,
-      });
-      const createdAppointment = await appRepository.createAppointment({
-        ...payload,
-        package_id: existingPackage.id,
-      });
-      return {
-        ...createdAppointment,
-        ...getDateTime(createdAppointment.date),
-      };
-    }
+  const existingPackage = await new PackagesRepository().findById(
+    payload.package_id,
+  );
+  if (existingPackage && existingPackage.remaining_sessions > 0) {
+    await new PackagesRepository().updateRemainingSessions({
+      id: existingPackage.id,
+      remaining_sessions: existingPackage.remaining_sessions - 1,
+    });
+    const createdAppointment = await createAppointment({
+      ...payload,
+      package_id: existingPackage.id,
+    });
+    return {
+      ...createdAppointment,
+      ...getDateTime(createdAppointment.date),
+    };
   }
 
   const startedPackage = await new PackagesRepository().create({
@@ -50,7 +47,7 @@ export async function createAppointmentUseCase(
     remaining_sessions: appointmentType.session_count - 1,
     start_date: new Date(payload.date).toISOString(),
   });
-  const createdAppointment = await appRepository.createAppointment({
+  const createdAppointment = await createAppointment({
     ...payload,
     package_id: startedPackage.id,
   });
@@ -58,6 +55,21 @@ export async function createAppointmentUseCase(
     ...createdAppointment,
     ...getDateTime(createdAppointment.date),
   };
+}
+
+async function createAppointment(payload: CreateAppointmentPayload) {
+  const createdAppointment =
+    await new AppointmentsRepository().createAppointment(payload);
+  await new PaymentsRepository().createPayment({
+    amount: `${createdAppointment.appointment_type_price}`,
+    appointmentId: createdAppointment.id,
+    customerId: payload.customer_id,
+    date: new Date().toISOString(),
+    packageId: payload.package_id,
+    status: payload.payment.status,
+    method: payload.payment.method,
+  });
+  return createdAppointment;
 }
 
 function getDateTime(date: string) {

@@ -5,7 +5,7 @@ export type CreatePaymentPayload = {
   appointmentId: string;
   customerId: string;
   date: string;
-  packageId: string;
+  packageId: string | null | undefined;
   status: string;
   method: string;
 };

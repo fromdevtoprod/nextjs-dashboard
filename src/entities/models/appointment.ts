@@ -11,6 +11,7 @@ export const selectedAppointmentSchema = z.object({
 export const upcomingAppointmentSchema = z.object({
   client_name: z.string(),
   appointment_type_name: z.string(),
+  appointment_type_price: z.string(),
   date: z.string(),
   id: z.string(),
   session_count: z.number(),

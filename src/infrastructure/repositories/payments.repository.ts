@@ -9,6 +9,7 @@ export class PaymentsRepository implements IPaymentsRepository {
   public async createPayment(
     payload: CreatePaymentPayload,
   ): Promise<SelectedPayment> {
+    console.log('createPayment >> payload', payload);
     const queryResult = await sql<SelectedPayment>`
       INSERT INTO payments (amount, appointment_id, customer_id, date, package_id, status, method)
       VALUES (${payload.amount}, ${payload.appointmentId}, ${payload.customerId}, ${payload.date}, ${payload.packageId}, ${payload.status}, ${payload.method})

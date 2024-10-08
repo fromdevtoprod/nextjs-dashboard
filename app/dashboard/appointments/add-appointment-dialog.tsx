@@ -28,6 +28,7 @@ import { CustomersCombobox } from '@/components/customers-combobox';
 import { Switch } from '@/components/ui/switch';
 import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { createAppointmentController } from '@/src/interface-adapters/appointments/create-appointment.controller';
 
 type AddAppointmentDialogProps = {
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
@@ -44,27 +45,42 @@ export function AddAppointmentDialog({
 }: AddAppointmentDialogProps) {
   const [isPackage, setIsPackage] = useState(false);
   const [clientId, setClientId] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [fieldError, setFieldError] = useState('');
   const { toast } = useToast();
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
-    // @ts-ignore
-    const formData = new FormData(event.target);
-    const appointment_type_id = formData.get('type') as string;
-    const date = formData.get('date') as string;
-    const time = formData.get('time') as string;
-    const newAppointment = {
-      appointment_type_id,
-      customer_id: clientId,
-      date,
-      is_package: isPackage,
-      package_id: isPackage ? searchPackageId(appointment_type_id) : null,
-      time,
-    };
+
+    let createAppointmentPayload;
+
     try {
-      const { createdAppointment } = await createAppointment(newAppointment);
+      // @ts-ignore
+      const formData = new FormData(event.target);
+      createAppointmentPayload = createAppointmentController({
+        appointmentTypes,
+        customerId: clientId,
+        isPackage,
+        formData,
+      });
+    } catch (error: any) {
+      console.error(error);
+      setFieldError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+
+    if (!createAppointmentPayload) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const { createdAppointment } = await createAppointment(
+        createAppointmentPayload,
+      );
       onDialogSubmit(createdAppointment);
     } catch (error) {
       console.error(error);
@@ -73,23 +89,9 @@ export function AddAppointmentDialog({
         title: 'Sorry, something went wrong !',
         variant: 'destructive',
       });
+    } finally {
+      setIsLoading(false);
     }
-  };
-
-  const searchPackageId = (appointmentTypeId: string) => {
-    const appointmentType = appointmentTypes.find(
-      (type) => type.customerId === clientId,
-    );
-    if (!appointmentType) {
-      return null;
-    }
-    const foundType = appointmentType.appointmentTypes.find(
-      (type) => type.id === appointmentTypeId,
-    );
-    if (!foundType || !foundType.package_id) {
-      return null;
-    }
-    return foundType.package_id;
   };
 
   const clientAppointmentTypes = appointmentTypes.find(
@@ -185,11 +187,47 @@ export function AddAppointmentDialog({
                 required
               />
             </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="payment" className="text-right">
+                Payment
+              </Label>
+              <Select name="payment" required>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select payment status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="paid">Paid</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="method" className="text-right">
+                Method
+              </Label>
+              <Select name="method" required>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select payment method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="cash">Cash</SelectItem>
+                  <SelectItem value="check">Check</SelectItem>
+                  <SelectItem value="transfer">Transfer</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            {fieldError && (
+              <>
+                <div></div>
+                <p className="col-span-3 text-sm text-red-500">{fieldError}</p>
+              </>
+            )}
           </div>
           <DialogFooter>
             <Button
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+              disabled={isLoading}
             >
               Add Appointment
             </Button>
