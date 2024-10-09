@@ -14,6 +14,7 @@ export const upcomingAppointmentSchema = z.object({
   appointment_type_price: z.string(),
   date: z.string(),
   id: z.string(),
+  payment_status: z.string(),
   session_count: z.number(),
   time: z.string(),
 });

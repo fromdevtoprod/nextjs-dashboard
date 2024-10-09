@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { NotebookPen } from 'lucide-react';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -11,8 +12,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { PaymentStatusBadge } from '@/app/ui/badges/payment-status-badge';
+import { Button } from '@/components/ui/button';
 import { AddNotesDialog } from './add-notes-dialog';
-import { EditButton } from '@/app/ui/buttons/edit-button';
 import { DeleteAppointmentConfirmation } from './delete-appointment-confirmation';
 
 type AppointmentListProps = {
@@ -60,13 +62,18 @@ export function AppointmentList({
                   <TableCell>
                     {appointment.session_count > 1 ? 'Yes' : 'No'}
                   </TableCell>
-                  <TableCell>{'Paid'}</TableCell>
+                  <TableCell>
+                    <PaymentStatusBadge status={appointment.payment_status} />
+                  </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
-                      <EditButton
-                        isLabelDisplayed={false}
+                      <Button
+                        variant="outline"
+                        size="sm"
                         onClick={() => setAppointmentNotesId(appointment.id)}
-                      />
+                      >
+                        <NotebookPen className="h-4 w-4" />
+                      </Button>
                       <DeleteAppointmentConfirmation
                         appointmentId={appointment.id}
                         whenDeleteDone={() => whenDeleteDone(appointment.id)}

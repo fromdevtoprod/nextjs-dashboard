@@ -18,6 +18,7 @@ export default async function handler(
       appointment_type_id,
       customer_id,
       date,
+      is_package,
       package_id,
       payment,
       time,
@@ -38,6 +39,7 @@ export default async function handler(
       appointment_type_id,
       customer_id,
       date: `${date} ${time}`,
+      is_package,
       package_id,
       payment: {
         method: payment.method,

@@ -97,10 +97,12 @@ export class AppointmentsRepository implements IAppointmentsRepository {
         appointments.date,
         appointment_types.name AS appointment_type_name,
         appointment_types.session_count,
-        customers.name AS client_name
+        customers.name AS client_name,
+        payments.status AS payment_status
       FROM appointments
       LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
       LEFT JOIN customers ON customers.id = appointments.customer_id
+      LEFT JOIN payments ON payments.appointment_id = appointments.id
       WHERE EXTRACT(DAY FROM appointments.date) = ${convertToTwoDigit(day)}
       AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(month)}
       AND EXTRACT(YEAR FROM appointments.date) = ${year}

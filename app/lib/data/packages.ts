@@ -1,14 +1,14 @@
+import { findAppointmentTypesBySessionCountUseCase } from '@/src/application/use-cases/appointment-types/find-appointment-types-by-session-count.use-case';
 import { countCompletedSessionsUseCase } from '@/src/application/use-cases/packages/count-completed-sessions.use-case';
-import { findAppointmentTypesBySessionCountController } from '@/src/interface-adapters/appointment-types/find-appointment-types-by-session-count.controller';
-import { findAllPackagesController } from '@/src/interface-adapters/packages/find-all-packages.controller';
+import { findAllPackagesUseCase } from '@/src/application/use-cases/packages/find-all-packages.use-case';
 
 export async function fetchAppointmentTypesBySessionCount() {
   try {
-    const packageTypes = await findAppointmentTypesBySessionCountController();
+    const packageTypes = await findAppointmentTypesBySessionCountUseCase();
     return packageTypes;
   } catch (err) {
     console.error(
-      'fetchAllPackageTypes >> findAllPackageTypesController :',
+      'fetchAllPackageTypes >> findAppointmentTypesBySessionCountUseCase :',
       err,
     );
     throw new Error('Failed to fetch all package types.');
@@ -17,10 +17,10 @@ export async function fetchAppointmentTypesBySessionCount() {
 
 export async function fetchAllPackages() {
   try {
-    const packages = await findAllPackagesController();
+    const packages = await findAllPackagesUseCase();
     return packages;
   } catch (err) {
-    console.error('fetchAllPackages >> findAllPackagesController :', err);
+    console.error('fetchAllPackages >> findAllPackagesUseCase :', err);
     throw new Error('Failed to fetch all packages.');
   }
 }

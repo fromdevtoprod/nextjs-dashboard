@@ -5,6 +5,8 @@ import {
   UpdatePaymentPayload,
 } from '@/src/application/repositories/payments.repository.interface';
 import { createPaymentUseCase } from '@/src/application/use-cases/payments/create-payment.use-case';
+import { updatePaymentUseCase } from '@/src/application/use-cases/payments/update-payment.use-case';
+import { deletePaymentUseCase } from '@/src/application/use-cases/payments/delete-payment.use-case';
 
 export type CreatePaymentResponse = {
   message: string;
@@ -65,49 +67,25 @@ export default async function handler(
         message: 'We could not create this payment.',
       });
     }
+  } else if (req.method === 'PUT') {
+    const { id, method, status } = req.body as UpdatePaymentPayload;
 
-    // } else if (req.method === 'PUT') {
-    //   const {
-    //     id,
-    //     amount,
-    //     appointmentId,
-    //     customerId,
-    //     date,
-    //     packageId,
-    //     status,
-    //     method,
-    //   } = req.body as UpdatePaymentPayload;
+    if (!id || !method || !status) {
+      return res.status(400).json({ message: 'All fields are required.' });
+    }
 
-    //   if (
-    //     !id ||
-    //     !amount ||
-    //     !appointmentId ||
-    //     !customerId ||
-    //     !date ||
-    //     !packageId ||
-    //     !status ||
-    //     !method
-    //   ) {
-    //     return res.status(400).json({ message: 'All fields are required.' });
-    //   }
+    const payload: UpdatePaymentPayload = {
+      id,
+      status,
+      method,
+    };
 
-    //   const payload: UpdatePaymentPayload = {
-    //     id,
-    //     amount,
-    //     appointmentId,
-    //     customerId,
-    //     date,
-    //     packageId,
-    //     status,
-    //     method,
-    //   };
+    const updatedPayment = await updatePaymentUseCase(payload);
 
-    //   const updatedPayment = await updatePaymentUseCase(payload);
-
-    //   return res.status(201).json({
-    //     message: 'Payment updated successfully',
-    //     updatedPayment,
-    //   } as UpdatePaymentResponse);
+    return res.status(201).json({
+      message: 'Payment updated successfully',
+      updatedPayment,
+    } as UpdatePaymentResponse);
   } else if (req.method === 'DELETE') {
     const { id } = req.body;
 
@@ -116,7 +94,7 @@ export default async function handler(
     }
 
     try {
-      await deletePaymentController(id);
+      await deletePaymentUseCase(id);
       return res.status(201).json({
         message: 'Payment deleted successfully',
         paymentId: id,

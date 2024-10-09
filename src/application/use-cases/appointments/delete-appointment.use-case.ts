@@ -1,16 +1,19 @@
 import { AppointmentsRepository } from '@/src/infrastructure/repositories/appointments.repository';
-import { NotesRepository } from '@/src/infrastructure/repositories/notes.repository';
 import { findAppointmentByIdUseCase } from './find-appointment.use-case';
 import { PackagesRepository } from '@/src/infrastructure/repositories/packages.repository';
+import { deleteNotesUseCase } from '../notes/delete-notes.use-case';
+import { deletePaymentByAppointmentUseCase } from '../payments/delete-payment-by-appointment.use-case';
 
 export async function deleteAppointmentUseCase(
   appointmentId: string,
 ): Promise<void> {
-  await new NotesRepository().delete(appointmentId);
+  await deleteNotesUseCase(appointmentId);
+  await deletePaymentByAppointmentUseCase(appointmentId);
 
   const appointment = await findAppointmentByIdUseCase(appointmentId);
 
   if (appointment.package_id) {
+    // TODO: move this to a dedicated use-case
     const packageRepository = new PackagesRepository();
     const packageToUpdate = await packageRepository.findById(
       appointment.package_id,

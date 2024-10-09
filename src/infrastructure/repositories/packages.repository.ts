@@ -55,6 +55,7 @@ export class PackagesRepository implements IPackagesRepository {
       FROM packages
       LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
       LEFT JOIN customers ON packages.customer_id = customers.id
+      ORDER BY packages.start_date DESC
     `;
     return queryResult.rows;
   }

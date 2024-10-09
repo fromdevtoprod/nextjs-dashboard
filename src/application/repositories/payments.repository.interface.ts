@@ -10,8 +10,17 @@ export type CreatePaymentPayload = {
   method: string;
 };
 
-export type UpdatePaymentPayload = CreatePaymentPayload & { id: string };
+export type UpdatePaymentPayload = {
+  id: string;
+  method: string;
+  status: string;
+};
 
 export interface IPaymentsRepository {
   createPayment(payload: CreatePaymentPayload): Promise<SelectedPayment>;
+  deletePayment(appointmentId: string): Promise<void>;
+  deletePaymentByAppointmentId(appointmentId: string): Promise<void>;
+  findById(paymentId: string): Promise<SelectedPayment>;
+  findAll(): Promise<SelectedPayment[]>;
+  updatePayment(payload: UpdatePaymentPayload): Promise<SelectedPayment>;
 }

@@ -57,11 +57,11 @@ export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
           <h1 className="mb-4 pl-12 text-2xl font-bold text-[#2C3E50] md:mb-0 md:pl-0 md:text-3xl">
             Payments
           </h1>
-          <AddPaymentDialog
+          {/* <AddPaymentDialog
             isOpen={isAddingPayment}
             onDialogSubmit={handleAddPayment}
             onOpenChange={setIsAddingPayment}
-          />
+          /> */}
         </div>
 
         <Card className="mb-8">

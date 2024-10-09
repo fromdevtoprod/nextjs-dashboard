@@ -23,8 +23,8 @@ import {
 } from '@/components/ui/dialog';
 import { SelectedPayment } from '@/src/entities/models/payment';
 import { useToast } from '@/hooks/use-toast';
-import { updatePaymentController } from '@/src/interface-adapters/payments/update-payment.controller';
 import { createPayment } from '@/app/lib/actions/payments';
+import { createPaymentController } from '@/src/interface-adapters/payments/create-payment.controller';
 
 // Mock data for appointments and packages
 const appointments = [
@@ -64,7 +64,7 @@ export function AddPaymentDialog({
       setIsLoading(true);
       // @ts-ignore
       const formData = new FormData(event.target);
-      newPaymentPayload = updatePaymentController('', formData);
+      newPaymentPayload = createPaymentController(formData);
     } catch (error: any) {
       setFieldError('Please fill in all the fields.');
     } finally {
@@ -76,6 +76,7 @@ export function AddPaymentDialog({
     }
 
     try {
+      setIsLoading(true);
       const { createdPayment } = await createPayment({
         amount: newPaymentPayload.amount,
         appointmentId: newPaymentPayload.appointmentId,

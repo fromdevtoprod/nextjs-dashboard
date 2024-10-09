@@ -59,6 +59,7 @@ export function createAppointmentController({
     appointment_type_id,
     customer_id: customerId,
     date,
+    is_package: isPackage,
     payment: {
       method: paymentMethod,
       status: paymentStatus,

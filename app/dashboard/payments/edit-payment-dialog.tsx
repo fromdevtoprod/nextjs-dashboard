@@ -1,5 +1,7 @@
+'use client';
+
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
   Select,
@@ -16,6 +18,9 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import { updatePayment } from '@/app/lib/actions/payments';
+import { updatePaymentController } from '@/src/interface-adapters/payments/update-payment.controller';
 
 type EditPaymentDialogProps = {
   amount: number;
@@ -30,55 +35,56 @@ type EditPaymentDialogProps = {
 };
 
 export function EditPaymentDialog({
-  amount,
-  date,
   id,
   isOpen,
   method,
-  packageId,
   status,
   onDialogSubmit,
   onOpenChange,
 }: EditPaymentDialogProps) {
-  // const { toast } = useToast();
-
-  // const handleOpenChange = () => {
-  //   onOpenChange(!isOpen);
-  // };
+  const [isLoading, setIsLoading] = useState(false);
+  const [fieldError, setFieldError] = useState('');
+  const { toast } = useToast();
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
   ) => {
     event.preventDefault();
 
-    // let updateCustomerPayload;
-    // try {
-    //   setIsLoading(true);
-    //   // @ts-ignore
-    //   const formData = new FormData(event.target);
-    //   updateCustomerPayload = updateCustomerController(id, formData);
-    // } catch (error: any) {
-    //   setEmailOrPhoneError(error.message);
-    //   setIsLoading(false);
-    // }
+    let newPaymentPayload;
+    try {
+      setIsLoading(true);
+      // @ts-ignore
+      const formData = new FormData(event.target);
+      newPaymentPayload = updatePaymentController(id, formData);
+    } catch (error: any) {
+      setFieldError('Please fill in all the fields.');
+    } finally {
+      setIsLoading(false);
+    }
 
-    // if (!updateCustomerPayload) {
-    //   return;
-    // }
+    if (!newPaymentPayload) {
+      return;
+    }
 
-    // try {
-    //   await updateClient(updateCustomerPayload);
-    //   onDialogSubmit(updateCustomerPayload);
-    // } catch (error) {
-    //   console.error(error);
-    //   toast({
-    //     description: 'We could not update this client.',
-    //     title: 'Sorry, something went wrong !',
-    //     variant: 'destructive',
-    //   });
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      setIsLoading(true);
+      const { updatedPayment } = await updatePayment({
+        id: newPaymentPayload.id,
+        method: newPaymentPayload.method,
+        status: newPaymentPayload.status,
+      });
+      onDialogSubmit(updatedPayment);
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'We could not update this payment.',
+        title: 'Sorry, something went wrong !',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -93,52 +99,46 @@ export function EditPaymentDialog({
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-type" className="text-right">
-                Type
+              <Label htmlFor="method" className="text-right">
+                Method
               </Label>
-              <Select
-                name="type"
-                defaultValue={packageId ? 'Package' : 'Appointment'}
-              >
+              <Select name="method" defaultValue={method} required>
                 <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select type" />
+                  <SelectValue placeholder="Select payment method" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Appointment">Appointment</SelectItem>
-                  <SelectItem value="Package">Package</SelectItem>
+                  <SelectItem value="cash">Cash</SelectItem>
+                  <SelectItem value="check">Check</SelectItem>
+                  <SelectItem value="transfer">Transfer</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-amount" className="text-right">
-                Amount
+              <Label htmlFor="status" className="text-right">
+                Payment
               </Label>
-              <Input
-                id="edit-amount"
-                name="amount"
-                type="number"
-                step="0.01"
-                defaultValue={amount}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="edit-date" className="text-right">
-                Date
-              </Label>
-              <Input
-                id="edit-date"
-                name="date"
-                type="date"
-                defaultValue={date}
-                className="col-span-3"
-              />
+              <Select name="status" defaultValue={status} required>
+                <SelectTrigger className="col-span-3">
+                  <SelectValue placeholder="Select payment status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="paid">Paid</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
+          {fieldError && (
+            <>
+              <div></div>
+              <p className="col-span-3 text-sm text-red-500">{fieldError}</p>
+            </>
+          )}
           <DialogFooter>
             <Button
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+              disabled={isLoading}
             >
               Save Changes
             </Button>
