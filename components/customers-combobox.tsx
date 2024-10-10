@@ -1,8 +1,8 @@
 'use client';
 
 import * as React from 'react';
+import { useTranslations } from 'next-intl';
 import { Check, ChevronsUpDown } from 'lucide-react';
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -31,6 +31,8 @@ export function CustomersCombobox({
   clients: Client[];
   onChangeClient: (clientId: string) => void;
 }) {
+  const t = useTranslations('Clients');
+
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState('');
 
@@ -45,15 +47,15 @@ export function CustomersCombobox({
         >
           {value
             ? clients.find((client) => client.name === value)?.name
-            : 'Select'}
+            : t('select.label')}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
-          <CommandInput placeholder="Search client..." />
+          <CommandInput placeholder={t('select.placeholder')} />
           <CommandList>
-            <CommandEmpty>No client found.</CommandEmpty>
+            <CommandEmpty>{t('select.noResult')}</CommandEmpty>
             <CommandGroup>
               {clients.map((client) => (
                 <CommandItem

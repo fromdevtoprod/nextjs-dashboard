@@ -2,10 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
 
 export function AppointmentsCalendar() {
+  const t = useTranslations('Appointments');
+
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     new Date(),
   );
@@ -27,7 +30,7 @@ export function AppointmentsCalendar() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Calendar</CardTitle>
+        <CardTitle>{t('calendar')}</CardTitle>
       </CardHeader>
       <CardContent className="p-4">
         <Calendar

@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { NotebookPen } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Calendar, Clock, HandHeart, NotebookPen, User } from 'lucide-react';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -26,6 +27,7 @@ export function AppointmentList({
   appointments,
   whenDeleteDone,
 }: AppointmentListProps) {
+  const t = useTranslations('Appointments');
   const [appointmentNotesId, setAppointmentNotesId] = useState('');
   return (
     <>
@@ -37,30 +39,50 @@ export function AppointmentList({
       />
       <Card>
         <CardHeader>
-          <CardTitle>Upcoming Appointments</CardTitle>
+          <CardTitle>{t('upcomingAppointments')}</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Client</TableHead>
-                <TableHead>Type</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Time</TableHead>
-                <TableHead>Package</TableHead>
-                <TableHead>Payment</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>{t('client')}</TableHead>
+                <TableHead>{t('type')}</TableHead>
+                <TableHead>{t('date')}</TableHead>
+                <TableHead>{t('time')}</TableHead>
+                <TableHead>{t('package')}</TableHead>
+                <TableHead>{t('payment')}</TableHead>
+                <TableHead>{t('actions.label')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {appointments.map((appointment) => (
                 <TableRow key={appointment.id}>
-                  <TableCell>{appointment.client_name}</TableCell>
-                  <TableCell>{appointment.appointment_type_name}</TableCell>
-                  <TableCell>{appointment.date}</TableCell>
-                  <TableCell>{appointment.time}</TableCell>
                   <TableCell>
-                    {appointment.session_count > 1 ? 'Yes' : 'No'}
+                    <div className="flex items-center">
+                      <User className="mr-1 h-4 w-4" />
+                      {appointment.client_name}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <HandHeart className="mr-1 h-4 w-4" />
+                      {appointment.appointment_type_name}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <Calendar className="mr-1 h-4 w-4" />
+                      {appointment.date}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <Clock className="mr-1 h-4 w-4" />
+                      {appointment.time}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {appointment.session_count > 1 ? t('yes') : t('no')}
                   </TableCell>
                   <TableCell>
                     <PaymentStatusBadge status={appointment.payment_status} />

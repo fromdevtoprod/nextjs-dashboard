@@ -1,4 +1,55 @@
 {
+  "Appointments": {
+    "actions": {
+      "label": "Actions"
+    },
+    "addAppointment": "Add Appointment",
+    "appointments": "Appointments",
+    "calendar": "Calendar",
+    "cancel": "Cancel",
+    "client": "Client",
+    "continue": "Continue",
+    "date": "Date",
+    "dialog": {
+      "addAppointment": {
+        "description": "Create a new appointment or use a package session.",
+        "select": {
+          "type": {
+            "placeholder": "Select a type"
+          }
+        },
+        "submitButton": "Add",
+        "title": "Add New Appointment"
+      },
+      "removeAppointment": {
+        "description": " This action cannot be undone. This will permanently delete your appointment.",
+        "title": "Are you sure you want to remove this appointment ?"
+      }
+    },
+    "method": "Method",
+    "no": "No",
+    "package": "Package",
+    "payment": "Payment",
+    "time": "Time",
+    "toast": {
+      "addAppointment": {
+        "error": {
+          "description": "We could not create this appointment.",
+          "title": "Sorry, something went wrong !"
+        }
+      }
+    },
+    "type": "Type",
+    "upcomingAppointments": "Upcoming Appointments",
+    "yes": "Yes"
+  },
+  "Clients": {
+    "select": {
+      "label": "Select a client",
+      "noResult": "No client found",
+      "placeholder": "Search client..."
+    }
+  },
   "Dashboard": {
     "cards": {
       "first": {
@@ -29,6 +80,39 @@
     "payments": "Payments",
     "settings": "Settings",
     "toggle": "Toggle navigation menu"
+  },
+  "Notes": {
+    "dialog": {
+      "addNotes": {
+        "label": "Notes",
+        "placeholder": "Write notes here...",
+        "subtitle": "Notes for this appointment.",
+        "title": "Add Notes"
+      }
+    },
+    "toast": {
+      "addNotes": {
+        "error": {
+          "description": "We could not add notes to this appointment.",
+          "title": "Sorry, something went wrong !"
+        }
+      }
+    }
+  },
+  "Payments": {
+    "method": {
+      "cash": "Cash",
+      "check": "Check",
+      "label": "Method",
+      "placeholder": "Select a payment method",
+      "transfer": "Transfer"
+    },
+    "status": {
+      "label": "Status",
+      "paid": "Paid",
+      "pending": "Pending",
+      "placeholder": "Select a payment status"
+    }
   },
   "SettingsPage": {
     "accountTab": {

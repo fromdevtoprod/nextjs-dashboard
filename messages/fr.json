@@ -1,4 +1,55 @@
 {
+  "Appointments": {
+    "actions": {
+      "label": "Actions"
+    },
+    "addAppointment": "Ajouter un rendez-vous",
+    "appointments": "Rendez-vous",
+    "calendar": "Calendrier",
+    "cancel": "Annuler",
+    "client": "Client",
+    "continue": "Continuer",
+    "date": "Date",
+    "dialog": {
+      "addAppointment": {
+        "description": "Créez un nouveau rendez-vous ou utilisez une session de cure.",
+        "select": {
+          "type": {
+            "placeholder": "Sélectionnez un type"
+          }
+        },
+        "submitButton": "Ajouter",
+        "title": "Ajouter un nouveau rendez-vous"
+      },
+      "removeAppointment": {
+        "description": " Cette action est irréversible. Cela supprimera définitivement votre rendez-vous.",
+        "title": "Êtes-vous sûr de vouloir supprimer ce rendez-vous ?"
+      }
+    },
+    "method": "Méthode",
+    "no": "Non",
+    "package": "Cure",
+    "payment": "Paiement",
+    "time": "Heure",
+    "toast": {
+      "addAppointment": {
+        "error": {
+          "description": "Nous n'avons pas pu créer ce rendez-vous.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      }
+    },
+    "type": "Type",
+    "upcomingAppointments": "Rendez-vous à venir",
+    "yes": "Oui"
+  },
+  "Clients": {
+    "select": {
+      "label": "Sélectionnez un client",
+      "noResult": "Aucun client trouvé",
+      "placeholder": "Chercher un client..."
+    }
+  },
   "Dashboard": {
     "cards": {
       "first": {
@@ -29,6 +80,39 @@
     "payments": "Paiements",
     "settings": "Paramètres",
     "toggle": "Basculer le menu de navigation"
+  },
+  "Notes": {
+    "dialog": {
+      "addNotes": {
+        "label": "Notes",
+        "placeholder": "Saisissez-les ici...",
+        "subtitle": "Des notes pour ce rendez-vous",
+        "title": "Ajouter des notes"
+      }
+    },
+    "toast": {
+      "addNotes": {
+        "error": {
+          "description": "Nous n'avons pas pu créer ces notes.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      }
+    }
+  },
+  "Payments": {
+    "method": {
+      "cash": "Espèces",
+      "check": "Chèque",
+      "label": "Méthode",
+      "placeholder": "Sélectionnez une méthode de paiement",
+      "transfer": "Virement"
+    },
+    "status": {
+      "label": "Status",
+      "paid": "Payé",
+      "pending": "En attente",
+      "placeholder": "Sélectionnez un statut de paiement"
+    }
   },
   "SettingsPage": {
     "accountTab": {

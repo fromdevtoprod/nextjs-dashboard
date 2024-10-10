@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { HandHeart, User } from 'lucide-react';
 
 type DashboardTabsProps = {
   upcomingAppointments: UpcomingAppointment[];
@@ -35,10 +36,16 @@ export function DashboardTabs({
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-[#2C3E50]">
-                      {appointment.client_name}
+                      <div className="flex items-center">
+                        <User className="mr-1 h-4 w-4" />
+                        {appointment.client_name}
+                      </div>
                     </p>
                     <p className="text-sm text-[#7C9885]">
-                      {appointment.appointment_type_name}
+                      <div className="flex items-center">
+                        <HandHeart className="mr-1 h-4 w-4" />
+                        {appointment.appointment_type_name}
+                      </div>
                     </p>
                   </div>
                 </div>

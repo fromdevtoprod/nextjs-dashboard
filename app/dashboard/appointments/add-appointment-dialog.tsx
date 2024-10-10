@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { CalendarPlus, Check } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { createAppointment } from '@/app/lib/actions/appointments';
@@ -29,6 +30,8 @@ import { Switch } from '@/components/ui/switch';
 import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { createAppointmentController } from '@/src/interface-adapters/appointments/create-appointment.controller';
+import { SelectPaymentMethod } from '@/app/ui/selects/select-payment-method';
+import { SelectPaymentStatus } from '@/app/ui/selects/select-payment-status';
 
 type AddAppointmentDialogProps = {
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
@@ -43,6 +46,8 @@ export function AddAppointmentDialog({
   onDialogSubmit,
   onOpenChange,
 }: AddAppointmentDialogProps) {
+  const t = useTranslations('Appointments');
+
   const [isPackage, setIsPackage] = useState(false);
   const [clientId, setClientId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -85,8 +90,8 @@ export function AddAppointmentDialog({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not create this appointment.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.addAppointment.error.description'),
+        title: t('toast.addAppointment.error.title'),
         variant: 'destructive',
       });
     } finally {
@@ -110,22 +115,22 @@ export function AddAppointmentDialog({
     <Dialog open={isOpened} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
-          <Plus className="mr-2 h-5 w-5" />
-          Add Appointment
+          <CalendarPlus className="mr-2 h-5 w-5" />
+          {t('addAppointment')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Appointment</DialogTitle>
+          <DialogTitle>{t('dialog.addAppointment.title')}</DialogTitle>
           <DialogDescription>
-            Create a new appointment or use a package session.
+            {t('dialog.addAppointment.description')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="client" className="text-right">
-                Client
+                {t('client')}
               </Label>
               <CustomersCombobox
                 clients={appointmentTypes.map((type) => ({
@@ -137,7 +142,7 @@ export function AddAppointmentDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="package" className="text-right">
-                Package
+                {t('package')}
               </Label>
               <Switch
                 id="package"
@@ -148,11 +153,15 @@ export function AddAppointmentDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="type" className="text-right">
-                Type
+                {t('type')}
               </Label>
               <Select name="type" required>
                 <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select type" />
+                  <SelectValue
+                    placeholder={t(
+                      'dialog.addAppointment.select.type.placeholder',
+                    )}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {filteredAppointmentTypes.map((type) => (
@@ -165,7 +174,7 @@ export function AddAppointmentDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="date" className="text-right">
-                Date
+                {t('date')}
               </Label>
               <Input
                 id="date"
@@ -177,7 +186,7 @@ export function AddAppointmentDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="time" className="text-right">
-                Time
+                {t('time')}
               </Label>
               <Input
                 id="time"
@@ -188,33 +197,10 @@ export function AddAppointmentDialog({
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="payment" className="text-right">
-                Payment
-              </Label>
-              <Select name="payment" required>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select payment status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="paid">Paid</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                </SelectContent>
-              </Select>
+              <SelectPaymentStatus />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="method" className="text-right">
-                Method
-              </Label>
-              <Select name="method" required>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select payment method" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cash">Cash</SelectItem>
-                  <SelectItem value="check">Check</SelectItem>
-                  <SelectItem value="transfer">Transfer</SelectItem>
-                </SelectContent>
-              </Select>
+              <SelectPaymentMethod />
             </div>
             {fieldError && (
               <>
@@ -229,7 +215,8 @@ export function AddAppointmentDialog({
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
               disabled={isLoading}
             >
-              Add Appointment
+              {t('dialog.addAppointment.submitButton')}
+              <Check className="ml-2 h-5 w-5" />
             </Button>
           </DialogFooter>
         </form>

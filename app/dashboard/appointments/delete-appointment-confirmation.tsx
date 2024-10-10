@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,8 @@ export function DeleteAppointmentConfirmation({
   appointmentId,
   whenDeleteDone,
 }: DeleteAppointmentConfirmationProps) {
+  const t = useTranslations('Appointments');
+
   const { toast } = useToast();
 
   const handleDeleteAppointment = async () => {
@@ -45,16 +48,17 @@ export function DeleteAppointmentConfirmation({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>
+            {t('dialog.removeAppointment.title')}
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            appointment.
+            {t('dialog.removeAppointment.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
           <AlertDialogAction onClick={handleDeleteAppointment}>
-            Continue
+            {t('continue')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

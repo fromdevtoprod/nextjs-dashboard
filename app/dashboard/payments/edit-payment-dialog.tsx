@@ -21,6 +21,8 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { updatePayment } from '@/app/lib/actions/payments';
 import { updatePaymentController } from '@/src/interface-adapters/payments/update-payment.controller';
+import { SelectPaymentMethod } from '@/app/ui/selects/select-payment-method';
+import { SelectPaymentStatus } from '@/app/ui/selects/select-payment-status';
 
 type EditPaymentDialogProps = {
   amount: number;
@@ -99,33 +101,10 @@ export function EditPaymentDialog({
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="method" className="text-right">
-                Method
-              </Label>
-              <Select name="method" defaultValue={method} required>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select payment method" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="cash">Cash</SelectItem>
-                  <SelectItem value="check">Check</SelectItem>
-                  <SelectItem value="transfer">Transfer</SelectItem>
-                </SelectContent>
-              </Select>
+              <SelectPaymentMethod defaultValue={method} />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="status" className="text-right">
-                Payment
-              </Label>
-              <Select name="status" defaultValue={status} required>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select payment status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="paid">Paid</SelectItem>
-                  <SelectItem value="pending">Pending</SelectItem>
-                </SelectContent>
-              </Select>
+              <SelectPaymentStatus defaultValue={status} />
             </div>
           </div>
           {fieldError && (
