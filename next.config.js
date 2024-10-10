@@ -1,8 +1,12 @@
-// /** @type {import('next').NextConfig} */
-// const nextConfig = {
-//   experimental: {
-//     ppr: 'incremental',
-//   },
-// };
+const createNextIntlPlugin = require('next-intl/plugin');
 
-// module.exports = nextConfig;
+const withNextIntl = createNextIntlPlugin();
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  //   experimental: {
+  //     ppr: 'incremental',
+  //   },
+};
+
+module.exports = withNextIntl(nextConfig);

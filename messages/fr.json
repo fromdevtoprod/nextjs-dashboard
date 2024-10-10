@@ -1,0 +1,17 @@
+{
+  "SettingsPage": {
+    "accountTab": {
+      "title": "Paramètres du compte",
+      "description": "Gérez les détails de votre compte et vos préférences",
+      "select": {
+        "language": {
+          "label": "Langue",
+          "placeholder": "Sélectionnez une langue"
+        }
+      }
+    },
+    "english": "Anglais",
+    "french": "Français",
+    "saveButton": "Enregistrer les modifications"
+  }
+}

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -28,6 +29,8 @@ export default function SettingsPage() {
   const [notifications, setNotifications] = useState(true);
   const [theme, setTheme] = useState('light');
 
+  const t = useTranslations('SettingsPage');
+
   const handleSave = () => {
     // Handle saving settings
     console.log('Settings saved');
@@ -42,19 +45,17 @@ export default function SettingsPage() {
       </div>
 
       <Tabs defaultValue="account" className="space-y-4">
-        <TabsList>
+        {/* <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
-          {/* <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="appearance">Appearance</TabsTrigger> */}
-        </TabsList>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="appearance">Appearance</TabsTrigger>
+        </TabsList> */}
 
         <TabsContent value="account">
           <Card>
             <CardHeader>
-              <CardTitle>Account Settings</CardTitle>
-              <CardDescription>
-                Manage your account details and preferences
-              </CardDescription>
+              <CardTitle>{t('accountTab.title')}</CardTitle>
+              <CardDescription>{t('accountTab.description')}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* <div className="space-y-2">
@@ -79,15 +80,18 @@ export default function SettingsPage() {
                 <Textarea id="bio" placeholder="Tell us about yourself" />
               </div> */}
               <div className="space-y-2">
-                <Label htmlFor="language">Language</Label>
+                <Label htmlFor="language">
+                  {t('accountTab.select.language.label')}
+                </Label>
                 <Select>
                   <SelectTrigger id="language">
-                    <SelectValue placeholder="Select a language" />
+                    <SelectValue
+                      placeholder={t('accountTab.select.language.placeholder')}
+                    />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="en">English</SelectItem>
-                    <SelectItem value="fr">French</SelectItem>
-                    <SelectItem value="es">Spanish</SelectItem>
+                    <SelectItem value="en">{t('english')}</SelectItem>
+                    <SelectItem value="fr">{t('french')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -169,7 +173,7 @@ export default function SettingsPage() {
           onClick={handleSave}
           className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
         >
-          Save Changes
+          {t('saveButton')}
         </Button>
       </div>
     </main>
