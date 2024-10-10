@@ -22,7 +22,7 @@ export function NavMenu() {
     <>
       {/* Desktop navigation */}
       <nav className="hidden w-64 bg-white shadow-md md:block">
-        <NavContent />
+        <NavLinks />
       </nav>
 
       {/* Mobile navigation */}
@@ -38,14 +38,14 @@ export function NavMenu() {
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-64 p-0">
-          <NavContent className="h-full" />
+          <NavLinks className="h-full" />
         </SheetContent>
       </Sheet>
     </>
   );
 }
 
-function NavContent({ className = '' }) {
+function NavLinks({ className = '' }) {
   return (
     <div className={className}>
       <div className="p-4">
@@ -72,7 +72,7 @@ function NavContent({ className = '' }) {
           { icon: CalendarDays, label: 'History', href: '/dashboard/history' },
           { icon: Package, label: 'Packages', href: '/dashboard/packages' },
           { icon: DollarSign, label: 'Payments', href: '/dashboard/payments' },
-          { icon: Clipboard, label: 'Reports', href: '/dashboard/reports' },
+          // { icon: Clipboard, label: 'Reports', href: '/dashboard/reports' },
           { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
         ].map((item) => (
           <li key={item.href}>

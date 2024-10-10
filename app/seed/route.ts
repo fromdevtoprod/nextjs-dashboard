@@ -237,8 +237,8 @@ async function seedPayments() {
   const insertedPayments = await Promise.all(
     payments.map(
       (payment) => client.sql`
-        INSERT INTO payments(id, appointment_id, amount, customer_id, ,date, method, package_id, status)
-        VALUES (${payment.id}, ${payment.appointment_id}, ${payment.amount}, ${payment.customer_id} ,${payment.date}, ${payment.method}, ${payment.package_id}, ${payment.status})
+        INSERT INTO payments(id, amount, appointment_id, customer_id, date, method, package_id, status)
+        VALUES (${payment.id}, ${payment.amount}, ${payment.appointment_id}, ${payment.customer_id} ,${payment.date}, ${payment.method}, ${payment.package_id}, ${payment.status})
         ON CONFLICT (id) DO NOTHING;
       `,
     ),

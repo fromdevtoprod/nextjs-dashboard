@@ -347,7 +347,18 @@ const notes = [
   },
 ];
 
-const payments = [];
+const payments = [
+  {
+    id: '46bc5960-3982-4020-ab1a-e95513ca9e06',
+    amount: 110,
+    appointment_id: appointments[0].id,
+    customer_id: customers[0].id,
+    date: '2024-09-27',
+    method: 'cash',
+    package_id: null,
+    status: 'paid',
+  },
+];
 
 export {
   users,

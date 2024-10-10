@@ -4,14 +4,21 @@ import { SelectedPackage } from '@/src/entities/models/package-model';
 import { findAllAppointmentTypesUseCase } from './find-all-appointment-types.use-case';
 import { findAllUncompletedPackagesUseCase } from '../packages/find-all-uncompleted-packages.use-case';
 
-type SelectedAppointmentTypeWithPackage = SelectedAppointmentType & {
-  package_id?: string;
-};
-
 export type AppointmentTypesWithRemainingSessions = {
   customerId: string;
   customerName: string;
-  appointmentTypes: SelectedAppointmentTypeWithPackage[];
+  appointmentTypes: (
+    | SelectedAppointmentTypeWithPackage
+    | SelectedAppointmentTypeWithOptionalPackage
+  )[];
+};
+
+type SelectedAppointmentTypeWithOptionalPackage = SelectedAppointmentType & {
+  package_id?: string;
+};
+
+type SelectedAppointmentTypeWithPackage = SelectedAppointmentType & {
+  package_id: string;
 };
 
 export async function findAppointmentTypesWithRemainingSessionsUseCase(
@@ -38,6 +45,9 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
           uncompletedPackage.appointment_type_id,
         );
         if (!appointmentTypePackage) {
+          console.error(
+            `No appointment type found for ID: ${uncompletedPackage.appointment_type_id}`,
+          );
           return null;
         }
         return {
@@ -70,16 +80,23 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
       return getAllDefaultAppointments(client);
     }
 
+    // Remove null values before moving forward
+    const filteredAppointmentTypesPackages = appointmentTypesPackages.filter(
+      (type): type is SelectedAppointmentTypeWithPackage => type !== null,
+    );
+
     const defaultAppointmentTypesWithoutPackages =
-      removeDefaultAppointmentTypes(appointmentTypesPackages);
+      removeDefaultAppointmentTypes(filteredAppointmentTypesPackages);
 
     return {
       customerId: client.id,
       customerName: client.name,
       appointmentTypes: [
-        ...appointmentTypesPackages,
+        ...filteredAppointmentTypesPackages,
         ...defaultAppointmentTypesWithoutPackages,
-      ],
+      ].filter(
+        (type): type is SelectedAppointmentTypeWithPackage => type !== null,
+      ),
     };
   });
 }

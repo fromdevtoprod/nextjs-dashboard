@@ -44,8 +44,8 @@ export default function SettingsPage() {
       <Tabs defaultValue="account" className="space-y-4">
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="appearance">Appearance</TabsTrigger>
+          {/* <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="appearance">Appearance</TabsTrigger> */}
         </TabsList>
 
         <TabsContent value="account">
@@ -57,7 +57,7 @@ export default function SettingsPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="name">Name</Label>
                 <Input
                   id="name"
@@ -77,7 +77,7 @@ export default function SettingsPage() {
               <div className="space-y-2">
                 <Label htmlFor="bio">Bio</Label>
                 <Textarea id="bio" placeholder="Tell us about yourself" />
-              </div>
+              </div> */}
               <div className="space-y-2">
                 <Label htmlFor="language">Language</Label>
                 <Select>
