@@ -1,4 +1,16 @@
 {
+  "NavMenu": {
+    "appointments": "Appointments",
+    "cares": "Cares",
+    "clients": "Clients",
+    "history": "History",
+    "logout": "Logout",
+    "overview": "Overview",
+    "packages": "Packages",
+    "payments": "Payments",
+    "settings": "Settings",
+    "toggle": "Toggle navigation menu"
+  },
   "SettingsPage": {
     "accountTab": {
       "title": "Account Settings",

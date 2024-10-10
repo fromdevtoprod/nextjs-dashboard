@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import {
   CalendarDays,
   Heart,
@@ -18,6 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 export function NavMenu() {
+  const t = useTranslations('NavMenu');
   return (
     <>
       {/* Desktop navigation */}
@@ -34,7 +36,7 @@ export function NavMenu() {
             className="fixed left-4 top-4 z-50 md:hidden"
           >
             <Menu className="h-6 w-6" />
-            <span className="sr-only">Toggle navigation menu</span>
+            <span className="sr-only">{t('toggle')}</span>
           </Button>
         </SheetTrigger>
         <SheetContent side="left" className="w-64 p-0">
@@ -46,6 +48,7 @@ export function NavMenu() {
 }
 
 function NavLinks({ className = '' }) {
+  const t = useTranslations('NavMenu');
   return (
     <div className={className}>
       <div className="p-4">
@@ -61,19 +64,27 @@ function NavLinks({ className = '' }) {
       </div> */}
       <ul className="mt-4">
         {[
-          { icon: BarChart2, label: 'Overview', href: '/dashboard' },
+          { icon: BarChart2, label: t('overview'), href: '/dashboard' },
           {
             icon: CalendarDays,
-            label: 'Appointments',
+            label: t('appointments'),
             href: '/dashboard/appointments',
           },
-          { icon: Heart, label: 'Cares', href: '/dashboard/cares' },
-          { icon: Users, label: 'Clients', href: '/dashboard/clients' },
-          { icon: CalendarDays, label: 'History', href: '/dashboard/history' },
-          { icon: Package, label: 'Packages', href: '/dashboard/packages' },
-          { icon: DollarSign, label: 'Payments', href: '/dashboard/payments' },
+          { icon: Heart, label: t('cares'), href: '/dashboard/cares' },
+          { icon: Users, label: t('clients'), href: '/dashboard/clients' },
+          {
+            icon: CalendarDays,
+            label: t('history'),
+            href: '/dashboard/history',
+          },
+          { icon: Package, label: t('packages'), href: '/dashboard/packages' },
+          {
+            icon: DollarSign,
+            label: t('payments'),
+            href: '/dashboard/payments',
+          },
           // { icon: Clipboard, label: 'Reports', href: '/dashboard/reports' },
-          { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
+          // { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
         ].map((item) => (
           <li key={item.href}>
             <Link href={item.href}>
@@ -95,7 +106,7 @@ function NavLinks({ className = '' }) {
       <div className="absolute bottom-4 left-4 right-4">
         <Button variant="outline" className="justify-start text-[#2C3E50]">
           <LogOut className="mr-2 h-5 w-5" />
-          Log out
+          {t('logout')}
         </Button>
       </div>
     </div>

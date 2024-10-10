@@ -1,4 +1,16 @@
 {
+  "NavMenu": {
+    "appointments": "Rendez-vous",
+    "cares": "Soins",
+    "clients": "Clients",
+    "history": "Historique",
+    "logout": "Déconnexion",
+    "overview": "Tableau de bord",
+    "packages": "Cures",
+    "payments": "Paiements",
+    "settings": "Paramètres",
+    "toggle": "Basculer le menu de navigation"
+  },
   "SettingsPage": {
     "accountTab": {
       "title": "Paramètres du compte",
