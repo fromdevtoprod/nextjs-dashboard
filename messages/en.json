@@ -1,4 +1,23 @@
 {
+  "Dashboard": {
+    "cards": {
+      "first": {
+        "title": "Total Appointments (last 365 days)"
+      },
+      "second": {
+        "title": "Total Upcoming Appointments"
+      },
+      "third": {
+        "title": "New Clients (last 30 days)"
+      },
+      "fourth": {
+        "title": "Completed Sessions (last 30 days)"
+      }
+    },
+    "subtitle": "Here's what's happening with your business today",
+    "title": "Welcome back, {name} 👋",
+    "upcomingAppointments": "Upcoming Appointments"
+  },
   "NavMenu": {
     "appointments": "Appointments",
     "cares": "Cares",

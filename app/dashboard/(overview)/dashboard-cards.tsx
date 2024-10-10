@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { CalendarDays, Heart, Users, Clipboard } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
@@ -16,26 +17,27 @@ export function DashboardCards({
   totalAppointmentsCount,
   upcomingAppointmentsCount,
 }: DashboardCardsProps) {
+  const t = useTranslations('Dashboard');
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {[
         {
-          title: 'Total Appointments (last 365 days)',
+          title: t('cards.first.title'),
           value: totalAppointmentsCount,
           icon: CalendarDays,
         },
         {
-          title: 'Total Upcoming Appointments',
+          title: t('cards.second.title'),
           value: upcomingAppointmentsCount,
           icon: Heart,
         },
         {
-          title: 'New Clients (last 30 days)',
+          title: t('cards.third.title'),
           value: newCustomersCount,
           icon: Users,
         },
         {
-          title: 'Completed Sessions (last 30 days)',
+          title: t('cards.fourth.title'),
           value: completedSessionsCount,
           icon: Clipboard,
         },

@@ -1,4 +1,23 @@
 {
+  "Dashboard": {
+    "cards": {
+      "first": {
+        "title": "Total des rendez-vous (365 derniers jours)"
+      },
+      "second": {
+        "title": "Total des rendez-vous à venir"
+      },
+      "third": {
+        "title": "Nouveaux clients (30 derniers jours)"
+      },
+      "fourth": {
+        "title": "Séances terminées (30 derniers jours)"
+      }
+    },
+    "subtitle": "Voici ce qui se passe avec votre entreprise aujourd'hui",
+    "title": "Bienvenue, {name} 👋",
+    "upcomingAppointments": "Rendez-vous à venir"
+  },
   "NavMenu": {
     "appointments": "Rendez-vous",
     "cares": "Soins",

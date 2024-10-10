@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
@@ -13,16 +14,17 @@ export function DashboardTabs({
   recentActivities,
   upcomingAppointments,
 }: DashboardTabsProps) {
+  const t = useTranslations('Dashboard');
   return (
     <Tabs defaultValue="upcoming" className="mt-8">
       <TabsList>
-        <TabsTrigger value="upcoming">Upcoming Appointments</TabsTrigger>
+        <TabsTrigger value="upcoming">{t('upcomingAppointments')}</TabsTrigger>
         {/* <TabsTrigger value="recent">Recent Activities</TabsTrigger> */}
       </TabsList>
       <TabsContent value="upcoming">
         <Card>
           <CardHeader>
-            <CardTitle>Upcoming Appointments</CardTitle>
+            <CardTitle>{t('upcomingAppointments')}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
