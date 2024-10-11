@@ -6,11 +6,10 @@ import '@/app/ui/global.css';
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Care Schedule',
-    default: 'Care Schedule',
+    template: '%s | ZenAgenda',
+    default: 'ZenAgenda',
   },
-  description:
-    'Care Schedule is a scheduling app for healthcare professionals.',
+  description: 'ZenAgenda is a scheduling app for healthcare professionals.',
   metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
 
