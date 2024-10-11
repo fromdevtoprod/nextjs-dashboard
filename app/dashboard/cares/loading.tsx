@@ -1,3 +1,5 @@
+import { FileHeart } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
   Card,
@@ -14,14 +16,23 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 
 export default function CaresLoadingSkeleton() {
+  const t = useTranslations('Cares');
   return (
     <main className="flex-1 overflow-y-auto p-4 md:p-8">
       <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="mb-4 text-2xl font-bold text-[#2C3E50] md:mb-0 md:text-3xl">
           Cares
         </h1>
+        <Button
+          className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+          disabled={true}
+        >
+          <FileHeart className="mr-2 h-5 w-5" />
+          {t('addCare')}
+        </Button>
       </div>
       <SkeletonCard />
     </main>
@@ -29,26 +40,27 @@ export default function CaresLoadingSkeleton() {
 }
 
 function SkeletonCard() {
+  const t = useTranslations('Cares');
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Cares</CardTitle>
-        <CardDescription>Manage your cares and their settings.</CardDescription>
+        <CardTitle>{t('cares')}</CardTitle>
+        <CardDescription>{t('subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Duration (minutes)</TableHead>
-              <TableHead>Price ($)</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Sessions</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>{t('name')}</TableHead>
+              <TableHead>{t('duration')}</TableHead>
+              <TableHead>{t('price')}</TableHead>
+              <TableHead>{t('type')}</TableHead>
+              <TableHead>{t('sessions')}</TableHead>
+              <TableHead>{t('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {[...Array(6)].map((_, index) => (
+            {[...Array(4)].map((_, index) => (
               <SkeletonRow key={index} />
             ))}
           </TableBody>
