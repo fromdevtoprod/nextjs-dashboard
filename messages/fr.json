@@ -193,6 +193,17 @@
     "title": "Bienvenue, {name} 👋",
     "upcomingAppointments": "Rendez-vous à venir"
   },
+  "History": {
+    "client": {
+      "date": "Date",
+      "notes": "Notes",
+      "title": "Historique des rendez-vous de {name}",
+      "type": "Type"
+    },
+    "noResult": "Sélectionnez un client pour afficher l'historique de ses rendez-vous",
+    "selectClient": "Sélectionnez un client",
+    "title": "Historique des rendez-vous"
+  },
   "NavMenu": {
     "appointments": "Rendez-vous",
     "cares": "Soins",

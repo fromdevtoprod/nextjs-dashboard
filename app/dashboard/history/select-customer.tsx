@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { Card, CardContent } from '@/components/ui/card';
@@ -21,6 +22,8 @@ export function SelectCustomer({
   customers,
   paramCustomerId,
 }: SelectCustomerProps) {
+  const t = useTranslations('History');
+
   const [selectedCustomerId, setSelectedCustomerId] = useState('');
 
   const searchParams = useSearchParams();
@@ -41,7 +44,7 @@ export function SelectCustomer({
         <div className="flex items-center space-x-2">
           <Select onValueChange={setSelectedCustomerId} value={paramCustomerId}>
             <SelectTrigger className="w-[200px]">
-              <SelectValue placeholder="Select customer" />
+              <SelectValue placeholder={t('selectClient')} />
             </SelectTrigger>
             <SelectContent>
               {customers.map((customer) => (

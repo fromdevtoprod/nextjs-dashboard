@@ -1,14 +1,4 @@
-// import { Info } from 'lucide-react';
-// import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogDescription,
-//   DialogHeader,
-//   DialogTitle,
-//   DialogTrigger,
-// } from '@/components/ui/dialog';
 import { fetchAllAppointmentsByClient } from '@/app/lib/data/appointments';
 import { HistoryAppointment } from '@/src/entities/models/appointment';
 // import { AppointmentDetailsDialog } from './appointment-details-dialog';
@@ -37,7 +27,7 @@ export async function CustomerAppointments({
           {appointment.notes ? (
             <TableCell>{appointment.notes}</TableCell>
           ) : (
-            <TableCell>No notes</TableCell>
+            <TableCell>-</TableCell>
           )}
           {/* <TableCell>
             <AppointmentDetailsDialog

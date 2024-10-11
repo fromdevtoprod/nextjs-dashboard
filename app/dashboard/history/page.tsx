@@ -1,6 +1,7 @@
-import { CustomerHistory } from './customer-history';
 import { fetchAllCustomers } from '@/app/lib/data/customers';
+import { CustomerHistory } from './customer-history';
 import { SelectCustomer } from './select-customer';
+import { HistoryHeader } from './history-header';
 
 export default async function CustomerHistoryPage({
   searchParams,
@@ -15,9 +16,7 @@ export default async function CustomerHistoryPage({
   return (
     <main className="flex-1 overflow-y-auto p-4 md:p-8">
       <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
-        <h1 className="mb-4 text-2xl font-bold text-[#2C3E50] md:mb-0 md:text-3xl">
-          Customer Appointment History
-        </h1>
+        <HistoryHeader />
       </div>
 
       <SelectCustomer

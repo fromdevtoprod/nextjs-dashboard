@@ -193,6 +193,17 @@
     "title": "Welcome back, {name} 👋",
     "upcomingAppointments": "Upcoming Appointments"
   },
+  "History": {
+    "client": {
+      "date": "Date",
+      "notes": "Notes",
+      "title": "{name}'s Appointment History",
+      "type": "Type"
+    },
+    "noResult": "Select a customer to view their appointment history.",
+    "selectClient": "Select a client",
+    "title": "Client Appointment History"
+  },
   "NavMenu": {
     "appointments": "Appointments",
     "cares": "Cares",
