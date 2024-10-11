@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Heart } from 'lucide-react';
+import { CalendarHeart, Heart } from 'lucide-react';
 import { authenticate } from '../lib/actions/user';
 
 export default function LoginPage() {
@@ -20,8 +20,8 @@ export default function LoginPage() {
     <div className="flex min-h-screen items-center justify-center bg-[#F8F4E3]">
       <div className="w-full max-w-md space-y-8 rounded-lg bg-white p-8 shadow-lg">
         <div className="flex flex-col items-center space-y-2">
-          <Heart className="h-12 w-12 text-[#7C9885]" />
-          <h1 className="text-3xl font-bold text-[#7C9885]">CareSchedule</h1>
+          <CalendarHeart className="h-12 w-12 text-[#7C9885]" />
+          <h1 className="text-3xl font-bold text-[#7C9885]">ZenAgenda</h1>
           <h2 className="text-xl font-semibold text-[#2C3E50]">Welcome Back</h2>
         </div>
         <form action={formAction} className="space-y-6">

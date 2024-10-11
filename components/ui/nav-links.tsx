@@ -10,6 +10,7 @@ import {
   LogOut,
   Package,
   DollarSign,
+  CalendarHeart,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 // import { Input } from '@/components/ui/input';
@@ -20,10 +21,8 @@ export function NavLinks({ className = '' }) {
     <div className={className}>
       <div className="p-4">
         <Link href="/" className="flex items-center space-x-2">
-          <Heart className="h-8 w-8 text-[#7C9885]" />
-          <span className="text-2xl font-bold text-[#7C9885]">
-            CareSchedule
-          </span>
+          <CalendarHeart className="h-8 w-8 text-[#7C9885]" />
+          <span className="text-2xl font-bold text-[#7C9885]">ZenAgenda</span>
         </Link>
       </div>
       {/* <div className="px-4 py-2">

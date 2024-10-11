@@ -1,26 +1,37 @@
-'use client'
+'use client';
 
-import { Skeleton } from "@/components/ui/skeleton"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { CalendarDays, Heart, Users, Clipboard, BarChart2, Settings, LogOut } from "lucide-react"
+import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  CalendarDays,
+  Heart,
+  Users,
+  Clipboard,
+  BarChart2,
+  Settings,
+  LogOut,
+  CalendarHeart,
+} from 'lucide-react';
 
 export function OverviewLoadingSkeletonComponent() {
   return (
     <div className="flex h-screen bg-[#F8F4E3]">
       {/* Navigation Skeleton */}
-      <nav className="hidden md:block w-64 bg-white shadow-md p-4">
-        <div className="flex items-center space-x-2 mb-6">
-          <Heart className="h-8 w-8 text-[#7C9885]" />
+      <nav className="hidden w-64 bg-white p-4 shadow-md md:block">
+        <div className="mb-6 flex items-center space-x-2">
+          <CalendarHeart className="h-8 w-8 text-[#7C9885]" />
           <Skeleton className="h-8 w-32" />
         </div>
-        <Skeleton className="h-10 w-full mb-6" />
+        <Skeleton className="mb-6 h-10 w-full" />
         <div className="space-y-2">
-          {[BarChart2, CalendarDays, Users, Clipboard, Settings].map((Icon, index) => (
-            <div key={index} className="flex items-center space-x-2">
-              <Icon className="h-5 w-5 text-[#7C9885]" />
-              <Skeleton className="h-4 w-24" />
-            </div>
-          ))}
+          {[BarChart2, CalendarDays, Users, Clipboard, Settings].map(
+            (Icon, index) => (
+              <div key={index} className="flex items-center space-x-2">
+                <Icon className="h-5 w-5 text-[#7C9885]" />
+                <Skeleton className="h-4 w-24" />
+              </div>
+            ),
+          )}
         </div>
         <div className="absolute bottom-4 left-4 right-4">
           <div className="flex items-center space-x-2">
@@ -32,9 +43,8 @@ export function OverviewLoadingSkeletonComponent() {
 
       {/* Main Content Skeleton */}
       <main className="flex-1 overflow-y-auto p-8">
-        <Skeleton className="h-10 w-48 mb-8" /> {/* Page Title */}
-
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8">
+        <Skeleton className="mb-8 h-10 w-48" /> {/* Page Title */}
+        <div className="mb-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, index) => (
             <Card key={index}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -44,18 +54,19 @@ export function OverviewLoadingSkeletonComponent() {
                 <Skeleton className="h-4 w-4 rounded-full" />
               </CardHeader>
               <CardContent>
-                <Skeleton className="h-8 w-16 mb-1" />
+                <Skeleton className="mb-1 h-8 w-16" />
                 <Skeleton className="h-4 w-32" />
               </CardContent>
             </Card>
           ))}
         </div>
-
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {/* Appointments Overview */}
           <Card className="col-span-2">
             <CardHeader>
-              <CardTitle><Skeleton className="h-6 w-48" /></CardTitle>
+              <CardTitle>
+                <Skeleton className="h-6 w-48" />
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <Skeleton className="h-[200px] w-full" />
@@ -65,7 +76,9 @@ export function OverviewLoadingSkeletonComponent() {
           {/* Recent Activity */}
           <Card className="col-span-1">
             <CardHeader>
-              <CardTitle><Skeleton className="h-6 w-32" /></CardTitle>
+              <CardTitle>
+                <Skeleton className="h-6 w-32" />
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -76,7 +89,7 @@ export function OverviewLoadingSkeletonComponent() {
                       <Skeleton className="h-4 w-32" />
                       <Skeleton className="h-3 w-24" />
                     </div>
-                    <Skeleton className="h-4 w-16 ml-auto" />
+                    <Skeleton className="ml-auto h-4 w-16" />
                   </div>
                 ))}
               </div>
@@ -86,7 +99,9 @@ export function OverviewLoadingSkeletonComponent() {
           {/* Upcoming Appointments */}
           <Card className="col-span-2">
             <CardHeader>
-              <CardTitle><Skeleton className="h-6 w-48" /></CardTitle>
+              <CardTitle>
+                <Skeleton className="h-6 w-48" />
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -97,7 +112,7 @@ export function OverviewLoadingSkeletonComponent() {
                       <Skeleton className="h-4 w-32" />
                       <Skeleton className="h-3 w-24" />
                     </div>
-                    <Skeleton className="h-4 w-16 ml-auto" />
+                    <Skeleton className="ml-auto h-4 w-16" />
                   </div>
                 ))}
               </div>
@@ -107,7 +122,9 @@ export function OverviewLoadingSkeletonComponent() {
           {/* Quick Actions */}
           <Card>
             <CardHeader>
-              <CardTitle><Skeleton className="h-6 w-32" /></CardTitle>
+              <CardTitle>
+                <Skeleton className="h-6 w-32" />
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -120,5 +137,5 @@ export function OverviewLoadingSkeletonComponent() {
         </div>
       </main>
     </div>
-  )
+  );
 }

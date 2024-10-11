@@ -11,6 +11,7 @@ import {
   Heart,
   Users,
   Star,
+  CalendarHeart,
 } from 'lucide-react';
 
 export function LandingPageComponent() {
@@ -18,9 +19,9 @@ export function LandingPageComponent() {
     <div className="flex min-h-screen flex-col bg-[#F8F4E3] text-[#2C3E50]">
       <header className="flex h-16 items-center bg-white px-4 shadow-sm lg:px-6">
         <Link className="flex items-center justify-center" href="#">
-          <Heart className="h-6 w-6 text-[#7C9885]" />
+          <CalendarHeart className="h-6 w-6 text-[#7C9885]" />
           <span className="ml-2 text-2xl font-bold text-[#7C9885]">
-            CareSchedule
+            ZenAgenda
           </span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
@@ -137,7 +138,7 @@ export function LandingPageComponent() {
               {[
                 {
                   quote:
-                    "CareSchedule has transformed how I manage my therapy practice. It's intuitive and designed with mental health professionals in mind.",
+                    "ZenAgenda has transformed how I manage my therapy practice. It's intuitive and designed with mental health professionals in mind.",
                   author: 'Dr. Emily Chen',
                   title: 'Licensed Psychologist',
                 },
@@ -149,7 +150,7 @@ export function LandingPageComponent() {
                 },
                 {
                   quote:
-                    "As a wellness coach, I love how CareSchedule helps me stay organized and focused on my clients' well-being journey.",
+                    "As a wellness coach, I love how ZenAgenda helps me stay organized and focused on my clients' well-being journey.",
                   author: 'Sarah Thompson',
                   title: 'Holistic Wellness Coach',
                 },
@@ -269,7 +270,7 @@ export function LandingPageComponent() {
       </main>
       <footer className="flex w-full shrink-0 flex-col items-center gap-2 border-t bg-[#F8F4E3] px-4 py-6 sm:flex-row md:px-6">
         <p className="text-xs text-[#2C3E50]">
-          © 2024 CareSchedule. All rights reserved.
+          © 2024 ZenAgenda. All rights reserved.
         </p>
         <nav className="flex gap-4 sm:ml-auto sm:gap-6">
           <Link
