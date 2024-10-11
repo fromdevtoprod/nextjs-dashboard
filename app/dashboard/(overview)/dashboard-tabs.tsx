@@ -38,18 +38,18 @@ export function DashboardTabs({
                     </div>
                   </div>
                   <div className="ml-4">
-                    <p className="text-sm font-medium text-[#2C3E50]">
-                      <div className="flex items-center">
-                        <User className="mr-1 h-4 w-4" />
+                    <div className="flex items-center">
+                      <User className="mr-1 h-4 w-4" />
+                      <p className="text-sm font-medium text-[#2C3E50]">
                         {appointment.client_name}
-                      </div>
-                    </p>
-                    <p className="text-sm text-[#7C9885]">
-                      <div className="flex items-center">
-                        <HandHeart className="mr-1 h-4 w-4" />
+                      </p>
+                    </div>
+                    <div className="flex items-center">
+                      <HandHeart className="mr-1 h-4 w-4" />
+                      <p className="text-sm text-[#7C9885]">
                         {appointment.appointment_type_name}
-                      </div>
-                    </p>
+                      </p>
+                    </div>
                   </div>
                 </div>
               ))}

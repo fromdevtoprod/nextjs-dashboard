@@ -24,7 +24,7 @@ export default function CaresLoadingSkeleton() {
     <main className="flex-1 overflow-y-auto p-4 md:p-8">
       <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
         <h1 className="mb-4 text-2xl font-bold text-[#2C3E50] md:mb-0 md:text-3xl">
-          Cares
+          {t('cares')}
         </h1>
         <Button
           className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
