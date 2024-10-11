@@ -1,3 +1,12 @@
+import { useTranslations } from 'next-intl';
+import {
+  DollarSign,
+  HandHeart,
+  Package,
+  PencilLine,
+  RefreshCcw,
+  Timer,
+} from 'lucide-react';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import {
   Card,
@@ -16,14 +25,6 @@ import {
 } from '@/components/ui/table';
 import { EditButton } from '@/app/ui/buttons/edit-button';
 import { DeleteAppointmentTypeConfirmation } from './delete-appointment-type-confirmation';
-import {
-  DollarSign,
-  HandHelping,
-  Package,
-  RefreshCcw,
-  Text,
-  Timer,
-} from 'lucide-react';
 
 type AppointmentTypesListProps = {
   appointmentTypes: SelectedAppointmentType[];
@@ -36,22 +37,23 @@ export function AppointmentTypesList({
   onEditClick,
   onDeleteClick,
 }: AppointmentTypesListProps) {
+  const t = useTranslations('Cares');
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Cares</CardTitle>
-        <CardDescription>Manage your cares and their settings.</CardDescription>
+        <CardTitle>{t('cares')}</CardTitle>
+        <CardDescription>{t('subtitle')}</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Duration (minutes)</TableHead>
-              <TableHead>Price ($)</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Sessions</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead>{t('name')}</TableHead>
+              <TableHead>{t('duration')}</TableHead>
+              <TableHead>{t('price')}</TableHead>
+              <TableHead>{t('type')}</TableHead>
+              <TableHead>{t('sessions')}</TableHead>
+              <TableHead>{t('actions.label')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -59,7 +61,7 @@ export function AppointmentTypesList({
               <TableRow key={type.id}>
                 <TableCell className="font-medium">
                   <div className="flex items-center">
-                    <Text className="mr-2 h-4 w-4 self-center" />
+                    <PencilLine className="mr-2 h-4 w-4 self-center" />
                     {type.name}
                   </div>
                 </TableCell>
@@ -71,8 +73,8 @@ export function AppointmentTypesList({
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <DollarSign className="mr-2 h-4 w-4 self-center" />
                     {type.price.toFixed(2)}
+                    {t('currency')}
                   </div>
                 </TableCell>
                 <TableCell>
@@ -103,18 +105,19 @@ export function AppointmentTypesList({
 }
 
 function CareTypeBadge({ session_count }: { session_count: number }) {
+  const t = useTranslations('Cares');
   if (session_count <= 1) {
     return (
       <div className="flex items-center">
-        <HandHelping className="mr-2 h-4 w-4 self-center" />
-        Single
+        <HandHeart className="mr-2 h-4 w-4 self-center" />
+        {t('care')}
       </div>
     );
   }
   return (
     <div className="flex items-center">
       <Package className="mr-2 h-4 w-4 self-center" />
-      Package
+      {t('package')}
     </div>
   );
 }

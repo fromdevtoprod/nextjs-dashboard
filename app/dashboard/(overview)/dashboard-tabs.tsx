@@ -1,10 +1,10 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import { Clock, HandHeart, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
-import { HandHeart, User } from 'lucide-react';
 
 type DashboardTabsProps = {
   upcomingAppointments: UpcomingAppointment[];
@@ -31,8 +31,11 @@ export function DashboardTabs({
             <div className="space-y-4">
               {upcomingAppointments.map((appointment, index) => (
                 <div key={index} className="flex items-center">
-                  <div className="w-16 text-sm text-[#2C3E50]">
-                    {appointment.time}
+                  <div className="w-24 text-sm text-[#2C3E50]">
+                    <div className="flex items-center">
+                      <Clock className="mr-1 h-4 w-4" />
+                      {appointment.time}
+                    </div>
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-[#2C3E50]">

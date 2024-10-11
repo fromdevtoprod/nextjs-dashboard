@@ -18,7 +18,7 @@
             "placeholder": "Sélectionnez un type"
           }
         },
-        "submitButton": "Ajouter",
+        "submit": "Ajouter",
         "title": "Ajouter un nouveau rendez-vous"
       },
       "removeAppointment": {
@@ -37,11 +37,81 @@
           "description": "Nous n'avons pas pu créer ce rendez-vous.",
           "title": "Désolé, une erreur s'est produite !"
         }
+      },
+      "removeAppointment": {
+        "error": {
+          "description": "Nous n'avons pas pu supprimer ce rendez-vous.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
       }
     },
     "type": "Type",
     "upcomingAppointments": "Rendez-vous à venir",
     "yes": "Oui"
+  },
+  "Cares": {
+    "actions": {
+      "label": "Actions"
+    },
+    "addCare": "Ajouter un soin",
+    "cancel": "Annuler",
+    "care": "Soin",
+    "cares": "Soins",
+    "continue": "Continuer",
+    "currency": "€",
+    "dialog": {
+      "addCare": {
+        "description": "Créez un nouveau soin pour vos clients.",
+        "duration": {
+          "placeholder": "Entrez la durée du soin"
+        },
+        "name": {
+          "placeholder": "Entrez le nom du soin"
+        },
+        "price": {
+          "placeholder": "Entrez le prix du soin"
+        },
+        "submit": "Ajouter",
+        "title": "Ajouter un nouveau soin"
+      },
+      "editCare": {
+        "description": "Modifiez les détails de ce soin.",
+        "submit": "Mettre à jour",
+        "title": "Modifier le soin"
+      },
+      "removeCare": {
+        "description": " Cette action est irréversible. Cela supprimera définitivement votre soin.",
+        "title": "Êtes-vous sûr de vouloir supprimer ce soin ?"
+      }
+    },
+    "duration": "Durée (minutes)",
+    "name": "Nom",
+    "noResult": "Aucun soin trouvé",
+    "package": "Cure",
+    "price": "Prix (€)",
+    "sessions": "Sessions",
+    "subtitle": "Gérez vos soins et leurs paramètres.",
+    "toast": {
+      "addCare": {
+        "error": {
+          "description": "Nous n'avons pas pu créer ce soin.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      },
+      "editCare": {
+        "error": {
+          "description": "Nous n'avons pas pu mettre à jour ce soin.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      },
+      "removeCare": {
+        "error": {
+          "description": "Nous n'avons pas pu supprimer ce soin.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      }
+    },
+    "type": "Type"
   },
   "Clients": {
     "select": {

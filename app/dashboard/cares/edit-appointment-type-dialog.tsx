@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -9,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Switch } from '@/components/ui/switch';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { updateAppointmentType } from '@/app/lib/actions/appointment-types';
 import { useToast } from '@/hooks/use-toast';
@@ -35,7 +40,11 @@ export function EditAppointmentTypeDialog({
   onOpenChange,
   onDialogSubmit,
 }: AppointmentTypesPageProps) {
+  const t = useTranslations('Cares');
+
   const { toast } = useToast();
+
+  const [isPackage, setIsPackage] = useState(sessionCount > 1);
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -54,8 +63,8 @@ export function EditAppointmentTypeDialog({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not update this appointment type.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.editCare.error.description'),
+        title: t('toast.editCare.error.title'),
         variant: 'destructive',
       });
     }
@@ -64,16 +73,16 @@ export function EditAppointmentTypeDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Appointment Type</DialogTitle>
+          <DialogTitle>{t('dialog.editCare.title')}</DialogTitle>
           <DialogDescription>
-            Make changes to the appointment type or package here.
+            {t('dialog.editCare.description')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-name" className="text-right">
-                Name
+                {t('name')}
               </Label>
               <Input
                 id="edit-name"
@@ -85,7 +94,7 @@ export function EditAppointmentTypeDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-duration" className="text-right">
-                Duration (minutes)
+                {t('duration')}
               </Label>
               <Input
                 id="edit-duration"
@@ -98,7 +107,7 @@ export function EditAppointmentTypeDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-price" className="text-right">
-                Price ($)
+                {t('price')}
               </Label>
               <Input
                 id="edit-price"
@@ -111,8 +120,19 @@ export function EditAppointmentTypeDialog({
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="package" className="text-right">
+                {t('package')}
+              </Label>
+              <Switch
+                id="package"
+                name="package"
+                checked={isPackage}
+                onCheckedChange={setIsPackage}
+              />
+            </div>
+            <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="edit-sessionCount" className="text-right">
-                Sessions in Package
+                {t('sessions')}
               </Label>
               <Input
                 id="edit-sessionCount"
@@ -120,6 +140,7 @@ export function EditAppointmentTypeDialog({
                 type="number"
                 defaultValue={sessionCount}
                 className="col-span-3"
+                disabled={!isPackage}
               />
             </div>
           </div>
@@ -128,7 +149,7 @@ export function EditAppointmentTypeDialog({
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
             >
-              Save Changes
+              {t('dialog.editCare.submit')}
             </Button>
           </DialogFooter>
         </form>

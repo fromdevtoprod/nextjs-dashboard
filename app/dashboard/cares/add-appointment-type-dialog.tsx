@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Check, FileHeart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -31,8 +32,11 @@ export function AddAppointmentTypeDialog({
   onOpenChange,
   onDialogSubmit,
 }: AppointmentTypesPageProps) {
-  const [isPackage, setIsPackage] = useState(false);
+  const t = useTranslations('Cares');
+
   const { toast } = useToast();
+
+  const [isPackage, setIsPackage] = useState(false);
 
   const handleFormSubmission = async (
     event: React.FormEvent<HTMLFormElement>,
@@ -49,8 +53,8 @@ export function AddAppointmentTypeDialog({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not add this appointment type.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.addCare.error.description'),
+        title: t('toast.addCare.error.title'),
         variant: 'destructive',
       });
     }
@@ -60,41 +64,47 @@ export function AddAppointmentTypeDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
-          <Plus className="mr-2 h-5 w-5" />
-          Add Care
+          <FileHeart className="mr-2 h-5 w-5" />
+          {t('addCare')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Care</DialogTitle>
+          <DialogTitle>{t('dialog.addCare.title')}</DialogTitle>
           <DialogDescription>
-            Create a new care for your schedule.
+            {t('dialog.addCare.description')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                {t('name')}
               </Label>
-              <Input id="name" name="name" className="col-span-3" required />
+              <Input
+                id="name"
+                name="name"
+                className="col-span-3"
+                placeholder={t('dialog.addCare.name.placeholder')}
+                required
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="duration" className="text-right">
-                Duration (minutes)
+                {t('duration')}
               </Label>
               <Input
                 id="duration"
                 name="duration"
                 type="number"
                 className="col-span-3"
-                defaultValue={60}
+                placeholder={t('dialog.addCare.duration.placeholder')}
                 required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="price" className="text-right">
-                Price ($)
+                {t('price')}
               </Label>
               <Input
                 id="price"
@@ -102,12 +112,13 @@ export function AddAppointmentTypeDialog({
                 type="number"
                 step="0.01"
                 className="col-span-3"
+                placeholder={t('dialog.addCare.price.placeholder')}
                 required
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="package" className="text-right">
-                Package
+                {t('package')}
               </Label>
               <Switch
                 id="package"
@@ -118,7 +129,7 @@ export function AddAppointmentTypeDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="sessionCount" className="text-right">
-                Sessions in Package
+                {t('sessions')}
               </Label>
               <Input
                 id="sessionCount"
@@ -136,7 +147,8 @@ export function AddAppointmentTypeDialog({
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
             >
-              Add Type
+              {t('dialog.addCare.submit')}
+              <Check className="ml-2 h-5 w-5" />
             </Button>
           </DialogFooter>
         </form>

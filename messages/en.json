@@ -18,7 +18,7 @@
             "placeholder": "Select a type"
           }
         },
-        "submitButton": "Add",
+        "submit": "Add",
         "title": "Add New Appointment"
       },
       "removeAppointment": {
@@ -37,11 +37,81 @@
           "description": "We could not create this appointment.",
           "title": "Sorry, something went wrong !"
         }
+      },
+      "removeAppointment": {
+        "error": {
+          "description": "We could not remove this appointment.",
+          "title": "Sorry, something went wrong !"
+        }
       }
     },
     "type": "Type",
     "upcomingAppointments": "Upcoming Appointments",
     "yes": "Yes"
+  },
+  "Cares": {
+    "actions": {
+      "label": "Actions"
+    },
+    "addCare": "Add Care",
+    "cancel": "Cancel",
+    "care": "Care",
+    "cares": "Cares",
+    "continue": "Continue",
+    "currency": "$",
+    "dialog": {
+      "addCare": {
+        "description": "Create a new care for this client.",
+        "duration": {
+          "placeholder": "Enter care duration"
+        },
+        "name": {
+          "placeholder": "Enter care name"
+        },
+        "price": {
+          "placeholder": "Enter care price"
+        },
+        "submit": "Add",
+        "title": "Add New Care"
+      },
+      "editCare": {
+        "description": "Edit the details of this care.",
+        "submit": "Save Changes",
+        "title": "Edit Care"
+      },
+      "removeCare": {
+        "description": " This action cannot be undone. This will permanently delete your care.",
+        "title": "Are you sure you want to remove this care ?"
+      }
+    },
+    "duration": "Duration (minutes)",
+    "name": "Name",
+    "noResult": "No care found",
+    "package": "Package",
+    "price": "Price ($)",
+    "sessions": "Sessions",
+    "subtitle": "Manage your cares and their settings.",
+    "toast": {
+      "addCare": {
+        "error": {
+          "description": "We could not create this care.",
+          "title": "Sorry, something went wrong !"
+        }
+      },
+      "editCare": {
+        "error": {
+          "description": "We could not update this care.",
+          "title": "Sorry, something went wrong !"
+        }
+      },
+      "removeCare": {
+        "error": {
+          "description": "We could not remove this care.",
+          "title": "Sorry, something went wrong !"
+        }
+      }
+    },
+    "type": "Type"
   },
   "Clients": {
     "select": {

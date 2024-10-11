@@ -34,8 +34,8 @@ export function DeleteAppointmentConfirmation({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not delete this appointment.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.removeAppointment.error.description'),
+        title: t('toast.removeAppointment.error.title'),
         variant: 'destructive',
       });
     }

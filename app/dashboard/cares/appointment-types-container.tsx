@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { Toaster } from '@/components/ui/toaster';
@@ -14,6 +15,8 @@ type AppointmentTypesContainerProps = {
 export function AppointmentTypesContainer({
   initialAppointmentTypes,
 }: AppointmentTypesContainerProps) {
+  const t = useTranslations('Cares');
+
   const [appointmentTypes, setAppointmentTypes] = useState(
     initialAppointmentTypes,
   );
@@ -44,7 +47,7 @@ export function AppointmentTypesContainer({
       <main className="flex-1 overflow-y-auto p-4 md:p-8">
         <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
           <h1 className="mb-4 text-2xl font-bold text-[#2C3E50] md:mb-0 md:text-3xl">
-            Cares
+            {t('cares')}
           </h1>
           <AddAppointmentTypeDialog
             isOpen={isAddingType}
@@ -60,16 +63,18 @@ export function AppointmentTypesContainer({
         />
       </main>
 
-      <EditAppointmentTypeDialog
-        duration={editingType?.duration || 0}
-        id={editingType?.id || ''}
-        isOpen={!!editingType}
-        onOpenChange={() => setEditingType(null)}
-        onDialogSubmit={handleEditType}
-        name={editingType?.name || ''}
-        price={editingType?.price || 0}
-        sessionCount={editingType?.session_count || 0}
-      />
+      {editingType && (
+        <EditAppointmentTypeDialog
+          duration={editingType?.duration || 0}
+          id={editingType?.id || ''}
+          isOpen={!!editingType}
+          onOpenChange={() => setEditingType(null)}
+          onDialogSubmit={handleEditType}
+          name={editingType?.name || ''}
+          price={editingType?.price || 0}
+          sessionCount={editingType?.session_count || 0}
+        />
+      )}
 
       <Toaster />
     </>

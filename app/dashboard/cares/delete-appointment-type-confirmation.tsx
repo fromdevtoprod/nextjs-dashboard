@@ -12,6 +12,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { DeleteButton } from '@/app/ui/buttons/delete-button';
 import { deleteAppointmentType } from '@/app/lib/actions/appointment-types';
+import { useTranslations } from 'next-intl';
 
 type DeleteClientConfirmationProps = {
   careId: string;
@@ -22,6 +23,8 @@ export function DeleteAppointmentTypeConfirmation({
   careId,
   whenDeleteDone,
 }: DeleteClientConfirmationProps) {
+  const t = useTranslations('Cares');
+
   const { toast } = useToast();
 
   const handleDeleteAppointmentType = async () => {
@@ -31,8 +34,8 @@ export function DeleteAppointmentTypeConfirmation({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not delete this care.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.removeCare.error.description'),
+        title: t('toast.removeCare.error.title'),
         variant: 'destructive',
       });
     }
@@ -45,16 +48,15 @@ export function DeleteAppointmentTypeConfirmation({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('dialog.removeCare.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            care.
+            {t('dialog.removeCare.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
           <AlertDialogAction onClick={handleDeleteAppointmentType}>
-            Continue
+            {t('continue')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

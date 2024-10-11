@@ -215,7 +215,7 @@ export function AddAppointmentDialog({
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
               disabled={isLoading}
             >
-              {t('dialog.addAppointment.submitButton')}
+              {t('dialog.addAppointment.submit')}
               <Check className="ml-2 h-5 w-5" />
             </Button>
           </DialogFooter>
