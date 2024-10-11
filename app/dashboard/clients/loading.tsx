@@ -13,7 +13,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
-export default function CaresLoadingSkeleton() {
+export default function ClientsLoadingSkeleton() {
   const t = useTranslations('Clients');
   return (
     <main className="flex-1 overflow-y-auto p-4 md:p-8">
