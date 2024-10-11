@@ -28,6 +28,7 @@
     "no": "Non",
     "package": "Cure",
     "payment": "Paiement",
+    "sessionsLeft": "sessions restantes",
     "time": "Heure",
     "toast": {
       "addAppointment": {
@@ -221,6 +222,7 @@
       "addNotes": {
         "label": "Notes",
         "placeholder": "Saisissez-les ici...",
+        "submit": "Ajouter des notes",
         "subtitle": "Des notes pour ce rendez-vous",
         "title": "Ajouter des notes"
       }

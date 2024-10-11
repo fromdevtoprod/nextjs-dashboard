@@ -91,7 +91,7 @@ export function AddNotesDialog({
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
               disabled={isLoading}
             >
-              Add Notes
+              {t('dialog.addNotes.submit')}
               <Check className="ml-2 h-4 w-4" />
             </Button>
           </DialogFooter>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Check, PackagePlus } from 'lucide-react';
+import { Check, Package, PackagePlus, User } from 'lucide-react';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { SelectedPackage } from '@/src/entities/models/package-model';
 import { Button } from '@/components/ui/button';
@@ -109,7 +109,10 @@ export function StartPackageDialog({
                 <SelectContent>
                   {customers.map((customer) => (
                     <SelectItem key={customer.id} value={customer.id}>
-                      {customer.name}
+                      <div className="flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        {customer.name}
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -130,7 +133,10 @@ export function StartPackageDialog({
                 <SelectContent>
                   {packageTypes.map((packageType) => (
                     <SelectItem key={packageType.name} value={packageType.id}>
-                      {packageType.name}
+                      <div className="flex items-center">
+                        <Package className="mr-2 h-4 w-4" />
+                        {packageType.name}
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>

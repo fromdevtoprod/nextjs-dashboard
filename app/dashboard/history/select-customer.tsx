@@ -3,6 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
+import { User } from 'lucide-react';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -49,7 +50,10 @@ export function SelectCustomer({
             <SelectContent>
               {customers.map((customer) => (
                 <SelectItem key={customer.id} value={customer.id}>
-                  {customer.name}
+                  <div className="flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    {customer.name}
+                  </div>
                 </SelectItem>
               ))}
             </SelectContent>

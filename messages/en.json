@@ -28,6 +28,7 @@
     "no": "No",
     "package": "Package",
     "payment": "Payment",
+    "sessionsLeft": "session's left",
     "time": "Time",
     "toast": {
       "addAppointment": {
@@ -221,6 +222,7 @@
       "addNotes": {
         "label": "Notes",
         "placeholder": "Write notes here...",
+        "submit": "Add Notes",
         "subtitle": "Notes for this appointment.",
         "title": "Add Notes"
       }

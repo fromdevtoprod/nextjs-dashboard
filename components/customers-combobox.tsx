@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { useTranslations } from 'next-intl';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -73,6 +73,7 @@ export function CustomersCombobox({
                       value === client.name ? 'opacity-100' : 'opacity-0',
                     )}
                   />
+                  <User className="mr-2 h-4 w-4 self-center" />
                   {client.name}
                 </CommandItem>
               ))}

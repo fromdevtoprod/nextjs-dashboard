@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { CalendarPlus, Check } from 'lucide-react';
+import { CalendarPlus, Check, HandHeart, Package } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { UpcomingAppointment } from '@/src/entities/models/appointment';
 import { createAppointment } from '@/app/lib/actions/appointments';
@@ -111,6 +111,13 @@ export function AddAppointmentDialog({
     );
   }
 
+  const i18nFilteredAppointmentTypes = filteredAppointmentTypes.map((type) => ({
+    ...type,
+    name: type.name
+      .replace('(Package', `(${t('package')}`)
+      .replace('session(s) left', t('sessionsLeft')),
+  }));
+
   return (
     <Dialog open={isOpened} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
@@ -164,9 +171,16 @@ export function AddAppointmentDialog({
                   />
                 </SelectTrigger>
                 <SelectContent>
-                  {filteredAppointmentTypes.map((type) => (
+                  {i18nFilteredAppointmentTypes.map((type) => (
                     <SelectItem key={type.id} value={type.id.toString()}>
-                      {type.name}
+                      <div className="flex items-center">
+                        {isPackage ? (
+                          <Package className="mr-2 h-4 w-4" />
+                        ) : (
+                          <HandHeart className="mr-2 h-4 w-4" />
+                        )}
+                        {type.name}
+                      </div>
                     </SelectItem>
                   ))}
                 </SelectContent>
