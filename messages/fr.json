@@ -258,6 +258,19 @@
     "title": "Cures en cours"
   },
   "Payments": {
+    "actions": "Actions",
+    "amount": "Montant",
+    "client": "Client",
+    "care": "Soin",
+    "currency": "€",
+    "date": "Date",
+    "dialog": {
+      "editPayment": {
+        "description": "Mettre à jour les détails de ce paiement.",
+        "submit": "Mettre à jour",
+        "title": "Modifier le paiement"
+      }
+    },
     "method": {
       "cash": "Espèces",
       "check": "Chèque",
@@ -265,11 +278,22 @@
       "placeholder": "Sélectionnez une méthode de paiement",
       "transfer": "Virement"
     },
+    "paymentHistory": "Historique des paiements",
+    "searchPlaceholder": "Chercher des paiements...",
     "status": {
-      "label": "Status",
+      "label": "Statut",
       "paid": "Payé",
       "pending": "En attente",
       "placeholder": "Sélectionnez un statut de paiement"
+    },
+    "title": "Paiements",
+    "toast": {
+      "editPayment": {
+        "error": {
+          "description": "Nous n'avons pas pu mettre à jour ce paiement.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      }
     }
   },
   "SettingsPage": {

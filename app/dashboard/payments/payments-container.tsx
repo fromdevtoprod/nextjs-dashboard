@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { SelectedPayment } from '@/src/entities/models/payment';
@@ -15,6 +16,8 @@ type PaymentsContainerProps = {
 };
 
 export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
+  const t = useTranslations('Payments');
+
   const [payments, setPayments] = useState<SelectedPayment[]>(initialPayments);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingPayment, setEditingPayment] = useState<SelectedPayment | null>(
@@ -59,7 +62,7 @@ export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
       <main className="flex-1 overflow-y-auto p-4 md:p-8">
         <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
           <h1 className="mb-4 pl-12 text-2xl font-bold text-[#2C3E50] md:mb-0 md:pl-0 md:text-3xl">
-            Payments
+            {t('title')}
           </h1>
           {/* <AddPaymentDialog
             isOpen={isAddingPayment}
@@ -73,7 +76,7 @@ export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
             <div className="flex items-center space-x-2">
               <Search className="text-[#7C9885]" />
               <Input
-                placeholder="Search payments..."
+                placeholder={t('searchPlaceholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="flex-1"
@@ -89,17 +92,19 @@ export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
         />
       </main>
 
-      <EditPaymentDialog
-        amount={editingPayment?.amount || 0}
-        date={editingPayment?.date || ''}
-        id={editingPayment?.id || ''}
-        isOpen={!!editingPayment}
-        method={editingPayment?.method || ''}
-        packageId={editingPayment?.package_id || ''}
-        status={editingPayment?.status || ''}
-        onDialogSubmit={handleUpdatePayment}
-        onOpenChange={() => setEditingPayment(null)}
-      />
+      {editingPayment && (
+        <EditPaymentDialog
+          amount={editingPayment?.amount || 0}
+          date={editingPayment?.date || ''}
+          id={editingPayment?.id || ''}
+          isOpen={!!editingPayment}
+          method={editingPayment?.method || ''}
+          packageId={editingPayment?.package_id || ''}
+          status={editingPayment?.status || ''}
+          onDialogSubmit={handleUpdatePayment}
+          onOpenChange={() => setEditingPayment(null)}
+        />
+      )}
 
       <Toaster />
     </>

@@ -258,6 +258,19 @@
     "title": "Packages in progress"
   },
   "Payments": {
+    "actions": "Actions",
+    "amount": "Amount",
+    "client": "Client",
+    "care": "Care",
+    "currency": "$",
+    "date": "Date",
+    "dialog": {
+      "editPayment": {
+        "description": "Update the details of the payment.",
+        "submit": "Save Changes",
+        "title": "Edit Payment"
+      }
+    },
     "method": {
       "cash": "Cash",
       "check": "Check",
@@ -265,11 +278,22 @@
       "placeholder": "Select a payment method",
       "transfer": "Transfer"
     },
+    "paymentHistory": "Payment History",
+    "searchPlaceholder": "Search payments...",
     "status": {
       "label": "Status",
       "paid": "Paid",
       "pending": "Pending",
       "placeholder": "Select a payment status"
+    },
+    "title": "Payments",
+    "toast": {
+      "editPayment": {
+        "error": {
+          "description": "We could not update this payment.",
+          "title": "Sorry, something went wrong !"
+        }
+      }
     }
   },
   "SettingsPage": {

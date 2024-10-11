@@ -1,13 +1,11 @@
+import { useTranslations } from 'next-intl';
 import {
   Banknote,
   Calendar,
   CreditCard,
   DollarSign,
-  Hand,
-  Heart,
+  HandHeart,
   House,
-  Package,
-  Timer,
   UserIcon,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,6 +21,8 @@ import { SelectedPayment } from '@/src/entities/models/payment';
 import { EditButton } from '@/app/ui/buttons/edit-button';
 import { DeletePaymentConfirmation } from './delete-payment-confirmation';
 import { PaymentStatusBadge } from '@/app/ui/badges/payment-status-badge';
+import { capitalize } from '@/app/lib/utils';
+import { PaymentMethod } from '@/app/ui/payment-method';
 
 type PaymentListProps = {
   filteredPayments: SelectedPayment[];
@@ -35,23 +35,24 @@ export function PaymentList({
   onDeleteClick,
   onEditClick,
 }: PaymentListProps) {
+  const t = useTranslations('Payments');
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Payment History</CardTitle>
+        <CardTitle>{t('paymentHistory')}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Customer</TableHead>
-                <TableHead>Care</TableHead>
-                <TableHead>Date</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Method</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>{t('client')}</TableHead>
+                <TableHead>{t('care')}</TableHead>
+                <TableHead>{t('date')}</TableHead>
+                <TableHead>{t('amount')}</TableHead>
+                <TableHead>{t('method.label')}</TableHead>
+                <TableHead>{t('status.label')}</TableHead>
+                <TableHead>{t('actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -65,7 +66,7 @@ export function PaymentList({
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
-                      <Timer className="mr-2 h-4 w-4 self-center" />
+                      <HandHeart className="mr-2 h-4 w-4 self-center" />
                       {payment.appointment_type_name}
                       {payment.package_id && ' (Package)'}
                     </div>
@@ -76,11 +77,10 @@ export function PaymentList({
                       {new Date(payment.date).toISOString().split('T')[0]}
                     </div>
                   </TableCell>
-                  <TableCell>${payment.amount.toFixed(2)}</TableCell>
+                  <TableCell>{`${payment.amount.toFixed(2)} ${t('currency')}`}</TableCell>
                   <TableCell>
                     <div className="inline-flex">
-                      <PaymentMethodIcon method={payment.method} />
-                      {payment.method}
+                      <PaymentMethod method={payment.method} />
                     </div>
                   </TableCell>
                   <TableCell>
@@ -103,19 +103,4 @@ export function PaymentList({
       </CardContent>
     </Card>
   );
-}
-
-function PaymentMethodIcon({ method }: { method: string }) {
-  switch (method) {
-    case 'Card':
-      return <CreditCard className="mr-2 h-4 w-4 self-center" />;
-    case 'Cash':
-      return <DollarSign className="mr-2 h-4 w-4 self-center" />;
-    case 'Check':
-      return <Banknote className="mr-2 h-4 w-4 self-center" />;
-    case 'Transfer':
-      return <House className="mr-2 h-4 w-4 self-center" />;
-    default:
-      return null;
-  }
 }

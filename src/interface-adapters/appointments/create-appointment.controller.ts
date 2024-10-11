@@ -18,7 +18,7 @@ const FormSchema = z.object({
   appointment_type_id: z.string(),
   date: z.string(),
   method: z.string(),
-  payment: z.string(),
+  status: z.string(),
   time: z.string(),
 });
 
@@ -32,13 +32,13 @@ export function createAppointmentController({
     appointment_type_id,
     date,
     method: paymentMethod,
-    payment: paymentStatus,
+    status: paymentStatus,
     time,
   } = FormSchema.parse({
     appointment_type_id: formData.get('type'),
     date: formData.get('date'),
     method: formData.get('method'),
-    payment: formData.get('payment'),
+    status: formData.get('status'),
     time: formData.get('time'),
   });
 

@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { PaymentMethod } from '../payment-method';
 
 type SelectPaymentMethodProps = {
   defaultValue?: string;
@@ -26,9 +27,15 @@ export function SelectPaymentMethod({
           <SelectValue placeholder={t('method.placeholder')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="cash">{t('method.cash')}</SelectItem>
-          <SelectItem value="check">{t('method.check')}</SelectItem>
-          <SelectItem value="transfer">{t('method.transfer')}</SelectItem>
+          <SelectItem value="cash">
+            <PaymentMethod method="cash" />
+          </SelectItem>
+          <SelectItem value="check">
+            <PaymentMethod method="check" />
+          </SelectItem>
+          <SelectItem value="transfer">
+            <PaymentMethod method="transfer" />
+          </SelectItem>
         </SelectContent>
       </Select>
     </>

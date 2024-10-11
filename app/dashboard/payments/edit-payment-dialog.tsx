@@ -1,6 +1,8 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import {
@@ -44,6 +46,8 @@ export function EditPaymentDialog({
   onDialogSubmit,
   onOpenChange,
 }: EditPaymentDialogProps) {
+  const t = useTranslations('Payments');
+
   const [isLoading, setIsLoading] = useState(false);
   const [fieldError, setFieldError] = useState('');
   const { toast } = useToast();
@@ -80,8 +84,8 @@ export function EditPaymentDialog({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not update this payment.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.editPayment.error.description'),
+        title: t('toast.editPayment.error.title'),
         variant: 'destructive',
       });
     } finally {
@@ -93,9 +97,9 @@ export function EditPaymentDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Edit Payment</DialogTitle>
+          <DialogTitle>{t('dialog.editPayment.title')}</DialogTitle>
           <DialogDescription>
-            Update the details of the payment.
+            {t('dialog.editPayment.description')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
@@ -119,7 +123,8 @@ export function EditPaymentDialog({
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
               disabled={isLoading}
             >
-              Save Changes
+              {t('dialog.editPayment.submit')}
+              <Check className="ml-2 h-5 w-5" />
             </Button>
           </DialogFooter>
         </form>

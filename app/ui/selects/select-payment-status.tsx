@@ -7,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { PaymentStatus } from '../payment-status';
 
 type SelectPaymentStatusProps = {
   defaultValue?: string;
@@ -18,16 +19,20 @@ export function SelectPaymentStatus({
   const t = useTranslations('Payments');
   return (
     <>
-      <Label htmlFor="payment" className="text-right">
+      <Label htmlFor="status" className="text-right">
         {t('status.label')}
       </Label>
-      <Select name="payment" defaultValue={defaultValue} required>
+      <Select name="status" defaultValue={defaultValue} required>
         <SelectTrigger className="col-span-3">
           <SelectValue placeholder={t('status.placeholder')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="paid">{t('status.paid')}</SelectItem>
-          <SelectItem value="pending">{t('status.pending')}</SelectItem>
+          <SelectItem value="paid">
+            <PaymentStatus status="paid" />
+          </SelectItem>
+          <SelectItem value="pending">
+            <PaymentStatus status="pending" />
+          </SelectItem>
         </SelectContent>
       </Select>
     </>
