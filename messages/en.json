@@ -1,8 +1,6 @@
 {
   "Appointments": {
-    "actions": {
-      "label": "Actions"
-    },
+    "actions": "Actions",
     "addAppointment": "Add Appointment",
     "appointments": "Appointments",
     "calendar": "Calendar",
@@ -49,10 +47,12 @@
     "upcomingAppointments": "Upcoming Appointments",
     "yes": "Yes"
   },
+  "Buttons": {
+    "delete": "Delete",
+    "edit": "Edit"
+  },
   "Cares": {
-    "actions": {
-      "label": "Actions"
-    },
+    "actions": "Actions",
     "addCare": "Add Care",
     "cancel": "Cancel",
     "care": "Care",
@@ -114,11 +114,65 @@
     "type": "Type"
   },
   "Clients": {
+    "actions": "Actions",
+    "addClient": "Add Client",
+    "address": "Address",
+    "age": "Age",
+    "birthDate": "Birth Date",
+    "cancel": "Cancel",
+    "city": "City",
+    "clientList": "Client List",
+    "continue": "Continue",
+    "dialog": {
+      "addClient": {
+        "description": "Enter the details for the new client here.",
+        "submit": "Add",
+        "title": "Add New Client"
+      },
+      "editClient": {
+        "description": "Make changes to the client information here.",
+        "submit": "Save Changes",
+        "title": "Edit Client"
+      },
+      "removeClient": {
+        "description": " This action cannot be undone. This will permanently delete your client.",
+        "title": "Are you sure you want to remove this client ?"
+      }
+    },
+    "email": "Email",
+    "name": "Name",
+    "pathology": "Pathology",
+    "phone": "Phone",
+    "postalCode": "Postal Code",
+    "search": {
+      "placeholder": "Search clients..."
+    },
     "select": {
       "label": "Select a client",
       "noResult": "No client found",
       "placeholder": "Search client..."
-    }
+    },
+    "toast": {
+      "addClient": {
+        "error": {
+          "description": "We could not create this client.",
+          "title": "Sorry, something went wrong !"
+        }
+      },
+      "editClient": {
+        "error": {
+          "description": "We could not update this client.",
+          "title": "Sorry, something went wrong !"
+        }
+      },
+      "removeClient": {
+        "error": {
+          "description": "We could not remove this client.",
+          "title": "Sorry, something went wrong !"
+        }
+      }
+    },
+    "title": "Clients"
   },
   "Dashboard": {
     "cards": {

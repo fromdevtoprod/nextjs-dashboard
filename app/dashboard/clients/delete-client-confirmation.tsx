@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -22,6 +23,8 @@ export function DeleteClientConfirmation({
   clientId,
   whenDeleteDone,
 }: DeleteClientConfirmationProps) {
+  const t = useTranslations('Clients');
+
   const { toast } = useToast();
 
   const handleDeleteClient = async () => {
@@ -31,8 +34,8 @@ export function DeleteClientConfirmation({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not delete this client.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.removeClient.error.description'),
+        title: t('toast.removeClient.error.title'),
         variant: 'destructive',
       });
     }
@@ -45,16 +48,15 @@ export function DeleteClientConfirmation({
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogTitle>{t('dialog.removeClient.title')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            client.
+            {t('dialog.removeClient.description')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
           <AlertDialogAction onClick={handleDeleteClient}>
-            Continue
+            {t('continue')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

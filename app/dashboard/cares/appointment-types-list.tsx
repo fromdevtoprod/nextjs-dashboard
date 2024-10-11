@@ -53,7 +53,7 @@ export function AppointmentTypesList({
               <TableHead>{t('price')}</TableHead>
               <TableHead>{t('type')}</TableHead>
               <TableHead>{t('sessions')}</TableHead>
-              <TableHead>{t('actions.label')}</TableHead>
+              <TableHead>{t('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

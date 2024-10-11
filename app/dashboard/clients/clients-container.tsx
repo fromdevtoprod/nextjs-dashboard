@@ -9,12 +9,15 @@ import { Toaster } from '@/components/ui/toaster';
 import { AddClientDialog } from './add-client-dialog';
 import { ClientList } from './client-list';
 import { EditClientDialog } from './edit-client-dialog';
+import { useTranslations } from 'next-intl';
 
 type ClientsContainerProps = {
   initialClients: SelectedCustomer[];
 };
 
 export function ClientsContainer({ initialClients }: ClientsContainerProps) {
+  const t = useTranslations('Clients');
+
   const [clients, setClients] = useState<SelectedCustomer[]>(initialClients);
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddingClient, setIsAddingClient] = useState(false);
@@ -52,7 +55,7 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
       <main className="flex-1 overflow-y-auto p-4 md:p-8">
         <div className="mb-8 flex flex-col items-start justify-between md:flex-row md:items-center">
           <h1 className="mb-4 text-2xl font-bold text-[#2C3E50] md:mb-0 md:text-3xl">
-            Clients
+            {t('title')}
           </h1>
           <AddClientDialog
             isOpen={isAddingClient}
@@ -66,7 +69,7 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
             <div className="flex items-center space-x-2">
               <Search className="text-[#7C9885]" />
               <Input
-                placeholder="Search clients..."
+                placeholder={t('search.placeholder')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="flex-1"
@@ -92,20 +95,22 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
         />
       </main>
 
-      <EditClientDialog
-        address={editingClient?.address || ''}
-        birthDate={editingClient?.birth_date || ''}
-        city={editingClient?.city || ''}
-        email={editingClient?.email || ''}
-        id={editingClient?.id || ''}
-        isOpen={!!editingClient}
-        name={editingClient?.name || ''}
-        pathology={editingClient?.pathology || ''}
-        phone={editingClient?.phone || ''}
-        postalCode={editingClient?.postal_code || ''}
-        onDialogSubmit={handleEditClient}
-        onOpenChange={() => setEditingClient(null)}
-      />
+      {editingClient && (
+        <EditClientDialog
+          address={editingClient?.address || ''}
+          birthDate={editingClient?.birth_date || ''}
+          city={editingClient?.city || ''}
+          email={editingClient?.email || ''}
+          id={editingClient?.id || ''}
+          isOpen={!!editingClient}
+          name={editingClient?.name || ''}
+          pathology={editingClient?.pathology || ''}
+          phone={editingClient?.phone || ''}
+          postalCode={editingClient?.postal_code || ''}
+          onDialogSubmit={handleEditClient}
+          onOpenChange={() => setEditingClient(null)}
+        />
+      )}
 
       <Toaster />
     </>

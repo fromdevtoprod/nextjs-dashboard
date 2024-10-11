@@ -51,7 +51,7 @@ export function AppointmentList({
                 <TableHead>{t('time')}</TableHead>
                 <TableHead>{t('package')}</TableHead>
                 <TableHead>{t('payment')}</TableHead>
-                <TableHead>{t('actions.label')}</TableHead>
+                <TableHead>{t('actions')}</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

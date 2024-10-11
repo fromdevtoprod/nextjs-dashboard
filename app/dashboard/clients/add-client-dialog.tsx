@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { Plus, UserRoundPlus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Check, UserRoundPlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -30,6 +31,8 @@ export function AddClientDialog({
   onDialogSubmit,
   onOpenChange,
 }: AddClientDialogProps) {
+  const t = useTranslations('Clients');
+
   const [isLoading, setIsLoading] = useState(false);
   const [emailOrPhoneError, setEmailOrPhoneError] = useState('');
 
@@ -76,8 +79,8 @@ export function AddClientDialog({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not add this client.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.addClient.error.description'),
+        title: t('toast.addClient.error.title'),
         variant: 'destructive',
       });
     } finally {
@@ -89,21 +92,21 @@ export function AddClientDialog({
       <DialogTrigger asChild>
         <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
           <UserRoundPlus className="mr-2 h-4 w-4" />
-          Add Client
+          {t('addClient')}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Client</DialogTitle>
+          <DialogTitle>{t('dialog.addClient.title')}</DialogTitle>
           <DialogDescription>
-            Enter the details for the new client here.
+            {t('dialog.addClient.description')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                {t('name')}
               </Label>
               <Input
                 id="name"
@@ -115,7 +118,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="email" className="text-right">
-                Email
+                {t('email')}
               </Label>
               <Input
                 id="email"
@@ -127,7 +130,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="phone" className="text-right">
-                Phone
+                {t('phone')}
               </Label>
               <Input
                 id="phone"
@@ -147,7 +150,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthDate" className="text-right">
-                Birth Date
+                {t('birthDate')}
               </Label>
               <Input
                 id="birthDate"
@@ -159,7 +162,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="address" className="text-right">
-                Address
+                {t('address')}
               </Label>
               <Input
                 id="address"
@@ -171,7 +174,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="postalCode" className="text-right">
-                Postal Code
+                {t('postalCode')}
               </Label>
               <Input
                 id="postalCode"
@@ -183,7 +186,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="city" className="text-right">
-                City
+                {t('city')}
               </Label>
               <Input
                 id="city"
@@ -195,7 +198,7 @@ export function AddClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="pathology" className="text-right">
-                Pathology
+                {t('pathology')}
               </Label>
               <Input id="pathology" name="pathology" className="col-span-3" />
             </div>
@@ -206,7 +209,8 @@ export function AddClientDialog({
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
               disabled={isLoading}
             >
-              Add Client
+              {t('dialog.addClient.submit')}
+              <Check className="ml-2 h-5 w-5" />
             </Button>
           </DialogFooter>
         </form>

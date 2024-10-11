@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
+import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -45,6 +47,8 @@ export function EditClientDialog({
   onDialogSubmit,
   onOpenChange,
 }: EditClientProps) {
+  const t = useTranslations('Clients');
+
   const [isLoading, setIsLoading] = useState(false);
   const [emailOrPhoneError, setEmailOrPhoneError] = useState('');
 
@@ -81,8 +85,8 @@ export function EditClientDialog({
     } catch (error) {
       console.error(error);
       toast({
-        description: 'We could not update this client.',
-        title: 'Sorry, something went wrong !',
+        description: t('toast.editClient.error.description'),
+        title: t('toast.editClient.error.title'),
         variant: 'destructive',
       });
     } finally {
@@ -93,16 +97,16 @@ export function EditClientDialog({
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit Client</DialogTitle>
+          <DialogTitle>{t('dialog.editClient.title')}</DialogTitle>
           <DialogDescription>
-            Make changes to the client information here.
+            {t('dialog.editClient.description')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
-                Name
+                {t('name')}
               </Label>
               <Input
                 id="name"
@@ -113,7 +117,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="email" className="text-right">
-                Email
+                {t('email')}
               </Label>
               <Input
                 id="email"
@@ -125,7 +129,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="phone" className="text-right">
-                Phone
+                {t('phone')}
               </Label>
               <Input
                 id="phone"
@@ -145,7 +149,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="birthDate" className="text-right">
-                Birth Date
+                {t('birthDate')}
               </Label>
               <Input
                 id="birthDate"
@@ -157,7 +161,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="address" className="text-right">
-                Address
+                {t('address')}
               </Label>
               <Input
                 id="address"
@@ -170,7 +174,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="postalCode" className="text-right">
-                Postal Code
+                {t('postalCode')}
               </Label>
               <Input
                 id="postalCode"
@@ -183,7 +187,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="city" className="text-right">
-                City
+                {t('city')}
               </Label>
               <Input
                 id="city"
@@ -196,7 +200,7 @@ export function EditClientDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="pathology" className="text-right">
-                Pathology
+                {t('pathology')}
               </Label>
               <Input
                 id="pathology"
@@ -212,7 +216,8 @@ export function EditClientDialog({
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
               disabled={isLoading}
             >
-              Save Changes
+              {t('dialog.editClient.submit')}
+              <Check className="ml-2 h-5 w-5" />
             </Button>
           </DialogFooter>
         </form>

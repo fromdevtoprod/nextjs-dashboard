@@ -1,8 +1,6 @@
 {
   "Appointments": {
-    "actions": {
-      "label": "Actions"
-    },
+    "actions": "Actions",
     "addAppointment": "Ajouter un rendez-vous",
     "appointments": "Rendez-vous",
     "calendar": "Calendrier",
@@ -49,10 +47,12 @@
     "upcomingAppointments": "Rendez-vous à venir",
     "yes": "Oui"
   },
+  "Buttons": {
+    "delete": "Supprimer",
+    "edit": "Modifier"
+  },
   "Cares": {
-    "actions": {
-      "label": "Actions"
-    },
+    "actions": "Actions",
     "addCare": "Ajouter un soin",
     "cancel": "Annuler",
     "care": "Soin",
@@ -114,11 +114,65 @@
     "type": "Type"
   },
   "Clients": {
+    "actions": "Actions",
+    "addClient": "Ajouter un client",
+    "address": "Adresse",
+    "age": "Âge",
+    "birthDate": "Date de naissance",
+    "cancel": "Annuler",
+    "city": "Ville",
+    "clientList": "Liste des clients",
+    "continue": "Continuer",
+    "dialog": {
+      "addClient": {
+        "description": "Entrez les détails du nouveau client ici.",
+        "submit": "Ajouter",
+        "title": "Ajouter un nouveau client"
+      },
+      "editClient": {
+        "description": "Modifiez les détails de ce client.",
+        "submit": "Mettre à jour",
+        "title": "Modifier le client"
+      },
+      "removeClient": {
+        "description": " Cette action est irréversible. Cela supprimera définitivement votre client.",
+        "title": "Êtes-vous sûr de vouloir supprimer ce client ?"
+      }
+    },
+    "email": "Email",
+    "name": "Nom",
+    "pathology": "Pathologie",
+    "phone": "Téléphone",
+    "postalCode": "Code postal",
+    "search": {
+      "placeholder": "Chercher un client..."
+    },
     "select": {
       "label": "Sélectionnez un client",
       "noResult": "Aucun client trouvé",
       "placeholder": "Chercher un client..."
-    }
+    },
+    "toast": {
+      "addClient": {
+        "error": {
+          "description": "Nous n'avons pas pu créer ce client.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      },
+      "editClient": {
+        "error": {
+          "description": "Nous n'avons pas pu mettre à jour ce client.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      },
+      "removeClient": {
+        "error": {
+          "description": "Nous n'avons pas pu supprimer ce client.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      }
+    },
+    "title": "Clients"
   },
   "Dashboard": {
     "cards": {

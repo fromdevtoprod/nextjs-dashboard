@@ -1,4 +1,5 @@
-import { CircleArrowOutUpRight, House, Mail, Phone, User } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Cake, House, Mail, Phone, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -23,23 +24,24 @@ export function ClientList({
   onDeleteClick,
   onEditClick,
 }: ClientListProps) {
+  const t = useTranslations('Clients');
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Client List</CardTitle>
+        <CardTitle>{t('clientList')}</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Age</TableHead>
-              <TableHead>City</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Phone</TableHead>
+              <TableHead>{t('name')}</TableHead>
+              <TableHead>{t('age')}</TableHead>
+              <TableHead>{t('city')}</TableHead>
+              <TableHead>{t('email')}</TableHead>
+              <TableHead>{t('phone')}</TableHead>
               {/* <TableHead>Last Appointment</TableHead>
               <TableHead>Next Appointment</TableHead> */}
-              <TableHead>Actions</TableHead>
+              <TableHead>{t('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -53,7 +55,7 @@ export function ClientList({
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <CircleArrowOutUpRight className="mr-2 h-4 w-4" />
+                    <Cake className="mr-2 h-4 w-4" />
                     {getAgeFromBirthDate(client.birth_date)}
                   </div>
                 </TableCell>
