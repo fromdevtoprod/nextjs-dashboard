@@ -12,7 +12,6 @@ export async function DashboardTabsContainer() {
 }
 
 async function fetchDashboardTabsData() {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
   return Promise.all([
     fetchAllAppointmentsByDate(
       getCurrentDay(),

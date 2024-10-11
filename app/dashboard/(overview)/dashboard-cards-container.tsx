@@ -24,7 +24,6 @@ export async function DashboardCardsContainer() {
 }
 
 async function fetchDashboardCardsCounters() {
-  await new Promise((resolve) => setTimeout(resolve, 3000));
   return Promise.all([
     countCompletedSessions(),
     countNewCustomers(),

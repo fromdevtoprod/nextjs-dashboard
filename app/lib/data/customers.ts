@@ -8,7 +8,6 @@ import { countNewCustomersUseCase } from '@/src/application/use-cases/customers/
 
 export async function fetchAllCustomers(): Promise<SelectedCustomer[]> {
   try {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
     const customers = await findAllCustomersController();
     return customers;
   } catch (error) {
