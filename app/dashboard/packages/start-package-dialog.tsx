@@ -1,6 +1,7 @@
 'use client';
 
-import { Plus } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+import { Check, PackagePlus } from 'lucide-react';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { SelectedPackage } from '@/src/entities/models/package-model';
 import { Button } from '@/components/ui/button';
@@ -41,6 +42,8 @@ export function StartPackageDialog({
   onOpenChange,
   onDialogSubmit,
 }: StartPackageDialogProps) {
+  const t = useTranslations('Packages');
+
   const { toast } = useToast();
 
   const handleFormSubmission = async (
@@ -80,26 +83,28 @@ export function StartPackageDialog({
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
         <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
-          <Plus className="mr-2 h-5 w-5" />
-          Start New Package
+          <PackagePlus className="mr-2 h-5 w-5" />
+          {t('startNewPackage')}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Start New Package</DialogTitle>
+          <DialogTitle>{t('dialog.startNewPackage.title')}</DialogTitle>
           <DialogDescription>
-            Select a customer and package type to start a new package.
+            {t('dialog.startNewPackage.description')}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleFormSubmission}>
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="customerId" className="text-right">
-                Customer
+                {t('client')}
               </Label>
               <Select name="customerId" required>
                 <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select customer" />
+                  <SelectValue
+                    placeholder={t('dialog.startNewPackage.client.placeholder')}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {customers.map((customer) => (
@@ -112,11 +117,15 @@ export function StartPackageDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="packageId" className="text-right">
-                Package Type
+                {t('package')}
               </Label>
               <Select name="packageId" required>
                 <SelectTrigger className="col-span-3">
-                  <SelectValue placeholder="Select package type" />
+                  <SelectValue
+                    placeholder={t(
+                      'dialog.startNewPackage.package.placeholder',
+                    )}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   {packageTypes.map((packageType) => (
@@ -129,7 +138,7 @@ export function StartPackageDialog({
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="startDate" className="text-right">
-                Start Date
+                {t('startDate')}
               </Label>
               <Input
                 id="startDate"
@@ -145,7 +154,8 @@ export function StartPackageDialog({
               type="submit"
               className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
             >
-              Start Package
+              {t('dialog.startNewPackage.submit')}
+              <Check className="ml-2 h-5 w-5" />
             </Button>
           </DialogFooter>
         </form>

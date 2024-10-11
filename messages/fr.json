@@ -234,6 +234,29 @@
       }
     }
   },
+  "Packages": {
+    "packagesInProgress": "Cures en cours",
+    "client": "Client",
+    "dialog": {
+      "startNewPackage": {
+        "client": {
+          "placeholder": "Sélectionnez un client"
+        },
+        "package": {
+          "placeholder": "Sélectionnez une cure"
+        },
+        "description": "Sélectionnez un client et une cure pour commencer une nouvelle cure.",
+        "submit": "Commencer la cure",
+        "title": "Commencer une nouvelle cure"
+      }
+    },
+    "package": "Cure",
+    "remainingSessions": "Sessions restantes",
+    "searchPlaceholder": "Chercher une cure ou un client...",
+    "startDate": "Date de début",
+    "startNewPackage": "Commencer une nouvelle cure",
+    "title": "Cures en cours"
+  },
   "Payments": {
     "method": {
       "cash": "Espèces",

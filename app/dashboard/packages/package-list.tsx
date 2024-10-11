@@ -1,3 +1,4 @@
+import { useTranslations } from 'next-intl';
 import { Calendar, Package, RefreshCcw, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -15,19 +16,20 @@ type PackageListProps = {
 };
 
 export function PackageList({ filteredPackages }: PackageListProps) {
+  const t = useTranslations('Packages');
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Active Packages</CardTitle>
+        <CardTitle>{t('packagesInProgress')}</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Customer</TableHead>
-              <TableHead>Package</TableHead>
-              <TableHead>Remaining Sessions</TableHead>
-              <TableHead>Start Date</TableHead>
+              <TableHead>{t('client')}</TableHead>
+              <TableHead>{t('package')}</TableHead>
+              <TableHead>{t('remainingSessions')}</TableHead>
+              <TableHead>{t('startDate')}</TableHead>
               {/* <TableHead>Expiry Date</TableHead> */}
               {/* <TableHead>Actions</TableHead> */}
             </TableRow>

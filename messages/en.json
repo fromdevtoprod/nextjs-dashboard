@@ -234,6 +234,29 @@
       }
     }
   },
+  "Packages": {
+    "packagesInProgress": "Packages in progress",
+    "client": "Client",
+    "dialog": {
+      "startNewPackage": {
+        "client": {
+          "placeholder": "Select a client"
+        },
+        "package": {
+          "placeholder": "Select a package"
+        },
+        "description": "Select a customer and package type to start a new package.",
+        "submit": "Start Package",
+        "title": "Start New Package"
+      }
+    },
+    "package": "Package",
+    "remainingSessions": "Remaining Sessions",
+    "searchPlaceholder": "Search packages or customers...",
+    "startDate": "Start Date",
+    "startNewPackage": "Start New Package",
+    "title": "Packages in progress"
+  },
   "Payments": {
     "method": {
       "cash": "Cash",
