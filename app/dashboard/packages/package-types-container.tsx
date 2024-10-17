@@ -44,12 +44,6 @@ export function PackageTypesContainer({
           hidePackagesWithNoRemainingSessions === pkg.remaining_sessions > 0)),
   );
 
-  console.log(
-    'hidePackagesWithNoRemainingSessions',
-    hidePackagesWithNoRemainingSessions,
-  );
-  console.log('filteredPackages', filteredPackages);
-
   const handleUpdatePackage = (updatedPackage: SelectedPackage) => {
     setPackages(
       packages.map((pkg) =>

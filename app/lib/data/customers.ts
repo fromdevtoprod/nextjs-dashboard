@@ -2,17 +2,17 @@ import { sql } from '@vercel/postgres';
 import { CustomersTableType } from '@/app/lib/definitions';
 import { formatCurrency } from '@/app/lib/utils';
 import { findCustomerByIdController } from '@/src/interface-adapters/customers/find-customer.controller';
-import { findAllCustomersController } from '@/src/interface-adapters/customers/find-all-customers.controller';
 import { SelectedCustomer } from '@/src/entities/models/customer';
 import { countNewCustomersUseCase } from '@/src/application/use-cases/customers/count-new-customers.use-case';
+import { findAllCustomersUseCase } from '@/src/application/use-cases/customers/find-all-customers.use-case';
 
 export async function fetchAllCustomers(): Promise<SelectedCustomer[]> {
   try {
-    const customers = await findAllCustomersController();
+    const customers = await findAllCustomersUseCase();
     return customers;
   } catch (error) {
     console.error('fetchAllCustomers >> findAllCustomersController', error);
-    throw new Error('Failed to fetch all customers.');
+    return [];
   }
 }
 
@@ -64,6 +64,6 @@ export async function countNewCustomers(): Promise<number> {
     return newCustomersCount;
   } catch (error) {
     console.error('countNewCustomers >> countNewCustomersUseCase', error);
-    throw new Error('Failed to count new customers.');
+    return 0;
   }
 }

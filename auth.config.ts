@@ -1,22 +1,25 @@
+import Google from 'next-auth/providers/google';
 import type { NextAuthConfig } from 'next-auth';
 
-export const authConfig = {
+// Notice this is only an object, not a full Auth.js instance
+export default {
+  callbacks: {
+    authorized: async ({ auth, request }) => {
+      console.log('auth', auth);
+      console.log('request.nextUrl.pathname', request.nextUrl.pathname);
+      if (request.nextUrl.pathname === '/') {
+        return true;
+      }
+      if (!auth && request.nextUrl.pathname !== '/login') {
+        const newUrl = new URL('/login', request.nextUrl.origin);
+        return Response.redirect(newUrl);
+      }
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth;
+    },
+  },
   pages: {
     signIn: '/login',
   },
-  callbacks: {
-    authorized({ auth, request: { nextUrl } }) {
-      const isLoggedIn = !!auth?.user;
-      const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
-
-      if (isOnDashboard) {
-        if (isLoggedIn) return true;
-        return false; // Redirect unauthenticated users to login page
-      } else if (isLoggedIn) {
-        return Response.redirect(new URL('/dashboard', nextUrl));
-      }
-      return true;
-    },
-  },
-  providers: [], // Add providers with an empty array for now
+  providers: [Google],
 } satisfies NextAuthConfig;

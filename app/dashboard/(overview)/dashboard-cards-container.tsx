@@ -25,9 +25,9 @@ export async function DashboardCardsContainer() {
 
 async function fetchDashboardCardsCounters() {
   return Promise.all([
-    countCompletedSessions(),
-    countNewCustomers(),
     countAllAppointments(),
     countAllUpcomingAppointments(),
+    countCompletedSessions(),
+    countNewCustomers(),
   ]);
 }

@@ -82,7 +82,10 @@ export function StartPackageDialog({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
+        <Button
+          className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+          disabled={customers.length === 0 || packageTypes.length === 0}
+        >
           <PackagePlus className="mr-2 h-5 w-5" />
           {t('startNewPackage')}
         </Button>

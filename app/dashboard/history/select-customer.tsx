@@ -43,7 +43,11 @@ export function SelectCustomer({
     <Card className="mb-8 w-min">
       <CardContent className="pt-6">
         <div className="flex items-center space-x-2">
-          <Select onValueChange={setSelectedCustomerId} value={paramCustomerId}>
+          <Select
+            onValueChange={setSelectedCustomerId}
+            value={paramCustomerId}
+            disabled={customers.length === 0}
+          >
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder={t('selectClient')} />
             </SelectTrigger>

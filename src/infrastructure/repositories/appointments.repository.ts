@@ -9,6 +9,7 @@ import {
   SelectedAppointment,
   UpcomingAppointment,
 } from '@/src/entities/models/appointment';
+import { PrismaClient } from '@prisma/client';
 
 export class AppointmentsRepository implements IAppointmentsRepository {
   public async countLastYearAppointments(): Promise<number> {
@@ -21,12 +22,20 @@ export class AppointmentsRepository implements IAppointmentsRepository {
   }
 
   public async countAllUpcomingAppointments(): Promise<number> {
-    const queryResult = await sql<{ count: number }>`
-      SELECT COUNT(*)
-      FROM appointments
-      WHERE date >= NOW()
-    `;
-    return queryResult.rows[0].count;
+    const prisma = new PrismaClient();
+    return prisma.appointments.count({
+      where: {
+        date: {
+          gte: new Date(),
+        },
+      },
+    });
+    // const queryResult = await sql<{ count: number }>`
+    //   SELECT COUNT(*)
+    //   FROM appointments
+    //   WHERE date >= NOW()
+    // `;
+    // return queryResult.rows[0].count;
   }
 
   public async createAppointment(
@@ -91,23 +100,31 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     month,
     year,
   }: FindAllAppointmentsByDatePayload): Promise<UpcomingAppointment[]> {
-    const queryResult = await sql<UpcomingAppointment>`
-      SELECT
-        appointments.id,
-        appointments.date,
-        appointment_types.name AS appointment_type_name,
-        appointment_types.session_count,
-        customers.name AS client_name,
-        payments.status AS payment_status
-      FROM appointments
-      LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
-      LEFT JOIN customers ON customers.id = appointments.customer_id
-      LEFT JOIN payments ON payments.appointment_id = appointments.id
-      WHERE EXTRACT(DAY FROM appointments.date) = ${convertToTwoDigit(day)}
-      AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(month)}
-      AND EXTRACT(YEAR FROM appointments.date) = ${year}
-    `;
-    return queryResult.rows;
+    const prisma = new PrismaClient();
+    return prisma.appointments.findMany({
+      where: {
+        date: {
+          equals: new Date(year, month - 1, day),
+        },
+      },
+    });
+    // const queryResult = await sql<UpcomingAppointment>`
+    //   SELECT
+    //     appointments.id,
+    //     appointments.date,
+    //     appointment_types.name AS appointment_type_name,
+    //     appointment_types.session_count,
+    //     customers.name AS client_name,
+    //     payments.status AS payment_status
+    //   FROM appointments
+    //   LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
+    //   LEFT JOIN customers ON customers.id = appointments.customer_id
+    //   LEFT JOIN payments ON payments.appointment_id = appointments.id
+    //   WHERE EXTRACT(DAY FROM appointments.date) = ${convertToTwoDigit(day)}
+    //   AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(month)}
+    //   AND EXTRACT(YEAR FROM appointments.date) = ${year}
+    // `;
+    // return queryResult.rows;
   }
 
   public async findAllUpcomingAppointments(): Promise<UpcomingAppointment[]> {

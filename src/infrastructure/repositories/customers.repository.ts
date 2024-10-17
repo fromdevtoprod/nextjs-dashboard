@@ -9,15 +9,24 @@ import {
   SelectedCustomer,
   UpdatedCustomer,
 } from '@/src/entities/models/customer';
+import { PrismaClient } from '@prisma/client';
 
 export class CustomersRepository implements ICustomersRepository {
   public async countNewCustomers(): Promise<number> {
-    const queryResult = await sql<{ count: number }>`
-      SELECT COUNT(*)
-      FROM customers
-      WHERE created_at >= NOW() - INTERVAL '1 month'
-    `;
-    return queryResult.rows[0].count;
+    const prisma = new PrismaClient();
+    return prisma.customers.count({
+      where: {
+        created_at: {
+          gte: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30),
+        },
+      },
+    });
+    // const queryResult = await sql<{ count: number }>`
+    //   SELECT COUNT(*)
+    //   FROM customers
+    //   WHERE created_at >= NOW() - INTERVAL '1 month'
+    // `;
+    // return queryResult.rows[0].count;
   }
 
   public async createCustomer(
@@ -36,8 +45,10 @@ export class CustomersRepository implements ICustomersRepository {
   }
 
   public async findAll(): Promise<SelectedCustomer[]> {
-    const queryResult = await sql<SelectedCustomer>`SELECT * FROM customers`;
-    return queryResult.rows;
+    const prisma = new PrismaClient();
+    return prisma.customers.findMany();
+    // const queryResult = await sql<SelectedCustomer>`SELECT * FROM customers`;
+    // return queryResult.rows;
   }
 
   public async findCustomerById(id: string): Promise<SelectedCustomer> {

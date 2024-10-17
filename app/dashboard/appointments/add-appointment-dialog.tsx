@@ -121,7 +121,10 @@ export function AddAppointmentDialog({
   return (
     <Dialog open={isOpened} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button className="bg-[#7C9885] text-white hover:bg-[#6A8A73]">
+        <Button
+          className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
+          disabled={appointmentTypes.length === 0}
+        >
           <CalendarPlus className="mr-2 h-5 w-5" />
           {t('addAppointment')}
         </Button>

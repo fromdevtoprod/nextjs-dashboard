@@ -5,16 +5,26 @@ import {
   UpdatePackagePayload,
 } from '@/src/application/repositories/packages.repository.interface';
 import { SelectedPackage } from '@/src/entities/models/package-model';
+import { PrismaClient } from '@prisma/client';
 
 export class PackagesRepository implements IPackagesRepository {
   public async countCompletedSessions(): Promise<number> {
-    const queryResult = await sql<{ count: number }>`
-      SELECT COUNT(*)
-      FROM packages
-      WHERE remaining_sessions = 0
-      AND start_date >= NOW() - INTERVAL '1 month'
-    `;
-    return queryResult.rows[0].count;
+    const prisma = new PrismaClient();
+    return prisma.packages.count({
+      where: {
+        remaining_sessions: 0,
+        start_date: {
+          gte: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30),
+        },
+      },
+    });
+    // const queryResult = await sql<{ count: number }>`
+    //   SELECT COUNT(*)
+    //   FROM packages
+    //   WHERE remaining_sessions = 0
+    //   AND start_date >= NOW() - INTERVAL '1 month'
+    // `;
+    // return queryResult.rows[0].count;
   }
 
   public async create(payload: CreatePackagePayload): Promise<SelectedPackage> {
@@ -42,22 +52,24 @@ export class PackagesRepository implements IPackagesRepository {
   }
 
   public async findAll(): Promise<SelectedPackage[]> {
-    const queryResult = await sql<SelectedPackage>`
-      SELECT 
-        appointment_types.name,
-        appointment_types.session_count AS total_sessions,
-        customers.name AS customer_name,
-        packages.appointment_type_id,
-        packages.customer_id,
-        packages.id,
-        packages.remaining_sessions,
-        packages.start_date
-      FROM packages
-      LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
-      LEFT JOIN customers ON packages.customer_id = customers.id
-      ORDER BY packages.start_date DESC
-    `;
-    return queryResult.rows;
+    const prisma = new PrismaClient();
+    return prisma.packages.findMany();
+    // const queryResult = await sql<SelectedPackage>`
+    //   SELECT
+    //     appointment_types.name,
+    //     appointment_types.session_count AS total_sessions,
+    //     customers.name AS customer_name,
+    //     packages.appointment_type_id,
+    //     packages.customer_id,
+    //     packages.id,
+    //     packages.remaining_sessions,
+    //     packages.start_date
+    //   FROM packages
+    //   LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
+    //   LEFT JOIN customers ON packages.customer_id = customers.id
+    //   ORDER BY packages.start_date DESC
+    // `;
+    // return queryResult.rows;
   }
 
   public async findById(id: string): Promise<SelectedPackage> {

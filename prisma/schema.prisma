@@ -1,0 +1,156 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("POSTGRES_PRISMA_URL")
+}
+
+model AppointmentType {
+    id            String @id @default(cuid())
+    duration      Int
+    name          String @db.VarChar(255)
+    price         Int
+    session_count Int?
+
+    appointments Appointment[]
+    packages     Package[]
+
+    @@map("appointment_types")
+}
+
+model Appointment {
+    id                String          @id @default(cuid())
+    appointmentTypeId String          @map("appointment_type_id")
+    customerId        String          @map("customer_id")
+    date              DateTime        @db.Timestamp(6)
+    packageId         String?         @map("package_id")
+    appointmentType   AppointmentType @relation(fields: [appointmentTypeId], references: [id], onDelete: Cascade)
+    customer          Customer        @relation(fields: [customerId], references: [id], onDelete: Cascade)
+    package           Package?        @relation(fields: [packageId], references: [id], onDelete: Cascade)
+    notes             Note[]
+    payments          Payment[]
+
+    @@map("appointments")
+}
+
+model Customer {
+    id           String        @id @default(cuid())
+    name         String        @db.VarChar(255)
+    email        String        @db.VarChar(255)
+    phone        String        @db.VarChar(255)
+    birth_date   String        @db.VarChar(255)
+    pathology    String?
+    created_at   DateTime?     @default(now()) @db.Timestamp(6)
+    address      String?
+    city         String?       @db.VarChar(255)
+    postal_code  String?       @db.VarChar(255)
+    appointments Appointment[]
+    packages     Package[]
+    payments     Payment[]
+
+    @@map("customers")
+}
+
+// model invoices {
+//     id          String   @id @default(cuid())
+//     customer_id String   @db.Uuid
+//     amount      Int
+//     status      String   @db.VarChar(255)
+//     date        DateTime @db.Date
+// }
+
+model Note {
+    id            String      @id @default(cuid())
+    appointmentId String      @map("appointment_id")
+    content       String
+    appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+
+    @@map("notes")
+}
+
+model Package {
+    id                 String          @id @default(cuid())
+    appointmentTypeId  String          @map("appointment_type_id")
+    customerId         String          @map("customer_id")
+    remaining_sessions Int
+    start_date         DateTime        @db.Timestamp(6)
+    appointmentType    AppointmentType @relation(fields: [appointmentTypeId], references: [id], onDelete: Cascade)
+    customer           Customer        @relation(fields: [customerId], references: [id], onDelete: Cascade)
+    appointments       Appointment[]
+    payments           Payment[]
+
+    @@map("packages")
+}
+
+model Payment {
+    id            String      @id @default(cuid())
+    amount        Int
+    appointmentId String      @map("appointment_id")
+    customerId    String      @map("customer_id")
+    date          DateTime    @db.Timestamp(6)
+    method        String      @db.VarChar(255)
+    packageId     String?     @map("package_id")
+    status        String      @db.VarChar(255)
+    appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
+    customer      Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
+    package       Package?    @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+    @@map("payments")
+}
+
+// model revenue {
+//     month   String @unique @db.VarChar(4)
+//     revenue Int
+// }
+
+model Account {
+    id                String  @id @default(cuid())
+    userId            String  @map("user_id")
+    type              String
+    provider          String
+    providerAccountId String  @map("provider_account_id")
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
+    expires_at        Int?
+    token_type        String?
+    scope             String?
+    id_token          String? @db.Text
+    session_state     String?
+    user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@unique([provider, providerAccountId])
+    @@map("accounts")
+}
+
+model Session {
+    id           String   @id @default(cuid())
+    sessionToken String   @unique @map("session_token")
+    userId       String   @map("user_id")
+    expires      DateTime
+    user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@map("sessions")
+}
+
+model User {
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime? @map("email_verified")
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+
+    @@map("users")
+}
+
+model VerificationToken {
+    identifier String
+    token      String
+    expires    DateTime
+
+    @@unique([identifier, token])
+    @@map("verification_tokens")
+}

@@ -41,7 +41,7 @@ export async function fetchAllAppointmentsByDate(
       'fetchAllAppointmentsByDate >> findAllAppointmentsByDateUseCase',
       error,
     );
-    throw new Error('Failed to fetch appointments by date.');
+    return [];
   }
 }
 
@@ -58,17 +58,17 @@ export async function fetchAllUpcomingAppointments() {
   }
 }
 
-export async function countAllAppointments() {
+export async function countAllAppointments(): Promise<number> {
   try {
     const appointmentsCount = await countAllAppointmentsUseCase();
     return appointmentsCount;
   } catch (error) {
     console.error('countAllAppointments >> countAllAppointmentsUseCase', error);
-    throw new Error('Failed to count all appointments.');
+    return 0;
   }
 }
 
-export async function countAllUpcomingAppointments() {
+export async function countAllUpcomingAppointments(): Promise<number> {
   try {
     const upcomingAppointmentsCount =
       await countAllUpcomingAppointmentsUseCase();
@@ -78,6 +78,6 @@ export async function countAllUpcomingAppointments() {
       'countAllUpcomingAppointments >> countAllUpcomingAppointmentsUseCase',
       error,
     );
-    throw new Error('Failed to count all upcoming appointments.');
+    return 0;
   }
 }

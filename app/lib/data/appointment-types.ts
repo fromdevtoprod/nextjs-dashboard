@@ -1,23 +1,23 @@
+import { findAllAppointmentTypesUseCase } from '@/src/application/use-cases/appointment-types/find-all-appointment-types.use-case';
 import {
   AppointmentTypesWithRemainingSessions,
   findAppointmentTypesWithRemainingSessionsUseCase,
 } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { SelectedCustomer } from '@/src/entities/models/customer';
-import { findAllAppointmentTypesController } from '@/src/interface-adapters/appointment-types/find-all-appointment-types.controller';
 
 export async function fetchAllAppointmentTypes(): Promise<
   SelectedAppointmentType[]
 > {
   try {
-    const appointmentTypes = await findAllAppointmentTypesController();
+    const appointmentTypes = await findAllAppointmentTypesUseCase();
     return appointmentTypes;
   } catch (err) {
     console.error(
-      'fetchAllAppointmentTypes >> findAllAppointmentTypesController :',
+      'fetchAllAppointmentTypes >> findAllAppointmentTypesUseCase :',
       err,
     );
-    throw new Error('Failed to fetch all appointment types.');
+    return [];
   }
 }
 
@@ -33,8 +33,6 @@ export async function fetchAppointmentTypesWithRemainingSessions(
       'fetchAppointmentTypesWithRemainingSessions >> findAppointmentTypesWithRemainingSessionsUseCase :',
       err,
     );
-    throw new Error(
-      'Failed to fetch all appointment types with remaining sessions.',
-    );
+    return [];
   }
 }

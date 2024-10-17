@@ -8,7 +8,7 @@ export function NavMenu() {
       style={{ display: 'contents' }}
       action={async () => {
         'use server';
-        await signOut();
+        await signOut({ redirectTo: '/' });
       }}
     >
       <>

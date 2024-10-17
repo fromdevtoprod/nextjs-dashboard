@@ -7,6 +7,6 @@ export async function fetchAllPayments(): Promise<SelectedPayment[]> {
     return allPayments;
   } catch (err) {
     console.error('fetchAllPayments >> findAllPaymentsUseCase :', err);
-    throw new Error('Failed to fetch all payments.');
+    return [];
   }
 }

@@ -4,6 +4,7 @@ import {
   CreatedAppointmentType,
   SelectedAppointmentType,
 } from '@/src/entities/models/appointment-types';
+import { PrismaClient } from '@prisma/client';
 
 export class AppointmentTypesRepository implements IAppointmentTypesRepository {
   public async create(
@@ -35,9 +36,17 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
   public async findBySessionCountMin(
     sessionCountMin: number,
   ): Promise<SelectedAppointmentType[]> {
-    const queryResult = await sql<SelectedAppointmentType>`
-      SELECT * FROM appointment_types WHERE session_count >= ${sessionCountMin}`;
-    return queryResult.rows;
+    const prisma = new PrismaClient();
+    return prisma.appointment_types.findMany({
+      where: {
+        session_count: {
+          gte: sessionCountMin,
+        },
+      },
+    });
+    // const queryResult = await sql<SelectedAppointmentType>`
+    //   SELECT * FROM appointment_types WHERE session_count >= ${sessionCountMin}`;
+    // return queryResult.rows;
   }
 
   public async update(

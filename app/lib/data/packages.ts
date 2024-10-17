@@ -1,8 +1,12 @@
 import { findAppointmentTypesBySessionCountUseCase } from '@/src/application/use-cases/appointment-types/find-appointment-types-by-session-count.use-case';
 import { countCompletedSessionsUseCase } from '@/src/application/use-cases/packages/count-completed-sessions.use-case';
 import { findAllPackagesUseCase } from '@/src/application/use-cases/packages/find-all-packages.use-case';
+import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { SelectedPackage } from '@/src/entities/models/package-model';
 
-export async function fetchAppointmentTypesBySessionCount() {
+export async function fetchAppointmentTypesBySessionCount(): Promise<
+  SelectedAppointmentType[]
+> {
   try {
     const packageTypes = await findAppointmentTypesBySessionCountUseCase();
     return packageTypes;
@@ -11,17 +15,17 @@ export async function fetchAppointmentTypesBySessionCount() {
       'fetchAllPackageTypes >> findAppointmentTypesBySessionCountUseCase :',
       err,
     );
-    throw new Error('Failed to fetch all package types.');
+    return [];
   }
 }
 
-export async function fetchAllPackages() {
+export async function fetchAllPackages(): Promise<SelectedPackage[]> {
   try {
     const packages = await findAllPackagesUseCase();
     return packages;
   } catch (err) {
     console.error('fetchAllPackages >> findAllPackagesUseCase :', err);
-    throw new Error('Failed to fetch all packages.');
+    return [];
   }
 }
 
@@ -34,6 +38,6 @@ export async function countCompletedSessions(): Promise<number> {
       'countCompletedSessions >> countCompletedSessionsUseCase :',
       err,
     );
-    throw new Error('Failed to count completed sessions.');
+    return 0;
   }
 }
