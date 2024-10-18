@@ -15,14 +15,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { SelectedCustomer } from '@/src/entities/models/customer';
+import { Customer } from '@/src/entities/models/customer';
 import { createClient } from '@/app/lib/actions/customers';
 import { useToast } from '@/hooks/use-toast';
 import { updateCustomerController } from '@/src/interface-adapters/customers/update-customer.controller';
 
 type AddClientDialogProps = {
   isOpen: boolean;
-  onDialogSubmit: (createdClient: SelectedCustomer) => void;
+  onDialogSubmit: (createdClient: Customer) => void;
   onOpenChange: (isOpen: boolean) => void;
 };
 
