@@ -9,13 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { SelectedCustomer } from '@/src/entities/models/customer';
+import { Customer } from '@/src/entities/models/customer';
 import { DeleteClientConfirmation } from './delete-client-confirmation';
 import { EditButton } from '@/app/ui/buttons/edit-button';
 
 type ClientListProps = {
-  filteredClients: SelectedCustomer[];
-  onEditClick: (client: SelectedCustomer) => void;
+  filteredClients: Customer[];
+  onEditClick: (client: Customer) => void;
   onDeleteClick: (id: string) => void;
 };
 
@@ -25,6 +25,7 @@ export function ClientList({
   onEditClick,
 }: ClientListProps) {
   const t = useTranslations('Clients');
+  console.log('filteredClients', filteredClients);
   return (
     <Card>
       <CardHeader>

@@ -5,12 +5,11 @@ import {
   UpdatePackagePayload,
 } from '@/src/application/repositories/packages.repository.interface';
 import { SelectedPackage } from '@/src/entities/models/package-model';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/prisma';
 
 export class PackagesRepository implements IPackagesRepository {
   public async countCompletedSessions(): Promise<number> {
-    const prisma = new PrismaClient();
-    return prisma.packages.count({
+    return prisma.package.count({
       where: {
         remaining_sessions: 0,
         start_date: {
@@ -27,22 +26,16 @@ export class PackagesRepository implements IPackagesRepository {
     // return queryResult.rows[0].count;
   }
 
-  public async create(payload: CreatePackagePayload): Promise<SelectedPackage> {
-    const queryResult = await sql<SelectedPackage>`
-      INSERT INTO packages (
-        appointment_type_id,
-        customer_id,
-        remaining_sessions,
-        start_date
-      ) VALUES (
-        ${payload.appointment_type_id},
-        ${payload.customer_id},
-        ${payload.remaining_sessions},
-        ${payload.start_date}
-      ) RETURNING *;
-    `;
-    const { id: package_id } = queryResult.rows[0];
-    return this.findById(package_id);
+  public async create(payload: CreatePackagePayload) {
+    const startedPackage = prisma.package.create({
+      data: {
+        appointmentTypeId: payload.appointment_type_id,
+        customerId: payload.customer_id,
+        remaining_sessions: payload.remaining_sessions,
+        start_date: new Date(payload.start_date),
+      },
+    });
+    return this.findById((await startedPackage).id);
   }
 
   public async delete(id: string): Promise<void> {
@@ -51,9 +44,26 @@ export class PackagesRepository implements IPackagesRepository {
     `;
   }
 
+  public async deleteByAppointmentTypeId(
+    appointmentTypeId: string,
+  ): Promise<void> {
+    await prisma.package.deleteMany({
+      where: {
+        appointmentTypeId,
+      },
+    });
+  }
+
+  public async deleteByCustomerId(customerId: string): Promise<void> {
+    await prisma.package.deleteMany({
+      where: {
+        customerId,
+      },
+    });
+  }
+
   public async findAll(): Promise<SelectedPackage[]> {
-    const prisma = new PrismaClient();
-    return prisma.packages.findMany();
+    return prisma.package.findMany();
     // const queryResult = await sql<SelectedPackage>`
     //   SELECT
     //     appointment_types.name,
@@ -72,7 +82,17 @@ export class PackagesRepository implements IPackagesRepository {
     // return queryResult.rows;
   }
 
-  public async findById(id: string): Promise<SelectedPackage> {
+  public async findById(id: string) {
+    return prisma.package.findUnique({
+      include: {
+        appointmentType: true,
+        customer: true,
+      },
+      where: {
+        id,
+      },
+    });
+
     const queryResult = await sql<SelectedPackage>`
       SELECT 
         appointment_types.name,

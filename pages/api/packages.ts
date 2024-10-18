@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { SelectedPackage } from '@/src/entities/models/package-model';
-import { createPackageController } from '@/src/interface-adapters/packages/create-package.controller';
 import { CreatePackagePayload } from '@/src/application/repositories/packages.repository.interface';
+import { createPackageUseCase } from '@/src/application/use-cases/packages/create-package.use-case';
 
 export type CreatePackageResponse = {
   message: string;
@@ -32,12 +32,19 @@ export default async function handler(
       start_date,
     };
 
-    const createdPackage = await createPackageController(startedPackage);
+    try {
+      const createdPackage = await createPackageUseCase(startedPackage);
 
-    return res.status(201).json({
-      message: 'Package started successfully',
-      createdPackage,
-    } as CreatePackageResponse);
+      return res.status(201).json({
+        message: 'Package started successfully',
+        createdPackage,
+      } as CreatePackageResponse);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not start this package.',
+      });
+    }
   }
   // else if (req.method === 'PUT') {
   //   const { id, name, price, duration, session_count } = req.body;

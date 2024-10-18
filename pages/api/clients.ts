@@ -1,21 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { deleteCustomerController } from '@/src/interface-adapters/customers/delete-customer.controller';
+import { Customer } from '@/src/entities/models/customer';
 import {
   CreateCustomerPayload,
   UpdateCustomerPayload,
 } from '@/src/application/repositories/customers.repository.interface';
 import { createCustomerUseCase } from '@/src/application/use-cases/customers/create-customer.use-case';
 import { updateCustomerUseCase } from '@/src/application/use-cases/customers/update-customer.use-case';
+import { deleteCustomerUseCase } from '@/src/application/use-cases/customers/delete-customer.use-case';
 
 export type CreateClientResponse = {
   message: string;
-  createdClient: SelectedCustomer;
+  createdClient: Customer;
 };
 
 export type UpdateClientResponse = {
   message: string;
-  updatedClient: SelectedCustomer;
+  updatedClient: Customer;
 };
 
 export default async function handler(
@@ -49,12 +49,18 @@ export default async function handler(
       postalCode,
     };
 
-    const createdClient = await createCustomerUseCase(newCustomer);
-
-    return res.status(201).json({
-      message: 'Client created successfully',
-      createdClient,
-    } as CreateClientResponse);
+    try {
+      const createdClient = await createCustomerUseCase(newCustomer);
+      return res.status(201).json({
+        message: 'Client created successfully',
+        createdClient,
+      } as CreateClientResponse);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not create this client.',
+      });
+    }
   } else if (req.method === 'PUT') {
     const {
       address,
@@ -84,12 +90,19 @@ export default async function handler(
       postalCode,
     };
 
-    const updatedClient = await updateCustomerUseCase(payload);
+    try {
+      const updatedClient = await updateCustomerUseCase(payload);
 
-    return res.status(201).json({
-      message: 'Client updated successfully',
-      updatedClient,
-    } as UpdateClientResponse);
+      return res.status(201).json({
+        message: 'Client updated successfully',
+        updatedClient,
+      } as UpdateClientResponse);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not update this client.',
+      });
+    }
   } else if (req.method === 'DELETE') {
     const { id } = req.body;
 
@@ -97,12 +110,19 @@ export default async function handler(
       return res.status(400).json({ message: 'Id is required.' });
     }
 
-    await deleteCustomerController(id);
+    try {
+      await deleteCustomerUseCase(id);
 
-    return res.status(201).json({
-      message: 'Client deleted successfully',
-      clientId: id,
-    });
+      return res.status(201).json({
+        message: 'Client deleted successfully',
+        clientId: id,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not delete this client.',
+      });
+    }
   } else {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);

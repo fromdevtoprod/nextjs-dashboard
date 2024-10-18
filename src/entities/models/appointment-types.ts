@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// TODO: to remove step by step
 export const selectedAppointmentTypeSchema = z.object({
   duration: z.number(),
   id: z.string(),

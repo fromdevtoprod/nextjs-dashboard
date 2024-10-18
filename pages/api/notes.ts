@@ -22,11 +22,18 @@ export default async function handler(
       content,
     };
 
-    const addedNotes = await addNotesUseCase(newNotes);
+    try {
+      await addNotesUseCase(newNotes);
 
-    return res.status(201).json({
-      message: 'Notes added successfully',
-    } as AddNotesResponse);
+      return res.status(201).json({
+        message: 'Notes added successfully',
+      } as AddNotesResponse);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not add this notes.',
+      });
+    }
   }
   // else if (req.method === 'PUT') {
   //   const { id, name, price, duration, session_count } = req.body;

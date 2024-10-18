@@ -12,7 +12,7 @@ model AppointmentType {
     duration      Int
     name          String @db.VarChar(255)
     price         Int
-    session_count Int?
+    session_count Int
 
     appointments Appointment[]
     packages     Package[]

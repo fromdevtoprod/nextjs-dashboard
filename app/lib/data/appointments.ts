@@ -4,9 +4,14 @@ import { findAllAppointmentsByClientUseCase } from '@/src/application/use-cases/
 import { findAllAppointmentsByDateUseCase } from '@/src/application/use-cases/appointments/find-all-appointments-by-date.use-case';
 import { findAllUpcomingAppointmentsUseCase } from '@/src/application/use-cases/appointments/find-all-upcoming-appointments.use-case';
 import {
+  Appointment,
   HistoryAppointment,
-  UpcomingAppointment,
 } from '@/src/entities/models/appointment';
+
+export type AppointmentWithTime = Omit<Appointment, 'date'> & {
+  date: string;
+  time: string;
+};
 
 export async function fetchAllAppointmentsByClient(
   clientId: string,
@@ -28,14 +33,26 @@ export async function fetchAllAppointmentsByDate(
   day: number,
   month: number,
   year: number,
-): Promise<UpcomingAppointment[]> {
+): Promise<AppointmentWithTime[]> {
   try {
     const appointmentsByDate = await findAllAppointmentsByDateUseCase({
       day,
       month,
       year,
     });
-    return appointmentsByDate;
+    return appointmentsByDate.map((row) => ({
+      ...row,
+      date: new Date(row.date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+      }),
+      time: new Date(row.date).toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: 'numeric',
+        hour12: true,
+      }),
+    }));
   } catch (error) {
     console.error(
       'fetchAllAppointmentsByDate >> findAllAppointmentsByDateUseCase',

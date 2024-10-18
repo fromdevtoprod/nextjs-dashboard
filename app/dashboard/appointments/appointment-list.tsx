@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Calendar, Clock, HandHeart, NotebookPen, User } from 'lucide-react';
-import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { AppointmentWithTime } from '@/app/lib/data/appointments';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -19,7 +19,7 @@ import { AddNotesDialog } from './add-notes-dialog';
 import { DeleteAppointmentConfirmation } from './delete-appointment-confirmation';
 
 type AppointmentListProps = {
-  appointments: UpcomingAppointment[];
+  appointments: AppointmentWithTime[];
   whenDeleteDone: (appointmentId: string) => void;
 };
 
@@ -60,13 +60,13 @@ export function AppointmentList({
                   <TableCell>
                     <div className="flex items-center">
                       <User className="mr-1 h-4 w-4" />
-                      {appointment.client_name}
+                      {appointment.customer.name}
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <HandHeart className="mr-1 h-4 w-4" />
-                      {appointment.appointment_type_name}
+                      {appointment.appointmentType.name}
                     </div>
                   </TableCell>
                   <TableCell>
@@ -82,10 +82,14 @@ export function AppointmentList({
                     </div>
                   </TableCell>
                   <TableCell>
-                    {appointment.session_count > 1 ? t('yes') : t('no')}
+                    {appointment.appointmentType.session_count > 1
+                      ? t('yes')
+                      : t('no')}
                   </TableCell>
                   <TableCell>
-                    <PaymentStatusBadge status={appointment.payment_status} />
+                    <PaymentStatusBadge
+                      status={appointment.payments[0].status}
+                    />
                   </TableCell>
                   <TableCell>
                     <div className="flex space-x-2">

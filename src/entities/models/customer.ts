@@ -1,23 +1,21 @@
 import { z } from 'zod';
 
-export const selectedCustomer = z.object({
-  address: z.string(),
+export const customer = z.object({
+  address: z.string().nullable(),
   birth_date: z.string(),
-  city: z.string(),
-  created_at: z.string(),
+  city: z.string().nullable(),
+  created_at: z.date().nullable(),
   email: z.string(),
   id: z.string(),
   name: z.string(),
-  pathology: z.string(),
+  pathology: z.string().nullable(),
   phone: z.string(),
-  postal_code: z.string(),
+  postal_code: z.string().nullable(),
 });
 
-export const createdCustomerSchema = selectedCustomer.omit({
+export const customerSchema = customer.omit({
   id: true,
   created_at: true,
 });
 
-export type SelectedCustomer = z.infer<typeof selectedCustomer>;
-export type CreatedCustomer = z.infer<typeof createdCustomerSchema>;
-export type UpdatedCustomer = SelectedCustomer;
+export type Customer = z.infer<typeof customerSchema>;

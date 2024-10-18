@@ -5,18 +5,27 @@ import {
   UpdatePaymentPayload,
 } from '@/src/application/repositories/payments.repository.interface';
 import { SelectedPayment } from '@/src/entities/models/payment';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/prisma';
 
 export class PaymentsRepository implements IPaymentsRepository {
-  public async createPayment(
-    payload: CreatePaymentPayload,
-  ): Promise<SelectedPayment> {
-    const queryResult = await sql<SelectedPayment>`
-      INSERT INTO payments (amount, appointment_id, customer_id, date, package_id, status, method)
-      VALUES (${payload.amount}, ${payload.appointmentId}, ${payload.customerId}, ${payload.date}, ${payload.packageId}, ${payload.status}, ${payload.method})
-      RETURNING *;
-    `;
-    return queryResult.rows[0];
+  public async create(payload: CreatePaymentPayload): Promise<any> {
+    return prisma.payment.create({
+      data: {
+        amount: parseInt(payload.amount, 10),
+        appointmentId: payload.appointmentId,
+        customerId: payload.customerId,
+        date: new Date(payload.date),
+        packageId: payload.packageId,
+        status: payload.status,
+        method: payload.method,
+      },
+    });
+    // const queryResult = await sql<SelectedPayment>`
+    //   INSERT INTO payments (amount, appointment_id, customer_id, date, package_id, status, method)
+    //   VALUES (${payload.amount}, ${payload.appointmentId}, ${payload.customerId}, ${payload.date}, ${payload.packageId}, ${payload.status}, ${payload.method})
+    //   RETURNING *;
+    // `;
+    // return queryResult.rows[0];
   }
 
   public async deletePayment(appointmentId: string): Promise<void> {
@@ -51,9 +60,17 @@ export class PaymentsRepository implements IPaymentsRepository {
     return queryResult.rows[0];
   }
 
-  public async findAll(): Promise<SelectedPayment[]> {
-    const prisma = new PrismaClient();
-    return prisma.payments.findMany();
+  public async findAll(): Promise<any> {
+    return prisma.payment.findMany({
+      include: {
+        appointment: {
+          include: {
+            appointmentType: true,
+          },
+        },
+        customer: true,
+      },
+    });
     // const queryResult = await sql<SelectedPayment>`
     //   SELECT
     //     payments.id,

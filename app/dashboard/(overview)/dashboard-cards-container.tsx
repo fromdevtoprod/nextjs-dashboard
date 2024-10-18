@@ -8,10 +8,10 @@ import { DashboardCards } from './dashboard-cards';
 
 export async function DashboardCardsContainer() {
   const [
-    completedSessionsCount,
-    newCustomersCount,
     totalAppointmentsCount,
     upcomingAppointmentsCount,
+    completedSessionsCount,
+    newCustomersCount,
   ] = await fetchDashboardCardsCounters();
   return (
     <DashboardCards

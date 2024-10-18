@@ -5,11 +5,13 @@ import {
   IAppointmentsRepository,
 } from '@/src/application/repositories/appointments.repository.interface';
 import {
+  Appointment,
   HistoryAppointment,
   SelectedAppointment,
   UpcomingAppointment,
 } from '@/src/entities/models/appointment';
 import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/prisma';
 
 export class AppointmentsRepository implements IAppointmentsRepository {
   public async countLastYearAppointments(): Promise<number> {
@@ -23,7 +25,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
 
   public async countAllUpcomingAppointments(): Promise<number> {
     const prisma = new PrismaClient();
-    return prisma.appointments.count({
+    return prisma.appointment.count({
       where: {
         date: {
           gte: new Date(),
@@ -38,41 +40,74 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     // return queryResult.rows[0].count;
   }
 
-  public async createAppointment(
-    payload: CreateAppointmentPayload,
-  ): Promise<UpcomingAppointment> {
-    const queryResult = await sql<SelectedAppointment>`
-      INSERT INTO appointments (
-        appointment_type_id,
-        customer_id,
-        date,
-        package_id
-      ) VALUES (
-        ${payload.appointment_type_id},
-        ${payload.customer_id},
-        ${payload.date},
-        ${payload.package_id}
-      ) RETURNING *
-    `;
-    const createdAppointment = queryResult.rows[0];
-    const queryResult2 = await sql<UpcomingAppointment>`
-      SELECT
-        appointments.id,
-        appointments.date,
-        appointment_types.name AS appointment_type_name,
-        appointment_types.price AS appointment_type_price,
-        appointment_types.session_count,
-        customers.name AS client_name
-      FROM appointments
-      LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
-      LEFT JOIN customers ON customers.id = appointments.customer_id
-      WHERE appointments.id = ${createdAppointment.id}
-      `;
-    return queryResult2.rows[0];
+  public async createAppointment(payload: CreateAppointmentPayload) {
+    const createdAppointment = await prisma.appointment.create({
+      data: {
+        appointmentTypeId: payload.appointment_type_id,
+        customerId: payload.customer_id,
+        date: new Date(payload.date),
+        packageId: payload.package_id,
+      },
+    });
+    return prisma.appointment.findUnique({
+      include: {
+        appointmentType: true,
+        customer: true,
+      },
+      where: {
+        id: createdAppointment.id,
+      },
+    });
+    // const queryResult = await sql<SelectedAppointment>`
+    //   INSERT INTO appointments (
+    //     appointment_type_id,
+    //     customer_id,
+    //     date,
+    //     package_id
+    //   ) VALUES (
+    //     ${payload.appointment_type_id},
+    //     ${payload.customer_id},
+    //     ${payload.date},
+    //     ${payload.package_id}
+    //   ) RETURNING *
+    // `;
+    // const createdAppointment = queryResult.rows[0];
+    // const queryResult2 = await sql<UpcomingAppointment>`
+    //   SELECT
+    //     appointments.id,
+    //     appointments.date,
+    //     appointment_types.name AS appointment_type_name,
+    //     appointment_types.price AS appointment_type_price,
+    //     appointment_types.session_count,
+    //     customers.name AS client_name
+    //   FROM appointments
+    //   LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
+    //   LEFT JOIN customers ON customers.id = appointments.customer_id
+    //   WHERE appointments.id = ${createdAppointment.id}
+    //   `;
+    // return queryResult2.rows[0];
   }
 
   public async deleteAppointment(id: string): Promise<void> {
     await sql`DELETE FROM appointments WHERE id = ${id}`;
+  }
+
+  public async deleteByAppointmentTypeId(
+    appointmentTypeId: string,
+  ): Promise<void> {
+    prisma.appointment.deleteMany({
+      where: {
+        appointmentTypeId,
+      },
+    });
+  }
+
+  public async deleteByCustomerId(customerId: string): Promise<void> {
+    prisma.appointment.deleteMany({
+      where: {
+        customerId,
+      },
+    });
   }
 
   public async findAllAppointments(): Promise<SelectedAppointment[]> {
@@ -99,32 +134,20 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     day,
     month,
     year,
-  }: FindAllAppointmentsByDatePayload): Promise<UpcomingAppointment[]> {
-    const prisma = new PrismaClient();
-    return prisma.appointments.findMany({
+  }: FindAllAppointmentsByDatePayload): Promise<Appointment[]> {
+    return prisma.appointment.findMany({
+      include: {
+        appointmentType: true,
+        customer: true,
+        payments: true,
+      },
       where: {
         date: {
-          equals: new Date(year, month - 1, day),
+          lte: new Date(`${year}-${month}-${day} 23:59:59`),
+          gte: new Date(`${year}-${month}-${day} 00:00:00`),
         },
       },
     });
-    // const queryResult = await sql<UpcomingAppointment>`
-    //   SELECT
-    //     appointments.id,
-    //     appointments.date,
-    //     appointment_types.name AS appointment_type_name,
-    //     appointment_types.session_count,
-    //     customers.name AS client_name,
-    //     payments.status AS payment_status
-    //   FROM appointments
-    //   LEFT JOIN appointment_types ON appointment_types.id = appointments.appointment_type_id
-    //   LEFT JOIN customers ON customers.id = appointments.customer_id
-    //   LEFT JOIN payments ON payments.appointment_id = appointments.id
-    //   WHERE EXTRACT(DAY FROM appointments.date) = ${convertToTwoDigit(day)}
-    //   AND EXTRACT(MONTH FROM appointments.date) = ${convertToTwoDigit(month)}
-    //   AND EXTRACT(YEAR FROM appointments.date) = ${year}
-    // `;
-    // return queryResult.rows;
   }
 
   public async findAllUpcomingAppointments(): Promise<UpcomingAppointment[]> {
@@ -148,8 +171,4 @@ export class AppointmentsRepository implements IAppointmentsRepository {
       await sql<SelectedAppointment>`SELECT * FROM appointments WHERE id = ${id}`;
     return queryResult.rows[0];
   }
-}
-
-function convertToTwoDigit(number: number) {
-  return number < 10 ? `0${number}` : number;
 }

@@ -1,4 +1,5 @@
 import {
+  Appointment,
   HistoryAppointment,
   SelectedAppointment,
   UpcomingAppointment,
@@ -30,17 +31,17 @@ export type CountAppointmentsByCareIdPayload = {
 export interface IAppointmentsRepository {
   countLastYearAppointments(): Promise<number>;
   countAllUpcomingAppointments(): Promise<number>;
-  createAppointment(
-    payload: CreateAppointmentPayload,
-  ): Promise<UpcomingAppointment>;
+  createAppointment(payload: CreateAppointmentPayload): Promise<any>;
   deleteAppointment(id: string): Promise<void>;
+  deleteByAppointmentTypeId(appointmentTypeId: string): Promise<void>;
+  deleteByCustomerId(customerId: string): Promise<void>;
   findAllAppointments(): Promise<SelectedAppointment[]>;
   findAllAppointmentsByCustomer(
     customerId: string,
   ): Promise<HistoryAppointment[]>;
   findAllAppointmentsByDate(
     payload: FindAllAppointmentsByDatePayload,
-  ): Promise<UpcomingAppointment[]>;
+  ): Promise<Appointment[]>;
   findAllUpcomingAppointments(): Promise<UpcomingAppointment[]>;
   findAppointmentById(id: string): Promise<SelectedAppointment>;
 }

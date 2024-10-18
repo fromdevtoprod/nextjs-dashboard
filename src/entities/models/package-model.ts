@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// TODO: to remove step by step
 export const selectedPackageSchema = z.object({
   appointment_type_id: z.string(),
   customer_id: z.string(),

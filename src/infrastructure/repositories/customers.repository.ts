@@ -1,76 +1,68 @@
-import { sql } from '@vercel/postgres';
 import {
   CreateCustomerPayload,
   ICustomersRepository,
   UpdateCustomerPayload,
 } from '@/src/application/repositories/customers.repository.interface';
-import {
-  CreatedCustomer,
-  SelectedCustomer,
-  UpdatedCustomer,
-} from '@/src/entities/models/customer';
-import { PrismaClient } from '@prisma/client';
+import { Customer } from '@/src/entities/models/customer';
+import { prisma } from '@/prisma';
 
 export class CustomersRepository implements ICustomersRepository {
   public async countNewCustomers(): Promise<number> {
-    const prisma = new PrismaClient();
-    return prisma.customers.count({
+    return prisma.customer.count({
       where: {
         created_at: {
           gte: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30),
         },
       },
     });
-    // const queryResult = await sql<{ count: number }>`
-    //   SELECT COUNT(*)
-    //   FROM customers
-    //   WHERE created_at >= NOW() - INTERVAL '1 month'
-    // `;
-    // return queryResult.rows[0].count;
   }
 
   public async createCustomer(
     payload: CreateCustomerPayload,
-  ): Promise<CreatedCustomer> {
-    const queryResult = await sql<CreatedCustomer>`
-      INSERT INTO customers(name, email, phone, birth_date, pathology, address, city, postal_code)
-      VALUES(${payload.name}, ${payload.email}, ${payload.phone}, ${payload.birthDate}, ${payload.pathology}, ${payload.address}, ${payload.city}, ${payload.postalCode})
-      RETURNING *
-    `;
-    return queryResult.rows[0];
+  ): Promise<Customer> {
+    return prisma.customer.create({
+      data: {
+        address: payload.address,
+        birth_date: payload.birthDate,
+        city: payload.city,
+        email: payload.email,
+        name: payload.name,
+        pathology: payload.pathology,
+        phone: payload.phone,
+        postal_code: payload.postalCode,
+      },
+    });
   }
 
-  public async deleteCustomer(id: string): Promise<void> {
-    await sql`DELETE FROM customers WHERE id = ${id}`;
+  public async delete(id: string): Promise<void> {
+    await prisma.customer.delete({
+      where: {
+        id,
+      },
+    });
   }
 
-  public async findAll(): Promise<SelectedCustomer[]> {
-    const prisma = new PrismaClient();
-    return prisma.customers.findMany();
-    // const queryResult = await sql<SelectedCustomer>`SELECT * FROM customers`;
-    // return queryResult.rows;
+  public async findAll(): Promise<Customer[]> {
+    return prisma.customer.findMany();
   }
 
-  public async findCustomerById(id: string): Promise<SelectedCustomer> {
-    const queryResult =
-      await sql<SelectedCustomer>`SELECT * FROM customers WHERE id = ${id}`;
-    return queryResult.rows[0];
-  }
-
-  public async updateCustomer(payload: UpdateCustomerPayload): Promise<any> {
-    const queryResult = await sql<UpdatedCustomer>`
-      UPDATE customers
-      SET address = ${payload.address},
-          birth_date = ${payload.birthDate},
-          city = ${payload.city},
-          email = ${payload.email},
-          name = ${payload.name},
-          pathology = ${payload.pathology},
-          phone = ${payload.phone},
-          postal_code = ${payload.postalCode}
-      WHERE id = ${payload.id}
-      RETURNING *
-    `;
-    return queryResult.rows[0];
+  public async updateCustomer(
+    payload: UpdateCustomerPayload,
+  ): Promise<Customer> {
+    return prisma.customer.update({
+      where: {
+        id: payload.id,
+      },
+      data: {
+        address: payload.address,
+        birth_date: payload.birthDate,
+        city: payload.city,
+        email: payload.email,
+        name: payload.name,
+        pathology: payload.pathology,
+        phone: payload.phone,
+        postal_code: payload.postalCode,
+      },
+    });
   }
 }

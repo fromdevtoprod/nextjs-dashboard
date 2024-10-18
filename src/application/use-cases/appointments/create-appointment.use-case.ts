@@ -1,18 +1,17 @@
 import { AppointmentsRepository } from '../../../infrastructure/repositories/appointments.repository';
 import { CreateAppointmentPayload } from '../../repositories/appointments.repository.interface';
-import { UpcomingAppointment } from '../../../entities/models/appointment';
 import { PackagesRepository } from '../../../infrastructure/repositories/packages.repository';
 import { AppointmentTypesRepository } from '../../../infrastructure/repositories/appointment-types.repository';
 import { createPaymentUseCase } from '../payments/create-payment.use-case';
 
 export async function createAppointmentUseCase(
   payload: CreateAppointmentPayload,
-): Promise<UpcomingAppointment> {
+): Promise<any> {
   if (!payload.is_package) {
     const createdAppointment = await createAppointment(payload);
     return {
       ...createdAppointment,
-      ...getDateTime(createdAppointment.date),
+      ...getDateTime(createdAppointment?.date),
     };
   }
 
@@ -38,7 +37,7 @@ export async function createAppointmentUseCase(
       });
       return {
         ...createdAppointment,
-        ...getDateTime(createdAppointment.date),
+        ...getDateTime(createdAppointment?.date),
       };
     }
   }
@@ -51,11 +50,11 @@ export async function createAppointmentUseCase(
   });
   const createdAppointment = await createAppointment({
     ...payload,
-    package_id: startedPackage.id,
+    package_id: startedPackage?.id,
   });
   return {
     ...createdAppointment,
-    ...getDateTime(createdAppointment.date),
+    ...getDateTime(createdAppointment?.date),
   };
 }
 
@@ -63,10 +62,10 @@ async function createAppointment(payload: CreateAppointmentPayload) {
   const createdAppointment =
     await new AppointmentsRepository().createAppointment(payload);
   await createPaymentUseCase({
-    amount: `${createdAppointment.appointment_type_price}`,
-    appointmentId: createdAppointment.id,
+    amount: `${createdAppointment?.appointmentType.price}`,
+    appointmentId: createdAppointment?.id || '',
     customerId: payload.customer_id,
-    date: createdAppointment.date, //new Date().toISOString(),
+    date: createdAppointment?.date.toISOString() || '', //new Date().toISOString(),
     packageId: payload.package_id,
     status: payload.payment.status,
     method: payload.payment.method,
@@ -74,7 +73,7 @@ async function createAppointment(payload: CreateAppointmentPayload) {
   return createdAppointment;
 }
 
-function getDateTime(date: string) {
+function getDateTime(date: Date = new Date()) {
   return {
     date: new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',

@@ -1,14 +1,9 @@
 import { AppointmentTypesRepository } from '@/src/infrastructure/repositories/appointment-types.repository';
-import { AppointmentsRepository } from '@/src/infrastructure/repositories/appointments.repository';
+import { deleteAllPackagesByAppointmentTypeUseCase } from '../packages/delete-all-packages-by-appointment-type.use-case';
+import { deleteAllAppointmentsByTypeUseCase } from '../appointments/delete-all-appointments-by-type.use-case';
 
 export async function deleteAppointmentTypeUseCase(id: string) {
-  const allAppointments =
-    await new AppointmentsRepository().findAllAppointments();
-  const appointmentsWithThisType = allAppointments.filter(
-    (appointment) => appointment.appointment_type_id === id,
-  );
-  appointmentsWithThisType.forEach(async (appointment) => {
-    await new AppointmentsRepository().deleteAppointment(appointment.id);
-  });
+  await deleteAllPackagesByAppointmentTypeUseCase(id);
+  await deleteAllAppointmentsByTypeUseCase(id);
   return new AppointmentTypesRepository().delete(id);
 }

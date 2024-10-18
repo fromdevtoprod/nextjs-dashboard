@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { createAppointmentTypeController } from '@/src/interface-adapters/appointment-types/create-appointment-type.controller';
-import { deleteAppointmentTypeController } from '@/src/interface-adapters/appointment-types/delete-appointment-type.controller';
-import { updateAppointmentTypeController } from '@/src/interface-adapters/appointment-types/update-appointment-type.controller';
 import {
   CreatedAppointmentType,
   SelectedAppointmentType,
 } from '@/src/entities/models/appointment-types';
+import { createAppointmentTypeUseCase } from '@/src/application/use-cases/appointment-types/create-appointment-type.use-case';
+import { updateAppointmentTypeUseCase } from '@/src/application/use-cases/appointment-types/update-appointment-type.use-case';
+import { deleteAppointmentTypeUseCase } from '@/src/application/use-cases/appointment-types/delete-appointment-type.use-case';
 
 export type CreateAppointmentTypeResponse = {
   message: string;
@@ -30,13 +30,20 @@ export default async function handler(
       session_count,
     };
 
-    const createdAppointmentType =
-      await createAppointmentTypeController(newAppointmentType);
+    try {
+      const createdAppointmentType =
+        await createAppointmentTypeUseCase(newAppointmentType);
 
-    return res.status(201).json({
-      message: 'Appointment type created successfully',
-      createdAppointmentType,
-    } as CreateAppointmentTypeResponse);
+      return res.status(201).json({
+        message: 'Appointment type created successfully',
+        createdAppointmentType,
+      } as CreateAppointmentTypeResponse);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not create this appointment type.',
+      });
+    }
   } else if (req.method === 'PUT') {
     const { id, name, price, duration, session_count } = req.body;
 
@@ -52,12 +59,19 @@ export default async function handler(
       session_count,
     };
 
-    await updateAppointmentTypeController(updatedAppointmentType);
+    try {
+      await updateAppointmentTypeUseCase(updatedAppointmentType);
 
-    return res.status(201).json({
-      message: 'Appointment type updated successfully',
-      appointmentType: updatedAppointmentType,
-    });
+      return res.status(201).json({
+        message: 'Appointment type updated successfully',
+        appointmentType: updatedAppointmentType,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not update this appointment type.',
+      });
+    }
   } else if (req.method === 'DELETE') {
     const { id } = req.body;
 
@@ -65,12 +79,19 @@ export default async function handler(
       return res.status(400).json({ message: 'Id is required.' });
     }
 
-    await deleteAppointmentTypeController(id);
+    try {
+      await deleteAppointmentTypeUseCase(id);
 
-    return res.status(201).json({
-      message: 'Appointment type deleted successfully',
-      appointmentType: id,
-    });
+      return res.status(201).json({
+        message: 'Appointment type deleted successfully',
+        appointmentType: id,
+      });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({
+        message: 'We could not delete this appointment type.',
+      });
+    }
   } else {
     res.setHeader('Allow', ['POST']);
     return res.status(405).end(`Method ${req.method} Not Allowed`);

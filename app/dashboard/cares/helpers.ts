@@ -11,6 +11,6 @@ export function getAppointmentTypePayload(
     duration,
     name,
     price,
-    session_count: sessionCount,
+    session_count: sessionCount || 1,
   };
 }

@@ -5,5 +5,5 @@ import { CreatePaymentPayload } from '../../repositories/payments.repository.int
 export async function createPaymentUseCase(
   payload: CreatePaymentPayload,
 ): Promise<SelectedPayment> {
-  return new PaymentsRepository().createPayment(payload);
+  return new PaymentsRepository().create(payload);
 }

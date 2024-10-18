@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+// TODO: to remove step by step
 export const selectedPayment = z.object({
   id: z.string(),
   appointment_id: z.string().nullable(),

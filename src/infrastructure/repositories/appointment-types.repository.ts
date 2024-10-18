@@ -4,17 +4,25 @@ import {
   CreatedAppointmentType,
   SelectedAppointmentType,
 } from '@/src/entities/models/appointment-types';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@/prisma';
 
 export class AppointmentTypesRepository implements IAppointmentTypesRepository {
   public async create(
     payload: CreatedAppointmentType,
   ): Promise<SelectedAppointmentType> {
-    const queryResult = await sql<SelectedAppointmentType>`
-      INSERT INTO appointment_types (duration, name, price, session_count)
-      VALUES (${payload.duration}, ${payload.name}, ${payload.price}, ${payload.session_count})
-      RETURNING *`;
-    return { ...payload, id: queryResult.rows[0].id };
+    return prisma.appointmentType.create({
+      data: {
+        duration: payload.duration,
+        name: payload.name,
+        price: payload.price,
+        session_count: payload.session_count,
+      },
+    });
+    // const queryResult = await sql<SelectedAppointmentType>`
+    //   INSERT INTO appointment_types (duration, name, price, session_count)
+    //   VALUES (${payload.duration}, ${payload.name}, ${payload.price}, ${payload.session_count})
+    //   RETURNING *`;
+    // return { ...payload, id: queryResult.rows[0].id };
   }
 
   public async delete(id: string): Promise<void> {
@@ -36,8 +44,7 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
   public async findBySessionCountMin(
     sessionCountMin: number,
   ): Promise<SelectedAppointmentType[]> {
-    const prisma = new PrismaClient();
-    return prisma.appointment_types.findMany({
+    return prisma.appointmentType.findMany({
       where: {
         session_count: {
           gte: sessionCountMin,

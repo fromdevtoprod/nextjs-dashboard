@@ -1,7 +1,4 @@
-import {
-  CreatedCustomer,
-  SelectedCustomer,
-} from '@/src/entities/models/customer';
+import { Customer } from '@/src/entities/models/customer';
 
 export type CreateCustomerPayload = {
   address: string;
@@ -18,9 +15,8 @@ export type UpdateCustomerPayload = CreateCustomerPayload & { id: string };
 
 export interface ICustomersRepository {
   countNewCustomers(): Promise<number>;
-  createCustomer(payload: CreateCustomerPayload): Promise<CreatedCustomer>;
-  deleteCustomer(id: string): Promise<void>;
-  findAll(): Promise<SelectedCustomer[]>;
-  findCustomerById(id: string): Promise<SelectedCustomer>;
-  updateCustomer(payload: UpdateCustomerPayload): Promise<CreatedCustomer>;
+  createCustomer(payload: CreateCustomerPayload): Promise<Customer>;
+  delete(id: string): Promise<void>;
+  findAll(): Promise<Customer[]>;
+  updateCustomer(payload: UpdateCustomerPayload): Promise<Customer>;
 }
