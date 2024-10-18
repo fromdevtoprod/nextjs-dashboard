@@ -4,6 +4,6 @@ import { UpdatePaymentPayload } from '../../repositories/payments.repository.int
 
 export async function updatePaymentUseCase(
   payload: UpdatePaymentPayload,
-): Promise<Payment> {
+): Promise<Payment | null> {
   return new PaymentsRepository().updatePayment(payload);
 }
