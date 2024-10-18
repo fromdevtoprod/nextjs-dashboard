@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { Search } from 'lucide-react';
-import { SelectedCustomer } from '@/src/entities/models/customer';
+import { Customer } from '@/src/entities/models/customer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Toaster } from '@/components/ui/toaster';
@@ -12,18 +12,16 @@ import { EditClientDialog } from './edit-client-dialog';
 import { useTranslations } from 'next-intl';
 
 type ClientsContainerProps = {
-  initialClients: SelectedCustomer[];
+  initialClients: Customer[];
 };
 
 export function ClientsContainer({ initialClients }: ClientsContainerProps) {
   const t = useTranslations('Clients');
 
-  const [clients, setClients] = useState<SelectedCustomer[]>(initialClients);
+  const [clients, setClients] = useState<Customer[]>(initialClients);
   const [searchTerm, setSearchTerm] = useState('');
   const [isAddingClient, setIsAddingClient] = useState(false);
-  const [editingClient, setEditingClient] = useState<SelectedCustomer | null>(
-    null,
-  );
+  const [editingClient, setEditingClient] = useState<Customer | null>(null);
 
   const filteredClients = clients.filter(
     (client) =>
@@ -32,12 +30,12 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
       client.phone.includes(searchTerm),
   );
 
-  const handleAddClient = (newClient: SelectedCustomer) => {
+  const handleAddClient = (newClient: Customer) => {
     setClients([...clients, { ...newClient }]);
     setIsAddingClient(false);
   };
 
-  const handleEditClient = async (updatedClient: SelectedCustomer) => {
+  const handleEditClient = async (updatedClient: Customer) => {
     setClients(
       clients.map((client) =>
         client.id === updatedClient.id ? updatedClient : client,

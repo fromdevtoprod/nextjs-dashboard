@@ -4,7 +4,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { User } from 'lucide-react';
-import { SelectedCustomer } from '@/src/entities/models/customer';
+import { Customer } from '@/src/entities/models/customer';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Select,
@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/select';
 
 type SelectCustomerProps = {
-  customers: SelectedCustomer[];
+  customers: Customer[];
   paramCustomerId: string;
 };
 
@@ -25,26 +25,26 @@ export function SelectCustomer({
 }: SelectCustomerProps) {
   const t = useTranslations('History');
 
-  const [selectedCustomerId, setSelectedCustomerId] = useState('');
+  const [CustomerId, setCustomerId] = useState('');
 
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
 
   useEffect(() => {
-    if (selectedCustomerId) {
+    if (CustomerId) {
       const newSearchParams = new URLSearchParams(searchParams || {});
-      newSearchParams.set('customerId', selectedCustomerId);
+      newSearchParams.set('customerId', CustomerId);
       replace(`${pathname}?${newSearchParams.toString()}`);
     }
-  }, [selectedCustomerId]);
+  }, [CustomerId]);
 
   return (
     <Card className="mb-8 w-min">
       <CardContent className="pt-6">
         <div className="flex items-center space-x-2">
           <Select
-            onValueChange={setSelectedCustomerId}
+            onValueChange={setCustomerId}
             value={paramCustomerId}
             disabled={customers.length === 0}
           >
