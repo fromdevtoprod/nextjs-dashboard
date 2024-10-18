@@ -21,7 +21,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { SelectedPayment } from '@/src/entities/models/payment';
+import { Payment } from '@/src/entities/models/payment';
 import { useToast } from '@/hooks/use-toast';
 import { createPayment } from '@/app/lib/actions/payments';
 import { createPaymentController } from '@/src/interface-adapters/payments/create-payment.controller';
@@ -41,7 +41,7 @@ const packages = [
 
 type AddPaymentDialogProps = {
   isOpen: boolean;
-  onDialogSubmit: (createdPayment: SelectedPayment) => void;
+  onDialogSubmit: (createdPayment: Payment) => void;
   onOpenChange: (isOpen: boolean) => void;
 };
 

@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { Appointment } from '@/src/entities/models/appointment';
 import { CreateAppointmentPayload } from '@/src/application/repositories/appointments.repository.interface';
 import { createAppointmentUseCase } from '@/src/application/use-cases/appointments/create-appointment.use-case';
 import { deleteAppointmentUseCase } from '@/src/application/use-cases/appointments/delete-appointment.use-case';
 
 export type CreateAppointmentResponse = {
   message: string;
-  createdAppointment: UpcomingAppointment;
+  createdAppointment: Appointment;
 };
 
 export default async function handler(

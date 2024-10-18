@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SelectedPayment } from '@/src/entities/models/payment';
+import { Payment } from '@/src/entities/models/payment';
 import {
   CreatePaymentPayload,
   UpdatePaymentPayload,
@@ -10,12 +10,12 @@ import { deletePaymentUseCase } from '@/src/application/use-cases/payments/delet
 
 export type CreatePaymentResponse = {
   message: string;
-  createdPayment: SelectedPayment;
+  createdPayment: Payment;
 };
 
 export type UpdatePaymentResponse = {
   message: string;
-  updatedPayment: SelectedPayment;
+  updatedPayment: Payment;
 };
 
 export default async function handler(

@@ -187,7 +187,7 @@
         "title": "New Clients (last 30 days)"
       },
       "fourth": {
-        "title": "Completed Sessions (last 30 days)"
+        "title": "Completed Packages (last 30 days)"
       }
     },
     "subtitle": "Here's what's happening with your business today",
@@ -225,12 +225,25 @@
         "submit": "Add Notes",
         "subtitle": "Notes for this appointment.",
         "title": "Add Notes"
+      },
+      "editNotes": {
+        "label": "Notes",
+        "placeholder": "Write notes here...",
+        "submit": "Edit Notes",
+        "subtitle": "Notes for this appointment.",
+        "title": "Edit Notes"
       }
     },
     "toast": {
       "addNotes": {
         "error": {
           "description": "We could not add notes to this appointment.",
+          "title": "Sorry, something went wrong !"
+        }
+      },
+      "editNotes": {
+        "error": {
+          "description": "We could not update these notes.",
           "title": "Sorry, something went wrong !"
         }
       }

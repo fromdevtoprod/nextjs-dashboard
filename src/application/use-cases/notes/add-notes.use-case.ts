@@ -1,8 +1,9 @@
 import { NotesRepository } from '@/src/infrastructure/repositories/notes.repository';
+import { Notes } from '@/src/entities/models/notes';
 import { AddNotesPayload } from '../../repositories/notes.repository.interface';
 
-const notesRepository = new NotesRepository();
-
-export async function addNotesUseCase(payload: AddNotesPayload): Promise<void> {
-  return notesRepository.add(payload);
+export async function addNotesUseCase(
+  payload: AddNotesPayload,
+): Promise<Notes> {
+  return new NotesRepository().add(payload);
 }

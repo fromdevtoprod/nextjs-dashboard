@@ -3,17 +3,18 @@
 import { useEffect, useState } from 'react';
 import { AppointmentsHeader } from './appointments-header';
 import { AppointmentsCalendar } from './appointments-calendar';
-import { AppointmentList } from './appointment-list';
-import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { AppointmentList, AppointmentWithTime } from './appointment-list';
+import { Appointment } from '@/src/entities/models/appointment';
 import { Toaster } from '@/components/ui/toaster';
 import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
+import { Notes } from '@/src/entities/models/notes';
 
 type AppointmentsContainerProps = {
   activeDay: number;
   activeMonth: number;
   activeYear: number;
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
-  initialAppointments: UpcomingAppointment[];
+  initialAppointments: Appointment[];
 };
 
 export function AppointmentsContainer({
@@ -24,9 +25,9 @@ export function AppointmentsContainer({
   initialAppointments,
 }: AppointmentsContainerProps) {
   const [upcomingAppointments, setUpcomingAppointments] =
-    useState<UpcomingAppointment[]>(initialAppointments);
+    useState<Appointment[]>(initialAppointments);
 
-  const handleAddAppointment = (createdAppointment: UpcomingAppointment) => {
+  const handleAddAppointment = (createdAppointment: Appointment) => {
     const date = new Date(createdAppointment.date);
     const month = date.getMonth() + 1;
     const day = date.getDate();
@@ -44,6 +45,27 @@ export function AppointmentsContainer({
       prevAppointments.filter(
         (appointment) => appointment.id !== appointmentId,
       ),
+    );
+  };
+
+  const handleUpdatedNotes = (updatedNotes: Notes) => {
+    const { id, appointmentId, content } = updatedNotes;
+    setUpcomingAppointments((prevAppointments) =>
+      prevAppointments.map((appointment) => {
+        if (appointment.id === appointmentId) {
+          return {
+            ...appointment,
+            notes: [
+              {
+                id,
+                appointmentId,
+                content,
+              },
+            ],
+          };
+        }
+        return appointment;
+      }),
     );
   };
 
@@ -67,8 +89,9 @@ export function AppointmentsContainer({
 
         <div className="col-span-4">
           <AppointmentList
-            appointments={upcomingAppointments}
+            appointments={formatDateAndTime(upcomingAppointments)}
             whenDeleteDone={handleDeleteAppointment}
+            whenNotesUpdateDone={handleUpdatedNotes}
           />
         </div>
       </div>
@@ -76,4 +99,20 @@ export function AppointmentsContainer({
       <Toaster />
     </main>
   );
+}
+
+function formatDateAndTime(appointments: Appointment[]): AppointmentWithTime[] {
+  return appointments.map((row) => ({
+    ...row,
+    date: new Date(row.date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    }),
+    time: new Date(row.date).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    }),
+  }));
 }

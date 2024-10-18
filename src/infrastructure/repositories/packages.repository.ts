@@ -1,10 +1,9 @@
-import { sql } from '@vercel/postgres';
 import {
   CreatePackagePayload,
   IPackagesRepository,
   UpdatePackagePayload,
 } from '@/src/application/repositories/packages.repository.interface';
-import { SelectedPackage } from '@/src/entities/models/package-model';
+import { Package } from '@/src/entities/models/package-model';
 import { prisma } from '@/prisma';
 
 export class PackagesRepository implements IPackagesRepository {
@@ -39,9 +38,11 @@ export class PackagesRepository implements IPackagesRepository {
   }
 
   public async delete(id: string): Promise<void> {
-    await sql`
-      DELETE FROM packages WHERE id = ${id};
-    `;
+    await prisma.package.delete({
+      where: {
+        id,
+      },
+    });
   }
 
   public async deleteByAppointmentTypeId(
@@ -62,27 +63,16 @@ export class PackagesRepository implements IPackagesRepository {
     });
   }
 
-  public async findAll(): Promise<SelectedPackage[]> {
-    return prisma.package.findMany();
-    // const queryResult = await sql<SelectedPackage>`
-    //   SELECT
-    //     appointment_types.name,
-    //     appointment_types.session_count AS total_sessions,
-    //     customers.name AS customer_name,
-    //     packages.appointment_type_id,
-    //     packages.customer_id,
-    //     packages.id,
-    //     packages.remaining_sessions,
-    //     packages.start_date
-    //   FROM packages
-    //   LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
-    //   LEFT JOIN customers ON packages.customer_id = customers.id
-    //   ORDER BY packages.start_date DESC
-    // `;
-    // return queryResult.rows;
+  public async findAll(): Promise<Package[]> {
+    return prisma.package.findMany({
+      include: {
+        appointmentType: true,
+        customer: true,
+      },
+    });
   }
 
-  public async findById(id: string) {
+  public async findById(id: string): Promise<Package | null> {
     return prisma.package.findUnique({
       include: {
         appointmentType: true,
@@ -92,76 +82,52 @@ export class PackagesRepository implements IPackagesRepository {
         id,
       },
     });
-
-    const queryResult = await sql<SelectedPackage>`
-      SELECT 
-        appointment_types.name,
-        appointment_types.session_count AS total_sessions,
-        customers.name AS customer_name,
-        packages.appointment_type_id,
-        packages.customer_id,
-        packages.id,
-        packages.remaining_sessions,
-        packages.start_date
-      FROM packages
-      LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
-      LEFT JOIN customers ON packages.customer_id = customers.id
-      WHERE packages.id = ${id}
-    `;
-    return queryResult.rows[0];
   }
 
-  public async findAllUncompletedPackages(): Promise<SelectedPackage[]> {
-    const queryResult = await sql<SelectedPackage>`
-      SELECT 
-        appointment_types.name,
-        appointment_types.session_count AS total_sessions,
-        customers.name AS customer_name,
-        packages.appointment_type_id,
-        packages.customer_id,
-        packages.id,
-        packages.remaining_sessions,
-        packages.start_date
-      FROM packages
-      LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
-      LEFT JOIN customers ON packages.customer_id = customers.id
-      WHERE packages.remaining_sessions > 0
-    `;
-    return queryResult.rows;
+  public async findAllUncompletedPackages(): Promise<Package[]> {
+    return prisma.package.findMany({
+      where: {
+        remaining_sessions: {
+          gt: 0,
+        },
+      },
+      include: {
+        appointmentType: true,
+        customer: true,
+      },
+    });
   }
 
   public async findExistingPackage(
     customer_id: string,
     appointment_type_id: string,
-  ): Promise<SelectedPackage | null> {
-    const queryResult = await sql<SelectedPackage>`
-      SELECT 
-        appointment_types.name,
-        appointment_types.session_count AS total_sessions,
-        customers.name AS customer_name,
-        packages.appointment_type_id,
-        packages.customer_id,
-        packages.id,
-        packages.remaining_sessions,
-        packages.start_date
-      FROM packages
-      LEFT JOIN appointment_types ON packages.appointment_type_id = appointment_types.id
-      LEFT JOIN customers ON packages.customer_id = customers.id
-      WHERE packages.customer_id = ${customer_id}
-      AND packages.appointment_type_id = ${appointment_type_id}
-      AND packages.remaining_sessions > 0
-    `;
-    return queryResult.rows[0];
+  ): Promise<Package | null> {
+    return prisma.package.findFirst({
+      where: {
+        customerId: customer_id,
+        appointmentTypeId: appointment_type_id,
+        remaining_sessions: {
+          gt: 0,
+        },
+      },
+      include: {
+        appointmentType: true,
+        customer: true,
+      },
+    });
   }
 
   public async updateRemainingSessions(
     payload: UpdatePackagePayload,
-  ): Promise<SelectedPackage> {
-    await sql`
-      UPDATE packages
-      SET remaining_sessions = ${payload.remaining_sessions}
-      WHERE id = ${payload.id};
-    `;
+  ): Promise<Package | null> {
+    await prisma.package.update({
+      where: {
+        id: payload.id,
+      },
+      data: {
+        remaining_sessions: payload.remaining_sessions,
+      },
+    });
     return this.findById(payload.id);
   }
 }

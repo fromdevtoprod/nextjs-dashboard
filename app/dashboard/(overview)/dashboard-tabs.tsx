@@ -4,10 +4,10 @@ import { useTranslations } from 'next-intl';
 import { Clock, HandHeart, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { Appointment } from '@/src/entities/models/appointment';
 
 type DashboardTabsProps = {
-  upcomingAppointments: UpcomingAppointment[];
+  upcomingAppointments: Appointment[];
   recentActivities: any[];
 };
 
@@ -34,20 +34,24 @@ export function DashboardTabs({
                   <div className="w-24 text-sm text-[#2C3E50]">
                     <div className="flex items-center">
                       <Clock className="mr-1 h-4 w-4" />
-                      {appointment.time}
+                      {new Date(appointment.date).toLocaleTimeString('en-US', {
+                        hour: 'numeric',
+                        minute: 'numeric',
+                        hour12: true,
+                      })}
                     </div>
                   </div>
                   <div className="ml-4">
                     <div className="flex items-center">
                       <User className="mr-1 h-4 w-4" />
                       <p className="text-sm font-medium text-[#2C3E50]">
-                        {appointment.client_name}
+                        {appointment.customer?.name}
                       </p>
                     </div>
                     <div className="flex items-center">
                       <HandHeart className="mr-1 h-4 w-4" />
                       <p className="text-sm text-[#7C9885]">
-                        {appointment.appointment_type_name}
+                        {appointment.appointmentType?.name}
                       </p>
                     </div>
                   </div>

@@ -1,7 +1,7 @@
 import { findAllPaymentsUseCase } from '@/src/application/use-cases/payments/find-all-payments.use-case';
-import { SelectedPayment } from '@/src/entities/models/payment';
+import { Payment } from '@/src/entities/models/payment';
 
-export async function fetchAllPayments(): Promise<SelectedPayment[]> {
+export async function fetchAllPayments(): Promise<Payment[]> {
   try {
     const allPayments = await findAllPaymentsUseCase();
     return allPayments;

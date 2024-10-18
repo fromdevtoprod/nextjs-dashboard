@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { CalendarPlus, Check, HandHeart, Package } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { Appointment } from '@/src/entities/models/appointment';
 import { createAppointment } from '@/app/lib/actions/appointments';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -36,7 +36,7 @@ import { SelectPaymentStatus } from '@/app/ui/selects/select-payment-status';
 type AddAppointmentDialogProps = {
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
   isOpened: boolean;
-  onDialogSubmit: (createdAppointment: UpcomingAppointment) => void;
+  onDialogSubmit: (createdAppointment: Appointment) => void;
   onOpenChange: (isOpened: boolean) => void;
 };
 

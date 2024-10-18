@@ -1,9 +1,9 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { Check, Package, PackagePlus, User } from 'lucide-react';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { SelectedPackage } from '@/src/entities/models/package-model';
+import { Check, Package as PackageIcon, PackagePlus, User } from 'lucide-react';
+import { Customer } from '@/src/entities/models/customer';
+import { Package } from '@/src/entities/models/package-model';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -28,11 +28,11 @@ import { useToast } from '@/hooks/use-toast';
 import { CreatePackagePayload } from '@/src/application/repositories/packages.repository.interface';
 
 type StartPackageDialogProps = {
-  customers: SelectedCustomer[];
+  customers: Customer[];
   isOpen: boolean;
   packageTypes: any[];
   onOpenChange: (open: boolean) => void;
-  onDialogSubmit: (newPackage: SelectedPackage) => void;
+  onDialogSubmit: (newPackage: Package) => void;
 };
 
 export function StartPackageDialog({
@@ -137,7 +137,7 @@ export function StartPackageDialog({
                   {packageTypes.map((packageType) => (
                     <SelectItem key={packageType.name} value={packageType.id}>
                       <div className="flex items-center">
-                        <Package className="mr-2 h-4 w-4" />
+                        <PackageIcon className="mr-2 h-4 w-4" />
                         {packageType.name}
                       </div>
                     </SelectItem>

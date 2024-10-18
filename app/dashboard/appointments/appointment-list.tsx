@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Calendar, Clock, HandHeart, NotebookPen, User } from 'lucide-react';
-import { AppointmentWithTime } from '@/app/lib/data/appointments';
+import { Appointment } from '@/src/entities/models/appointment';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -14,29 +14,62 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { PaymentStatusBadge } from '@/app/ui/badges/payment-status-badge';
+import { Notes } from '@/src/entities/models/notes';
 import { Button } from '@/components/ui/button';
 import { AddNotesDialog } from './add-notes-dialog';
 import { DeleteAppointmentConfirmation } from './delete-appointment-confirmation';
+import { EditNotesDialog } from './edit-notes-dialog';
+
+export type AppointmentWithTime = Omit<Appointment, 'date'> & {
+  date: string;
+  time: string;
+};
 
 type AppointmentListProps = {
   appointments: AppointmentWithTime[];
   whenDeleteDone: (appointmentId: string) => void;
+  whenNotesUpdateDone: (updatedNotes: Notes) => void;
 };
 
 export function AppointmentList({
   appointments,
   whenDeleteDone,
+  whenNotesUpdateDone,
 }: AppointmentListProps) {
   const t = useTranslations('Appointments');
+
   const [appointmentNotesId, setAppointmentNotesId] = useState('');
+
+  const notes = appointments.find(
+    (appointment) => appointment.id === appointmentNotesId,
+  )?.notes;
+
+  const hasNotes = Array.isArray(notes) && notes.length > 0;
+
+  const handleUpdateNotes = (updatedNotes: Notes) => {
+    setAppointmentNotesId('');
+    whenNotesUpdateDone(updatedNotes);
+  };
+
   return (
     <>
-      <AddNotesDialog
-        appointmentId={appointmentNotesId}
-        isOpened={!!appointmentNotesId}
-        onOpenChange={() => setAppointmentNotesId('')}
-        onDialogSubmit={() => setAppointmentNotesId('')}
-      />
+      {appointmentNotesId && !hasNotes && (
+        <AddNotesDialog
+          appointmentId={appointmentNotesId}
+          isOpened={true}
+          onOpenChange={() => setAppointmentNotesId('')}
+          onDialogSubmit={() => setAppointmentNotesId('')}
+        />
+      )}
+      {appointmentNotesId && hasNotes && (
+        <EditNotesDialog
+          notesId={notes[0].id}
+          isOpened={true}
+          notes={notes?.map((note) => note.content).join('\n')}
+          onOpenChange={() => setAppointmentNotesId('')}
+          onDialogSubmit={handleUpdateNotes}
+        />
+      )}
       <Card>
         <CardHeader>
           <CardTitle>{t('upcomingAppointments')}</CardTitle>
@@ -60,7 +93,7 @@ export function AppointmentList({
                   <TableCell>
                     <div className="flex items-center">
                       <User className="mr-1 h-4 w-4" />
-                      {appointment.customer.name}
+                      {appointment?.customer?.name}
                     </div>
                   </TableCell>
                   <TableCell>
@@ -88,7 +121,12 @@ export function AppointmentList({
                   </TableCell>
                   <TableCell>
                     <PaymentStatusBadge
-                      status={appointment.payments[0].status}
+                      status={
+                        Array.isArray(appointment.payments) &&
+                        appointment.payments.length > 0
+                          ? appointment.payments[0]?.status
+                          : null
+                      }
                     />
                   </TableCell>
                   <TableCell>

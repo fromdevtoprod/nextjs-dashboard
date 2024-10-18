@@ -1,8 +1,8 @@
-import { HistoryAppointment } from '@/src/entities/models/appointment';
+import { Appointment } from '@/src/entities/models/appointment';
 import { AppointmentsRepository } from '@/src/infrastructure/repositories/appointments.repository';
 
 export async function findAllAppointmentsByClientUseCase(
   clientId: string,
-): Promise<HistoryAppointment[]> {
+): Promise<Appointment[]> {
   return new AppointmentsRepository().findAllAppointmentsByCustomer(clientId);
 }

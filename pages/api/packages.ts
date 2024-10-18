@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { SelectedPackage } from '@/src/entities/models/package-model';
+import { Package } from '@/src/entities/models/package-model';
 import { CreatePackagePayload } from '@/src/application/repositories/packages.repository.interface';
 import { createPackageUseCase } from '@/src/application/use-cases/packages/create-package.use-case';
 
 export type CreatePackageResponse = {
   message: string;
-  createdPackage: SelectedPackage;
+  createdPackage: Package;
 };
 
 export default async function handler(

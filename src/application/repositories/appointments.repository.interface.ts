@@ -1,9 +1,4 @@
-import {
-  Appointment,
-  HistoryAppointment,
-  SelectedAppointment,
-  UpcomingAppointment,
-} from '@/src/entities/models/appointment';
+import { Appointment } from '@/src/entities/models/appointment';
 
 export type CreateAppointmentPayload = {
   appointment_type_id: string;
@@ -31,17 +26,16 @@ export type CountAppointmentsByCareIdPayload = {
 export interface IAppointmentsRepository {
   countLastYearAppointments(): Promise<number>;
   countAllUpcomingAppointments(): Promise<number>;
-  createAppointment(payload: CreateAppointmentPayload): Promise<any>;
+  createAppointment(
+    payload: CreateAppointmentPayload,
+  ): Promise<Appointment | null>;
   deleteAppointment(id: string): Promise<void>;
   deleteByAppointmentTypeId(appointmentTypeId: string): Promise<void>;
   deleteByCustomerId(customerId: string): Promise<void>;
-  findAllAppointments(): Promise<SelectedAppointment[]>;
-  findAllAppointmentsByCustomer(
-    customerId: string,
-  ): Promise<HistoryAppointment[]>;
+  findAllAppointments(): Promise<Appointment[]>;
+  findAllAppointmentsByCustomer(customerId: string): Promise<Appointment[]>;
   findAllAppointmentsByDate(
     payload: FindAllAppointmentsByDatePayload,
   ): Promise<Appointment[]>;
-  findAllUpcomingAppointments(): Promise<UpcomingAppointment[]>;
-  findAppointmentById(id: string): Promise<SelectedAppointment>;
+  findAppointmentById(id: string): Promise<Appointment | null>;
 }

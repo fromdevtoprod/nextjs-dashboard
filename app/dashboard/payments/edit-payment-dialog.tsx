@@ -4,14 +4,6 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import {
   Dialog,
   DialogContent,
@@ -28,11 +20,11 @@ import { SelectPaymentStatus } from '@/app/ui/selects/select-payment-status';
 
 type EditPaymentDialogProps = {
   amount: number;
-  date: string;
+  date: Date;
   id: string;
   isOpen: boolean;
   method: string;
-  packageId: string;
+  packageId: string | null;
   status: string;
   onDialogSubmit: (data: any) => void;
   onOpenChange: () => void;

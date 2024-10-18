@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { Check, Timer } from 'lucide-react';
 
-type PaymentStatusBadgeProps = { status: string };
+type PaymentStatusBadgeProps = { status: string | null };
 
 export function PaymentStatusBadge({ status }: PaymentStatusBadgeProps) {
   const t = useTranslations('Payments');

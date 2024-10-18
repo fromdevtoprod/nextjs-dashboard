@@ -5,8 +5,8 @@ import { useState } from 'react';
 import { Search } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { SelectedPackage } from '@/src/entities/models/package-model';
+import { Customer } from '@/src/entities/models/customer';
+import { Package } from '@/src/entities/models/package-model';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { Toaster } from '@/components/ui/toaster';
 import { StartPackageDialog } from './start-package-dialog';
@@ -15,8 +15,8 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 
 type PackageTypesContainerProps = {
-  customers: SelectedCustomer[];
-  initialPackages: SelectedPackage[];
+  customers: Customer[];
+  initialPackages: Package[];
   packageTypes: SelectedAppointmentType[];
 };
 
@@ -38,13 +38,15 @@ export function PackageTypesContainer({
 
   const filteredPackages = packages.filter(
     (pkg) =>
-      pkg.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (pkg.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      pkg.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (pkg.appointmentType.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()) &&
         (!hidePackagesWithNoRemainingSessions ||
           hidePackagesWithNoRemainingSessions === pkg.remaining_sessions > 0)),
   );
 
-  const handleUpdatePackage = (updatedPackage: SelectedPackage) => {
+  const handleUpdatePackage = (updatedPackage: Package) => {
     setPackages(
       packages.map((pkg) =>
         pkg.id === updatedPackage.id ? updatedPackage : pkg,
@@ -53,7 +55,7 @@ export function PackageTypesContainer({
     setEditingPackage(null);
   };
 
-  const handleAddPackage = (newPackage: SelectedPackage) => {
+  const handleAddPackage = (newPackage: Package) => {
     setPackages([...packages, { ...newPackage }]);
     setIsAddingPackage(false);
   };

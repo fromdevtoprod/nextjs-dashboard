@@ -13,9 +13,4 @@ export const customer = z.object({
   postal_code: z.string().nullable(),
 });
 
-export const customerSchema = customer.omit({
-  id: true,
-  created_at: true,
-});
-
-export type Customer = z.infer<typeof customerSchema>;
+export type Customer = z.infer<typeof customer>;

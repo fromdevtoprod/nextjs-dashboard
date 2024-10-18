@@ -1,17 +1,15 @@
-import { z } from 'zod';
+import { Appointment } from './appointment';
+import { Customer } from './customer';
 
-// TODO: to remove step by step
-export const selectedPayment = z.object({
-  id: z.string(),
-  appointment_id: z.string().nullable(),
-  appointment_type_name: z.string(),
-  amount: z.number(),
-  customer_id: z.string(),
-  customer_name: z.string(),
-  date: z.string(),
-  method: z.string(),
-  package_id: z.string().nullable(),
-  status: z.string(),
-});
-
-export type SelectedPayment = z.infer<typeof selectedPayment>;
+export type Payment = {
+  id: string;
+  appointment?: Appointment;
+  appointmentId: string;
+  amount: number;
+  customer?: Customer;
+  customerId: string;
+  date: Date;
+  method: string;
+  packageId: string | null;
+  status: string;
+};

@@ -1,5 +1,13 @@
 import { z } from 'zod';
 
+export type AppointmentType = {
+  id: string;
+  name: string;
+  duration: number;
+  price: number;
+  session_count: number;
+};
+
 // TODO: to remove step by step
 export const selectedAppointmentTypeSchema = z.object({
   duration: z.number(),

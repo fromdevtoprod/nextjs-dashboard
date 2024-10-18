@@ -187,7 +187,7 @@
         "title": "Nouveaux clients (30 derniers jours)"
       },
       "fourth": {
-        "title": "Séances terminées (30 derniers jours)"
+        "title": "Cures terminées (30 derniers jours)"
       }
     },
     "subtitle": "Voici ce qui se passe avec votre entreprise aujourd'hui",
@@ -225,12 +225,25 @@
         "submit": "Ajouter des notes",
         "subtitle": "Des notes pour ce rendez-vous",
         "title": "Ajouter des notes"
+      },
+      "editNotes": {
+        "label": "Notes",
+        "placeholder": "Saisissez-les ici...",
+        "submit": "Mettre à jour les notes",
+        "subtitle": "Des notes pour ce rendez-vous",
+        "title": "Modifier les notes"
       }
     },
     "toast": {
       "addNotes": {
         "error": {
           "description": "Nous n'avons pas pu créer ces notes.",
+          "title": "Désolé, une erreur s'est produite !"
+        }
+      },
+      "editNotes": {
+        "error": {
+          "description": "Nous n'avons pas pu mettre à jour ces notes.",
           "title": "Désolé, une erreur s'est produite !"
         }
       }

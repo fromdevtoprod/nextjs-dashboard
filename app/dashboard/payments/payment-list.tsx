@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { SelectedPayment } from '@/src/entities/models/payment';
+import { Payment } from '@/src/entities/models/payment';
 import { EditButton } from '@/app/ui/buttons/edit-button';
 import { DeletePaymentConfirmation } from './delete-payment-confirmation';
 import { PaymentStatusBadge } from '@/app/ui/badges/payment-status-badge';
@@ -25,9 +25,9 @@ import { capitalize } from '@/app/lib/utils';
 import { PaymentMethod } from '@/app/ui/payment-method';
 
 type PaymentListProps = {
-  filteredPayments: SelectedPayment[];
+  filteredPayments: Payment[];
   onDeleteClick: (paymentId: string) => void;
-  onEditClick: (payment: SelectedPayment) => void;
+  onEditClick: (payment: Payment) => void;
 };
 
 export function PaymentList({
@@ -61,14 +61,14 @@ export function PaymentList({
                   <TableCell>
                     <div className="inline-flex">
                       <UserIcon className="mr-2 h-4 w-4 self-center" />
-                      {payment.customer_name}
+                      {payment.customer.name}
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <HandHeart className="mr-2 h-4 w-4 self-center" />
-                      {payment.appointment_type_name}
-                      {payment.package_id && ' (Package)'}
+                      {payment.appointment.appointmentType.name}
+                      {payment.packageId && ' (Package)'}
                     </div>
                   </TableCell>
                   <TableCell>

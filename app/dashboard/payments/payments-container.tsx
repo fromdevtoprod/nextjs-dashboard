@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { Search } from 'lucide-react';
-import { SelectedPayment } from '@/src/entities/models/payment';
+import { Payment } from '@/src/entities/models/payment';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Toaster } from '@/components/ui/toaster';
@@ -12,17 +12,15 @@ import { PaymentList } from './payment-list';
 import { EditPaymentDialog } from './edit-payment-dialog';
 
 type PaymentsContainerProps = {
-  initialPayments: SelectedPayment[];
+  initialPayments: Payment[];
 };
 
 export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
   const t = useTranslations('Payments');
 
-  const [payments, setPayments] = useState<SelectedPayment[]>(initialPayments);
+  const [payments, setPayments] = useState<Payment[]>(initialPayments);
   const [searchTerm, setSearchTerm] = useState('');
-  const [editingPayment, setEditingPayment] = useState<SelectedPayment | null>(
-    null,
-  );
+  const [editingPayment, setEditingPayment] = useState<Payment | null>(null);
   const [isAddingPayment, setIsAddingPayment] = useState(false);
 
   const filteredPayments = payments.filter(
@@ -31,20 +29,20 @@ export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
         .toString()
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      payment.appointment_type_name
+      payment.appointment.appointmentType.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      payment.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payment.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.method.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.status.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
-  const handleAddPayment = (newPayment: SelectedPayment) => {
+  const handleAddPayment = (newPayment: Payment) => {
     setPayments([...payments, { ...newPayment }]);
     setIsAddingPayment(false);
   };
 
-  const handleUpdatePayment = (updatedPayment: SelectedPayment) => {
+  const handleUpdatePayment = (updatedPayment: Payment) => {
     setPayments(
       payments.map((payment) =>
         payment.id === updatedPayment.id ? updatedPayment : payment,
@@ -95,11 +93,11 @@ export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
       {editingPayment && (
         <EditPaymentDialog
           amount={editingPayment?.amount || 0}
-          date={editingPayment?.date || ''}
+          date={editingPayment?.date}
           id={editingPayment?.id || ''}
           isOpen={!!editingPayment}
           method={editingPayment?.method || ''}
-          packageId={editingPayment?.package_id || ''}
+          packageId={editingPayment?.packageId}
           status={editingPayment?.status || ''}
           onDialogSubmit={handleUpdatePayment}
           onOpenChange={() => setEditingPayment(null)}

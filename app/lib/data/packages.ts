@@ -2,7 +2,7 @@ import { findAppointmentTypesBySessionCountUseCase } from '@/src/application/use
 import { countCompletedSessionsUseCase } from '@/src/application/use-cases/packages/count-completed-sessions.use-case';
 import { findAllPackagesUseCase } from '@/src/application/use-cases/packages/find-all-packages.use-case';
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
-import { SelectedPackage } from '@/src/entities/models/package-model';
+import { Package } from '@/src/entities/models/package-model';
 
 export async function fetchAppointmentTypesBySessionCount(): Promise<
   SelectedAppointmentType[]
@@ -19,7 +19,7 @@ export async function fetchAppointmentTypesBySessionCount(): Promise<
   }
 }
 
-export async function fetchAllPackages(): Promise<SelectedPackage[]> {
+export async function fetchAllPackages(): Promise<Package[]> {
   try {
     const packages = await findAllPackagesUseCase();
     return packages;

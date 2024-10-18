@@ -1,6 +1,6 @@
 import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
-import { SelectedCustomer } from '@/src/entities/models/customer';
-import { SelectedPackage } from '@/src/entities/models/package-model';
+import { Customer } from '@/src/entities/models/customer';
+import { Package } from '@/src/entities/models/package-model';
 import { findAllAppointmentTypesUseCase } from './find-all-appointment-types.use-case';
 import { findAllUncompletedPackagesUseCase } from '../packages/find-all-uncompleted-packages.use-case';
 
@@ -22,7 +22,7 @@ type SelectedAppointmentTypeWithPackage = SelectedAppointmentType & {
 };
 
 export async function findAppointmentTypesWithRemainingSessionsUseCase(
-  clients: SelectedCustomer[],
+  clients: Customer[],
 ): Promise<AppointmentTypesWithRemainingSessions[]> {
   const allAppointmentTypes = addPackageLabelInAppointmentTypes(
     await findAllAppointmentTypesUseCase(),
@@ -36,17 +36,15 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
   const getAllDefaultAppointments =
     getAllAppointmentByDefault(allAppointmentTypes);
 
-  const filterAppointmentTypesByPackages = (
-    uncompletedPackages: SelectedPackage[],
-  ) => {
+  const filterAppointmentTypesByPackages = (uncompletedPackages: Package[]) => {
     const appointmentTypesPackages = uncompletedPackages.map(
       (uncompletedPackage) => {
         const appointmentTypePackage = findAppointmentTypeById(
-          uncompletedPackage.appointment_type_id,
+          uncompletedPackage.appointmentType.id,
         );
         if (!appointmentTypePackage) {
           console.error(
-            `No appointment type found for ID: ${uncompletedPackage.appointment_type_id}`,
+            `No appointment type found for ID: ${uncompletedPackage.appointmentType.id}`,
           );
           return null;
         }
@@ -117,7 +115,7 @@ function removeDefaultAppointmentTypesWhenSessionInProgress(
 function getAllAppointmentByDefault(
   allAppointmentTypes: SelectedAppointmentType[],
 ) {
-  return (client: SelectedCustomer) => {
+  return (client: Customer) => {
     return {
       customerId: client.id,
       customerName: client.name,
@@ -126,12 +124,10 @@ function getAllAppointmentByDefault(
   };
 }
 
-function findUncompletedPackagesByClient(
-  allUncompletedPackages: SelectedPackage[],
-) {
+function findUncompletedPackagesByClient(allUncompletedPackages: Package[]) {
   return (clientId: string) => {
     return allUncompletedPackages.filter((uncompletedPackage) => {
-      return uncompletedPackage.customer_id === clientId;
+      return uncompletedPackage.customer.id === clientId;
     });
   };
 }

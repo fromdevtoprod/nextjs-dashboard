@@ -1,4 +1,4 @@
-import { SelectedPayment } from '@/src/entities/models/payment';
+import { Payment } from '@/src/entities/models/payment';
 
 export type CreatePaymentPayload = {
   amount: string;
@@ -20,7 +20,7 @@ export interface IPaymentsRepository {
   create(payload: CreatePaymentPayload): Promise<any>;
   deletePayment(appointmentId: string): Promise<void>;
   deletePaymentByAppointmentId(appointmentId: string): Promise<void>;
-  findById(paymentId: string): Promise<SelectedPayment>;
-  findAll(): Promise<SelectedPayment[]>;
-  updatePayment(payload: UpdatePaymentPayload): Promise<SelectedPayment>;
+  findById(id: string): Promise<Payment | null>;
+  findAll(): Promise<Payment[]>;
+  updatePayment(payload: UpdatePaymentPayload): Promise<Payment | null>;
 }

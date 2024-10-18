@@ -2,13 +2,13 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { UpcomingAppointment } from '@/src/entities/models/appointment';
+import { Appointment } from '@/src/entities/models/appointment';
 import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
 import { AddAppointmentDialog } from './add-appointment-dialog';
 
 type AppointmentsHeaderProps = {
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
-  onAddAppointment: (createdAppointment: UpcomingAppointment) => void;
+  onAddAppointment: (createdAppointment: Appointment) => void;
 };
 
 export function AppointmentsHeader({
@@ -17,7 +17,7 @@ export function AppointmentsHeader({
 }: AppointmentsHeaderProps) {
   const t = useTranslations('Appointments');
   const [isAddingAppointment, setIsAddingAppointment] = useState(false);
-  const handleDialogSubmit = (createdAppointment: UpcomingAppointment) => {
+  const handleDialogSubmit = (createdAppointment: Appointment) => {
     onAddAppointment(createdAppointment);
     setIsAddingAppointment(false);
   };

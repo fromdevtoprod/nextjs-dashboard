@@ -1,5 +1,10 @@
 import { useTranslations } from 'next-intl';
-import { Calendar, Package, RefreshCcw, User } from 'lucide-react';
+import {
+  Calendar,
+  Package as PackageIcon,
+  RefreshCcw,
+  User,
+} from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -9,10 +14,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { SelectedPackage } from '@/src/entities/models/package-model';
+import { Package } from '@/src/entities/models/package-model';
 
 type PackageListProps = {
-  filteredPackages: SelectedPackage[];
+  filteredPackages: Package[];
 };
 
 export function PackageList({ filteredPackages }: PackageListProps) {
@@ -40,19 +45,20 @@ export function PackageList({ filteredPackages }: PackageListProps) {
                 <TableCell className="font-medium">
                   <div className="flex items-center">
                     <User className="mr-2 h-4 w-4" />
-                    {pkg.customer_name}
+                    {pkg.customer.name}
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
-                    <Package className="mr-2 h-4 w-4 self-center" />
-                    {pkg.name}
+                    <PackageIcon className="mr-2 h-4 w-4 self-center" />
+                    {pkg.appointmentType.name}
                   </div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">
                     <RefreshCcw className="mr-2 h-4 w-4" />
-                    {pkg.remaining_sessions} / {pkg.total_sessions}
+                    {pkg.remaining_sessions} /{' '}
+                    {pkg.appointmentType.session_count}
                   </div>
                 </TableCell>
                 <TableCell>
