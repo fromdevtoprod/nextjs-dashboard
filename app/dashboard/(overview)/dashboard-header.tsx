@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 
 type DashboardHeaderProps = {
-  username: string;
+  username?: string;
 };
 
 export function DashboardHeader({ username }: DashboardHeaderProps) {
