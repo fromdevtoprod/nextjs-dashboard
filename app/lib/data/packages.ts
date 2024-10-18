@@ -1,11 +1,11 @@
 import { findAppointmentTypesBySessionCountUseCase } from '@/src/application/use-cases/appointment-types/find-appointment-types-by-session-count.use-case';
 import { countCompletedSessionsUseCase } from '@/src/application/use-cases/packages/count-completed-sessions.use-case';
 import { findAllPackagesUseCase } from '@/src/application/use-cases/packages/find-all-packages.use-case';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Package } from '@/src/entities/models/package-model';
 
 export async function fetchAppointmentTypesBySessionCount(): Promise<
-  SelectedAppointmentType[]
+  AppointmentType[]
 > {
   try {
     const packageTypes = await findAppointmentTypesBySessionCountUseCase();

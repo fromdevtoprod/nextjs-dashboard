@@ -1,15 +1,21 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import {
-  CreatedAppointmentType,
-  SelectedAppointmentType,
-} from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { createAppointmentTypeUseCase } from '@/src/application/use-cases/appointment-types/create-appointment-type.use-case';
 import { updateAppointmentTypeUseCase } from '@/src/application/use-cases/appointment-types/update-appointment-type.use-case';
 import { deleteAppointmentTypeUseCase } from '@/src/application/use-cases/appointment-types/delete-appointment-type.use-case';
+import {
+  CreatedAppointmentTypePayload,
+  UpdateAppointmentTypePayload,
+} from '@/src/application/repositories/appointment-types.repository.interface';
 
 export type CreateAppointmentTypeResponse = {
   message: string;
-  createdAppointmentType: SelectedAppointmentType;
+  createdAppointmentType: AppointmentType;
+};
+
+export type UpdateAppointmentTypeResponse = {
+  message: string;
+  updatedAppointmentType: AppointmentType;
 };
 
 export default async function handler(
@@ -17,17 +23,17 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    const { name, price, duration, session_count } = req.body;
+    const { name, price, duration, sessionCount } = req.body;
 
-    if (!name || !price || !duration || !session_count) {
+    if (!name || !price || !duration || !sessionCount) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    const newAppointmentType: CreatedAppointmentType = {
+    const newAppointmentType: CreatedAppointmentTypePayload = {
       name,
       price,
       duration,
-      session_count,
+      sessionCount,
     };
 
     try {
@@ -45,27 +51,28 @@ export default async function handler(
       });
     }
   } else if (req.method === 'PUT') {
-    const { id, name, price, duration, session_count } = req.body;
+    const { id, name, price, duration, sessionCount } = req.body;
 
-    if (!id || !name || !price || !duration || !session_count) {
+    if (!id || !name || !price || !duration || !sessionCount) {
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
-    const updatedAppointmentType: SelectedAppointmentType = {
+    const appointmentType: UpdateAppointmentTypePayload = {
       duration,
       id,
       name,
       price,
-      session_count,
+      sessionCount,
     };
 
     try {
-      await updateAppointmentTypeUseCase(updatedAppointmentType);
+      const updatedAppointmentType =
+        await updateAppointmentTypeUseCase(appointmentType);
 
       return res.status(201).json({
         message: 'Appointment type updated successfully',
-        appointmentType: updatedAppointmentType,
-      });
+        updatedAppointmentType,
+      } as UpdateAppointmentTypeResponse);
     } catch (error) {
       console.error(error);
       return res.status(500).json({

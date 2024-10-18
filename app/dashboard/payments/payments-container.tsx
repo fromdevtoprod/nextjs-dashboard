@@ -29,10 +29,10 @@ export function PaymentsContainer({ initialPayments }: PaymentsContainerProps) {
         .toString()
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      payment.appointment.appointmentType.name
+      payment.appointment?.appointmentType.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase()) ||
-      payment.customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      payment.customer?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.method.toLowerCase().includes(searchTerm.toLowerCase()) ||
       payment.status.toLowerCase().includes(searchTerm.toLowerCase()),
   );

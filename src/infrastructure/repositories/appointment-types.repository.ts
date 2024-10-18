@@ -1,49 +1,48 @@
-import { sql } from '@vercel/postgres';
-import { IAppointmentTypesRepository } from '@/src/application/repositories/appointment-types.repository.interface';
 import {
-  CreatedAppointmentType,
-  SelectedAppointmentType,
-} from '@/src/entities/models/appointment-types';
+  CreatedAppointmentTypePayload,
+  IAppointmentTypesRepository,
+  UpdateAppointmentTypePayload,
+} from '@/src/application/repositories/appointment-types.repository.interface';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { prisma } from '@/prisma';
 
 export class AppointmentTypesRepository implements IAppointmentTypesRepository {
   public async create(
-    payload: CreatedAppointmentType,
-  ): Promise<SelectedAppointmentType> {
+    payload: CreatedAppointmentTypePayload,
+  ): Promise<AppointmentType> {
     return prisma.appointmentType.create({
       data: {
         duration: payload.duration,
         name: payload.name,
         price: payload.price,
-        session_count: payload.session_count,
+        session_count: payload.sessionCount,
       },
     });
-    // const queryResult = await sql<SelectedAppointmentType>`
-    //   INSERT INTO appointment_types (duration, name, price, session_count)
-    //   VALUES (${payload.duration}, ${payload.name}, ${payload.price}, ${payload.session_count})
-    //   RETURNING *`;
-    // return { ...payload, id: queryResult.rows[0].id };
   }
 
   public async delete(id: string): Promise<void> {
-    await sql`DELETE FROM appointment_types WHERE id = ${id}`;
+    await prisma.appointmentType.delete({
+      where: {
+        id,
+      },
+    });
   }
 
-  public async findAll(): Promise<SelectedAppointmentType[]> {
-    const queryResult =
-      await sql<SelectedAppointmentType>`SELECT * FROM appointment_types`;
-    return queryResult.rows;
+  public async findAll(): Promise<AppointmentType[]> {
+    return prisma.appointmentType.findMany();
   }
 
-  public async findById(id: string): Promise<SelectedAppointmentType> {
-    const queryResult = await sql<SelectedAppointmentType>`
-      SELECT * FROM appointment_types WHERE id = ${id}`;
-    return queryResult.rows[0];
+  public async findById(id: string): Promise<AppointmentType | null> {
+    return prisma.appointmentType.findUnique({
+      where: {
+        id,
+      },
+    });
   }
 
   public async findBySessionCountMin(
     sessionCountMin: number,
-  ): Promise<SelectedAppointmentType[]> {
+  ): Promise<AppointmentType[]> {
     return prisma.appointmentType.findMany({
       where: {
         session_count: {
@@ -51,22 +50,21 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
         },
       },
     });
-    // const queryResult = await sql<SelectedAppointmentType>`
-    //   SELECT * FROM appointment_types WHERE session_count >= ${sessionCountMin}`;
-    // return queryResult.rows;
   }
 
   public async update(
-    payload: SelectedAppointmentType,
-  ): Promise<SelectedAppointmentType> {
-    const queryResult = await sql<SelectedAppointmentType>`
-      UPDATE appointment_types
-      SET duration = ${payload.duration},
-          name = ${payload.name},
-          price = ${payload.price},
-          session_count = ${payload.session_count}
-      WHERE id = ${payload.id}
-      RETURNING *`;
-    return queryResult.rows[0];
+    payload: UpdateAppointmentTypePayload,
+  ): Promise<AppointmentType> {
+    return prisma.appointmentType.update({
+      where: {
+        id: payload.id,
+      },
+      data: {
+        duration: payload.duration,
+        name: payload.name,
+        price: payload.price,
+        session_count: payload.sessionCount,
+      },
+    });
   }
 }

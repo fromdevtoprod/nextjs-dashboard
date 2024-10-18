@@ -28,7 +28,7 @@ import {
 import { CustomersCombobox } from '@/components/customers-combobox';
 import { Switch } from '@/components/ui/switch';
 import { AppointmentTypesWithRemainingSessions } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { createAppointmentController } from '@/src/interface-adapters/appointments/create-appointment.controller';
 import { SelectPaymentMethod } from '@/app/ui/selects/select-payment-method';
 import { SelectPaymentStatus } from '@/app/ui/selects/select-payment-status';
@@ -103,7 +103,7 @@ export function AddAppointmentDialog({
     (type) => type.customerId === clientId,
   );
 
-  let filteredAppointmentTypes: SelectedAppointmentType[] = [];
+  let filteredAppointmentTypes: AppointmentType[] = [];
 
   if (clientAppointmentTypes) {
     filteredAppointmentTypes = clientAppointmentTypes.appointmentTypes.filter(

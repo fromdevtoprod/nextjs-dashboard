@@ -14,10 +14,10 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { Switch } from '@/components/ui/switch';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
 import { updateAppointmentType } from '@/app/lib/actions/appointment-types';
 import { useToast } from '@/hooks/use-toast';
 import { getAppointmentTypePayload } from './helpers';
+import { UpdateAppointmentTypePayload } from '@/src/application/repositories/appointment-types.repository.interface';
 
 type AppointmentTypesPageProps = {
   duration: number;
@@ -52,13 +52,14 @@ export function EditAppointmentTypeDialog({
     event.preventDefault();
     // @ts-ignore
     const formData = new FormData(event.target);
-    const updatedAppointmentType = {
+    const newAppointmentType = {
       id,
       ...getAppointmentTypePayload(formData),
-    } as SelectedAppointmentType;
+    } as UpdateAppointmentTypePayload;
 
     try {
-      await updateAppointmentType(updatedAppointmentType);
+      const { updatedAppointmentType } =
+        await updateAppointmentType(newAppointmentType);
       onDialogSubmit(updatedAppointmentType);
     } catch (error) {
       console.error(error);

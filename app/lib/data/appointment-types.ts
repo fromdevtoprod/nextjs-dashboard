@@ -3,12 +3,10 @@ import {
   AppointmentTypesWithRemainingSessions,
   findAppointmentTypesWithRemainingSessionsUseCase,
 } from '@/src/application/use-cases/appointment-types/find-appointment-types-with-remaining-sessions.use-case';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Customer } from '@/src/entities/models/customer';
 
-export async function fetchAllAppointmentTypes(): Promise<
-  SelectedAppointmentType[]
-> {
+export async function fetchAllAppointmentTypes(): Promise<AppointmentType[]> {
   try {
     const appointmentTypes = await findAllAppointmentTypesUseCase();
     return appointmentTypes;

@@ -7,7 +7,7 @@ import {
   RefreshCcw,
   Timer,
 } from 'lucide-react';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import {
   Card,
   CardContent,
@@ -27,7 +27,7 @@ import { EditButton } from '@/app/ui/buttons/edit-button';
 import { DeleteAppointmentTypeConfirmation } from './delete-appointment-type-confirmation';
 
 type AppointmentTypesListProps = {
-  appointmentTypes: SelectedAppointmentType[];
+  appointmentTypes: AppointmentType[];
   onEditClick: (type: any) => void;
   onDeleteClick: (id: string) => void;
 };

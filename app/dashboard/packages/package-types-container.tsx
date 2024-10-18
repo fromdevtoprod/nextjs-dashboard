@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Customer } from '@/src/entities/models/customer';
 import { Package } from '@/src/entities/models/package-model';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Toaster } from '@/components/ui/toaster';
 import { StartPackageDialog } from './start-package-dialog';
 import { PackageList } from './package-list';
@@ -17,7 +17,7 @@ import { Badge } from '@/components/ui/badge';
 type PackageTypesContainerProps = {
   customers: Customer[];
   initialPackages: Package[];
-  packageTypes: SelectedAppointmentType[];
+  packageTypes: AppointmentType[];
 };
 
 export function PackageTypesContainer({

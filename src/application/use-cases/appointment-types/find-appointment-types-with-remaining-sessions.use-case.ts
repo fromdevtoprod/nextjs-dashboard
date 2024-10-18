@@ -1,4 +1,4 @@
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Customer } from '@/src/entities/models/customer';
 import { Package } from '@/src/entities/models/package-model';
 import { findAllAppointmentTypesUseCase } from './find-all-appointment-types.use-case';
@@ -13,11 +13,11 @@ export type AppointmentTypesWithRemainingSessions = {
   )[];
 };
 
-type SelectedAppointmentTypeWithOptionalPackage = SelectedAppointmentType & {
+type SelectedAppointmentTypeWithOptionalPackage = AppointmentType & {
   package_id?: string;
 };
 
-type SelectedAppointmentTypeWithPackage = SelectedAppointmentType & {
+type SelectedAppointmentTypeWithPackage = AppointmentType & {
   package_id: string;
 };
 
@@ -100,9 +100,9 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
 }
 
 function removeDefaultAppointmentTypesWhenSessionInProgress(
-  allAppointmentTypes: SelectedAppointmentType[],
+  allAppointmentTypes: AppointmentType[],
 ) {
-  return (appointmentTypesPackages: SelectedAppointmentType[]) => {
+  return (appointmentTypesPackages: AppointmentType[]) => {
     return allAppointmentTypes.filter((appointmentType) => {
       return !appointmentTypesPackages.some(
         (appointmentTypePackage) =>
@@ -112,9 +112,7 @@ function removeDefaultAppointmentTypesWhenSessionInProgress(
   };
 }
 
-function getAllAppointmentByDefault(
-  allAppointmentTypes: SelectedAppointmentType[],
-) {
+function getAllAppointmentByDefault(allAppointmentTypes: AppointmentType[]) {
   return (client: Customer) => {
     return {
       customerId: client.id,
@@ -132,7 +130,7 @@ function findUncompletedPackagesByClient(allUncompletedPackages: Package[]) {
   };
 }
 
-function findAppointmentType(allAppointmentTypes: SelectedAppointmentType[]) {
+function findAppointmentType(allAppointmentTypes: AppointmentType[]) {
   return (appointmentTypeId: string) => {
     return allAppointmentTypes.find((appointmentType) => {
       return appointmentType.id === appointmentTypeId;
@@ -141,7 +139,7 @@ function findAppointmentType(allAppointmentTypes: SelectedAppointmentType[]) {
 }
 
 function addPackageLabelInAppointmentTypes(
-  appointmentTypes: SelectedAppointmentType[],
+  appointmentTypes: AppointmentType[],
 ) {
   return appointmentTypes.map((appointmentType) => {
     let { name } = appointmentType;

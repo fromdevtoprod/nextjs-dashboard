@@ -2,14 +2,14 @@
 
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Toaster } from '@/components/ui/toaster';
 import { AddAppointmentTypeDialog } from './add-appointment-type-dialog';
 import { EditAppointmentTypeDialog } from './edit-appointment-type-dialog';
 import { AppointmentTypesList } from './appointment-types-list';
 
 type AppointmentTypesContainerProps = {
-  initialAppointmentTypes: SelectedAppointmentType[];
+  initialAppointmentTypes: AppointmentType[];
 };
 
 export function AppointmentTypesContainer({
@@ -21,15 +21,14 @@ export function AppointmentTypesContainer({
     initialAppointmentTypes,
   );
   const [isAddingType, setIsAddingType] = useState(false);
-  const [editingType, setEditingType] =
-    useState<SelectedAppointmentType | null>(null);
+  const [editingType, setEditingType] = useState<AppointmentType | null>(null);
 
-  const handleAddType = (newType: SelectedAppointmentType) => {
+  const handleAddType = (newType: AppointmentType) => {
     setAppointmentTypes([...appointmentTypes, { ...newType }]);
     setIsAddingType(false);
   };
 
-  const handleEditType = (updatedType: SelectedAppointmentType) => {
+  const handleEditType = (updatedType: AppointmentType) => {
     setAppointmentTypes(
       appointmentTypes.map((type) =>
         type.id === updatedType.id ? updatedType : type,

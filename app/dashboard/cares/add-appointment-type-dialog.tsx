@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { SelectedAppointmentType } from '@/src/entities/models/appointment-types';
+import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { createAppointmentType } from '@/app/lib/actions/appointment-types';
 import { useToast } from '@/hooks/use-toast';
 import { Switch } from '@/components/ui/switch';
@@ -24,7 +24,7 @@ import { getAppointmentTypePayload } from './helpers';
 type AppointmentTypesPageProps = {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
-  onDialogSubmit: (newAppointmentType: SelectedAppointmentType) => void;
+  onDialogSubmit: (newAppointmentType: AppointmentType) => void;
 };
 
 export function AddAppointmentTypeDialog({

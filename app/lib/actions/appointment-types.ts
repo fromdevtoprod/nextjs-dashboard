@@ -1,8 +1,11 @@
-import { CreateAppointmentTypeResponse } from '@/pages/api/appointment-types';
 import {
-  CreatedAppointmentType,
-  SelectedAppointmentType,
-} from '@/src/entities/models/appointment-types';
+  CreateAppointmentTypeResponse,
+  UpdateAppointmentTypeResponse,
+} from '@/pages/api/appointment-types';
+import {
+  CreatedAppointmentTypePayload,
+  UpdateAppointmentTypePayload,
+} from '@/src/application/repositories/appointment-types.repository.interface';
 
 const URL = '/api/appointment-types';
 
@@ -19,7 +22,7 @@ export async function deleteAppointmentType(appointmentTypeId: string) {
 }
 
 export async function createAppointmentType(
-  newAppointmentType: CreatedAppointmentType,
+  newAppointmentType: CreatedAppointmentTypePayload,
 ) {
   const headers = getRequestHeaders('POST');
   const response = await fetch(URL, {
@@ -33,7 +36,7 @@ export async function createAppointmentType(
 }
 
 export async function updateAppointmentType(
-  updatedAppointmentType: SelectedAppointmentType,
+  updatedAppointmentType: UpdateAppointmentTypePayload,
 ) {
   const headers = getRequestHeaders('PUT');
   const response = await fetch(URL, {
@@ -43,7 +46,7 @@ export async function updateAppointmentType(
   if (!response.ok) {
     throw new Error('Failed to update appointment type');
   }
-  return response.json() as Promise<CreateAppointmentTypeResponse>;
+  return response.json() as Promise<UpdateAppointmentTypeResponse>;
 }
 
 function getRequestHeaders(method: 'POST' | 'PUT' | 'DELETE') {

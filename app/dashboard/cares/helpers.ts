@@ -1,8 +1,8 @@
-import { CreatedAppointmentType } from '@/src/entities/models/appointment-types';
+import { CreatedAppointmentTypePayload } from '@/src/application/repositories/appointment-types.repository.interface';
 
 export function getAppointmentTypePayload(
   formData: FormData,
-): CreatedAppointmentType {
+): CreatedAppointmentTypePayload {
   const duration = parseInt(formData.get('duration') as string);
   const name = formData.get('name') as string;
   const price = parseFloat(formData.get('price') as string);
@@ -11,6 +11,6 @@ export function getAppointmentTypePayload(
     duration,
     name,
     price,
-    session_count: sessionCount || 1,
+    sessionCount: sessionCount || 1,
   };
 }
