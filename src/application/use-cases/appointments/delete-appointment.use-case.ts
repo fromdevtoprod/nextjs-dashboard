@@ -12,7 +12,7 @@ export async function deleteAppointmentUseCase(
 
   const appointment = await findAppointmentByIdUseCase(appointmentId);
 
-  if (appointment.packageId) {
+  if (appointment?.packageId) {
     // TODO: move this to a dedicated use-case
     const packageRepository = new PackagesRepository();
     const packageToUpdate = await packageRepository.findById(
