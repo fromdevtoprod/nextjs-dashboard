@@ -61,13 +61,13 @@ export function PaymentList({
                   <TableCell>
                     <div className="inline-flex">
                       <UserIcon className="mr-2 h-4 w-4 self-center" />
-                      {payment.customer.name}
+                      {payment.customer?.name}
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
                       <HandHeart className="mr-2 h-4 w-4 self-center" />
-                      {payment.appointment.appointmentType.name}
+                      {payment.appointment?.appointmentType.name}
                       {payment.packageId && ' (Package)'}
                     </div>
                   </TableCell>
