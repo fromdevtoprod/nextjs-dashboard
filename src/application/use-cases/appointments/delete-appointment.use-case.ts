@@ -12,12 +12,15 @@ export async function deleteAppointmentUseCase(
 
   const appointment = await findAppointmentByIdUseCase(appointmentId);
 
-  if (appointment.package_id) {
+  if (appointment.packageId) {
     // TODO: move this to a dedicated use-case
     const packageRepository = new PackagesRepository();
     const packageToUpdate = await packageRepository.findById(
-      appointment.package_id,
+      appointment.packageId,
     );
+    if (!packageToUpdate) {
+      throw new Error('Package not found');
+    }
     packageToUpdate.remaining_sessions += 1;
     await packageRepository.updateRemainingSessions(packageToUpdate);
   }
