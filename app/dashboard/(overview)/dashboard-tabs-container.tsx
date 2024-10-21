@@ -1,8 +1,15 @@
 import { fetchAllAppointmentsByDate } from '@/app/lib/data/appointments';
+import { auth } from '@/auth';
 import { DashboardTabs } from './dashboard-tabs';
 
 export async function DashboardTabsContainer() {
-  const [upcomingAppointments] = await fetchDashboardTabsData();
+  const session = await auth();
+  if (!session?.user?.email) {
+    throw new Error('Unauthorized');
+  }
+  const [upcomingAppointments] = await fetchDashboardTabsData(
+    session.user.email,
+  );
   return (
     <DashboardTabs
       recentActivities={[]}
@@ -11,12 +18,15 @@ export async function DashboardTabsContainer() {
   );
 }
 
-async function fetchDashboardTabsData() {
+async function fetchDashboardTabsData(userEmail: string) {
   return Promise.all([
     fetchAllAppointmentsByDate(
-      getCurrentDay(),
-      getCurrentMonth(),
-      getCurrentYear(),
+      {
+        day: getCurrentDay(),
+        month: getCurrentMonth(),
+        year: getCurrentYear(),
+      },
+      userEmail,
     ),
   ]);
 }
