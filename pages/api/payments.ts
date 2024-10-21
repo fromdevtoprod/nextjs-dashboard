@@ -31,7 +31,8 @@ export default async function handler(
       packageId,
       status,
       method,
-    } = req.body as CreatePaymentPayload;
+      userEmail,
+    } = req.body;
 
     if (
       !amount ||
@@ -45,6 +46,10 @@ export default async function handler(
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
+    if (!userEmail) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
     const newPayment: CreatePaymentPayload = {
       amount,
       appointmentId,
@@ -56,7 +61,7 @@ export default async function handler(
     };
 
     try {
-      const createdPayment = await createPaymentUseCase(newPayment);
+      const createdPayment = await createPaymentUseCase(newPayment, userEmail);
       return res.status(201).json({
         message: 'Payment created successfully',
         createdPayment,
