@@ -59,7 +59,7 @@ export class PaymentsRepository implements IPaymentsRepository {
     });
   }
 
-  public async findAll(): Promise<any> {
+  public async findAll(userId: string): Promise<Payment[]> {
     return prisma.payment.findMany({
       include: {
         appointment: {
@@ -68,6 +68,9 @@ export class PaymentsRepository implements IPaymentsRepository {
           },
         },
         customer: true,
+      },
+      where: {
+        userId,
       },
     });
   }

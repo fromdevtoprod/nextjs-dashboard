@@ -3,12 +3,18 @@ import { fetchInvoiceById } from '@/app/lib/data/invoices';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import Form from '@/app/ui/invoices/edit-form';
 import { fetchAllCustomers } from '@/app/lib/data/customers';
+import { auth } from '@/auth';
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const session = await auth();
+  if (!session?.user?.email) {
+    throw new Error('Unauthorized');
+  }
+
   const { id } = params;
   const [invoice, customers] = await Promise.all([
     fetchInvoiceById(id),
-    fetchAllCustomers(),
+    fetchAllCustomers(session.user.email),
   ]);
 
   if (!invoice) {

@@ -21,6 +21,6 @@ export interface IPaymentsRepository {
   deletePayment(appointmentId: string): Promise<void>;
   deletePaymentByAppointmentId(appointmentId: string): Promise<void>;
   findById(id: string): Promise<Payment | null>;
-  findAll(): Promise<Payment[]>;
+  findAll(userId: string): Promise<Payment[]>;
   updatePayment(payload: UpdatePaymentPayload): Promise<Payment | null>;
 }

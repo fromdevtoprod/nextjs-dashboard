@@ -1,6 +1,10 @@
-import { Payment } from '@/src/entities/models/payment';
 import { PaymentsRepository } from '@/src/infrastructure/repositories/payments.repository';
+import { getUserIdUseCase } from '../users/get-user-id.use-case';
 
-export function findAllPaymentsUseCase(): Promise<Payment[]> {
-  return new PaymentsRepository().findAll();
+export async function findAllPaymentsUseCase(userEmail: string) {
+  const userId = await getUserIdUseCase(userEmail);
+  if (!userId) {
+    throw new Error('User not found');
+  }
+  return new PaymentsRepository().findAll(userId);
 }
