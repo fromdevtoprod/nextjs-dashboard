@@ -25,13 +25,17 @@ export class PackagesRepository implements IPackagesRepository {
     // return queryResult.rows[0].count;
   }
 
-  public async create(payload: CreatePackagePayload) {
+  public async create(
+    payload: CreatePackagePayload,
+    userId: string,
+  ): Promise<Package | null> {
     const startedPackage = prisma.package.create({
       data: {
         appointmentTypeId: payload.appointment_type_id,
         customerId: payload.customer_id,
         remaining_sessions: payload.remaining_sessions,
         start_date: new Date(payload.start_date),
+        userId,
       },
     });
     return this.findById((await startedPackage).id);
@@ -63,11 +67,14 @@ export class PackagesRepository implements IPackagesRepository {
     });
   }
 
-  public async findAll(): Promise<Package[]> {
+  public async findAll(userId: string): Promise<Package[]> {
     return prisma.package.findMany({
       include: {
         appointmentType: true,
         customer: true,
+      },
+      where: {
+        userId,
       },
     });
   }

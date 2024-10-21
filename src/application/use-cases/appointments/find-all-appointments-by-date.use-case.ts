@@ -10,6 +10,7 @@ export async function findAllAppointmentsByDateUseCase(
   if (!userId) {
     throw new Error('User not found');
   }
+
   return new AppointmentsRepository().findAllAppointmentsByDate(
     payload,
     userId,

@@ -4,11 +4,12 @@ import { findAllPackagesUseCase } from '@/src/application/use-cases/packages/fin
 import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Package } from '@/src/entities/models/package-model';
 
-export async function fetchAppointmentTypesBySessionCount(): Promise<
-  AppointmentType[]
-> {
+export async function fetchAppointmentTypesBySessionCount(
+  userEmail: string,
+): Promise<AppointmentType[]> {
   try {
-    const packageTypes = await findAppointmentTypesBySessionCountUseCase();
+    const packageTypes =
+      await findAppointmentTypesBySessionCountUseCase(userEmail);
     return packageTypes;
   } catch (err) {
     console.error(
@@ -19,9 +20,9 @@ export async function fetchAppointmentTypesBySessionCount(): Promise<
   }
 }
 
-export async function fetchAllPackages(): Promise<Package[]> {
+export async function fetchAllPackages(userEmail: string): Promise<Package[]> {
   try {
-    const packages = await findAllPackagesUseCase();
+    const packages = await findAllPackagesUseCase(userEmail);
     return packages;
   } catch (err) {
     console.error('fetchAllPackages >> findAllPackagesUseCase :', err);

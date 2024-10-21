@@ -1,6 +1,11 @@
-import { Package } from '@/src/entities/models/package-model';
 import { PackagesRepository } from '@/src/infrastructure/repositories/packages.repository';
+import { getUserIdUseCase } from '../users/get-user-id.use-case';
 
-export function findAllPackagesUseCase(): Promise<Package[]> {
-  return new PackagesRepository().findAll();
+export async function findAllPackagesUseCase(userEmail: string) {
+  const userId = await getUserIdUseCase(userEmail);
+  if (!userId) {
+    throw new Error('User not found');
+  }
+
+  return new PackagesRepository().findAll(userId);
 }

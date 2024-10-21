@@ -23,6 +23,9 @@ export interface IAppointmentTypesRepository {
   delete(id: string): Promise<void>;
   findAll(userId: string): Promise<AppointmentType[]>;
   findById(id: string): Promise<AppointmentType | null>;
-  findBySessionCountMin(sessionCountMin: number): Promise<AppointmentType[]>;
+  findBySessionCountMin(
+    sessionCountMin: number,
+    userId: string,
+  ): Promise<AppointmentType[]>;
   update(payload: UpdateAppointmentTypePayload): Promise<AppointmentType>;
 }

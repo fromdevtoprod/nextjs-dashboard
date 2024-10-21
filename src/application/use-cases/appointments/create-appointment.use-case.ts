@@ -52,12 +52,15 @@ export async function createAppointmentUseCase(
     }
   }
 
-  const startedPackage = await new PackagesRepository().create({
-    appointment_type_id: payload.appointment_type_id,
-    customer_id: payload.customer_id,
-    remaining_sessions: appointmentType.session_count - 1,
-    start_date: new Date(payload.date).toISOString(),
-  });
+  const startedPackage = await new PackagesRepository().create(
+    {
+      appointment_type_id: payload.appointment_type_id,
+      customer_id: payload.customer_id,
+      remaining_sessions: appointmentType.session_count - 1,
+      start_date: new Date(payload.date).toISOString(),
+    },
+    userId,
+  );
   const createdAppointment = await createAppointment(
     {
       ...payload,

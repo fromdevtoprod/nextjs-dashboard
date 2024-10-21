@@ -11,19 +11,19 @@ import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Toaster } from '@/components/ui/toaster';
 import { StartPackageDialog } from './start-package-dialog';
 import { PackageList } from './package-list';
-import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
 
 type PackageTypesContainerProps = {
   customers: Customer[];
   initialPackages: Package[];
   packageTypes: AppointmentType[];
+  userEmail: string;
 };
 
 export function PackageTypesContainer({
   customers,
   initialPackages,
   packageTypes,
+  userEmail,
 }: PackageTypesContainerProps) {
   const t = useTranslations('Packages');
 
@@ -77,6 +77,7 @@ export function PackageTypesContainer({
             customers={customers}
             isOpen={isAddingPackage}
             packageTypes={packageTypes}
+            userEmail={userEmail}
             onOpenChange={setIsAddingPackage}
             onDialogSubmit={handleAddPackage}
           />

@@ -31,6 +31,7 @@ type StartPackageDialogProps = {
   customers: Customer[];
   isOpen: boolean;
   packageTypes: any[];
+  userEmail: string;
   onOpenChange: (open: boolean) => void;
   onDialogSubmit: (newPackage: Package) => void;
 };
@@ -39,6 +40,7 @@ export function StartPackageDialog({
   customers,
   isOpen,
   packageTypes,
+  userEmail,
   onOpenChange,
   onDialogSubmit,
 }: StartPackageDialogProps) {
@@ -67,7 +69,7 @@ export function StartPackageDialog({
     } as CreatePackagePayload;
 
     try {
-      const { createdPackage } = await startPackage(newPackage);
+      const { createdPackage } = await startPackage(newPackage, userEmail);
       onDialogSubmit(createdPackage);
     } catch (error) {
       console.error(error);

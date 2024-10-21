@@ -13,8 +13,13 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    const { appointment_type_id, customer_id, remaining_sessions, start_date } =
-      req.body;
+    const {
+      appointment_type_id,
+      customer_id,
+      remaining_sessions,
+      start_date,
+      userEmail,
+    } = req.body;
 
     if (
       !appointment_type_id ||
@@ -25,6 +30,10 @@ export default async function handler(
       return res.status(400).json({ message: 'All fields are required.' });
     }
 
+    if (!userEmail) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+
     const startedPackage: CreatePackagePayload = {
       appointment_type_id,
       customer_id,
@@ -33,7 +42,10 @@ export default async function handler(
     };
 
     try {
-      const createdPackage = await createPackageUseCase(startedPackage);
+      const createdPackage = await createPackageUseCase(
+        startedPackage,
+        userEmail,
+      );
 
       return res.status(201).json({
         message: 'Package started successfully',

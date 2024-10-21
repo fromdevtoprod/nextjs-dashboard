@@ -52,12 +52,14 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
 
   public async findBySessionCountMin(
     sessionCountMin: number,
+    userId: string,
   ): Promise<AppointmentType[]> {
     return prisma.appointmentType.findMany({
       where: {
         session_count: {
           gte: sessionCountMin,
         },
+        userId,
       },
     });
   }

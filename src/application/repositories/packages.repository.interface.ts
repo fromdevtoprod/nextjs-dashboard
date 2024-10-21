@@ -11,11 +11,14 @@ export type UpdatePackagePayload = { id: string; remaining_sessions: number };
 
 export interface IPackagesRepository {
   countCompletedSessions(): Promise<number>;
-  create(payload: CreatePackagePayload): Promise<any>;
+  create(
+    payload: CreatePackagePayload,
+    userId: string,
+  ): Promise<Package | null>;
   delete(id: string): Promise<void>;
   deleteByAppointmentTypeId(appointmentTypeId: string): Promise<void>;
   deleteByCustomerId(customerId: string): Promise<void>;
-  findAll(): Promise<Package[]>;
+  findAll(userId: string): Promise<Package[]>;
   findAllUncompletedPackages(): Promise<Package[]>;
   findById(id: string): Promise<any>;
   findExistingPackage(
