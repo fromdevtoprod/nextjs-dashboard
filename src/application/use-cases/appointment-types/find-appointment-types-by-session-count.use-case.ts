@@ -5,9 +5,5 @@ export async function findAppointmentTypesBySessionCountUseCase(
   userEmail: string,
 ) {
   const userId = await getUserIdUseCase(userEmail);
-  if (!userId) {
-    throw new Error('User not found');
-  }
-
   return new AppointmentTypesRepository().findBySessionCountMin(2, userId);
 }

@@ -7,8 +7,5 @@ export async function createPackageUseCase(
   userEmail: string,
 ) {
   const userId = await getUserIdUseCase(userEmail);
-  if (!userId) {
-    throw new Error('User not found');
-  }
   return new PackagesRepository().create(payload, userId);
 }

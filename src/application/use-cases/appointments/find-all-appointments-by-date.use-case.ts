@@ -7,10 +7,6 @@ export async function findAllAppointmentsByDateUseCase(
   userEmail: string,
 ) {
   const userId = await getUserIdUseCase(userEmail);
-  if (!userId) {
-    throw new Error('User not found');
-  }
-
   return new AppointmentsRepository().findAllAppointmentsByDate(
     payload,
     userId,

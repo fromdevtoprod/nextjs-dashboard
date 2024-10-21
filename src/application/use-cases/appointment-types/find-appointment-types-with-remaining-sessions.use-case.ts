@@ -3,7 +3,6 @@ import { Customer } from '@/src/entities/models/customer';
 import { Package } from '@/src/entities/models/package-model';
 import { findAllAppointmentTypesUseCase } from './find-all-appointment-types.use-case';
 import { findAllUncompletedPackagesUseCase } from '../packages/find-all-uncompleted-packages.use-case';
-import { getUserIdUseCase } from '../users/get-user-id.use-case';
 
 export type AppointmentTypesWithRemainingSessions = {
   customerId: string;
@@ -26,11 +25,6 @@ export async function findAppointmentTypesWithRemainingSessionsUseCase(
   clients: Customer[],
   userEmail: string,
 ): Promise<AppointmentTypesWithRemainingSessions[]> {
-  const userId = await getUserIdUseCase(userEmail);
-  if (!userId) {
-    throw new Error('User not found');
-  }
-
   const allAppointmentTypes = addPackageLabelInAppointmentTypes(
     await findAllAppointmentTypesUseCase(userEmail),
   );

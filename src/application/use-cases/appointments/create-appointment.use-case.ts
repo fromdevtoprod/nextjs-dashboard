@@ -10,9 +10,6 @@ export async function createAppointmentUseCase(
   userEmail: string,
 ): Promise<any> {
   const userId = await getUserIdUseCase(userEmail);
-  if (!userId) {
-    throw new Error('User not found');
-  }
 
   if (!payload.is_package) {
     const createdAppointment = await createAppointment(payload, userId);

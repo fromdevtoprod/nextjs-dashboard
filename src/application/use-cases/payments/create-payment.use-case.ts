@@ -7,8 +7,5 @@ export async function createPaymentUseCase(
   userEmail: string,
 ) {
   const userId = await getUserIdUseCase(userEmail);
-  if (!userId) {
-    throw new Error('User not found');
-  }
   return new PaymentsRepository().create(payload, userId);
 }
