@@ -8,11 +8,13 @@ import { AddAppointmentDialog } from './add-appointment-dialog';
 
 type AppointmentsHeaderProps = {
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
+  userEmail: string;
   onAddAppointment: (createdAppointment: Appointment) => void;
 };
 
 export function AppointmentsHeader({
   appointmentTypes,
+  userEmail,
   onAddAppointment,
 }: AppointmentsHeaderProps) {
   const t = useTranslations('Appointments');
@@ -29,6 +31,7 @@ export function AppointmentsHeader({
       <AddAppointmentDialog
         appointmentTypes={appointmentTypes}
         isOpened={isAddingAppointment}
+        userEmail={userEmail}
         onOpenChange={setIsAddingAppointment}
         onDialogSubmit={handleDialogSubmit}
       />

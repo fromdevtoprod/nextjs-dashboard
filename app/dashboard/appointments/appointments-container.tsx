@@ -15,6 +15,7 @@ type AppointmentsContainerProps = {
   activeYear: number;
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
   initialAppointments: Appointment[];
+  userEmail: string;
 };
 
 export function AppointmentsContainer({
@@ -23,6 +24,7 @@ export function AppointmentsContainer({
   activeYear,
   appointmentTypes,
   initialAppointments,
+  userEmail,
 }: AppointmentsContainerProps) {
   const [upcomingAppointments, setUpcomingAppointments] =
     useState<Appointment[]>(initialAppointments);
@@ -79,6 +81,7 @@ export function AppointmentsContainer({
     <main className="flex-1 overflow-y-auto p-4 md:p-8">
       <AppointmentsHeader
         appointmentTypes={appointmentTypes}
+        userEmail={userEmail}
         onAddAppointment={handleAddAppointment}
       />
 

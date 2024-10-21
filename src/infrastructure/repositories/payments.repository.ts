@@ -7,7 +7,10 @@ import { Payment } from '@/src/entities/models/payment';
 import { prisma } from '@/prisma';
 
 export class PaymentsRepository implements IPaymentsRepository {
-  public async create(payload: CreatePaymentPayload): Promise<any> {
+  public async create(
+    payload: CreatePaymentPayload,
+    userId: string,
+  ): Promise<Payment> {
     return prisma.payment.create({
       data: {
         amount: parseInt(payload.amount, 10),
@@ -17,6 +20,7 @@ export class PaymentsRepository implements IPaymentsRepository {
         packageId: payload.packageId,
         status: payload.status,
         method: payload.method,
+        userId,
       },
     });
   }

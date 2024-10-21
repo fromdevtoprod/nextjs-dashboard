@@ -1,9 +1,17 @@
 import { FindAllAppointmentsByDatePayload } from '@/src/application/repositories/appointments.repository.interface';
-import { Appointment } from '@/src/entities/models/appointment';
 import { AppointmentsRepository } from '@/src/infrastructure/repositories/appointments.repository';
+import { getUserIdUseCase } from '../users/get-user-id.use-case';
 
 export async function findAllAppointmentsByDateUseCase(
   payload: FindAllAppointmentsByDatePayload,
-): Promise<Appointment[]> {
-  return new AppointmentsRepository().findAllAppointmentsByDate(payload);
+  userEmail: string,
+) {
+  const userId = await getUserIdUseCase(userEmail);
+  if (!userId) {
+    throw new Error('User not found');
+  }
+  return new AppointmentsRepository().findAllAppointmentsByDate(
+    payload,
+    userId,
+  );
 }

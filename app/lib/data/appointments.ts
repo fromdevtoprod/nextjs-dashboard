@@ -4,6 +4,12 @@ import { findAllAppointmentsByClientUseCase } from '@/src/application/use-cases/
 import { findAllAppointmentsByDateUseCase } from '@/src/application/use-cases/appointments/find-all-appointments-by-date.use-case';
 import { Appointment } from '@/src/entities/models/appointment';
 
+type FetchAllAppointmentsParameters = {
+  day: number;
+  month: number;
+  year: number;
+};
+
 export async function fetchAllAppointmentsByClient(
   clientId: string,
 ): Promise<Appointment[]> {
@@ -21,16 +27,18 @@ export async function fetchAllAppointmentsByClient(
 }
 
 export async function fetchAllAppointmentsByDate(
-  day: number,
-  month: number,
-  year: number,
+  { day, month, year }: FetchAllAppointmentsParameters,
+  userEmail: string,
 ): Promise<Appointment[]> {
   try {
-    const appointmentsByDate = await findAllAppointmentsByDateUseCase({
-      day,
-      month,
-      year,
-    });
+    const appointmentsByDate = await findAllAppointmentsByDateUseCase(
+      {
+        day,
+        month,
+        year,
+      },
+      userEmail,
+    );
     return appointmentsByDate;
   } catch (error) {
     console.error(

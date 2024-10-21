@@ -1,6 +1,7 @@
 import { fetchAllCustomers } from '@/app/lib/data/customers';
 import { fetchAppointmentTypesWithRemainingSessions } from '@/app/lib/data/appointment-types';
 import { fetchAllAppointmentsByDate } from '@/app/lib/data/appointments';
+import { auth } from '@/auth';
 import { AppointmentsContainer } from './appointments-container';
 
 export default async function AppointmentsPage({
@@ -11,12 +12,24 @@ export default async function AppointmentsPage({
   const activeDay = getActiveDay(searchParams.day);
   const activeMonth = getActiveMonth(searchParams.month);
   const activeYear = getActiveYear(searchParams.year);
+
+  const session = await auth();
+  if (!session?.user?.email) {
+    throw new Error('Unauthorized');
+  }
+
   const [clients, appointmentsByDate] = await Promise.all([
-    fetchAllCustomers(),
-    fetchAllAppointmentsByDate(activeDay, activeMonth, activeYear),
+    fetchAllCustomers(session.user.email),
+    fetchAllAppointmentsByDate(
+      { day: activeDay, month: activeMonth, year: activeYear },
+      session.user.email,
+    ),
   ]);
-  const appointmentTypes =
-    await fetchAppointmentTypesWithRemainingSessions(clients);
+  const appointmentTypes = await fetchAppointmentTypesWithRemainingSessions(
+    clients,
+    session.user.email,
+  );
+
   return (
     <AppointmentsContainer
       activeDay={activeDay}
@@ -24,6 +37,7 @@ export default async function AppointmentsPage({
       activeYear={activeYear}
       appointmentTypes={appointmentTypes}
       initialAppointments={appointmentsByDate}
+      userEmail={session.user.email}
     />
   );
 }

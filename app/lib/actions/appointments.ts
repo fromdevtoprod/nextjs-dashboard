@@ -3,11 +3,14 @@ import { CreateAppointmentPayload } from '@/src/application/repositories/appoint
 
 const URL = '/api/appointments';
 
-export async function createAppointment(payload: CreateAppointmentPayload) {
+export async function createAppointment(
+  payload: CreateAppointmentPayload,
+  userEmail: string,
+) {
   const headers = getRequestHeaders('POST');
   const response = await fetch(URL, {
     ...headers,
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ ...payload, userEmail }),
   });
   if (!response.ok) {
     throw new Error('Failed to create appointment');

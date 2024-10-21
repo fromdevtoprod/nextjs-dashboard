@@ -17,7 +17,7 @@ export type UpdatePaymentPayload = {
 };
 
 export interface IPaymentsRepository {
-  create(payload: CreatePaymentPayload): Promise<any>;
+  create(payload: CreatePaymentPayload, userId: string): Promise<any>;
   deletePayment(appointmentId: string): Promise<void>;
   deletePaymentByAppointmentId(appointmentId: string): Promise<void>;
   findById(id: string): Promise<Payment | null>;

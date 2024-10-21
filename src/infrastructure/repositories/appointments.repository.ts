@@ -37,6 +37,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
 
   public async createAppointment(
     payload: CreateAppointmentPayload,
+    userId: string,
   ): Promise<Appointment | null> {
     const createdAppointment = await prisma.appointment.create({
       data: {
@@ -44,6 +45,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
         customerId: payload.customer_id,
         date: new Date(payload.date),
         packageId: payload.package_id,
+        userId,
       },
     });
     return this.findAppointmentById(createdAppointment.id);
@@ -102,11 +104,10 @@ export class AppointmentsRepository implements IAppointmentsRepository {
     });
   }
 
-  public async findAllAppointmentsByDate({
-    day,
-    month,
-    year,
-  }: FindAllAppointmentsByDatePayload): Promise<Appointment[]> {
+  public async findAllAppointmentsByDate(
+    { day, month, year }: FindAllAppointmentsByDatePayload,
+    userId: string,
+  ): Promise<Appointment[]> {
     return prisma.appointment.findMany({
       include: {
         appointmentType: true,
@@ -119,6 +120,7 @@ export class AppointmentsRepository implements IAppointmentsRepository {
           lte: new Date(`${year}-${month}-${day} 23:59:59`),
           gte: new Date(`${year}-${month}-${day} 00:00:00`),
         },
+        userId,
       },
     });
   }

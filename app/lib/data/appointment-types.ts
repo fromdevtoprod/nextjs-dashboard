@@ -23,10 +23,14 @@ export async function fetchAllAppointmentTypes(
 
 export async function fetchAppointmentTypesWithRemainingSessions(
   customers: Customer[],
+  userEmail: string,
 ): Promise<AppointmentTypesWithRemainingSessions[]> {
   try {
     const appointmentTypesWithRemainingSessions =
-      await findAppointmentTypesWithRemainingSessionsUseCase(customers);
+      await findAppointmentTypesWithRemainingSessionsUseCase(
+        customers,
+        userEmail,
+      );
     return appointmentTypesWithRemainingSessions;
   } catch (err) {
     console.error(

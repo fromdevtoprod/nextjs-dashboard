@@ -22,6 +22,7 @@ export default async function handler(
       package_id,
       payment,
       time,
+      userEmail,
     } = req.body;
 
     if (
@@ -33,6 +34,10 @@ export default async function handler(
       !time
     ) {
       return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (!userEmail) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const newAppointment: CreateAppointmentPayload = {
@@ -48,7 +53,10 @@ export default async function handler(
     };
 
     try {
-      const createdAppointment = await createAppointmentUseCase(newAppointment);
+      const createdAppointment = await createAppointmentUseCase(
+        newAppointment,
+        userEmail,
+      );
       return res.status(201).json({
         message: 'Appointment created successfully',
         createdAppointment,

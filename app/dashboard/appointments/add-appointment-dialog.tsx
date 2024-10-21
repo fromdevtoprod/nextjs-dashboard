@@ -36,6 +36,7 @@ import { SelectPaymentStatus } from '@/app/ui/selects/select-payment-status';
 type AddAppointmentDialogProps = {
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
   isOpened: boolean;
+  userEmail: string;
   onDialogSubmit: (createdAppointment: Appointment) => void;
   onOpenChange: (isOpened: boolean) => void;
 };
@@ -43,6 +44,7 @@ type AddAppointmentDialogProps = {
 export function AddAppointmentDialog({
   appointmentTypes,
   isOpened,
+  userEmail,
   onDialogSubmit,
   onOpenChange,
 }: AddAppointmentDialogProps) {
@@ -85,6 +87,7 @@ export function AddAppointmentDialog({
       setIsLoading(true);
       const { createdAppointment } = await createAppointment(
         createAppointmentPayload,
+        userEmail,
       );
       onDialogSubmit(createdAppointment);
     } catch (error) {

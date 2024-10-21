@@ -28,6 +28,7 @@ export interface IAppointmentsRepository {
   countAllUpcomingAppointments(): Promise<number>;
   createAppointment(
     payload: CreateAppointmentPayload,
+    userId: string,
   ): Promise<Appointment | null>;
   deleteAppointment(id: string): Promise<void>;
   deleteByAppointmentTypeId(appointmentTypeId: string): Promise<void>;
@@ -36,6 +37,7 @@ export interface IAppointmentsRepository {
   findAllAppointmentsByCustomer(customerId: string): Promise<Appointment[]>;
   findAllAppointmentsByDate(
     payload: FindAllAppointmentsByDatePayload,
+    userId: string,
   ): Promise<Appointment[]>;
   findAppointmentById(id: string): Promise<Appointment | null>;
 }
