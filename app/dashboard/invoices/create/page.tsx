@@ -1,9 +1,11 @@
+import { getUserEmail } from '@/app/lib/auth-utils';
 import { fetchAllCustomers } from '@/app/lib/data/customers';
 import Breadcrumbs from '@/app/ui/breadcrumbs';
 import Form from '@/app/ui/invoices/create-form';
 
 export default async function Page() {
-  const customers = await fetchAllCustomers();
+  const userEmail = await getUserEmail();
+  const customers = await fetchAllCustomers(userEmail);
   return (
     <main>
       <Breadcrumbs
