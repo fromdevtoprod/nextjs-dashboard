@@ -1,7 +1,7 @@
 import { fetchAllCustomers } from '@/app/lib/data/customers';
 import { fetchAppointmentTypesWithRemainingSessions } from '@/app/lib/data/appointment-types';
 import { fetchAllAppointmentsByDate } from '@/app/lib/data/appointments';
-import { auth } from '@/auth';
+import { getUserEmail } from '@/app/lib/auth-utils';
 import { AppointmentsContainer } from './appointments-container';
 
 export default async function AppointmentsPage({
@@ -9,25 +9,21 @@ export default async function AppointmentsPage({
 }: {
   searchParams: { day?: string; month?: string; year?: string };
 }) {
+  const userEmail = await getUserEmail();
   const activeDay = getActiveDay(searchParams.day);
   const activeMonth = getActiveMonth(searchParams.month);
   const activeYear = getActiveYear(searchParams.year);
 
-  const session = await auth();
-  if (!session?.user?.email) {
-    throw new Error('Unauthorized');
-  }
-
   const [clients, appointmentsByDate] = await Promise.all([
-    fetchAllCustomers(session.user.email),
+    fetchAllCustomers(userEmail),
     fetchAllAppointmentsByDate(
       { day: activeDay, month: activeMonth, year: activeYear },
-      session.user.email,
+      userEmail,
     ),
   ]);
   const appointmentTypes = await fetchAppointmentTypesWithRemainingSessions(
     clients,
-    session.user.email,
+    userEmail,
   );
 
   return (
@@ -37,7 +33,7 @@ export default async function AppointmentsPage({
       activeYear={activeYear}
       appointmentTypes={appointmentTypes}
       initialAppointments={appointmentsByDate}
-      userEmail={session.user.email}
+      userEmail={userEmail}
     />
   );
 }

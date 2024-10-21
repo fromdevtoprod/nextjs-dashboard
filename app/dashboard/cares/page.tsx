@@ -1,17 +1,14 @@
-import { auth } from '@/auth';
 import { fetchAllAppointmentTypes } from '@/app/lib/data/appointment-types';
+import { getUserEmail } from '@/app/lib/auth-utils';
 import { AppointmentTypesContainer } from './appointment-types-container';
 
 export default async function AppointmentTypesPage() {
-  const session = await auth();
-  if (!session?.user?.email) {
-    throw new Error('Unauthorized');
-  }
-  const appointmentTypes = await fetchAllAppointmentTypes(session.user.email);
+  const userEmail = await getUserEmail();
+  const appointmentTypes = await fetchAllAppointmentTypes(userEmail);
   return (
     <AppointmentTypesContainer
       initialAppointmentTypes={appointmentTypes}
-      userEmail={session.user.email}
+      userEmail={userEmail}
     />
   );
 }

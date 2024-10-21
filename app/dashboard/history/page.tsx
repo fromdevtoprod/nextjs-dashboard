@@ -1,20 +1,16 @@
 import { fetchAllCustomers } from '@/app/lib/data/customers';
+import { getUserEmail } from '@/app/lib/auth-utils';
 import { CustomerHistory } from './customer-history';
 import { SelectCustomer } from './select-customer';
 import { HistoryHeader } from './history-header';
-import { auth } from '@/auth';
 
 export default async function CustomerHistoryPage({
   searchParams,
 }: {
   searchParams: { customerId?: string };
 }) {
-  const session = await auth();
-  if (!session?.user?.email) {
-    throw new Error('Unauthorized');
-  }
-
-  const customers = await fetchAllCustomers(session.user.email);
+  const userEmail = await getUserEmail();
+  const customers = await fetchAllCustomers(userEmail);
   const { customerId } = searchParams;
   const selectedCustomer = customers.find(
     (customer) => customer.id === customerId,

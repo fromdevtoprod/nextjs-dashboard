@@ -1,17 +1,9 @@
 import { fetchAllCustomers } from '@/app/lib/data/customers';
-import { auth } from '@/auth';
+import { getUserEmail } from '@/app/lib/auth-utils';
 import { ClientsContainer } from './clients-container';
 
 export default async function ClientsPage() {
-  const session = await auth();
-  if (!session?.user?.email) {
-    throw new Error('Unauthorized');
-  }
-  const customers = await fetchAllCustomers(session.user.email);
-  return (
-    <ClientsContainer
-      initialClients={customers}
-      userEmail={session.user.email}
-    />
-  );
+  const userEmail = await getUserEmail();
+  const customers = await fetchAllCustomers(userEmail);
+  return <ClientsContainer initialClients={customers} userEmail={userEmail} />;
 }

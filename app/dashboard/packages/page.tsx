@@ -3,26 +3,28 @@ import {
   fetchAllPackages,
   fetchAppointmentTypesBySessionCount,
 } from '@/app/lib/data/packages';
+import { getUserEmail } from '@/app/lib/auth-utils';
 import { PackageTypesContainer } from './package-types-container';
-import { auth } from '@/auth';
 
 export default async function PackagesPage() {
-  const session = await auth();
-  if (!session?.user?.email) {
-    throw new Error('Unauthorized');
-  }
+  const userEmail = await getUserEmail();
 
-  const customers = await fetchAllCustomers(session.user.email);
-  const initialPackages = await fetchAllPackages(session.user.email);
-  const packageTypes = await fetchAppointmentTypesBySessionCount(
-    session.user.email,
-  );
+  const [customers, initialPackages, packageTypes] =
+    await fetchPackageData(userEmail);
   return (
     <PackageTypesContainer
       customers={customers}
       initialPackages={initialPackages}
       packageTypes={packageTypes}
-      userEmail={session.user.email}
+      userEmail={userEmail}
     />
   );
+}
+
+function fetchPackageData(userEmail: string) {
+  return Promise.all([
+    fetchAllCustomers(userEmail),
+    fetchAllPackages(userEmail),
+    fetchAppointmentTypesBySessionCount(userEmail),
+  ]);
 }
