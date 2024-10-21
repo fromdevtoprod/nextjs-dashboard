@@ -9,6 +9,7 @@ import { prisma } from '@/prisma';
 export class AppointmentTypesRepository implements IAppointmentTypesRepository {
   public async create(
     payload: CreatedAppointmentTypePayload,
+    userId: string,
   ): Promise<AppointmentType> {
     return prisma.appointmentType.create({
       data: {
@@ -16,6 +17,11 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
         name: payload.name,
         price: payload.price,
         session_count: payload.sessionCount,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
   }
@@ -28,8 +34,12 @@ export class AppointmentTypesRepository implements IAppointmentTypesRepository {
     });
   }
 
-  public async findAll(): Promise<AppointmentType[]> {
-    return prisma.appointmentType.findMany();
+  public async findAll(userId: string): Promise<AppointmentType[]> {
+    return prisma.appointmentType.findMany({
+      where: {
+        userId,
+      },
+    });
   }
 
   public async findById(id: string): Promise<AppointmentType | null> {

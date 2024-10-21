@@ -23,12 +23,14 @@ import { getAppointmentTypePayload } from './helpers';
 
 type AppointmentTypesPageProps = {
   isOpen: boolean;
+  userEmail: string;
   onOpenChange: (open: boolean) => void;
   onDialogSubmit: (newAppointmentType: AppointmentType) => void;
 };
 
 export function AddAppointmentTypeDialog({
   isOpen,
+  userEmail,
   onOpenChange,
   onDialogSubmit,
 }: AppointmentTypesPageProps) {
@@ -47,8 +49,10 @@ export function AddAppointmentTypeDialog({
     const newAppointmentType = getAppointmentTypePayload(formData);
 
     try {
-      const { createdAppointmentType } =
-        await createAppointmentType(newAppointmentType);
+      const { createdAppointmentType } = await createAppointmentType(
+        newAppointmentType,
+        userEmail,
+      );
       onDialogSubmit(createdAppointmentType);
     } catch (error) {
       console.error(error);

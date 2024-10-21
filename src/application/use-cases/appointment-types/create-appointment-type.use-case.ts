@@ -1,10 +1,14 @@
 import { AppointmentTypesRepository } from '@/src/infrastructure/repositories/appointment-types.repository';
 import { CreatedAppointmentTypePayload } from '../../repositories/appointment-types.repository.interface';
-
-const appointmentTypesRepository = new AppointmentTypesRepository();
+import { getUserIdUseCase } from '../users/get-user-id.use-case';
 
 export async function createAppointmentTypeUseCase(
   payload: CreatedAppointmentTypePayload,
+  userEmail: string,
 ) {
-  return appointmentTypesRepository.create(payload);
+  const userId = await getUserIdUseCase(userEmail);
+  if (!userId) {
+    throw new Error('User not found');
+  }
+  return new AppointmentTypesRepository().create(payload, userId);
 }

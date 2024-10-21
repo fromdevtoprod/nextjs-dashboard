@@ -1,6 +1,10 @@
-import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { AppointmentTypesRepository } from '@/src/infrastructure/repositories/appointment-types.repository';
+import { getUserIdUseCase } from '../users/get-user-id.use-case';
 
-export function findAllAppointmentTypesUseCase(): Promise<AppointmentType[]> {
-  return new AppointmentTypesRepository().findAll();
+export async function findAllAppointmentTypesUseCase(userEmail: string) {
+  const userId = await getUserIdUseCase(userEmail);
+  if (!userId) {
+    throw new Error('User not found');
+  }
+  return new AppointmentTypesRepository().findAll(userId);
 }

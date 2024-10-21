@@ -23,11 +23,12 @@ export async function deleteAppointmentType(appointmentTypeId: string) {
 
 export async function createAppointmentType(
   newAppointmentType: CreatedAppointmentTypePayload,
+  userEmail: string,
 ) {
   const headers = getRequestHeaders('POST');
   const response = await fetch(URL, {
     ...headers,
-    body: JSON.stringify(newAppointmentType),
+    body: JSON.stringify({ ...newAppointmentType, userEmail }),
   });
   if (!response.ok) {
     throw new Error('Failed to add appointment type');

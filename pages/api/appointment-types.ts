@@ -23,10 +23,14 @@ export default async function handler(
   res: NextApiResponse,
 ) {
   if (req.method === 'POST') {
-    const { name, price, duration, sessionCount } = req.body;
+    const { name, price, duration, sessionCount, userEmail } = req.body;
 
     if (!name || !price || !duration || !sessionCount) {
       return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (!userEmail) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const newAppointmentType: CreatedAppointmentTypePayload = {
@@ -37,8 +41,10 @@ export default async function handler(
     };
 
     try {
-      const createdAppointmentType =
-        await createAppointmentTypeUseCase(newAppointmentType);
+      const createdAppointmentType = await createAppointmentTypeUseCase(
+        newAppointmentType,
+        userEmail,
+      );
 
       return res.status(201).json({
         message: 'Appointment type created successfully',

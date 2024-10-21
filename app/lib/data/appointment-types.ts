@@ -6,9 +6,11 @@ import {
 import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { Customer } from '@/src/entities/models/customer';
 
-export async function fetchAllAppointmentTypes(): Promise<AppointmentType[]> {
+export async function fetchAllAppointmentTypes(
+  userEmail: string,
+): Promise<AppointmentType[]> {
   try {
-    const appointmentTypes = await findAllAppointmentTypesUseCase();
+    const appointmentTypes = await findAllAppointmentTypesUseCase(userEmail);
     return appointmentTypes;
   } catch (err) {
     console.error(

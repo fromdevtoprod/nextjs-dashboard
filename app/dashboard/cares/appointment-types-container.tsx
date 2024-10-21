@@ -10,10 +10,12 @@ import { AppointmentTypesList } from './appointment-types-list';
 
 type AppointmentTypesContainerProps = {
   initialAppointmentTypes: AppointmentType[];
+  userEmail: string;
 };
 
 export function AppointmentTypesContainer({
   initialAppointmentTypes,
+  userEmail,
 }: AppointmentTypesContainerProps) {
   const t = useTranslations('Cares');
 
@@ -52,6 +54,7 @@ export function AppointmentTypesContainer({
             isOpen={isAddingType}
             onOpenChange={() => setIsAddingType(!isAddingType)}
             onDialogSubmit={handleAddType}
+            userEmail={userEmail}
           />
         </div>
 

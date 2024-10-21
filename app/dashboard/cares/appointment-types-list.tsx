@@ -1,12 +1,5 @@
 import { useTranslations } from 'next-intl';
-import {
-  DollarSign,
-  HandHeart,
-  Package,
-  PencilLine,
-  RefreshCcw,
-  Timer,
-} from 'lucide-react';
+import { HandHeart, Package, RefreshCcw, Timer } from 'lucide-react';
 import { AppointmentType } from '@/src/entities/models/appointment-types';
 import {
   Card,
@@ -60,10 +53,7 @@ export function AppointmentTypesList({
             {appointmentTypes.map((type) => (
               <TableRow key={type.id}>
                 <TableCell className="font-medium">
-                  <div className="flex items-center">
-                    <PencilLine className="mr-2 h-4 w-4 self-center" />
-                    {type.name}
-                  </div>
+                  <div className="flex items-center">{type.name}</div>
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center">

@@ -16,9 +16,12 @@ export type UpdateAppointmentTypePayload = {
 };
 
 export interface IAppointmentTypesRepository {
-  create(payload: CreatedAppointmentTypePayload): Promise<AppointmentType>;
+  create(
+    payload: CreatedAppointmentTypePayload,
+    userId: string,
+  ): Promise<AppointmentType>;
   delete(id: string): Promise<void>;
-  findAll(): Promise<AppointmentType[]>;
+  findAll(userId: string): Promise<AppointmentType[]>;
   findById(id: string): Promise<AppointmentType | null>;
   findBySessionCountMin(sessionCountMin: number): Promise<AppointmentType[]>;
   update(payload: UpdateAppointmentTypePayload): Promise<AppointmentType>;
