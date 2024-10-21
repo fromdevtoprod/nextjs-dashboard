@@ -190,8 +190,8 @@
         "title": "Completed Packages (last 30 days)"
       }
     },
-    "subtitle": "Here's what's happening with your business today",
-    "title": "Welcome back, {name} 👋",
+    "subtitle": "Here is a summary of your business activity.",
+    "title": "Welcome, {name} 👋",
     "upcomingAppointments": "Upcoming Appointments"
   },
   "History": {

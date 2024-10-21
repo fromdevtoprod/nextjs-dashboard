@@ -1,15 +1,14 @@
 import { fetchAllAppointmentsByDate } from '@/app/lib/data/appointments';
-import { auth } from '@/auth';
 import { DashboardTabs } from './dashboard-tabs';
 
-export async function DashboardTabsContainer() {
-  const session = await auth();
-  if (!session?.user?.email) {
-    throw new Error('Unauthorized');
-  }
-  const [upcomingAppointments] = await fetchDashboardTabsData(
-    session.user.email,
-  );
+type DashboardTabsContainerProps = {
+  userEmail: string;
+};
+
+export async function DashboardTabsContainer({
+  userEmail,
+}: DashboardTabsContainerProps) {
+  const [upcomingAppointments] = await fetchDashboardTabsData(userEmail);
   return (
     <DashboardTabs
       recentActivities={[]}

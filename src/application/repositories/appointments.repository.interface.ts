@@ -24,8 +24,8 @@ export type CountAppointmentsByCareIdPayload = {
 };
 
 export interface IAppointmentsRepository {
-  countLastYearAppointments(): Promise<number>;
-  countAllUpcomingAppointments(): Promise<number>;
+  countLastYearAppointments(userId: string): Promise<number>;
+  countAllUpcomingAppointments(userId: string): Promise<number>;
   createAppointment(
     payload: CreateAppointmentPayload,
     userId: string,

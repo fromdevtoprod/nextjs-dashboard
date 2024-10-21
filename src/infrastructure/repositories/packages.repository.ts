@@ -7,22 +7,16 @@ import { Package } from '@/src/entities/models/package-model';
 import { prisma } from '@/prisma';
 
 export class PackagesRepository implements IPackagesRepository {
-  public async countCompletedSessions(): Promise<number> {
+  public async countCompletedSessions(userId: string): Promise<number> {
     return prisma.package.count({
       where: {
         remaining_sessions: 0,
         start_date: {
           gte: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30),
         },
+        userId,
       },
     });
-    // const queryResult = await sql<{ count: number }>`
-    //   SELECT COUNT(*)
-    //   FROM packages
-    //   WHERE remaining_sessions = 0
-    //   AND start_date >= NOW() - INTERVAL '1 month'
-    // `;
-    // return queryResult.rows[0].count;
   }
 
   public async create(

@@ -14,9 +14,9 @@ export async function fetchAllCustomers(
   }
 }
 
-export async function countNewCustomers(): Promise<number> {
+export async function countNewCustomers(userEmail: string): Promise<number> {
   try {
-    const newCustomersCount = await countNewCustomersUseCase();
+    const newCustomersCount = await countNewCustomersUseCase(userEmail);
     return newCustomersCount;
   } catch (error) {
     console.error('countNewCustomers >> countNewCustomersUseCase', error);

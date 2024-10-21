@@ -10,7 +10,7 @@ export type CreatePackagePayload = {
 export type UpdatePackagePayload = { id: string; remaining_sessions: number };
 
 export interface IPackagesRepository {
-  countCompletedSessions(): Promise<number>;
+  countCompletedSessions(userId: string): Promise<number>;
   create(
     payload: CreatePackagePayload,
     userId: string,

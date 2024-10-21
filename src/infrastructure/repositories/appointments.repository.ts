@@ -8,29 +8,25 @@ import { PrismaClient } from '@prisma/client';
 import { prisma } from '@/prisma';
 
 export class AppointmentsRepository implements IAppointmentsRepository {
-  public async countLastYearAppointments(): Promise<number> {
+  public async countLastYearAppointments(userId: string): Promise<number> {
     return prisma.appointment.count({
       where: {
         date: {
           gte: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 365),
         },
+        userId,
       },
     });
-    // const queryResult = await sql<{ count: number }>`
-    //   SELECT COUNT(*)
-    //   FROM appointments
-    //   WHERE date >= NOW() - INTERVAL '1 year'
-    // `;
-    // return queryResult.rows[0].count;
   }
 
-  public async countAllUpcomingAppointments(): Promise<number> {
+  public async countAllUpcomingAppointments(userId: string): Promise<number> {
     const prisma = new PrismaClient();
     return prisma.appointment.count({
       where: {
         date: {
           gte: new Date(),
         },
+        userId,
       },
     });
   }

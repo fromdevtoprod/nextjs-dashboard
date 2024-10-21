@@ -14,7 +14,7 @@ export type CreateCustomerPayload = {
 export type UpdateCustomerPayload = CreateCustomerPayload & { id: string };
 
 export interface ICustomersRepository {
-  countNewCustomers(): Promise<number>;
+  countNewCustomers(userId: string): Promise<number>;
   createCustomer(
     payload: CreateCustomerPayload,
     userId: string,

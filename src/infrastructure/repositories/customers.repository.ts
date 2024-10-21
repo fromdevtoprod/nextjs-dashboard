@@ -7,12 +7,13 @@ import { Customer } from '@/src/entities/models/customer';
 import { prisma } from '@/prisma';
 
 export class CustomersRepository implements ICustomersRepository {
-  public async countNewCustomers(): Promise<number> {
+  public async countNewCustomers(userId: string): Promise<number> {
     return prisma.customer.count({
       where: {
         created_at: {
           gte: new Date(new Date().getTime() - 1000 * 60 * 60 * 24 * 30),
         },
+        userId,
       },
     });
   }

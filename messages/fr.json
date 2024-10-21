@@ -190,7 +190,7 @@
         "title": "Cures terminées (30 derniers jours)"
       }
     },
-    "subtitle": "Voici ce qui se passe avec votre entreprise aujourd'hui",
+    "subtitle": "Voici un aperçu de votre journée.",
     "title": "Bienvenue, {name} 👋",
     "upcomingAppointments": "Rendez-vous à venir"
   },

@@ -49,9 +49,9 @@ export async function fetchAllAppointmentsByDate(
   }
 }
 
-export async function countAllAppointments(): Promise<number> {
+export async function countAllAppointments(userEmail: string): Promise<number> {
   try {
-    const appointmentsCount = await countAllAppointmentsUseCase();
+    const appointmentsCount = await countAllAppointmentsUseCase(userEmail);
     return appointmentsCount;
   } catch (error) {
     console.error('countAllAppointments >> countAllAppointmentsUseCase', error);
@@ -59,10 +59,12 @@ export async function countAllAppointments(): Promise<number> {
   }
 }
 
-export async function countAllUpcomingAppointments(): Promise<number> {
+export async function countAllUpcomingAppointments(
+  userEmail: string,
+): Promise<number> {
   try {
     const upcomingAppointmentsCount =
-      await countAllUpcomingAppointmentsUseCase();
+      await countAllUpcomingAppointmentsUseCase(userEmail);
     return upcomingAppointmentsCount;
   } catch (error) {
     console.error(

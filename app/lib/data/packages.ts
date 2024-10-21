@@ -30,9 +30,11 @@ export async function fetchAllPackages(userEmail: string): Promise<Package[]> {
   }
 }
 
-export async function countCompletedSessions(): Promise<number> {
+export async function countCompletedSessions(
+  userEmail: string,
+): Promise<number> {
   try {
-    const completedSessions = await countCompletedSessionsUseCase();
+    const completedSessions = await countCompletedSessionsUseCase(userEmail);
     return completedSessions;
   } catch (err) {
     console.error(

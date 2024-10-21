@@ -6,13 +6,19 @@ import { countNewCustomers } from '@/app/lib/data/customers';
 import { countCompletedSessions } from '@/app/lib/data/packages';
 import { DashboardCards } from './dashboard-cards';
 
-export async function DashboardCardsContainer() {
+type DashboardCardsContainerProps = {
+  userEmail: string;
+};
+
+export async function DashboardCardsContainer({
+  userEmail,
+}: DashboardCardsContainerProps) {
   const [
     totalAppointmentsCount,
     upcomingAppointmentsCount,
     completedSessionsCount,
     newCustomersCount,
-  ] = await fetchDashboardCardsCounters();
+  ] = await fetchDashboardCardsCounters(userEmail);
   return (
     <DashboardCards
       completedSessionsCount={completedSessionsCount}
@@ -23,11 +29,11 @@ export async function DashboardCardsContainer() {
   );
 }
 
-async function fetchDashboardCardsCounters() {
+async function fetchDashboardCardsCounters(userEmail: string) {
   return Promise.all([
-    countAllAppointments(),
-    countAllUpcomingAppointments(),
-    countCompletedSessions(),
-    countNewCustomers(),
+    countAllAppointments(userEmail),
+    countAllUpcomingAppointments(userEmail),
+    countCompletedSessions(userEmail),
+    countNewCustomers(userEmail),
   ]);
 }
