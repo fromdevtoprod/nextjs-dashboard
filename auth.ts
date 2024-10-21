@@ -1,13 +1,10 @@
 import NextAuth from 'next-auth';
-// import { PrismaAdapter } from '@auth/prisma-adapter';
-// import { PrismaClient } from '@prisma/client';
+import { PrismaAdapter } from '@auth/prisma-adapter';
 import authConfig from './auth.config';
-
-// const prisma = new PrismaClient();
+import { prisma } from './prisma';
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
-  // disabling database adapter for now
-  // adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
   ...authConfig,
 });
