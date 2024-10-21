@@ -15,8 +15,11 @@ export type UpdateCustomerPayload = CreateCustomerPayload & { id: string };
 
 export interface ICustomersRepository {
   countNewCustomers(): Promise<number>;
-  createCustomer(payload: CreateCustomerPayload): Promise<Customer>;
+  createCustomer(
+    payload: CreateCustomerPayload,
+    userId: string,
+  ): Promise<Customer>;
   delete(id: string): Promise<void>;
-  findAll(): Promise<Customer[]>;
+  findAll(userId: string): Promise<Customer[]>;
   updateCustomer(payload: UpdateCustomerPayload): Promise<Customer>;
 }

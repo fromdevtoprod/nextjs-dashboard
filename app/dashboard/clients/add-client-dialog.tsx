@@ -19,15 +19,18 @@ import { Customer } from '@/src/entities/models/customer';
 import { createClient } from '@/app/lib/actions/customers';
 import { useToast } from '@/hooks/use-toast';
 import { updateCustomerController } from '@/src/interface-adapters/customers/update-customer.controller';
+import { auth } from '@/auth';
 
 type AddClientDialogProps = {
   isOpen: boolean;
+  userEmail: string;
   onDialogSubmit: (createdClient: Customer) => void;
   onOpenChange: (isOpen: boolean) => void;
 };
 
 export function AddClientDialog({
   isOpen,
+  userEmail,
   onDialogSubmit,
   onOpenChange,
 }: AddClientDialogProps) {
@@ -65,16 +68,19 @@ export function AddClientDialog({
     }
 
     try {
-      const { createdClient } = await createClient({
-        address: newClientPayload.address,
-        birthDate: newClientPayload.birthDate,
-        city: newClientPayload.city,
-        email: newClientPayload.email,
-        name: newClientPayload.name,
-        pathology: newClientPayload.pathology,
-        phone: newClientPayload.phone,
-        postalCode: newClientPayload.postalCode,
-      });
+      const { createdClient } = await createClient(
+        {
+          address: newClientPayload.address,
+          birthDate: newClientPayload.birthDate,
+          city: newClientPayload.city,
+          email: newClientPayload.email,
+          name: newClientPayload.name,
+          pathology: newClientPayload.pathology,
+          phone: newClientPayload.phone,
+          postalCode: newClientPayload.postalCode,
+        },
+        userEmail,
+      );
       onDialogSubmit(createdClient);
     } catch (error) {
       console.error(error);

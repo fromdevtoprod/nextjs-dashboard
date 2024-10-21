@@ -13,9 +13,13 @@ import { useTranslations } from 'next-intl';
 
 type ClientsContainerProps = {
   initialClients: Customer[];
+  userEmail: string;
 };
 
-export function ClientsContainer({ initialClients }: ClientsContainerProps) {
+export function ClientsContainer({
+  initialClients,
+  userEmail,
+}: ClientsContainerProps) {
   const t = useTranslations('Clients');
 
   const [clients, setClients] = useState<Customer[]>(initialClients);
@@ -59,6 +63,7 @@ export function ClientsContainer({ initialClients }: ClientsContainerProps) {
             isOpen={isAddingClient}
             onDialogSubmit={handleAddClient}
             onOpenChange={setIsAddingClient}
+            userEmail={userEmail}
           />
         </div>
 

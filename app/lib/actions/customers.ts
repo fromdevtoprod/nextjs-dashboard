@@ -18,11 +18,14 @@ export async function deleteClient(id: string) {
   return response.json();
 }
 
-export async function createClient(payload: CreateCustomerPayload) {
+export async function createClient(
+  payload: CreateCustomerPayload,
+  userEmail: string,
+) {
   const headers = getRequestHeaders('POST');
   const response = await fetch(URL, {
     ...headers,
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ ...payload, userEmail }),
   });
   if (!response.ok) {
     throw new Error('Failed to add client');

@@ -8,14 +8,15 @@ datasource db {
 }
 
 model AppointmentType {
-    id            String @id @default(cuid())
+    id            String        @id @default(cuid())
     duration      Int
-    name          String @db.VarChar(255)
+    name          String        @db.VarChar(255)
     price         Int
     session_count Int
-
-    appointments Appointment[]
-    packages     Package[]
+    userId        String        @map("user_id")
+    user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+    appointments  Appointment[]
+    packages      Package[]
 
     @@map("appointment_types")
 }
@@ -26,9 +27,11 @@ model Appointment {
     customerId        String          @map("customer_id")
     date              DateTime        @db.Timestamp(6)
     packageId         String?         @map("package_id")
+    userId            String          @map("user_id")
     appointmentType   AppointmentType @relation(fields: [appointmentTypeId], references: [id], onDelete: Cascade)
     customer          Customer        @relation(fields: [customerId], references: [id], onDelete: Cascade)
     package           Package?        @relation(fields: [packageId], references: [id], onDelete: Cascade)
+    user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     notes             Note[]
     payments          Payment[]
 
@@ -46,6 +49,8 @@ model Customer {
     address      String?
     city         String?       @db.VarChar(255)
     postal_code  String?       @db.VarChar(255)
+    userId       String        @map("user_id")
+    user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
     appointments Appointment[]
     packages     Package[]
     payments     Payment[]
@@ -76,8 +81,10 @@ model Package {
     customerId         String          @map("customer_id")
     remaining_sessions Int
     start_date         DateTime        @db.Timestamp(6)
+    userId             String          @map("user_id")
     appointmentType    AppointmentType @relation(fields: [appointmentTypeId], references: [id], onDelete: Cascade)
     customer           Customer        @relation(fields: [customerId], references: [id], onDelete: Cascade)
+    user               User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     appointments       Appointment[]
     payments           Payment[]
 
@@ -93,9 +100,11 @@ model Payment {
     method        String      @db.VarChar(255)
     packageId     String?     @map("package_id")
     status        String      @db.VarChar(255)
+    userId        String      @map("user_id")
     appointment   Appointment @relation(fields: [appointmentId], references: [id], onDelete: Cascade)
     customer      Customer    @relation(fields: [customerId], references: [id], onDelete: Cascade)
     package       Package?    @relation(fields: [packageId], references: [id], onDelete: Cascade)
+    user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@map("payments")
 }
@@ -135,13 +144,18 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime? @map("email_verified")
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id               String            @id @default(cuid())
+    name             String?
+    email            String?           @unique
+    emailVerified    DateTime?         @map("email_verified")
+    image            String?
+    accounts         Account[]
+    appointments     Appointment[]
+    appointmentTypes AppointmentType[]
+    customers        Customer[]
+    packages         Package[]
+    payments         Payment[]
+    sessions         Session[]
 
     @@map("users")
 }

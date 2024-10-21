@@ -19,6 +19,7 @@ export class CustomersRepository implements ICustomersRepository {
 
   public async createCustomer(
     payload: CreateCustomerPayload,
+    userId: string,
   ): Promise<Customer> {
     return prisma.customer.create({
       data: {
@@ -30,6 +31,11 @@ export class CustomersRepository implements ICustomersRepository {
         pathology: payload.pathology,
         phone: payload.phone,
         postal_code: payload.postalCode,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
   }
@@ -42,8 +48,12 @@ export class CustomersRepository implements ICustomersRepository {
     });
   }
 
-  public async findAll(): Promise<Customer[]> {
-    return prisma.customer.findMany();
+  public async findAll(userId: string): Promise<Customer[]> {
+    return prisma.customer.findMany({
+      where: {
+        userId,
+      },
+    });
   }
 
   public async updateCustomer(

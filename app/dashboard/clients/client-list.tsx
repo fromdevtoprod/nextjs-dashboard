@@ -25,7 +25,6 @@ export function ClientList({
   onEditClick,
 }: ClientListProps) {
   const t = useTranslations('Clients');
-  console.log('filteredClients', filteredClients);
   return (
     <Card>
       <CardHeader>

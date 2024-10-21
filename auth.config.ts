@@ -5,8 +5,6 @@ import type { NextAuthConfig } from 'next-auth';
 export default {
   callbacks: {
     authorized: async ({ auth, request }) => {
-      console.log('auth', auth);
-      console.log('request.nextUrl.pathname', request.nextUrl.pathname);
       if (request.nextUrl.pathname === '/') {
         return true;
       }

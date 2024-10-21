@@ -7,6 +7,7 @@ import {
 import { createCustomerUseCase } from '@/src/application/use-cases/customers/create-customer.use-case';
 import { updateCustomerUseCase } from '@/src/application/use-cases/customers/update-customer.use-case';
 import { deleteCustomerUseCase } from '@/src/application/use-cases/customers/delete-customer.use-case';
+import { auth } from '@/auth';
 
 export type CreateClientResponse = {
   message: string;
@@ -32,10 +33,15 @@ export default async function handler(
       pathology,
       phone,
       postalCode,
+      userEmail,
     } = req.body;
 
     if (!birthDate || !(email || phone) || !name) {
       return res.status(400).json({ message: 'All fields are required.' });
+    }
+
+    if (!userEmail) {
+      return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const newCustomer: CreateCustomerPayload = {
@@ -50,7 +56,7 @@ export default async function handler(
     };
 
     try {
-      const createdClient = await createCustomerUseCase(newCustomer);
+      const createdClient = await createCustomerUseCase(newCustomer, userEmail);
       return res.status(201).json({
         message: 'Client created successfully',
         createdClient,
