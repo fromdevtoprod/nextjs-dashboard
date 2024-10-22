@@ -17,3 +17,8 @@ export type Appointment = BaseAppointment & {
   notes?: Notes[];
   payments?: Payment[];
 };
+
+export type AppointmentWithDateAndTime = Appointment & {
+  date: string;
+  time: string;
+};

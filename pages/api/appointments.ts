@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Appointment } from '@/src/entities/models/appointment';
+import { AppointmentWithDateAndTime } from '@/src/entities/models/appointment';
 import { CreateAppointmentPayload } from '@/src/application/repositories/appointments.repository.interface';
-import { createAppointmentUseCase } from '@/src/application/use-cases/appointments/create-appointment.use-case';
+import { createAppointmentUseCase } from '@/src/application/use-cases/appointments/create-appointment-use-case';
 import { deleteAppointmentUseCase } from '@/src/application/use-cases/appointments/delete-appointment.use-case';
 
 export type CreateAppointmentResponse = {
   message: string;
-  createdAppointment: Appointment;
+  createdAppointment: AppointmentWithDateAndTime;
 };
 
 export default async function handler(
@@ -67,30 +67,7 @@ export default async function handler(
         message: 'We could not create this appointment.',
       });
     }
-  }
-  // else if (req.method === 'PUT') {
-  //   const { id, name, price, duration, session_count } = req.body;
-
-  //   if (!id || !name || !price || !duration || !session_count) {
-  //     return res.status(400).json({ message: 'All fields are required.' });
-  //   }
-
-  //   const updatedAppointmentType: AppointmentType = {
-  //     duration,
-  //     id,
-  //     name,
-  //     price,
-  //     session_count,
-  //   };
-
-  //   await updateAppointmentTypeController(updatedAppointmentType);
-
-  //   return res.status(201).json({
-  //     message: 'Appointment type updated successfully',
-  //     appointmentType: updatedAppointmentType,
-  //   });
-  // }
-  else if (req.method === 'DELETE') {
+  } else if (req.method === 'DELETE') {
     const { id } = req.body;
 
     if (!id) {

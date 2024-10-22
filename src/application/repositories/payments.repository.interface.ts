@@ -20,7 +20,7 @@ export interface IPaymentsRepository {
   create(payload: CreatePaymentPayload, userId: string): Promise<any>;
   deletePayment(appointmentId: string): Promise<void>;
   deletePaymentByAppointmentId(appointmentId: string): Promise<void>;
-  findById(id: string): Promise<Payment | null>;
   findAll(userId: string): Promise<Payment[]>;
+  findById(id: string): Promise<Payment | null>;
   updatePayment(payload: UpdatePaymentPayload): Promise<Payment | null>;
 }

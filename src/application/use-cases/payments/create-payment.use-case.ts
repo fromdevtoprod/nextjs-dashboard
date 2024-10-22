@@ -1,5 +1,8 @@
 import { PaymentsRepository } from '@/src/infrastructure/repositories/payments.repository';
-import { CreatePaymentPayload } from '../../repositories/payments.repository.interface';
+import {
+  CreatePaymentPayload,
+  IPaymentsRepository,
+} from '../../repositories/payments.repository.interface';
 import { getUserIdUseCase } from '../users/get-user-id.use-case';
 
 export async function createPaymentUseCase(
@@ -7,5 +10,16 @@ export async function createPaymentUseCase(
   userEmail: string,
 ) {
   const userId = await getUserIdUseCase(userEmail);
-  return new PaymentsRepository().create(payload, userId);
+  return new PaymentCreationUseCase(new PaymentsRepository()).create(
+    payload,
+    userId,
+  );
+}
+
+export class PaymentCreationUseCase {
+  constructor(private repository: IPaymentsRepository) {}
+
+  public create(payload: CreatePaymentPayload, userId: string): Promise<any> {
+    return this.repository.create(payload, userId);
+  }
 }
