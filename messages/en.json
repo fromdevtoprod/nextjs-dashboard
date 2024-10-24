@@ -45,7 +45,7 @@
       }
     },
     "type": "Type",
-    "upcomingAppointments": "Upcoming Appointments",
+    "upcomingAppointments": "Your appointments on {month}-{day}-{year}",
     "yes": "Yes"
   },
   "Buttons": {

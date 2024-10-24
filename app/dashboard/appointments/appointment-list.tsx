@@ -26,12 +26,14 @@ export type AppointmentWithTime = Omit<Appointment, 'date'> & {
 };
 
 type AppointmentListProps = {
+  appointmentDate: { day: number; month: number; year: number };
   appointments: AppointmentWithTime[];
   whenDeleteDone: (appointmentId: string) => void;
   whenNotesUpdateDone: (updatedNotes: Notes) => void;
 };
 
 export function AppointmentList({
+  appointmentDate: { day, month, year },
   appointments,
   whenDeleteDone,
   whenNotesUpdateDone,
@@ -72,7 +74,9 @@ export function AppointmentList({
       )}
       <Card>
         <CardHeader>
-          <CardTitle>{t('upcomingAppointments')}</CardTitle>
+          <CardTitle>
+            {t('upcomingAppointments', { day, month, year })}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>

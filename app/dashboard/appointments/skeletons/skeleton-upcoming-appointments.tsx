@@ -17,7 +17,9 @@ export function SkeletonUpcomingAppointments() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{t('upcomingAppointments')}</CardTitle>
+        <CardTitle>
+          <Skeleton className="h-6 w-48" />
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <Table>

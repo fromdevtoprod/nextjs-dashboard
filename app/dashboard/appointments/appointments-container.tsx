@@ -93,6 +93,11 @@ export function AppointmentsContainer({
         <div className="col-span-4">
           <AppointmentList
             appointments={formatDateAndTime(upcomingAppointments)}
+            appointmentDate={{
+              day: activeDay,
+              month: activeMonth,
+              year: activeYear,
+            }}
             whenDeleteDone={handleDeleteAppointment}
             whenNotesUpdateDone={handleUpdatedNotes}
           />

@@ -45,7 +45,7 @@
       }
     },
     "type": "Type",
-    "upcomingAppointments": "Rendez-vous à venir",
+    "upcomingAppointments": "Vos rendez-vous du {day}/{month}/{year}",
     "yes": "Oui"
   },
   "Buttons": {
