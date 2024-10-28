@@ -39,7 +39,7 @@ export default function Page() {
       </header>
       <main className="flex-1">
         <section className="w-full bg-gradient-to-b from-white to-[#F8F4E3] py-12 md:py-24 lg:py-32 xl:py-48">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter text-[#7C9885] sm:text-4xl md:text-5xl lg:text-6xl/none">
@@ -71,7 +71,7 @@ export default function Page() {
           </div>
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter text-[#7C9885] sm:text-4xl md:text-5xl">
               Features Tailored for Care Professionals
             </h2>
@@ -129,7 +129,7 @@ export default function Page() {
           </div>
         </section>
         <section className="w-full bg-[#A4C3D2] py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter text-white sm:text-4xl md:text-5xl">
               Trusted by Care Professionals
             </h2>
@@ -170,7 +170,7 @@ export default function Page() {
           </div>
         </section>
         <section className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter text-[#7C9885] sm:text-4xl md:text-5xl">
               Pricing Plans for Every Practice
             </h2>
@@ -236,7 +236,7 @@ export default function Page() {
           </div>
         </section>
         <section className="w-full bg-[#7C9885] py-12 text-white md:py-24 lg:py-32">
-          <div className="container px-4 md:px-6">
+          <div className="px-4 md:px-6">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
