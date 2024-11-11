@@ -205,6 +205,80 @@
     "selectClient": "Sélectionnez un client",
     "title": "Historique des rendez-vous"
   },
+  "LandingPage": {
+    "buttons": {
+      "startFreeTrial": "Démarrer l'essai gratuit"
+    },
+    "commonIssues": {
+      "item1": {
+        "answer": "Difficile de savoir où en est chaque client dans sa cure ? Notre plateforme centralise tout pour un suivi sans effort.",
+        "question": "Suivi des soins et rendez-vous complexe"
+      },
+      "item2": {
+        "answer": "Vous perdez du temps à vérifier qui a payé ? Gardez tous les paiements à jour en un coup d'œil.",
+        "question": "Gérer les paiements et les impayés"
+      },
+      "item3": {
+        "answer": "Avec notre outil de gestion des rendez-vous, finie la confusion dans votre emploi du temps.",
+        "question": "Difficulté à organiser les rendez-vous récurrents"
+      },
+      "item4": {
+        "answer": "Prochainement, suivez vos revenus et votre évolution client grâce aux statistiques intégrées.",
+        "question": "Manque d'outils pour analyser votre activité"
+      },
+      "item5": {
+        "answer": "Gardez un historique complet de chaque client avec des notes centralisées pour chaque rendez-vous, garantissant un service personnalisé.",
+        "question": "Notes clients dispersées ou inaccessibles"
+      },
+      "item6": {
+        "answer": "Notre équipe de support est dédiée aux professionnels du bien-être et comprend vos besoins spécifiques pour vous offrir un accompagnement personnalisé.",
+        "question": "Pas de service client adapté aux besoins du bien-être"
+      },
+      "title": "Problèmes courants"
+    },
+    "demo": {
+      "goal": "Mon objectif ? Vous permettre de vous concentrer sur l'essentiel : vos clients et leur bien-être. Vous méritez une solution qui allie simplicité, gain de temps, et un service client attentif. Mon engagement est de faire évoluer cette plateforme en continu pour qu'elle s'adapte toujours mieux à vos besoins et à ceux de vos clients.",
+      "hello": "Bonjour, je suis Cédric, créateur de la plateforme ZenAgenda 🌿 !",
+      "introduction": "Avec plus de 15 ans d'expérience dans le développement de produits digitaux, j'ai pu observer les défis uniques que rencontrent les professionnels du bien-être. J'ai constaté qu'aucune solution n’était véritablement pensée pour simplifier votre gestion quotidienne. C'est ce besoin spécifique qui m'a poussé à créer un outil simple, efficace et surtout, conçu exclusivement pour répondre à vos attentes.",
+      "thanks": "Merci de faire partie de cette aventure avec nous ! 🚀🌟",
+      "title": "Découvrez la Démo 🎥"
+    },
+    "faq": {
+      "item1": {
+        "answer": "Pendant les 30 jours d'essai gratuit, vous avez accès à toutes les fonctionnalités de gestion des rendez-vous, de suivi des paiements, de prise de notes, et de gestion de la base clients.",
+        "question": "Quelles fonctionnalités sont incluses dans l’essai gratuit ?"
+      },
+      "item2": {
+        "answer": "Oui, la sécurité de vos données est une priorité. Nous utilisons les dernières normes de sécurité pour garantir que vos informations clients et vos transactions sont protégées.",
+        "question": "Est-ce que mes données sont sécurisées ?"
+      },
+      "item3": {
+        "answer": "Absolument ! Notre outil vous permet de suivre chaque étape des cures ou des packages en cours pour chaque client, vous aidant à leur offrir un suivi personnalisé et professionnel.",
+        "question": "Puis-je suivre les cures ou packages de mes clients ?"
+      },
+      "item4": {
+        "answer": "Dans une prochaine version, vous pourrez visualiser des graphiques de vos revenus et suivre l’évolution de votre clientèle pour mieux comprendre et développer votre activité.",
+        "question": "Quelles statistiques aurai-je à disposition ?"
+      },
+      "item5": {
+        "answer": "Notre équipe est dédiée à vous aider ! Que ce soit pour des questions sur les fonctionnalités ou pour des conseils d’utilisation, nous sommes là pour vous accompagner dans votre activité.",
+        "question": "Comment se déroule le service client ?"
+      },
+      "title": "Foire aux questions"
+    },
+    "features": {
+      "title": "Simplifiez votre quotidien avec des fonctionnalités sur-mesure"
+    },
+    "pricing": {
+      "button": "Démarrez l'essai gratuit",
+      "title": "Un tarif adapté à votre activité"
+    },
+    "subtitle": "Gagnez du temps et simplifiez la gestion de vos rendez-vous, soins, et clients avec une solution pensée pour les professionnels du bien-être. Assurez un suivi précis et gardez le contrôle sur vos paiements.",
+    "testimonials": {
+      "title": "Témoignages de nos utilisateurs"
+    },
+    "title": "La solution complète pour les professionnels du bien-être."
+  },
   "NavMenu": {
     "appointments": "Rendez-vous",
     "cares": "Soins",

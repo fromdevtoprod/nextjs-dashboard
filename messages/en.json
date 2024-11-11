@@ -205,6 +205,80 @@
     "selectClient": "Select a client",
     "title": "Client Appointment History"
   },
+  "LandingPage": {
+    "buttons": {
+      "startFreeTrial": "Start free trial"
+    },
+    "commonIssues": {
+      "item1": {
+        "answer": "Hard to know where each customer is in his treatment? Our platform centralizes everything for effortless follow-up.",
+        "question": "Complex care and appointment follow-up"
+      },
+      "item2": {
+        "answer": "Wasting time checking who's paid? Keep all payments up to date at a glance.",
+        "question": "Manage payments and unpaid invoices"
+      },
+      "item3": {
+        "answer": "With our appointment management tool, no more confusion about your schedule.",
+        "question": "Difficulty organizing recurring appointments."
+      },
+      "item4": {
+        "answer": "In the near future, you'll be able to track your revenue and customer development using the integrated statistics.",
+        "question": "Lack of tools to analyze your business"
+      },
+      "item5": {
+        "answer": "Keep a complete history of each customer with centralized notes for each appointment, guaranteeing personalized service.",
+        "question": "Scattered or inaccessible customer notes"
+      },
+      "item6": {
+        "answer": "Our support team is dedicated to wellness professionals and understands your specific needs to offer personalized support.",
+        "question": "No customer service tailored to wellness needs"
+      },
+      "title": "Common problems"
+    },
+    "demo": {
+      "goal": "My aim? To enable you to concentrate on what's most important: your customers and their well-being. You deserve a solution that combines simplicity, time savings and attentive customer service. My commitment is to continually develop this platform so that it adapts even better to your needs and those of your customers.",
+      "hello": "Hello, I'm Cédric, creator of the ZenAgenda platform 🌿 !",
+      "introduction": "With over 15 years' experience in digital product development, I've observed the unique challenges faced by wellness professionals. I realized that no solution was truly designed to simplify your day-to-day management. It was this specific need that prompted me to create a tool that is simple, effective and, above all, designed exclusively to meet your expectations.",
+      "thanks": "Thank you for being part of this adventure with us! 🚀🌟",
+      "title": "Check out the demo 🎥"
+    },
+    "faq": {
+      "item1": {
+        "answer": "During the 30-day free trial, you have access to all appointment management, payment tracking, note taking, and customer base management features.",
+        "question": "Which features are included in the free trial?"
+      },
+      "item2": {
+        "answer": "Yes, the security of your data is a priority. We use the latest security standards to ensure that your customer information and transactions are protected.",
+        "question": "Is my data secure?"
+      },
+      "item3": {
+        "answer": "Absolutely! Our tool allows you to track every step of the cures or packages in progress for each customer, helping you to offer them a personalized and professional follow-up.",
+        "question": "Can I track my customers cures or packages?"
+      },
+      "item4": {
+        "answer": "In a future version, you'll be able to view graphs of your income and track the evolution of your clientele to better understand and develop your business.",
+        "question": "What statistics will be available to me?"
+      },
+      "item5": {
+        "answer": "Our team is dedicated to helping you! Whether you have questions about functionality or need advice on how to use it, we're here to support your business.",
+        "question": "How is customer service?"
+      },
+      "title": "Frequently Asked Questions"
+    },
+    "features": {
+      "title": "Simplify your daily routine with customized features"
+    },
+    "pricing": {
+      "button": "Start free trial",
+      "title": "A price tailored to your business"
+    },
+    "subtitle": "Save time and simplify the management of your appointments, treatments and clients with a solution designed for wellness professionals. Ensure accurate follow-up and keep control of your payments.",
+    "testimonials": {
+      "title": "User testimonials"
+    },
+    "title": "The complete solution for wellness professionals."
+  },
   "NavMenu": {
     "appointments": "Appointments",
     "cares": "Cares",
