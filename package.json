@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "cy:open": "cypress open",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
@@ -60,6 +61,7 @@
     "@types/react-dom": "18.2.14",
     "@vercel/style-guide": "^5.2.0",
     "@vitejs/plugin-react": "^4.3.2",
+    "cypress": "^13.15.2",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.1",
     "eslint-config-next": "15.0.0-rc.0",
