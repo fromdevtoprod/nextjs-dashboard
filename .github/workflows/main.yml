@@ -29,4 +29,8 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
+          project: ./site
           browser: chrome
+          build: pnpm build
+          start: pnpm dev
+          wait-on: 'http://localhost:3000'
