@@ -21,13 +21,13 @@ export default function Page() {
           title={t('title')}
         />
         <FeaturesSection title={t('features.title')} />
-        <DemoSection
+        {/* <DemoSection
           goal={t('demo.goal')}
           hello={t('demo.hello')}
           introduction={t('demo.introduction')}
           title={t('demo.title')}
           thanks={t('demo.thanks')}
-        />
+        /> */}
         <FaqSection
           items={[
             {
@@ -105,7 +105,7 @@ export default function Page() {
           ]}
           title={t('testimonials.title')}
         />
-        <PricingSection
+        {/* <PricingSection
           buttonLabel={t('pricing.button')}
           plans={[
             {
@@ -123,7 +123,7 @@ export default function Page() {
             },
           ]}
           title={t('pricing.title')}
-        />
+        /> */}
       </main>
       <Footer />
     </div>

@@ -6,7 +6,7 @@ export function Footer() {
       <p className="text-sm text-white">
         © 2024 ZenAgenda. All rights reserved.
       </p>
-      <nav className="flex gap-4 sm:ml-auto sm:gap-6">
+      {/* <nav className="flex gap-4 sm:ml-auto sm:gap-6">
         <Link
           className="text-sm text-white underline-offset-4 hover:underline"
           href="#"
@@ -25,7 +25,7 @@ export function Footer() {
         >
           HIPAA Compliance
         </Link>
-      </nav>
+      </nav> */}
     </footer>
   );
 }
