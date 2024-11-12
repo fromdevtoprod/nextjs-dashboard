@@ -22,7 +22,7 @@ describe('Landing page should be visible', () => {
     // this page should contain a section with an id of faq
     cy.get('section#faq').should('exist');
     // this section should contain 6 h3 elements
-    cy.get('section#faq h3').should('have.length', 6);
+    cy.get('section#faq h3').should('have.length', 5);
 
     // this page should contain a section with an id of common-issues
     cy.get('section#common-issues').should('exist');
