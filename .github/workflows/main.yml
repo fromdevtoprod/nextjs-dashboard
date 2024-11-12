@@ -31,6 +31,10 @@ jobs:
         with:
           project: ./site
           browser: chrome
-          build: pnpm build
           start: pnpm dev
           wait-on: 'http://localhost:3000'
+        env:
+          POSTGRES_PRISMA_URL: ${{ secrets.POSTGRES_PRISMA_URL }}
+          AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+          AUTH_GOOGLE_ID: ${{ secrets.AUTH_GOOGLE_ID }}
+          AUTH_GOOGLE_SECRET: ${{ secrets.AUTH_GOOGLE_SECRET }}
