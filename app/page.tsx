@@ -50,10 +50,6 @@ export default function Page() {
               answer: t('faq.item5.answer'),
               question: t('faq.item5.question'),
             },
-            {
-              answer: t('faq.item6.answer'),
-              question: t('faq.item6.question'),
-            },
           ]}
           title={t('faq.title')}
         />
