@@ -85,7 +85,7 @@ export function AppointmentsContainer({
         onAddAppointment={handleAddAppointment}
       />
 
-      <div className="grid gap-6 md:grid-cols-6">
+      <div className="grid gap-6 md:grid-cols-4">
         <div className="col-span-2">
           <AppointmentsCalendar />
         </div>

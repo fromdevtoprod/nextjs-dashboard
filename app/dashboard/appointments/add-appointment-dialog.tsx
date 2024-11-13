@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
-import { CalendarPlus, Check, HandHeart, Package } from 'lucide-react';
+import { Check, HandHeart, Package } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { Appointment } from '@/src/entities/models/appointment';
 import { createAppointment } from '@/app/lib/actions/appointments';
@@ -32,6 +32,7 @@ import { AppointmentType } from '@/src/entities/models/appointment-types';
 import { createAppointmentController } from '@/src/interface-adapters/appointments/create-appointment.controller';
 import { SelectPaymentMethod } from '@/app/ui/selects/select-payment-method';
 import { SelectPaymentStatus } from '@/app/ui/selects/select-payment-status';
+import { AddAppointmentButton } from './add-appointment-button';
 
 type AddAppointmentDialogProps = {
   appointmentTypes: AppointmentTypesWithRemainingSessions[];
@@ -124,13 +125,10 @@ export function AddAppointmentDialog({
   return (
     <Dialog open={isOpened} onOpenChange={onOpenChange}>
       <DialogTrigger asChild>
-        <Button
-          className="bg-[#7C9885] text-white hover:bg-[#6A8A73]"
-          disabled={appointmentTypes.length === 0}
-        >
-          <CalendarPlus className="mr-2 h-5 w-5" />
-          {t('addAppointment')}
-        </Button>
+        <AddAppointmentButton
+          appointmentTypes={appointmentTypes}
+          label={t('addAppointment')}
+        />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
