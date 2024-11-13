@@ -85,12 +85,12 @@ export function AppointmentsContainer({
         onAddAppointment={handleAddAppointment}
       />
 
-      <div className="grid gap-6 md:grid-cols-4">
-        <div className="col-span-2">
+      <div className="grid grid-cols-3 gap-6">
+        <div className="col-span-1 w-[32rem]">
           <AppointmentsCalendar />
         </div>
 
-        <div className="col-span-4">
+        <div className="col-span-3">
           <AppointmentList
             appointments={formatDateAndTime(upcomingAppointments)}
             appointmentDate={{

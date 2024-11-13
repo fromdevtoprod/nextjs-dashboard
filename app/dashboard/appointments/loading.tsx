@@ -7,8 +7,8 @@ export default function AppointmentsLoadingSkeleton() {
     <main className="flex-1 overflow-y-auto p-4 md:p-8">
       <SkeletonHeader />
 
-      <div className="grid gap-6 md:grid-cols-6">
-        <div className="col-span-2">
+      <div className="grid grid-cols-3 gap-6">
+        <div className="col-span-1 w-[32rem]">
           <SkeletonCalendar />
         </div>
 
